@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    background: #F6F7F8;
+    height: 100vh;
+}
+
+.img-size-login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 100ms ease-in-out 200ms; /* Animationseffekte mit Delay */
+}
+
+/* Keyframes-Animation für das Endziel */
+@keyframes slideAndResize {
+    0% {
+        width: 274px;
+        height: 334.07px;
+        top: 50%;
+        left: 50%;
+    }
+    100% {
+        width: 100.03px;
+        height: 121.97px;
+        top: 80px;
+        left: 77px;
+    }
+}
+
+.img-size-login.animate {
+    animation: slideAndResize 2000ms ease-in-out forwards;
+}
+
+.frame156 {
+    width: 279px;
+    height: 49px;
+    position: relative;
+    top: 67px;
+    left: 1039px;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    visibility: hidden;
+}
+
+.query-user {
+    width: 153px;
+    height: 24px;
+    font-family: 'Inter', SansSerif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.btn-dark {
+    background: #2A3647;
+    color: #ffffff;
+    width: 91px;
+    height: 49px;
+    padding: 15px 16px 15px 16px;
+    border: none;
+    border-radius: 8px;
+    /*gap: 10px;*/
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    cursor: pointer;
+}
+
+.btn-dark:hover {
+    background: #29ABE2;
+}
