@@ -15,51 +15,52 @@
     <!-- CSS Datei einbinden -->
     <link rel="stylesheet" href="../css/add_task.css">
 
-    <script src="../js/add_task.js"></script>
 </head>
 
-<body>
+<body onload="reload()">
     <div class="addTask">
         <h2>Add Task</h2>
-        <form class="formAddTask" onsubmit="kommtnoch(); return false;">
-            <div class="group66">
-                <div class="frame219">
+        <form class="formAddTask" onsubmit="addTask('to do'); return false;">
+            <div class="formInput">
+                <div class="leftSide">
                     <label for="title">Title<sup class="asterisk">*</sup></label>
                     <input required minlength="5" type="text" id="title" placeholder="Enter a title">
-                    <label>Description</label>
+                    <label for="description">Description</label>
                     <textarea minlength="5" id="description" rows="8" cols="50"
                         placeholder="Enter a Description"></textarea>
                     <label for="assignedTo">Assigned to</label>
                     <select id="assignedTo" name="assignedTo">
-                        <option value="" disabled>Select contacts to assign</option>
+                        <option value="" disabled selected hidden>Select contacts to assign</option>
                          <!-- Hier muss die Contactliste rein -->
                         <option value="user1">Benutzer 1</option>
                         <option value="user2">Benutzer 2</option>
                         <option value="user3">Benutzer 3</option>
                     </select>
                 </div>
-                <div class="vector4">
-
+                <div class="divider">
                 </div>
-                <div class="frame39">
-                    <label>Due date<sup class="asterisk">*</sup></label>
-                    <input required type="date" id="date" placeholder="dd/mm/yyyy">
-                    <label>Prio</label>
-                    <div class="button-container">
-                        <button id="option1" type="button">Urgent</button>
-                        <button id="option2" type="button">Medium</button>
-                        <button id="option3" type="button">Low</button>
+                <div class="rightSide">
+                    <label for="dueDate">Due date<sup class="asterisk">*</sup></label>
+                    <input required type="text" id="dueDate" placeholder="dd/mm/yyyy" onfocus="(this.type = 'date')">
+                    <label for="prio">Prio</label>
+                    <div class="button-container" id="prio">
+                        <button class="white" id="prio1" onclick="taskPrio(1)" type="button">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
+                        <button class="white" id="prio2" onclick="taskPrio(2)" type="button">Medium<img src="../assets/img/medium.svg" alt=""></button>
+                        <button class="white" id="prio3" onclick="taskPrio(3)" type="button">Low<img src="../assets/img/low.svg" alt=""></button>
                     </div>
-                    <p>Ausgewählte Option: <span id="selectedOption">Keine Auswahl</span></p>
-                    <label>Category<sup class="asterisk">*</sup></label>
-                    <input required minlength="5" type="text" id="title" placeholder="Enter a title">
-                    <label>Subtasks</label>
+                    <label for="category">Category<sup class="asterisk">*</sup></label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected hidden>Select task category</option>
+                        <option value="technical task">Technical Task</option>
+                        <option value="user story">User Story</option>
+                    </select>
+                    <label for="subtask">Subtask</label>
                     <input type="text" id="subtask" placeholder="Add new subtask">
                 </div>
             </div>
             <div class="footArea">
                 <p><sup class="asterisk">*</sup>This field is required</p>
-                <div class=frame27>
+                <div class=btnAddTask>
                     <button class="cancelBtn">Cancel <img src="../assets/img/cancel.svg" alt=""></button>
                     <button class="activeBtn">Create Task <img src="../assets/img/check.svg" alt=""></button>
                 </div>
@@ -67,59 +68,7 @@
         </form>
     </div>
 
-    <script>
-        // JavaScript, um die Platzhalteroption auszuwählen
-        document.getElementById("assignedTo").selectedIndex = 0;
-
-        // JavaScript, um die Auswahl zu verarbeiten
-        var selectedOption = document.getElementById("selectedOption");
-
-        document.getElementById("option1").addEventListener("click", function () {
-            selectedOption.textContent = "Option 1 ausgewählt";
-        });
-
-        document.getElementById("option2").addEventListener("click", function () {
-            selectedOption.textContent = "Option 2 ausgewählt";
-        });
-
-        document.getElementById("option3").addEventListener("click", function () {
-            selectedOption.textContent = "Option 3 ausgewählt";
-        });
-
-
-        function kommtnoch(){
-            alert("Hallo");
-        }
-
-
-        /* // Eine Funktion, um die Daten abzurufen und in das Dropdown-Feld einzufügen
-        function populateDropdown() {
-            // Hier sollten Sie eine Ajax-Anfrage an Ihre serverseitige API senden, um die Daten abzurufen.
-            // Nehmen wir an, Ihre API gibt ein JSON-Array mit Optionen zurück.
-
-            // Beispiel-Daten (ersetzen Sie dies durch Ihre eigene Logik):
-            var optionsData = [
-                { id: 1, name: "Option 1" },
-                { id: 2, name: "Option 2" },
-                { id: 3, name: "Option 3" },
-            ];
-
-            var select = document.getElementById("options");
-
-            // Schleife, um Daten in das Dropdown-Feld einzufügen
-            optionsData.forEach(function (option) {
-                var optionElement = document.createElement("option");
-                optionElement.value = option.id;
-                optionElement.textContent = option.name;
-                select.appendChild(optionElement);
-            });
-        }
-
-        // Die Funktion aufrufen, um das Dropdown-Feld zu füllen
-        populateDropdown(); */
-    </script>
-
-
+    <script src="../js/add_task.js"></script>
 
 </body>
 
