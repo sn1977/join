@@ -31,7 +31,7 @@
                     <label for="assignedTo">Assigned to</label>
                     <select id="assignedTo" name="assignedTo">
                         <option value="" disabled selected hidden>Select contacts to assign</option>
-                         <!-- Hier muss die Contactliste rein -->
+                        <!-- Hier muss die Contactliste rein -->
                         <option value="user1">Benutzer 1</option>
                         <option value="user2">Benutzer 2</option>
                         <option value="user3">Benutzer 3</option>
@@ -44,9 +44,12 @@
                     <input required type="text" id="dueDate" placeholder="dd/mm/yyyy" onfocus="(this.type = 'date')">
                     <label for="prio">Prio</label>
                     <div class="button-container" id="prio">
-                        <button class="white" id="prio1" onclick="taskPrio(1)" type="button">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
-                        <button class="white" id="prio2" onclick="taskPrio(2)" type="button">Medium<img src="../assets/img/medium.svg" alt=""></button>
-                        <button class="white" id="prio3" onclick="taskPrio(3)" type="button">Low<img src="../assets/img/low.svg" alt=""></button>
+                        <button class="white" id="prio1" onclick="taskPrio(1)" type="button">Urgent<img
+                                src="../assets/img/urgent.svg" alt=""></button>
+                        <button class="white" id="prio2" onclick="taskPrio(2)" type="button">Medium<img
+                                src="../assets/img/medium.svg" alt=""></button>
+                        <button class="white" id="prio3" onclick="taskPrio(3)" type="button">Low<img
+                                src="../assets/img/low.svg" alt=""></button>
                     </div>
                     <label for="category">Category<sup class="asterisk">*</sup></label>
                     <select id="category" name="category" required>
