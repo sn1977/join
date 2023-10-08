@@ -5,15 +5,56 @@
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>join-login</title>
-	<link rel="stylesheet" href="../style.css">
-	<link rel="shortcut icon" href="../assets/img/favicon-icon.svg" type="image/x-icon">
-	<script src="script.js"></script>
+	<link href="../style.css" rel="stylesheet">
+	<link href="../assets/img/favicon-icon.svg" rel="shortcut icon" type="image/x-icon">
+	<link href="../fonts.css" rel="stylesheet">
+	<script src="../js/script.js"></script>
 </head>
-<body>
-	<img src="../assets/img/logo_gross.svg" alt="join-logo" class="img-size-login animate">
+<body onload="showLogIn()">
+	<img alt="join-logo" class="img-size-login animate" src="../assets/img/logo_gross.svg">
 	<div class="frame156">
 		<span class="query-user">Not a Join user?</span>
 		<button class="btn-dark" onclick="signUp()">Sign up</button>
+	</div>
+	<div class="frame153">
+		<div class="frame159">
+			<h1>Log in</h1>
+			<div class="underline"></div>
+		</div>
+		<div class="frame250">
+			<div class="login">
+				<div class="frame155">
+					<div class="frame14">
+						<div class="frame157">
+							<form>
+								<input class="input-login" placeholder="Email" required type="email">
+							</form>
+							<img alt="Email" class="img-email" src="../assets/img/mail.png">
+						</div>
+					</div>
+				</div>
+				<div class="156">
+					<div class="frame14">
+						<div class="frame158">
+							<form>
+								<input class="input-login input-asterisk" id="password" placeholder="Password"
+								       required type="password">
+							</form>
+							<img alt="Email" class="img-lock" src="../assets/img/lock.png">
+						</div>
+					</div>
+				</div>
+				<div class="remember-password">
+					<input id="pw-checkbox" name="pw-checkbox" type="checkbox">
+					<label>Remember me</label>
+				</div>
+			</div>
+			<div class="frame176">
+				<button class="btn-login">Log in</button>
+				<button class="btn-guest">Guest Log in</button>
+			</div>
+		</div>
+
 	</div>
 
 </body>

@@ -2,6 +2,9 @@ body {
     margin: 0;
     background: #F6F7F8;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .img-size-login {
@@ -35,7 +38,7 @@ body {
 .frame156 {
     width: 279px;
     height: 49px;
-    position: relative;
+    position: absolute;
     top: 67px;
     left: 1039px;
     display: flex;
@@ -73,4 +76,219 @@ body {
 
 .btn-dark:hover {
     background: #29ABE2;
+}
+
+.frame153 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 652px;
+    height: 493px;
+    background: #FFFFFF;
+    border-radius: 30px;
+    padding: 48px 115px;
+    visibility: hidden;
+    gap: 50px;
+}
+
+.frame159 {
+    width: 315px;
+    height: 89px;
+    gap: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 32px;
+}
+
+h1 {
+    width: 315px;
+    height: 73px;
+    font-family: 'Inter', sans-serif;
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 73.2px;
+    color: #000000;
+    margin: 0;
+}
+
+.underline {
+    border: 3px solid;
+    border-color: #29ABE2;
+    width: 150px;
+    border-radius: 3px;
+}
+
+.frame250 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 422px;
+    height: 196px;
+    gap: 20px;
+}
+
+.login {
+    gap: 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #D1D1D1;
+    display: flex;
+    flex-direction: column;
+}
+
+.frame155, .frame156 {
+    gap: 8px;
+}
+
+.frame14 {
+    width: 422px;
+    height: 48px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    padding: 12px 21px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-login {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    border: none;
+    outline: none;
+}
+
+::placeholder {
+    color: #D1D1D1;
+    opacity: 1; /* Firefox */
+}
+
+.input-asterisk {
+    -webkit-text-security: initial;
+}
+
+.frame157, .frame158 {
+    width: 380px;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.img-email {
+    width: 20px;
+    height: 16px;
+}
+
+.img-lock {
+    width: 16px;
+    height: 21px;
+}
+
+.remember-password {
+    width: 422px;
+    height: 24px;
+    position: relative;
+    left: 39px;
+}
+
+/* Stil für die Checkbox */
+.remember-password input[type="checkbox"] {
+    display: none; /* Verberge die Standard-Checkbox */
+}
+
+/* Stil für das benutzerdefinierte Ersatz-Element (Pseudo-Checkbox) */
+.remember-password input[type="checkbox"] + label::before {
+    content: ''; /* Füge ein leeres Inhaltsattribut hinzu */
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2A3647; /* Randfarbe */
+    background-color: #ffffff; /* Hintergrundfarbe */
+    border-radius: 3px; /* Abgerundete Ecken */
+    margin-right: 10px; /* Abstand zwischen Checkbox und Text */
+    vertical-align: middle;
+    cursor: pointer;
+    text-align: center; /* Zentriert den Text im Quadrat */
+    line-height: 20px; /* Zentriert den Text vertikal */
+    position: relative; /* Hinzufügen von Position, um das Häkchen zu platzieren */
+}
+
+/* Stil für das benutzerdefinierte Ersatz-Element, wenn die Checkbox ausgewählt ist */
+.remember-password input[type="checkbox"]:checked + label::before {
+    background-color: #2A3647; /* Ändere die Hintergrundfarbe, wenn ausgewählt */
+    border-color: #2A3647; /* Ändere die Randfarbe, wenn ausgewählt */
+    content: '✔'; /* Füge ein Häkchen ein, wenn ausgewählt */
+    color: #2A3647; /* Textfarbe des Häkchens */
+    font-weight: bold; /* Fetten Text für das Häkchen */
+}
+
+label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+}
+
+.frame176 {
+    display: flex;
+    justify-content: center;
+    width: 330px;
+    height: 35px;
+    gap: 35px;
+}
+
+.btn-login {
+    background: #2A3647;
+    color: #ffffff;
+    width: 110px;
+    height: 48px;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: Inter;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 25.2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.btn-login:hover {
+    background: #29ABE2;
+}
+
+.btn-guest {
+    background: #ffffff;
+    color: #2A3647;
+    width: 182px;
+    height: 48px;
+    padding: 15px 24px;
+    border: 1px solid #2A3647;
+    border-radius: 8px;
+    font-family: Inter;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 25.2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.btn-guest:hover {
+    border: 1px solid #29ABE2;
+    color: #29ABE2;
 }
