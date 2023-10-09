@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>Title</title>
-</head>
-<body>
 
+	<link rel="stylesheet" href="../css/board.css">
+	<link rel="stylesheet" href="../fonts.css">
+</head>
+
+<body>
+	<div class="content" id="content">
+		<div class="board">
+			<section class="boardHeader" id="boardHeader">
+
+				<div class="boardHeadlineLeft">
+					Board
+				</div>
+
+				<div class="boardHeadlineRight">
+					<div class="search">
+						<input type="text" id="inputSearch" class="inputSearch" placeholder="Find task">
+						<div class="buttonSearch">
+							<img src="../assets/img/search.svg" alt="Search">
+						</div>
+					</div>
+					<button class="buttonAddTask">
+						<span>Add Task</span>
+						<span>+</span>
+					</button>
+				</div>
+			</section>
+			<section class="boardContent" id="boardContent">
+
+			</section>
+		</div>
+	</div>
 </body>
+
 </html>
