@@ -10,7 +10,7 @@
 	<link href="../fonts.css" rel="stylesheet">
 	<script src="../js/script.js"></script>
 </head>
-<body onload="showLogIn()">
+<body onload="init()">
 	<img alt="join-logo" class="img-size-login animate" src="../assets/img/logo_gross.svg">
 	<div class="frame156">
 		<span class="query-user">Not a Join user?</span>
@@ -37,16 +37,22 @@
 					<div class="frame14">
 						<div class="frame158">
 							<form>
-								<input class="input-login input-asterisk" id="password" placeholder="Password"
-								       required type="password">
+								<input class="input-login input-asterisk" id="password" oninput="updatePasswordIcon()"
+								       placeholder="Password" required type="password">
 							</form>
-							<img alt="Email" class="img-lock" src="../assets/img/lock.png">
+							<div class="password-toggle" onclick="togglePasswordVisibility()">
+								<img alt="password" class="img-lock toggle-icon" src="../assets/img/lock.png">
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="remember-password">
 					<input id="pw-checkbox" name="pw-checkbox" type="checkbox">
-					<label>Remember me</label>
+					<label for="pw-checkbox">
+						<img alt="Unchecked Icon" class="icon-unchecked" src="../assets/img/checkbox.png">
+						<img alt="Checked Icon" class="icon-checked" src="../assets/img/checkedIcon.png">
+						Remember me
+					</label>
 				</div>
 			</div>
 			<div class="frame176">
@@ -54,7 +60,10 @@
 				<button class="btn-guest">Guest Log in</button>
 			</div>
 		</div>
-
+	</div>
+	<div class="frame213">
+		<a href="http://#">Privacy Policy</a>
+		<a href="http://#">Legal notice</a>
 	</div>
 
 </body>

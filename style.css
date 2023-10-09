@@ -5,6 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .img-size-login {
@@ -143,7 +144,7 @@ h1 {
 }
 
 .frame155, .frame156 {
-    gap: 8px;
+    gap: 35px;
 }
 
 .frame14 {
@@ -192,6 +193,7 @@ h1 {
 .img-lock {
     width: 16px;
     height: 21px;
+    object-fit: contain;
 }
 
 .remember-password {
@@ -206,32 +208,6 @@ h1 {
     display: none; /* Verberge die Standard-Checkbox */
 }
 
-/* Stil für das benutzerdefinierte Ersatz-Element (Pseudo-Checkbox) */
-.remember-password input[type="checkbox"] + label::before {
-    content: ''; /* Füge ein leeres Inhaltsattribut hinzu */
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #2A3647; /* Randfarbe */
-    background-color: #ffffff; /* Hintergrundfarbe */
-    border-radius: 3px; /* Abgerundete Ecken */
-    margin-right: 10px; /* Abstand zwischen Checkbox und Text */
-    vertical-align: middle;
-    cursor: pointer;
-    text-align: center; /* Zentriert den Text im Quadrat */
-    line-height: 20px; /* Zentriert den Text vertikal */
-    position: relative; /* Hinzufügen von Position, um das Häkchen zu platzieren */
-}
-
-/* Stil für das benutzerdefinierte Ersatz-Element, wenn die Checkbox ausgewählt ist */
-.remember-password input[type="checkbox"]:checked + label::before {
-    background-color: #2A3647; /* Ändere die Hintergrundfarbe, wenn ausgewählt */
-    border-color: #2A3647; /* Ändere die Randfarbe, wenn ausgewählt */
-    content: '✔'; /* Füge ein Häkchen ein, wenn ausgewählt */
-    color: #2A3647; /* Textfarbe des Häkchens */
-    font-weight: bold; /* Fetten Text für das Häkchen */
-}
-
 label {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -240,6 +216,7 @@ label {
     color: #000000;
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .frame176 {
@@ -292,3 +269,39 @@ label {
     border: 1px solid #29ABE2;
     color: #29ABE2;
 }
+
+.frame213 {
+    gap: 40px;
+    display: flex;
+    padding: 8px;
+    bottom: 32px;
+    position: absolute;
+    visibility: hidden;
+}
+
+a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #A8A8A8;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #29ABE2;
+    font-weight: 700;
+}
+
+.img-visibility {
+    width: 21.65px;
+    height: 18.95px;
+}
+
+
+
+
+
