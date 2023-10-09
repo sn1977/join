@@ -88,6 +88,50 @@ body {
     cursor: pointer;
 }
 
-.buttonAddTask span {
-    font-weight: 400;
+.boardContent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.contentBoard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.progressContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 260px;
+    background-color: yellow;
+}
+
+.progressContainerStatusHead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 260px;
+    cursor: pointer;
+}
+
+.progressStatus {
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.statusContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+    padding-top: 20px;
+    padding-bottom: 35px;
 }
