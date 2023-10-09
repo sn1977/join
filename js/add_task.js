@@ -1,11 +1,12 @@
 let allTasks = [];
 let lastPrio = '';
 let prio = '';
+let progress = '';
 
 
 function reload(){
     getInput();
-    emptyFields(title, description, assignedTo, dueDate, prio, category, subtask);
+    emptyFields(title, description, assignedTo, dueDate, category, subtask);
 }
 
 
@@ -84,7 +85,7 @@ function addTask (progress){
     allTasks.push(task);
     let allTasksAsString = JSON.stringify(allTasks);
     localStorage.setItem('allTasks', allTasksAsString);
-    emptyFields(title, description, assignedTo, dueDate, prio, category, subtask);
+    emptyFields(title,  description, assignedTo, dueDate,  category, subtask);
     resetPrio();
 }
 
@@ -100,7 +101,8 @@ function getInput(){
 }
 
 
-function emptyFields(title, description, assignedTo, dueDate, prio, category, subtask){
+function emptyFields(title, description, assignedTo, dueDate, category, subtask){
+    progress = '';
     title.value ='';
     description.value ='';
     assignedTo.value = '';
