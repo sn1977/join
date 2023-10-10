@@ -2,6 +2,7 @@
 
 function init() {
     showLogIn();
+    logInTemplate();
 }
 
 // Nach Abschluss der Animation den frame156 & frame153 sichtbar machen
@@ -13,53 +14,87 @@ function showLogIn() {
     });
 }
 
-// document.getElementById("password").addEventListener("input", function () {
-//     updatePasswordIcon();
-// });
+function updatePasswordIcon(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const lockIcon = document.querySelector(`[data-for="${inputId}"]`);
 
-function updatePasswordIcon() {
-    const passwordInput = document.getElementById("password");
-    const lockIcon = document.querySelector(".img-lock");
-
-    if (passwordInput.value.length > 0) {
-        // Wenn ein Passwort eingegeben wurde, ändere das Icon
-        lockIcon.src = '../assets/img/visibility_off.png'; // Hier das Icon für entsperrtes Passwort einfügen
-        lockIcon.classList.add('img-visibility');
-    } else {
-        // Wenn kein Passwort eingegeben wurde, verwende das ursprüngliche Icon
-        lockIcon.src = '../assets/img/lock.png'; // Hier das Icon für gesperrtes Passwort einfügen
-        lockIcon.classList.remove('img-visibility');
+    if (passwordInput && lockIcon) {
+            if (passwordInput.value.length > 0) {
+                lockIcon.src = '../assets/img/visibility_off.png';
+                lockIcon.classList.add('img-visibility');
+            } else {
+                lockIcon.src = '../assets/img/lock.png';
+                lockIcon.classList.remove('img-visibility');
+            }
     }
 }
 
-function togglePasswordVisibility() {
-    const passwordInput = document.getElementById("password");
-    const toggleIcon = document.querySelector(".toggle-icon");
+function togglePasswordVisibility(inputId, toggleIconClass) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleIcon = document.querySelector(toggleIconClass);
 
-    if (passwordInput.type === "password") {
-        // Wenn das Passwortfeld derzeit vom Typ "password" ist, ändere es zu "text"
-        passwordInput.type = "text";
-        toggleIcon.src = "../assets/img/visibility.png"; // Icon für sichtbares Passwort
-    } else {
-        // Andernfalls, wenn das Passwortfeld derzeit vom Typ "text" ist, ändere es zu "password"
-        passwordInput.type = "password";
-        toggleIcon.src = "../assets/img/visibility_off.png"; // Icon für unsichtbares Passwort
+    if (passwordInput && toggleIcon) {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.src = "../assets/img/visibility.png"; // Icon für sichtbares Passwort
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.src = "../assets/img/visibility_off.png"; // Icon für unsichtbares Passwort
+            }
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+
+
+function checkboxChange() {
     const checkbox = document.getElementById("pw-checkbox");
-    const label = document.querySelector(".remember-password label");
+    // const privacyCheckbox = document.getElementById('privacy-checkbox');
     const iconChecked = document.querySelector(".icon-checked");
     const iconUnchecked = document.querySelector(".icon-unchecked");
+    const btnSignup = document.getElementById("btn-signup");
 
     checkbox.addEventListener("change", function () {
         if (this.checked) {
             iconChecked.style.display = "inline-block";
             iconUnchecked.style.display = "none";
+            // btnSignup.disabled = false; // Aktivieren Sie den Registrierungsbutton
         } else {
             iconChecked.style.display = "none";
             iconUnchecked.style.display = "inline-block";
+            // btnSignup.disabled = true; // Deaktivieren Sie den Registrierungsbutton
         }
     });
-});
+}
+
+function privacyCheckboxChange() {
+    const privacyCheckbox = document.getElementById('privacy-checkbox');
+    const iconChecked = document.querySelector(".icon-checked");
+    const iconUnchecked = document.querySelector(".icon-unchecked");
+    const btnSignup = document.getElementById("btn-signup");
+
+    privacyCheckbox.addEventListener("change", function () {
+        if (this.checked) {
+            iconChecked.style.display = "inline-block";
+            iconUnchecked.style.display = "none";
+            btnSignup.disabled = false; // Aktivieren Sie den Registrierungsbutton
+        } else {
+            iconChecked.style.display = "none";
+            iconUnchecked.style.display = "inline-block";
+            btnSignup.disabled = true; // Deaktivieren Sie den Registrierungsbutton
+        }
+    });
+}
+
+function signUp() {
+    signUpTemplate();
+}
+
+function redirectToPrivacyPolicy() {
+    document.getElementById('btn-privacy-policy').onclick = function () {
+        location.href = "../html/data_protection.html";
+    };
+}
+
+function overlaySuccess() {
+    console.log('Hallo');
+}

@@ -8,10 +8,10 @@ body {
     flex-direction: column;
 }
 
+/* Style LogIn Template */
+
 .img-size-login {
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     transition: all 100ms ease-in-out 200ms; /* Animationseffekte mit Delay */
 }
@@ -29,6 +29,7 @@ body {
         height: 121.97px;
         top: 80px;
         left: 77px;
+        transform: none;
     }
 }
 
@@ -144,6 +145,7 @@ h1 {
 }
 
 .frame155, .frame156 {
+    display: flex;
     gap: 35px;
 }
 
@@ -183,6 +185,7 @@ h1 {
     height: 24px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .img-email {
@@ -301,7 +304,120 @@ a:hover {
     height: 18.95px;
 }
 
+.icon-checked {
+    display: none;
+}
 
+/* Styli SignUp Template */
 
+.signUp-container {
+    display: flex;
 
+    align-items: center;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 30px;
+    gap: 32px;
+    padding: 48px 88px;
+    width: 598px;
+    height: 630px;
+}
+
+.frame159-2 {
+    width: 315px;
+    height: 89px;
+    gap: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.frame212 {
+    width: 422px;
+    height: 326px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}
+
+.frame160 {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.img-person {
+    width: 16px;
+    height: 16px;
+}
+
+.frame14-signUp {
+    height: 48px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    padding: 12px 21px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.privacy-policy-check {
+    width: 422px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+}
+
+/* Stil für die Checkbox */
+.privacy-policy-check input[type="checkbox"] {
+    display: none; /* Verberge die Standard-Checkbox */
+}
+
+/*.span {*/
+/*    font-color: #A8A8A8 !important;*/
+/*}*/
+
+#btn-privacy-policy {
+    border: none;
+    color: #29ABE2;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 19.2px;
+    background: none;
+    padding: 0;
+}
+
+#btn-privacy-policy:hover {
+    text-decoration: underline;
+}
+
+#btn-signup {
+    background: #2A3647;
+    color: #ffffff;
+    width: 126px;
+    height: 55px;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: Inter;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 25.2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#btn-signup:hover {
+    background: #29ABE2;
+}
+
+.btn-signup-container {
+    display: flex;
+    justify-content: center;
+}
 
