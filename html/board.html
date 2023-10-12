@@ -9,78 +9,11 @@
 
 	<link rel="stylesheet" href="../css/board.css">
 	<link rel="stylesheet" href="../fonts.css">
+	<script src="../js/tasks.js"></script>
 </head>
 
-<body>
+<body onload="init()">
 	<div class="content" id="content">
-		<div class="board">
-			<section class="boardHeader" id="boardHeader">
-
-				<div class="boardHeadlineLeft">
-					Board
-				</div>
-
-				<div class="boardHeadlineRight">
-					<div class="search">
-						<input type="text" id="inputSearch" class="inputSearch" placeholder="Find task">
-						<div class="buttonSearch">
-							<img src="../assets/img/search.svg" alt="Search">
-						</div>
-					</div>
-					<button class="buttonAddTask">
-						<span>Add Task</span>
-						<span>+</span>
-					</button>
-				</div>
-			</section>
-			<section class="boardContent" id="boardContent">
-
-				<div class="progressContainer">
-					<div class="progressContainerStatusHead">
-						<div class="progressStatus">
-							To do
-						</div>
-						<div>
-							<img src="../assets/img/addbutton.svg" alt="">
-						</div>
-					</div>
-					<div class="statusContainer"></div>
-				</div>
-				<div class="progressContainer">
-					<div class="progressContainerStatusHead">
-						<div class="progressStatus">
-							In progress
-						</div>
-						<div>
-							<img src="../assets/img/addbutton.svg" alt="">
-						</div>
-					</div>
-					<div class="statusContainer"></div>
-				</div>
-				<div class="progressContainer">
-					<div class="progressContainerStatusHead">
-						<div class="progressStatus">
-							Await feedback
-						</div>
-						<div>
-							<img src="../assets/img/addbutton.svg" alt="">
-						</div>
-					</div>
-					<div class="statusContainer"></div>
-				</div>
-				<div class="progressContainer">
-					<div class="progressContainerStatusHead">
-						<div class="progressStatus">
-							Done
-						</div>
-						<div>
-							<img src="../assets/img/addbutton.svg" alt="">
-						</div>
-					</div>
-					<div class="statusContainer"></div>
-				</div>
-			</section>
-		</div>
 	</div>
 </body>
 
