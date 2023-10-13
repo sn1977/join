@@ -12,7 +12,7 @@ function reload(){
 
 // JavaScript, um die Platzhalteroption auszuwählen
 document.getElementById("assignedTo").selectedIndex = 0;
-document.getElementById("category").selectedIndex = 0;
+// document.getElementById("category").selectedIndex = 0;
 
 
 function taskPrio(i){
@@ -59,6 +59,20 @@ function resetPrio(){
 }
 
 
+function checkRequieredFields(dueDate){
+    if (dueDate.value = '') {
+        document.getElementById('warningDueDate').classList.remove('d-none');
+    }
+
+}
+
+
+// this function opens and closes the list of assignable names in the user's contacts
+
+function toggleContacts() { 
+    document.getElementById('assignedToContainer').classList.toggle('d-none');
+}
+
 
 /**
  * Fügt einen neuen Task hinzu
@@ -69,6 +83,7 @@ function resetPrio(){
 function addTask (progress){
 
     getInput();
+    checkRequieredFields(dueDate);
     
     let task = {
         'title' : title.value,
@@ -120,6 +135,12 @@ function loadAllTasks(){
     console.log ('loaded all Tesk', allTasks);
 }
 
+
+function openSelect (){
+    document.getElementById('assignedTo').append = 'multiple';
+}
+  
+  
 
 
       /* // Eine Funktion, um die Daten abzurufen und in das Dropdown-Feld einzufügen

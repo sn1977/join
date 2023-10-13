@@ -23,47 +23,80 @@
         <form class="formAddTask" onsubmit="addTask('to do'); return false;">
             <div class="formInput">
                 <div class="leftSide">
-                    <label for="title">Title<sup class="asterisk">*</sup></label>
-                    <input required minlength="5" type="text" id="title" placeholder="Enter a title">
-                    <label for="description">Description</label>
-                    <textarea minlength="5" id="description" rows="8" cols="50"
-                        placeholder="Enter a Description"></textarea>
-                    <label for="assignedTo">Assigned to</label>
-                    <select id="assignedTo" name="assignedTo">
-                        <option value="" disabled selected hidden>Select contacts to assign</option>
-                        <!-- Hier muss die Contactliste rein -->
-                        <option value="user1">Benutzer 1</option>
-                        <option value="user2">Benutzer 2</option>
-                        <option value="user3">Benutzer 3</option>
-                    </select>
+
+                    <div class="inputContainer">                       
+                        <label class="required" for="title">Title</label>
+                        <input class="inputField" required minlength="5" type="text" id="title" placeholder="Enter a title">
+                        <div class="warning">
+                            <span id="warningTitle" class="d-none">This field is requiered</span>
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">                
+                        <label for="description">Description</label>
+                        <textarea class="inputField description" minlength="5" id="description" rows="8" cols="50"
+                            placeholder="Enter a Description"></textarea>
+                    </div>
+                    
+                    <div class="inputContainer">   
+                        <label for="assignedTo">Assigned to</label>
+                        <input onclick="toggleContacts()" onkeyup="getContacts()" id="assignedTo" type="text" placeholder="Select contacts to assign to">
+                        <div class="d-none" id="assignedToContainer">                     
+                              <ul id="assignedToContact"></ul>
+                              <!-- Hier noch Link auf Kontakte einfügen -->
+                              <a href=""> 
+                                <button class="createContactBtn">
+                                  Add new contact
+                                  <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+                                </button>
+                              </a>
+                        </div>               
+                    </div>
+
                 </div>
+               
+
                 <div class="divider">
                 </div>
+
                 <div class="rightSide">
-                    <label for="dueDate">Due date<sup class="asterisk">*</sup></label>
-                    <!-- <input required type="text" id="dueDate" placeholder="dd/mm/yyyy" onfocus="(this.type = 'date')"> -->
-                    <input required type="date" id="dueDate" placeholder="dd/mm/yyyy">
+
+                    <div class="inputContainer">   
+                        <label class="required" for="dueDate">Due date</label>
+                        <input id="dueDate" class="inputField" required min="" type="date">
+                        <div class="warning">
+                            <span id="warningDueDate" class="d-none requiered">This field is requiered</span>
+                        </div>
+                    </div>
+
+
+            
+
                     <label for="prio">Prio</label>
                     <div class="button-container" id="prio">
                         <button class="white" id="prio1" onclick="taskPrio(1)" type="button">Urgent<img
-                                src="../assets/img/urgent.svg" alt=""></button>
+                            src="../assets/img/urgent.svg" alt=""></button>
                         <button class="white" id="prio2" onclick="taskPrio(2)" type="button">Medium<img
-                                src="../assets/img/medium.svg" alt=""></button>
+                            src="../assets/img/medium.svg" alt=""></button>
                         <button class="white" id="prio3" onclick="taskPrio(3)" type="button">Low<img
-                                src="../assets/img/low.svg" alt=""></button>
+                            src="../assets/img/low.svg" alt=""></button>
                     </div>
-                    <label for="category">Category<sup class="asterisk">*</sup></label>
+       
+                    <label class="required" for="category">Category</label>
                     <select id="category" name="category" required>
                         <option value="" disabled selected hidden>Select task category</option>
                         <option value="technical task">Technical Task</option>
                         <option value="user story">User Story</option>
-                    </select>
+                    </select> 
+
+
+
                     <label for="subtask">Subtask</label>
                     <input type="text" id="subtask" placeholder="Add new subtask">
                 </div>
             </div>
             <div class="footArea">
-                <p><sup class="asterisk">*</sup>This field is required</p>
+                <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
                     <button class="cancelBtn">Cancel <img src="../assets/img/cancel.svg" alt=""></button>
                     <button class="activeBtn">Create Task <img src="../assets/img/check.svg" alt=""></button>
