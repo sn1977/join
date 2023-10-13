@@ -27,7 +27,7 @@ function logInTemplate() {
     									       placeholder="Password" required type="password">
     								</form>
     								<div class="password-toggle" onclick="togglePasswordVisibility('password-login', '.toggle-icon')">
-    									<img alt="password" class="img-lock toggle-icon" src="../assets/img/lock.png">
+    									<img alt="password" class="img-lock toggle-icon" src="../assets/img/lock.png" data-for="password-login">
     								</div>
     							</div>
     						</div>
@@ -126,7 +126,10 @@ function signUpTemplate() {
     			<div class="btn-signup-container">
     			    <button id="btn-signup" disabled onclick="overlaySuccess()">Sign up</button>
     			</div>
-            </div> 		
+            </div> 	
+            <div class="arrow-left-line">
+    			    <img src="../assets/img/arrow-left.png" alt="arrow-left" class="arrow-left" onclick="init()">
+                </div>	
         <div>
     
     `

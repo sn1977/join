@@ -1,12 +1,13 @@
 /* Js Code für Log in page */
 
 function init() {
-    showLogIn();
+    showLogInStart();
     logInTemplate();
+    showLogIn();
 }
 
 // Nach Abschluss der Animation den frame156 & frame153 sichtbar machen
-function showLogIn() {
+function showLogInStart() {
     document.querySelector('.img-size-login').addEventListener('animationend', function () {
         document.querySelector('.frame156').style.visibility = 'visible';
         document.querySelector('.frame153').style.visibility = 'visible';
@@ -14,18 +15,24 @@ function showLogIn() {
     });
 }
 
+function showLogIn() {
+    document.querySelector('.frame156').style.visibility = 'visible';
+    document.querySelector('.frame153').style.visibility = 'visible';
+    document.querySelector('.frame213').style.visibility = 'visible';
+}
+
 function updatePasswordIcon(inputId) {
     const passwordInput = document.getElementById(inputId);
     const lockIcon = document.querySelector(`[data-for="${inputId}"]`);
 
     if (passwordInput && lockIcon) {
-            if (passwordInput.value.length > 0) {
-                lockIcon.src = '../assets/img/visibility_off.png';
-                lockIcon.classList.add('img-visibility');
-            } else {
-                lockIcon.src = '../assets/img/lock.png';
-                lockIcon.classList.remove('img-visibility');
-            }
+        if (passwordInput.value.length > 0) {
+            lockIcon.src = '../assets/img/visibility_off.png';
+            lockIcon.classList.add('img-visibility');
+        } else {
+            lockIcon.src = '../assets/img/lock.png';
+            lockIcon.classList.remove('img-visibility');
+        }
     }
 }
 
@@ -34,17 +41,28 @@ function togglePasswordVisibility(inputId, toggleIconClass) {
     const toggleIcon = document.querySelector(toggleIconClass);
 
     if (passwordInput && toggleIcon) {
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.src = "../assets/img/visibility.png"; // Icon für sichtbares Passwort
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.src = "../assets/img/visibility_off.png"; // Icon für unsichtbares Passwort
-            }
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.src = "../assets/img/visibility.png"; // Icon für sichtbares Passwort
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.src = "../assets/img/visibility_off.png"; // Icon für unsichtbares Passwort
+        }
     }
 }
 
+function comparePasswords() {
+    let passwordInput1 = document.getElementById('password').value;
+    let passwordInput2 = document.getElementById('password-signup').value;
 
+    if (passwordInput2 != '') {
+        if (passwordInput1 === passwordInput2) {
+            console.log('richtiges Passwort');
+        } else {
+            console.log('Falsches Passwort');
+        }
+    }
+}
 
 function checkboxChange() {
     const checkbox = document.getElementById("pw-checkbox");
@@ -96,5 +114,22 @@ function redirectToPrivacyPolicy() {
 }
 
 function overlaySuccess() {
-    console.log('Hallo');
+    const overlay = document.createElement("div");
+    overlay.className = "success-overlay animate";
+    document.body.classList.add("animate"); // Fügen Sie die animate-Klasse zum Body-Element hinzu
+
+    const message = document.createElement("div");
+    message.className = "success-message"; // Fügen Sie hier die gewünschten Klassen für die Nachricht hinzu
+    message.innerHTML = "You Signed Up successfully"; // Die Nachricht, die angezeigt werden soll
+
+    overlay.appendChild(message);
+    document.body.appendChild(overlay);
+
+    // Schließen Sie das Overlay nach einigen Sekunden
+    setTimeout(function () {
+        document.body.removeChild(overlay);
+        document.body.classList.remove("animate");
+        init();
+    }, 3000); // Hier können Sie die Dauer des Overlays in Millisekunden festlegen (hier 3 Sekunden)
 }
+
