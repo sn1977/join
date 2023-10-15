@@ -1,9 +1,21 @@
 /* Js Code für Log in page */
+// Initialisierung
+let users = [];
+let nameElement;
+let emailElement;
+let passwordElement;
+let passwordSignupElement;
+
+function initializeElements() {
+    nameElement = document.getElementById('name');
+    emailElement = document.getElementById('email');
+    passwordElement = document.getElementById('password');
+    passwordSignupElement = document.getElementById('password-signup');
+}
 
 function init() {
     showLogInStart();
     logInTemplate();
-    showLogIn();
 }
 
 // Nach Abschluss der Animation den frame156 & frame153 sichtbar machen
@@ -16,6 +28,7 @@ function showLogInStart() {
 }
 
 function showLogIn() {
+    logInTemplate();
     document.querySelector('.frame156').style.visibility = 'visible';
     document.querySelector('.frame153').style.visibility = 'visible';
     document.querySelector('.frame213').style.visibility = 'visible';
@@ -51,18 +64,6 @@ function togglePasswordVisibility(inputId, toggleIconClass) {
     }
 }
 
-function comparePasswords() {
-    let passwordInput1 = document.getElementById('password').value;
-    let passwordInput2 = document.getElementById('password-signup').value;
-
-    if (passwordInput2 != '') {
-        if (passwordInput1 === passwordInput2) {
-            console.log('richtiges Passwort');
-        } else {
-            console.log('Falsches Passwort');
-        }
-    }
-}
 
 function checkboxChange() {
     const checkbox = document.getElementById("pw-checkbox");
@@ -105,31 +106,98 @@ function privacyCheckboxChange() {
 
 function signUp() {
     signUpTemplate();
+    initializeElements(); // Hier initialisieren wir die Elemente, nachdem das SignUp-Template geladen wurde.
 }
 
 function redirectToPrivacyPolicy() {
-    document.getElementById('btn-privacy-policy').onclick = function () {
+    document.getElementById('btn-privacy-policy').onclick = redirect => {
         location.href = "../html/data_protection.html";
     };
 }
 
 function overlaySuccess() {
-    const overlay = document.createElement("div");
-    overlay.className = "success-overlay animate";
-    document.body.classList.add("animate"); // Fügen Sie die animate-Klasse zum Body-Element hinzu
+    const overlay = document.createElement('div');
+    overlay.className = 'success-overlay animate';
+    document.body.classList.add('animate'); // Fügen Sie die animate-Klasse zum Body-Element hinzu
 
-    const message = document.createElement("div");
-    message.className = "success-message"; // Fügen Sie hier die gewünschten Klassen für die Nachricht hinzu
-    message.innerHTML = "You Signed Up successfully"; // Die Nachricht, die angezeigt werden soll
+    const message = document.createElement('div');
+    message.className = 'success-message'; // Fügen Sie hier die gewünschten Klassen für die Nachricht hinzu
+    message.innerHTML = 'You Signed Up successfully'; // Die Nachricht, die angezeigt werden soll
 
     overlay.appendChild(message);
     document.body.appendChild(overlay);
 
     // Schließen Sie das Overlay nach einigen Sekunden
-    setTimeout(function () {
+    setTimeout(Timeout => {
         document.body.removeChild(overlay);
-        document.body.classList.remove("animate");
-        init();
+        document.body.classList.remove('animate');
+        showLogIn();
     }, 3000); // Hier können Sie die Dauer des Overlays in Millisekunden festlegen (hier 3 Sekunden)
+}
+
+function login(event) {
+    // Verhindern Sie das Standardverhalten des Formulars
+    if (event) {
+        event.preventDefault();
+    }
+    let email = document.getElementById('loginMail');
+    let password = document.getElementById('password-login');
+    let user = users.find(u => u.email == email.value && u.password == password.value);
+    if (user) {
+        location.href = "../html/summary.html";
+    } else {
+        password.value = '';
+        document.getElementById('loginPassword').style.border = '1px solid #FF001F';
+        wrongPassword();
+    }
+}
+
+function wrongPassword() {
+    let wrongPassword = document.createElement('div');
+    const divWithClass156 = document.querySelector('.div-156');
+    divWithClass156.appendChild(wrongPassword);
+    wrongPassword.className = 'wrong-password';
+    wrongPassword.innerHTML = 'Wrong password Ups! Try again.';
+}
+
+function checkExistingUser() {
+    let email = document.getElementById('email');
+    let user = users.find(u => u.email == email.value);
+
+    if (user) {
+        alert('Email already exists!');
+        return true; // Benutzer existiert bereits
+    }
+    return false; // Benutzer existiert nicht
+}
+
+
+function comparePasswords(event) {
+    // Verhindern Sie das Standardverhalten des Formulars
+    if (event) {
+        event.preventDefault();
+    }
+    let password = document.getElementById('password');
+    let passwordControl = document.getElementById('password-signup');
+    if (password.value === passwordControl.value) {
+        if (!checkExistingUser()) { // Wenn der Benutzer nicht existiert, fahren Sie fort
+            overlaySuccess();
+            register();
+        } else {
+            document.getElementById('signUpEmail').style.border = '1px solid #FF001F'; // Hervorheben des E-Mail-Feldes, wenn ein Benutzer bereits existiert
+        }
+    } else {
+        document.getElementById('signUPControl').style.border = '1px solid #FF001F';
+        failedPasswordMatch();
+        passwordControl.value = '';
+    }
+}
+
+function failedPasswordMatch() {
+    let failedPasswordMatch = document.createElement('div');
+    const divWithClass156 = document.querySelector('.div-156');
+    divWithClass156.appendChild(failedPasswordMatch);
+    failedPasswordMatch.className = 'wrong-password';
+    failedPasswordMatch.innerHTML = 'Ups! your password don’t match';
 }
 
