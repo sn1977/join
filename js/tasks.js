@@ -41,8 +41,8 @@ function renderBoard() {
     for (let i = 0; i < boardNames.length; i++) {
         const name = boardNames[i];
         const category = name.toLowerCase().replace(' ', '');
-
-        document.getElementById('boardContent').innerHTML += /*html*/ `
+        if (i < 3) {
+            document.getElementById('boardContent').innerHTML += /*html*/ `
             <div class="progressContainer">
                 <div class="progressContainerStatusHead">
                     <div class="progressStatus">
@@ -53,8 +53,19 @@ function renderBoard() {
                     </div>
                 </div>
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${category}')" ondragover="allowDrop(event)"></div>
-        </div>
-    `
+        </div>`
+        } else {
+            document.getElementById('boardContent').innerHTML += /*html*/ `
+            <div class="progressContainer">
+                <div class="progressContainerStatusHead">
+                    <div class="progressStatus">
+                        ${name}
+                    </div>
+                </div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${category}')" ondragover="allowDrop(event)"></div>
+        </div>`
+        }
+
 
     }
 }
