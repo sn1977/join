@@ -70,25 +70,33 @@ let todos = [
     {
         'id': 0,
         'title': 'Putzen',
+        'description': 'Putzen',
         'category': 'todo',
+        'type': 'Technical Task',
         'lastMoved': new Date().getTime()
     },
     {
         'id': 1,
         'title': 'Kochen',
+        'description': 'Kochen',
         'category': 'inprogress',
+        'type': 'User Story',
         'lastMoved': new Date().getTime()
     },
     {
         'id': 2,
         'title': 'Einkaufen',
+        'description': 'Einkaufen',
         'category': 'awaitfeedback',
+        'type': 'User Story',
         'lastMoved': new Date().getTime()
     },
     {
         'id': 3,
         'title': 'Arbeiten',
+        'description': 'Arbeiten',
         'category': 'done',
+        'type': 'Technical Task',
         'lastMoved': new Date().getTime()
     }
 ];
@@ -135,7 +143,15 @@ function startDragging(id) {
 
 function generateHTML(element) {
     return /*html*/ `
-        <div draggable="true" class="todo" ondragstart="startDragging(${element['id']})">${element['title']}</div>
+        <div draggable="true" class="todo" ondragstart="startDragging(${element['id']})">
+            <div>
+                <div>${element['type']}</div>
+                <div>${element['title']}</div>
+                <div>${element['description']}</div>
+                <div>subtask progressbar</div>
+                <div>Users</div>
+            </div>
+        </div>
     `
 }
 
