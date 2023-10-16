@@ -113,7 +113,7 @@ h1 {
     background: #FFF;
 }
 
-.contact-name:hover, .profile-badge:hover {
+.contact-name:hover, .profile-badge:hover, .contact-hover:hover {
     background: #F6F7F8;
     cursor: pointer;
 }
