@@ -10,7 +10,6 @@ function init() {
     updateHTML();
 }
 
-
 function renderBoard() {
     document.getElementById('content').innerHTML = '';
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
@@ -36,7 +35,6 @@ function renderBoard() {
 			
 			</section>
     `;
-
 
     for (let i = 0; i < boardNames.length; i++) {
         const name = boardNames[i];
@@ -65,14 +63,8 @@ function renderBoard() {
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${category}')" ondragover="allowDrop(event)"></div>
         </div>`
         }
-
-
     }
 }
-
-
-
-
 
 let todos = [
     {
@@ -102,7 +94,6 @@ let todos = [
 ];
 
 let currentDraggedElement;
-
 
 function updateHTML() {
     let todo = sortTodos(todos.filter(t => t['category'] == 'todo'));
@@ -137,7 +128,6 @@ function updateHTML() {
         document.getElementById('statusContainer3').innerHTML += generateHTML(element);
     }
 }
-
 
 function startDragging(id) {
     currentDraggedElement = id;
