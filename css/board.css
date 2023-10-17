@@ -4,8 +4,8 @@ body {
 
 .content {
     position: fixed;
-    top: 80px;
-    width: 80vw;
+    top: 96px;
+    left: 232px;
     bottom: 0;
     right: 0;
 }
@@ -13,7 +13,6 @@ body {
 .board {
     background-color: #F6F7F8;
     margin: 0;
-    height: 100%;
     padding: 0px 70px 0px 70px;
     overflow-x: hidden;
 }
