@@ -1,6 +1,24 @@
+let contacts = [];
 let nameOfContact = ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
 let emailOfContact = ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
+let telOfContact = [123456, 789456, 456951]
 let currentSelectedIndex = null;
+
+async function newContact() {
+    contacts.push({
+        nameContact: nameOfContact.value,
+        emailContact: emailOfContact.value,
+        telContact: telOfContact.value,
+     });
+    await setItem('contacts', JSON.stringify(contacts));
+    resetContactField();
+}
+
+function resetContactField() {
+    nameContact: nameOfContact.value = '';
+    emailContact: emailOfContact.value = '';
+    telContact: telOfContact.value = '';
+}
 
 function groupByFirstLetter(names) {
     return names.reduce((groups, name) => {
@@ -51,18 +69,6 @@ function showContact(name, index) {
         </div>`;
 }
 
-// function showContactDetails(i) {
-//     let contactBox = document.getElementById(`contactNameBox${i}`);
-//     let innerContactBox = document.getElementById(`profileBadge${i}`);
-//     let contactName = document.querySelector(`#contactNameBox${i} .contactName`); // Da es eine Klasse ist, verwenden wir querySelector
-//
-//     if (contactBox && innerContactBox && contactName) {
-//         contactBox.style.background = '#2A3647';
-//         innerContactBox.style.background = '#2A3647';
-//         contactName.style.color = '#ffffff';
-//     }
-// }
-
 function showContactDetails(i) {
     // Wenn bereits ein Kontakt ausgewählt wurde, setzen Sie seine Stile zurück
     if (currentSelectedIndex !== null) {
@@ -88,8 +94,10 @@ function showContactDetails(i) {
         innerContactBox.style.background = '#2A3647';
         contactName.style.color = '#ffffff';
     }
-
     // Aktualisieren Sie den currentSelectedIndex für den nächsten Aufruf
     currentSelectedIndex = i;
+
+    // Rufen Sie die neue Funktion auf, um die Details im floatingContact anzuzeigen
+    displayFloatingContactDetails(i);
 }
 

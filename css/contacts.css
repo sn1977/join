@@ -5,7 +5,6 @@ body {
 
 .frame40 {
     display: inline-flex;
-    justify-content: flex-end;
     align-items: center;
     gap: 30px;
     top: 206px;
@@ -167,4 +166,177 @@ h1 {
     font-style: normal;
     font-weight: 400;
     line-height: 120%; /* 19.2px */
+}
+
+.frame99 {
+    width: 24px;
+    height: 100vh;
+    flex-shrink: 0;
+    position: absolute;
+    right: 0;
+}
+
+#floatingContact {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 21px;
+    width: 461px;
+    height: 364px;
+    top: 357px;
+    position: absolute;
+    right: 128px;
+    left: 743px;
+}
+
+.frame105 {
+    display: flex;
+    align-items: center;
+    gap: 54px;
+}
+
+.frame79 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 114px;
+    height: 114px;
+    border-radius: 70px;
+    border: 3px solid #ffffff;
+    background: #FF7A00;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10);
+    color: #ffffff;
+    text-align: center;
+    font-family: Inter;
+    font-size: 47px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 56.4px */
+}
+
+.frame104 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.frame81 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    color: #000;
+    font-family: Inter;
+    font-size: 47px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 56.4px */
+}
+
+.frame204 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.deleteContact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.delete-edit-text {
+    color: #2A3647;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+}
+
+.frame108 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+}
+
+.deleteContact:hover .icon-edit path,
+.deleteContact:hover .delete-edit-text {
+    cursor: pointer;
+    color: #29ABE2;
+    fill: #29ABE2;
+    font-weight: bold;
+}
+
+.frame108:hover .icon-edit path,
+.frame108:hover .delete-edit-text {
+    cursor: pointer;
+    color: #29ABE2;
+    fill: #29ABE2;
+    font-weight: bold;
+}
+
+
+.frame160 {
+    display: flex;
+    align-items: center;
+    gap: 59px;
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+}
+
+.frame101 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.frame102, .frame103 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.text {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 19.2px */
+}
+
+.email {
+    color: #007CEE;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+}
+
+#floatingContact {
+    /* Andere Stile... */
+    transform: translateX(100%); /* Startposition (vollständig rechts) */
+    transition: transform 0.3s ease-out; /* Animationseinstellung */
+}
+
+#floatingContact.show {
+    transform: translateX(0); /* Endposition (standardmäßige Position) */
 }
