@@ -106,34 +106,55 @@ let currentDraggedElement;
 function updateHTML() {
     let todo = sortTodos(todos.filter(t => t['category'] == 'todo'));
     document.getElementById('statusContainer0').innerHTML = '';
-
-    for (let i = 0; i < todo.length; i++) {
-        const element = todo[i];
-        document.getElementById('statusContainer0').innerHTML += generateHTML(element);
+    if (todo.length == 0) {
+        document.getElementById('statusContainer0').innerHTML = /*html*/ `
+        <div class="noTaskDiv">No Tasks To do</div>
+        `
+    } else {
+        for (let i = 0; i < todo.length; i++) {
+            const element = todo[i];
+            document.getElementById('statusContainer0').innerHTML += generateHTML(element);
+        }
     }
+
 
     let inprogress = sortTodos(todos.filter(t => t['category'] == 'inprogress'));
     document.getElementById('statusContainer1').innerHTML = '';
-
-    for (let i = 0; i < inprogress.length; i++) {
-        const element = inprogress[i];
-        document.getElementById('statusContainer1').innerHTML += generateHTML(element);
+    if (inprogress.length == 0) {
+        document.getElementById('statusContainer1').innerHTML = /*html*/ `
+        <div class="noTaskDiv">No Tasks To do</div>
+        `
+    } else {
+        for (let i = 0; i < inprogress.length; i++) {
+            const element = inprogress[i];
+            document.getElementById('statusContainer1').innerHTML += generateHTML(element);
+        }
     }
 
     let awaitfeedback = sortTodos(todos.filter(t => t['category'] == 'awaitfeedback'));
     document.getElementById('statusContainer2').innerHTML = '';
-
-    for (let i = 0; i < awaitfeedback.length; i++) {
-        const element = awaitfeedback[i];
-        document.getElementById('statusContainer2').innerHTML += generateHTML(element);
+    if (awaitfeedback.length == 0) {
+        document.getElementById('statusContainer2').innerHTML = /*html*/ `
+        <div class="noTaskDiv">No Tasks To do</div>
+        `
+    } else {
+        for (let i = 0; i < awaitfeedback.length; i++) {
+            const element = awaitfeedback[i];
+            document.getElementById('statusContainer2').innerHTML += generateHTML(element);
+        }
     }
 
     let done = sortTodos(todos.filter(t => t['category'] == 'done'));
     document.getElementById('statusContainer3').innerHTML = '';
-
-    for (let i = 0; i < done.length; i++) {
-        const element = done[i];
-        document.getElementById('statusContainer3').innerHTML += generateHTML(element);
+    if (done.length == 0) {
+        document.getElementById('statusContainer3').innerHTML = /*html*/ `
+        <div class="noTaskDiv">No Tasks To do</div>
+        `
+    } else {
+        for (let i = 0; i < done.length; i++) {
+            const element = done[i];
+            document.getElementById('statusContainer3').innerHTML += generateHTML(element);
+        }
     }
 }
 
