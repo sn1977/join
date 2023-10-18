@@ -1,44 +1,71 @@
+/**
+ * @author Christiane
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ * 
+ */
+
 let allTasks = [];
 let lastPrio = '';
 let prio = '';
 let progress = '';
-
-
-function reload(){
-    getInput();
-    emptyFields(title, description, assignedTo, dueDate, category, subtask);
-}
+let taskID = 0;  //jeder Task bekommt eine eindeutige Nummer - muss online abgerufen werden!
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
-document.getElementById("assignedTo").selectedIndex = 0;
-// document.getElementById("category").selectedIndex = 0;
+document.getElementById("category").selectedIndex = 0;
+let message = document.getElementById("title");
+
+message.setCustomValidity("MESSAGE");
+message.reportValidity();
 
 
-function taskPrio(i){
-    if(lastPrio != '') {
-        resetPrio();
-    }
-    switch(i) {
-        case 1:
-            prio = 'urgent';
-          break;
-        case 2:
-            prio = 'medium';
-          break;
-        case 3:
-            prio = 'low';
-        break;            
-      }
-      setPrio (i)
-      lastPrio = i; 
+/**
+ * funtion to load the task
+ * 
+ * @todo!
+ * 
+ */
+function loadAllTasks(){
+    let allTasksAsString = localStorage.getItem('allTasks');
+    allTasks = JSON.parse (allTasksAsString);
+}
+
+/**
+ * Function to reset the form 
+ */
+function reload(){
+    getInput();
+    emptyFields(title,  description, assignedTo, dueDate,  category, subtask);
 }
 
 
-function setPrio (i){
+/**
+ * This function determines the clicked prio of the current task
+ * 
+ * @param {string} x = the selected prio is passed
+ * @param {string} prio = overall variable containing the prio of the current task input
+ * @param {string} lastprio = overall variable that contains the previously selected prio
+ *  
+ */
+function taskPrio(x){
+    prio = x;
+    if(lastPrio != '') {
+        resetPrio();
+    }
+    setPrio ()
+    lastPrio = x; 
+}
+
+/**
+ * Function to change the color of the selected color
+ * 
+ */
+function setPrio (){
     let element = '';
     let imageElement = '';
-    element = document.getElementById(`prio${i}`);
+    element = document.getElementById(`${prio}`);
     element.querySelector('img');
     element.classList.remove ('white');
     element.classList.add (`${prio}`);
@@ -47,28 +74,23 @@ function setPrio (i){
 }
 
 
+/**
+ * Function to change the color of the previously selected prio back to white
+ * 
+ */
 function resetPrio(){
     let element = '';
     let imageElement = '';
-    element = document.getElementById(`prio${lastPrio}`);
+    element = document.getElementById(`${lastPrio}`);
     element.querySelector('img');
     element.classList.add ('white');
-    element.classList.remove (`${prio}`);
+    element.classList.remove (`${lastPrio}`);
     imageElement = element.querySelector('img');
     imageElement.style.filter = "brightness(100%) invert(0)";  
 }
 
 
-function checkRequieredFields(dueDate){
-    if (dueDate.value = '') {
-        document.getElementById('warningDueDate').classList.remove('d-none');
-    }
-
-}
-
-
 // this function opens and closes the list of assignable names in the user's contacts
-
 function toggleContacts() { 
     document.getElementById('assignedToContainer').classList.toggle('d-none');
 }
@@ -82,10 +104,11 @@ function toggleContacts() {
  */
 function addTask (progress){
 
-    getInput();
-    checkRequieredFields(dueDate);
-    
+    getInput(); 
+    taskID++;
+
     let task = {
+        'taskId' : taskID,
         'title' : title.value,
         'description': description.value,
         'assignedTo' : assignedTo.value,
@@ -94,16 +117,24 @@ function addTask (progress){
         'category': category.value,
         'subtask' : subtask.value,
         'progress' : progress,
-        'createdAt': new Date().getTime()
+        'createdAt': new Date().getTime(),
+        'modifiedAt': new Date().getTime(),
+        'assignedTo' : getContacts()
     };
 
     allTasks.push(task);
     let allTasksAsString = JSON.stringify(allTasks);
     localStorage.setItem('allTasks', allTasksAsString);
+    alert("Aufgabe hinnzugefügt");
     emptyFields(title,  description, assignedTo, dueDate,  category, subtask);
     resetPrio();
 }
 
+/**
+ * Function to get the var from the inputfields
+ * 
+ * @returns 
+ */
 function getInput(){
     let title = document.getElementById('title');
     let description = document.getElementById('description');
@@ -115,6 +146,9 @@ function getInput(){
     return (title, description, assignedTo, dueDate, category, subtask);
 }
 
+function getContacts(){
+
+}
 
 function emptyFields(title, description, assignedTo, dueDate, category, subtask){
     progress = '';
@@ -128,43 +162,6 @@ function emptyFields(title, description, assignedTo, dueDate, category, subtask)
 }
 
 
-function loadAllTasks(){
-    let allTasksAsString = localStorage.getItem('allTasks');
-    allTasks = JSON.parse (allTasksAsString);
-
-    console.log ('loaded all Tesk', allTasks);
-}
-
-
 function openSelect (){
     document.getElementById('assignedTo').append = 'multiple';
 }
-  
-  
-
-
-      /* // Eine Funktion, um die Daten abzurufen und in das Dropdown-Feld einzufügen
-        function populateDropdown() {
-            // Hier sollten Sie eine Ajax-Anfrage an Ihre serverseitige API senden, um die Daten abzurufen.
-            // Nehmen wir an, Ihre API gibt ein JSON-Array mit Optionen zurück.
-
-            // Beispiel-Daten (ersetzen Sie dies durch Ihre eigene Logik):
-            var optionsData = [
-                { id: 1, name: "Option 1" },
-                { id: 2, name: "Option 2" },
-                { id: 3, name: "Option 3" },
-            ];
-
-            var select = document.getElementById("options");
-
-            // Schleife, um Daten in das Dropdown-Feld einzufügen
-            optionsData.forEach(function (option) {
-                var optionElement = document.createElement("option");
-                optionElement.value = option.id;
-                optionElement.textContent = option.name;
-                select.appendChild(optionElement);
-            });
-        }
-
-        // Die Funktion aufrufen, um das Dropdown-Feld zu füllen
-        populateDropdown(); */

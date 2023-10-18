@@ -4,6 +4,7 @@
     --tx-color: #2A3647;
     --invalid-color: #D1D1D1;
     --warning-color: #FF8190;
+    --focus-color: #29ABE2;
 }
 
 
@@ -175,6 +176,7 @@ select {
     font-style: normal;
     font-weight: 400;
     line-height: 120%;  
+
 }
 
 
@@ -182,7 +184,8 @@ input:focus,
 textarea:focus,
 select:focus,
 #assignedTo:focus {
-    border-color: var(--warning-color) !important;
+    border-color: var(--focus-color);
+    outline: none;
 }
 
 
@@ -202,7 +205,6 @@ select:focus,
 .inputField {
     margin-top: 8px;
     padding: 8px 12px;
-    position: relative;
     height: 32px;
 }
 
@@ -217,15 +219,42 @@ select:focus,
 }
 
 
-#assignedTo {
+.custom-select {
+    appearance: none;
     margin-top: 8px;
-    padding: 8px 12px;
+    padding: 12px 16px;
     position: relative;
     height: 48px;
-    color: var(--invalid-color);
+    background-image: url('../assets/img/arrow_drop_downaa.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 16px) center; 
+    background-size: 32px;
   }
-  
 
+  #dueDate {
+    appearance: none !important;
+    background-image: url('../assets/img/event.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 16px) center; 
+    background-size: 32px;
+
+    /* src="../assets/img/event.svg" */
+  }
+
+.subtask {
+    appearance: none;
+    margin-top: 8px;
+    padding: 12px 16px;
+    position: relative;
+    height: 24px;
+    background-image: url('../assets/img/addbutton.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 16px) center; 
+    background-size: 24px;
+}
+
+
+ 
 /*Sternchen nach den requiered Feldern setzen */
 .required:after {
     content: "*";
@@ -239,16 +268,18 @@ select:focus,
 
 
 .warning {
+    display: none;
     font-size: 12px;
-    color: red;
+    color: var(--warning-color);
 }
 
 
 .button-container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 36px;
     width: 100%;
+    margin-top: 8px;
+    gap: 16px;
 }
 
 
@@ -261,31 +292,31 @@ select:focus,
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
     cursor: pointer;
+    gap: 8px;
 }
 
-
-.svg-white {
-    fill: rgb(255, 255, 255);
-}
 
 .urgent {
     background-color: #FF3D00;
+    border: 1px solid #FF3D00 !important;
     color: white !important;
 }
 
 .medium {
-    background-color: #FFA801;
+    background-color: #FFA800;
+    border: 1px solid #FFA800 !important;
     color: white !important;
 }
 
 .low {
-    background-color: #7BE22A;
+    background-color: #7AE229;
+    border: 1px solid #7AE229 !important;
     color: white !important;
 }
 
 .white {
     background-color: white;
-    color: var(--tx-color);
+    border: 1px solid #D1D1D1 !important;
+    color: var(--tx-color) !important;
 }
