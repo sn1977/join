@@ -10,9 +10,14 @@
 	<link rel="stylesheet" href="../css/board.css">
 	<link rel="stylesheet" href="../fonts.css">
 	<script src="../js/tasks.js"></script>
+	<link href="../css/header.css" rel="stylesheet">
+	<link href="../css/sidebar.css" rel="stylesheet">
+	<script src="../js/w3includes.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init(), loadIncludeHTML()">
+	<div w3-include-html="../assets/templates/header.html"></div>
+	<div w3-include-html="../assets/templates/sidebar.html"></div>
 	<div class="content" id="content">
 	</div>
 </body>

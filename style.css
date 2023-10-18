@@ -13,7 +13,7 @@ body {
 .img-size-login {
     position: absolute;
     transform: translate(-50%, -50%);
-    transition: all 100ms ease-in-out 200ms; /* Animationseffekte mit Delay */
+    /*transition: all 100ms ease-in-out 200ms; !* Animationseffekte mit Delay *!*/
 }
 
 /* Keyframes-Animation für das Endziel */
@@ -82,16 +82,16 @@ body {
 
 .frame153 {
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
     flex-direction: column;
-    width: 652px;
-    height: 493px;
+    width: 422px;
+    height: 397px;
     background: #FFFFFF;
     border-radius: 30px;
     padding: 48px 115px;
     visibility: hidden;
-    gap: 50px;
+    gap: 32px;
 }
 
 .frame159 {
@@ -134,6 +134,8 @@ h1 {
 }
 
 .login {
+    width: 422px;
+    height: 152px;
     gap: 32px;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -150,8 +152,8 @@ h1 {
 }
 
 .frame14 {
-    width: 422px;
-    height: 48px;
+    width: 380px;
+    height: 24px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     padding: 12px 21px;
@@ -216,10 +218,10 @@ label {
     font-weight: 400;
     font-size: 16px;
     line-height: 19.2px;
-    color: #000000;
+    color: #A8A8A8;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .frame176 {
@@ -228,6 +230,7 @@ label {
     width: 330px;
     height: 35px;
     gap: 35px;
+    padding-top: 48px;
 }
 
 .btn-login {
@@ -308,19 +311,35 @@ a:hover {
     display: none;
 }
 
-/* Styli SignUp Template */
+.div-156 {
+    position: relative;
+}
 
-.signUp-container {
+.wrong-password {
+    color: #FF8190;
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 15.6px */
+    padding-top: 8px;
+    position: absolute;
+    top: 50px;
+}
+
+/* Styling SignUp Template */
+
+#signUp-container {
     display: flex;
-
     align-items: center;
     flex-direction: column;
+    position: relative;
     background: #ffffff;
     border-radius: 30px;
     gap: 32px;
     padding: 48px 88px;
-    width: 598px;
-    height: 630px;
+    width: 422px;
+    height: 534px;
 }
 
 .frame159-2 {
@@ -353,7 +372,7 @@ a:hover {
 }
 
 .frame14-signUp {
-    height: 48px;
+    height: 24px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     padding: 12px 21px;
@@ -436,7 +455,6 @@ a:hover {
     align-items: center;
     position: absolute;
     bottom: -100px;
-    /*opacity: 0;*/
     transition: all 100ms ease-in-out 200ms; /* Animationseffekte mit Delay */
 }
 
@@ -460,15 +478,24 @@ a:hover {
 }
 
 body.animate {
-    box-shadow: 0px 0px 4px 0px #00000026; /* Fügen Sie den Schatten hinzu, wenn die Animation aktiv ist */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 99;
 }
 
 .arrow-left-line {
     width: 32px;
     height: 32px;
     position: absolute;
-    left: 260px;
-    top: 190px;
+    left: 64px;
+    top: 48px;
     display: flex;
 }
 
@@ -477,3 +504,8 @@ body.animate {
     height: 20.74px;
     margin: auto;
 }
+
+
+/*#signUp-container.animate {*/
+/*    background-color: rgba(0,0,0,0.1);*/
+/*}*/
