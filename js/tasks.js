@@ -160,16 +160,26 @@ function updateHTML() {
 
 function startDragging(id) {
     currentDraggedElement = id;
+    let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
+    element.classList.add("rotated");
+}
+
+function stopDragging(id) {
+    let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
+    element.classList.remove("rotated");
 }
 
 function generateHTML(element) {
     return /*html*/ `
-        <div draggable="true" class="todo" ondragstart="startDragging(${element['id']})">
-            <div>
-                <div>${element['type']}</div>
-                <div>${element['title']}</div>
-                <div>${element['description']}</div>
-                <div>subtask progressbar</div>
+        <div draggable="true" class="todo" 
+             ondragstart="startDragging(${element['id']})"
+             ondragend="stopDragging(${element['id']})">
+            <div class="todoContainer">
+                <div class="todoType">${element['type']}</div>
+                <div class="todoInfo">
+                    <span class="todoTitle">${element['title']}</span>
+                    <span class="todoDescription">${element['description']}</span>
+                </div>
                 <div>Users</div>
             </div>
         </div>

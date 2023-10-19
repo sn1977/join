@@ -156,3 +156,42 @@ body {
     border: 1px dashed #A8A8A8;
     background-color: #E7E7E7;
 }
+
+.rotated {
+    transform: rotate(5deg);
+}
+
+.todoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    align-self: stretch;
+}
+
+.todoType {
+    border-radius: 8px;
+    padding: 4px 16px;
+    background-color: blue;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: white;
+}
+
+.todoInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.todoTitle {
+    color: #2a3647;
+    font-weight: 700;
+}
+
+.todoDescription {
+    color: #a8a8a8;
+}
