@@ -10,7 +10,7 @@ let allTasks = [];
 let lastPrio = '';
 let prio = '';
 let progress = '';
-let taskID = 0;  //jeder Task bekommt eine eindeutige Nummer - muss online abgerufen werden!
+let id = 0;  //jeder Task bekommt eine eindeutige Nummer - muss online abgerufen werden!
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
@@ -27,17 +27,17 @@ message.reportValidity();
  * @todo!
  * 
  */
-function loadAllTasks(){
+function loadAllTasks() {
     let allTasksAsString = localStorage.getItem('allTasks');
-    allTasks = JSON.parse (allTasksAsString);
+    allTasks = JSON.parse(allTasksAsString);
 }
 
 /**
  * Function to reset the form 
  */
-function reload(){
+function reload() {
     getInput();
-    emptyFields(title,  description, assignedTo, dueDate,  category, subtask);
+    emptyFields(title, description, assignedTo, dueDate, category, subtask);
 }
 
 
@@ -49,28 +49,28 @@ function reload(){
  * @param {string} lastprio = overall variable that contains the previously selected prio
  *  
  */
-function taskPrio(x){
+function taskPrio(x) {
     prio = x;
-    if(lastPrio != '') {
+    if (lastPrio != '') {
         resetPrio();
     }
-    setPrio ()
-    lastPrio = x; 
+    setPrio()
+    lastPrio = x;
 }
 
 /**
  * Function to change the color of the selected color
  * 
  */
-function setPrio (){
+function setPrio() {
     let element = '';
     let imageElement = '';
     element = document.getElementById(`${prio}`);
     element.querySelector('img');
-    element.classList.remove ('white');
-    element.classList.add (`${prio}`);
+    element.classList.remove('white');
+    element.classList.add(`${prio}`);
     imageElement = element.querySelector('img');
-    imageElement.style.filter = "brightness(0%) invert(1)";  
+    imageElement.style.filter = "brightness(0%) invert(1)";
 }
 
 
@@ -78,20 +78,20 @@ function setPrio (){
  * Function to change the color of the previously selected prio back to white
  * 
  */
-function resetPrio(){
+function resetPrio() {
     let element = '';
     let imageElement = '';
     element = document.getElementById(`${lastPrio}`);
     element.querySelector('img');
-    element.classList.add ('white');
-    element.classList.remove (`${lastPrio}`);
+    element.classList.add('white');
+    element.classList.remove(`${lastPrio}`);
     imageElement = element.querySelector('img');
-    imageElement.style.filter = "brightness(100%) invert(0)";  
+    imageElement.style.filter = "brightness(100%) invert(0)";
 }
 
 
 // this function opens and closes the list of assignable names in the user's contacts
-function toggleContacts() { 
+function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
 }
 
@@ -102,31 +102,31 @@ function toggleContacts() {
  * 
  * 
  */
-function addTask (progress){
+function addTask(progress) {
 
-    getInput(); 
-    taskID++;
+    getInput();
+    id++;
 
     let task = {
-        'taskId' : taskID,
-        'title' : title.value,
+        'id': id,
+        'title': title.value,
         'description': description.value,
-        'assignedTo' : assignedTo.value,
-        'dueDate' : Date(dueDate.value),
-        'prio' : prio,
-        'category': category.value,
-        'subtask' : subtask.value,
-        'progress' : progress,
+        'assignedTo': assignedTo.value,
+        'dueDate': Date(dueDate.value),
+        'prio': prio,
+        'type': category.value,
+        'subtask': subtask.value,
+        'category': progress,
         'createdAt': new Date().getTime(),
         'modifiedAt': new Date().getTime(),
-        'assignedTo' : getContacts()
+        'assignedTo': getContacts()
     };
 
     allTasks.push(task);
     let allTasksAsString = JSON.stringify(allTasks);
     localStorage.setItem('allTasks', allTasksAsString);
     alert("Aufgabe hinnzugefügt");
-    emptyFields(title,  description, assignedTo, dueDate,  category, subtask);
+    emptyFields(title, description, assignedTo, dueDate, category, subtask);
     resetPrio();
 }
 
@@ -135,7 +135,7 @@ function addTask (progress){
  * 
  * @returns 
  */
-function getInput(){
+function getInput() {
     let title = document.getElementById('title');
     let description = document.getElementById('description');
     let assignedTo = document.getElementById('assignedTo');
@@ -146,14 +146,14 @@ function getInput(){
     return (title, description, assignedTo, dueDate, category, subtask);
 }
 
-function getContacts(){
+function getContacts() {
 
 }
 
-function emptyFields(title, description, assignedTo, dueDate, category, subtask){
+function emptyFields(title, description, assignedTo, dueDate, category, subtask) {
     progress = '';
-    title.value ='';
-    description.value ='';
+    title.value = '';
+    description.value = '';
     assignedTo.value = '';
     dueDate.value = '';
     prio = '';
@@ -162,6 +162,6 @@ function emptyFields(title, description, assignedTo, dueDate, category, subtask)
 }
 
 
-function openSelect (){
+function openSelect() {
     document.getElementById('assignedTo').append = 'multiple';
 }

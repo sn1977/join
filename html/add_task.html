@@ -46,8 +46,8 @@
 
                     <div class="inputContainer">
                         <label for="assignedTo">Assigned to</label>
-                        <select class="custom-select" onclick="toggleContacts()" onkeyup="getContacts()" id="assignedTo" type="text"
-                            placeholder="">
+                        <select class="custom-select" onclick="toggleContacts()" onkeyup="getContacts()" id="assignedTo"
+                            type="text" placeholder="">
                             <option value="" disabled selected hidden>Select contacts to assign</option>
                         </select>
                         <div class="d-none" id="assignedToContainer">
@@ -93,8 +93,8 @@
                         <label class="required" for="category">Category</label>
                         <select class="custom-select" id="category" name="category" required>
                             <option value="" disabled selected hidden>Select task category</option>
-                            <option value="technical task">Technical Task</option>
-                            <option value="user story">User Story</option>
+                            <option value="Technical Task">Technical Task</option>
+                            <option value="User Story">User Story</option>
                         </select>
                     </div>
 
@@ -114,7 +114,7 @@
                 <div class=btnAddTask>
                     <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"
                             alt=""></button>
-                    <button class="activeBtn" onclick="addTask('to do')">Create Task <img src="../assets/img/check.svg"
+                    <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
