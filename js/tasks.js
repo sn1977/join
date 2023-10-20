@@ -1,3 +1,11 @@
+/**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+let currentDraggedElement;
 let boardNames = [
     'To do',
     'In progress',
@@ -5,11 +13,98 @@ let boardNames = [
     'Done'
 ]
 
+let todos = [
+    {
+        'id': 0,
+        'title': 'Putzen',
+        'description': 'Putzen',
+        'category': 'todo',
+        'type': 'Technical Task',
+        'lastMoved': new Date().getTime()
+    },
+    {
+        'id': 1,
+        'title': 'Kochen',
+        'description': 'Kochen',
+        'category': 'inprogress',
+        'type': 'User Story',
+        'lastMoved': new Date().getTime()
+    },
+    {
+        'id': 2,
+        'title': 'Einkaufen',
+        'description': 'Einkaufen',
+        'category': 'awaitfeedback',
+        'type': 'User Story',
+        'lastMoved': new Date().getTime()
+    },
+    {
+        'id': 3,
+        'title': 'Arbeiten',
+        'description': 'Arbeiten',
+        'category': 'done',
+        'type': 'Technical Task',
+        'lastMoved': new Date().getTime()
+    }
+];
+
+
+
+
+todos = loadTasksFromLocalStorage();
+
+
+
+
+todos = todos.map(task => transformTaskData(task));
+
+/**
+ * Initialization of all functions required for startup
+ */
 function init() {
     renderBoard();
     updateHTML();
 }
 
+/**
+ * function to load the tasks
+ * 
+ * @returns {array} - This is the array from localstorage 
+ */
+function loadTasksFromLocalStorage() {
+    let allTasksAsString = localStorage.getItem('allTasks');
+    let loadedTasks = JSON.parse(allTasksAsString);
+    return loadedTasks || [];
+}
+
+/**
+ * This function transform the Array from localstorage to use
+ * 
+ * @param {string} task - this is the template from todo
+ * @returns {array} - return the final Array to use
+ */
+function transformTaskData(task) {
+    return {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        category: task.category.toLowerCase().replace(' ', ''),
+        type: task.type,
+        lastMoved: task.modifiedAt
+    };
+}
+
+/**
+ * This Function save tasks to the localstorage 
+ */
+function saveTasksToLocalStorage() {
+    let allTasksAsString = JSON.stringify(todos);
+    localStorage.setItem('allTasks', allTasksAsString);
+}
+
+/**
+ * This function renders the board
+ */
 function renderBoard() {
     document.getElementById('content').innerHTML = '';
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
@@ -66,43 +161,11 @@ function renderBoard() {
     }
 }
 
-let todos = [
-    {
-        'id': 0,
-        'title': 'Putzen',
-        'description': 'Putzen',
-        'category': 'todo',
-        'type': 'Technical Task',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 1,
-        'title': 'Kochen',
-        'description': 'Kochen',
-        'category': 'inprogress',
-        'type': 'User Story',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 2,
-        'title': 'Einkaufen',
-        'description': 'Einkaufen',
-        'category': 'awaitfeedback',
-        'type': 'User Story',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 3,
-        'title': 'Arbeiten',
-        'description': 'Arbeiten',
-        'category': 'done',
-        'type': 'Technical Task',
-        'lastMoved': new Date().getTime()
-    }
-];
 
-let currentDraggedElement;
 
+/**
+ * This function filter and sort the todos and renders the tasks on the board
+ */
 function updateHTML() {
     let todo = sortTodos(todos.filter(t => t['category'] == 'todo'));
     document.getElementById('statusContainer0').innerHTML = '';
@@ -158,17 +221,33 @@ function updateHTML() {
     }
 }
 
+/**
+ * This function starts the dragging of the task and add the rotaded class
+ * 
+ * @param {number} id 
+ */
 function startDragging(id) {
     currentDraggedElement = id;
     let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
     element.classList.add("rotated");
 }
 
+/**
+ * This function stops the dragging of the task and remove the rotaded class
+ * 
+ * @param {number} id 
+ */
 function stopDragging(id) {
     let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
     element.classList.remove("rotated");
 }
 
+/**
+ * This Function renders the Todo HTML
+ * 
+ * @param {array} element 
+ * @returns the HTML  
+ */
 function generateHTML(element) {
     return /*html*/ `
         <div draggable="true" class="todo" 
@@ -186,16 +265,39 @@ function generateHTML(element) {
     `
 }
 
+/**
+ * This function is used to prevent the default action of the drag event
+ * 
+ * @param {string} ev 
+ */
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
+/**
+ * This function is used to move the task to the selected category
+ * 
+ * @param {string} category 
+ */
 function moveTo(category) {
-    todos[currentDraggedElement]['category'] = category;
-    todos[currentDraggedElement]['lastMoved'] = new Date().getTime();
-    updateHTML();
+    const todoItem = todos.find(todo => todo.id === currentDraggedElement);
+
+    if (todoItem) {
+        todoItem['category'] = category;
+        todoItem['lastMoved'] = new Date().getTime();
+        updateHTML();
+        saveTasksToLocalStorage();
+    } else {
+        console.error(`Todo with ID ${currentDraggedElement} not found!`);
+    }
 }
 
+/**
+ * This function sorts the todos by last modified
+ * 
+ * @param {array} todosArray 
+ * @returns a new array sorted by last modified
+ */
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.lastMoved - b.lastMoved);
 }
