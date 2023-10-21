@@ -30,18 +30,16 @@
     <div class="addTask">
         <h3>Add Task</h3>
 
-        <!-- onsubmit="addTask('to do'); return false;" -->
-        <form class="formAddTask" onsubmit="addTask('toDo'); return false">
-            <!-- onclick="eventOnClick(event)" autocomplete="off"> -->
+        <form class="formAddTask" >
             <div class="formInput">
                 <div class="leftSide">
 
                     <div class="inputContainer">
                         <label class="required" for="title">Title</label>
-                        <input class="inputField" required minlength="5" type="text" id="title"
-                            placeholder="Enter a title">
+                        <input class="inputField" required type="text" id="title"
+                            onfocusout="checkRequieredFields()" placeholder="Enter a title">
                         <div class="warning">
-                            <span id="warningTitle" class="d-none">This field is requiered</span>
+                            <span id="warningTitle" class="invisible">This field is requiered</span>
                         </div>
                     </div>
 
@@ -60,7 +58,7 @@
                         <div class="d-none" id="assignedToContainer">
                             <ul id="assignedToContact"></ul>
                             <!-- Hier noch Link auf Kontakte einfügen -->
-                            <a href="">
+                            <a href="contacts.html">
                                 <button class="createContactBtn">
                                     Add new contact
                                     <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
@@ -79,8 +77,10 @@
 
                     <div class="inputContainer">
                         <label class="required" for="dueDate">Due date</label>
-                        <input id="dueDate" class="inputField" required min="" type="date">
-                        <span id="warningDueDate" class="warning">This field is requiered</span>
+                        <input id="dueDate" class="inputField" onfocusout="checkRequieredFields()" required min="" type="date">
+                        <div class="warning">
+                            <span id="warningDueDate" class="invisible">This field is requiered</span>
+                        </div>
                     </div>
 
                     <div class="inputContainer">
@@ -98,11 +98,14 @@
 
                     <div class="inputContainer">
                         <label class="required" for="category">Category</label>
-                        <select class="custom-select" id="category" name="category" required>
+                        <select class="custom-select" id="category" name="category" required onfocusout="checkRequieredFields()">
                             <option value="" disabled selected hidden>Select task category</option>
                             <option value="Technical Task">Technical Task</option>
                             <option value="User Story">User Story</option>
                         </select>
+                        <div class="warning">
+                            <span id="warningcategory" class="invisible">This field is requiered</span>
+                        </div>
                     </div>
 
 
@@ -132,7 +135,7 @@
                 <div class=btnAddTask>
                     <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"
                             alt=""></button>
-                    <button class="activeBtn" >Create Task <img src="../assets/img/check.svg"
+                    <button class="activeBtn" onclick="addTask('toDo')" >Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
@@ -144,5 +147,3 @@
 </body>
 
 </html>
-
-<!-- type="onsubmit" -->

@@ -16,6 +16,7 @@ let assignedTo;
 let dueDate;
 let category;
 let subtask;
+let canAdd = true;
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
@@ -84,6 +85,7 @@ function getTaskValues(progress){
     tasks.push(task);
 }
 
+
 /**
  * Add a new task
  * 
@@ -92,11 +94,18 @@ function getTaskValues(progress){
  */
 async function addTask(progress) { 
     getInputIDs();
-    id++;
-    getTaskValues(progress);
-    await setItem('tasks', JSON.stringify(tasks)); 
-    emptyFields();
-    resetPrio();
+    checkRequieredFields();
+    if (canAdd) {
+        id++;
+        getTaskValues(progress);
+        await setItem('tasks', JSON.stringify(tasks)); 
+        emptyFields();
+        if (lastPrio!=''){
+            resetPrio();
+        }
+    } else {
+        alert("Füll den Käse richtig aus!")
+    }
 }
 
 
@@ -111,28 +120,12 @@ async function getLastID(){
     //Vorbereitung um doppelte IDs zu finden ..... bzw beim leeren Array abfangen
     let tid = tasks.find(i => i.id == id);
     if (tid){
-        alert(id);
+        alert("Gespeicherte Aufgaben:  " + id);
     } else{
         id == 0;
         alert("Keine Aufgaben");
         alert(id);
     }
-}
-
-
-/**
- * 
- * function to delete keys
- * 
- * @todo: methode Delete gesperrt ??
- * 
- * @param {*} key 
- * @returns 
- */
-async function deleteItem(key) {
-    const payload = { key, token: STORAGE_TOKEN };
-    return fetch(STORAGE_URL, { method: 'DELETE', body: JSON.stringify(payload) })
-        .then(res => res.json());
 }
 
 
@@ -143,11 +136,12 @@ async function deleteItem(key) {
 function reload() {
     getInputIDs();
     emptyFields();
+    resetRequiredFields() 
 }
 
 
 /**
- * This function prevents the onclick event of the parent, used in boardSigleTask.js and boardSingleTaskOverlay.js
+ * This function prevents the onclick event 
  * 
  * @param {event} event - onclick event
  */
@@ -212,7 +206,6 @@ function resetPrio() {
  * @todo
  * 
  */
-
 function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
 }
@@ -244,6 +237,61 @@ function openSelect() {
     document.getElementById('assignedTo').append = 'multiple';
 }
 
+
+
+/**
+ * Funtion to check the requiered fields and mark them
+ * 
+ * @todo kürzen
+ * 
+ */
+function checkRequieredFields(){
+    canAdd = true;
+    if (title.value == "") {
+        document.getElementById('warningTitle').classList.add ("warning");
+        document.getElementById('title').classList.add ("warning-border");
+        canAdd = false;
+    } else {
+        document.getElementById("warningTitle").classList.remove ("warning");
+        document.getElementById("title").classList.remove ("warning-border");
+    }
+    if (dueDate.value == "") {
+        document.getElementById("warningDueDate").classList.add ("warning");
+        document.getElementById("dueDate").classList.add ("warning-border");
+        canAdd = false;
+    } else {
+        document.getElementById("warningDueDate").classList.remove ("warning");
+        document.getElementById("dueDate").classList.remove ("warning-border");
+      }
+    if (category.value == "") {
+        document.getElementById("warningcategory").classList.add ("warning");
+        document.getElementById("category").classList.add ("warning-border");
+        canAdd = false;
+    } else {
+        document.getElementById("warningcategory").classList.remove ("warning");
+        document.getElementById("category").classList.remove ("warning-border");
+    }
+}
+
+
+/**
+ * This functions resests all error messages by making them invisible
+ * 
+ * @todo kürzen
+ *
+ */
+function resetRequiredFields() {
+    document.getElementById("warningTitle").classList.remove ("warning");
+    document.getElementById("title").classList.remove ("warning-border");
+    document.getElementById("warningDueDate").classList.remove ("warning");
+    document.getElementById("dueDate").classList.remove ("warning-border");
+    document.getElementById("warningcategory").classList.remove ("warning");
+    document.getElementById("category").classList.remove ("warning-border");
+}
+
+
+
+// TO DO
 
 /**
  * This function adds a new subtask
@@ -302,4 +350,5 @@ function editSubtaskText(count) {
 async function delTask(i) {
     tasks.splice(i, 1);
     await setItem('tasks', JSON.stringify(tasks));
+    reload();
   }

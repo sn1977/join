@@ -211,11 +211,6 @@ select:focus,
 }
 
 
-/* .inputField:invalid {
-    color: var(--invalid-color);
-} */
-
-
 #description {
     height: 120px;
 }
@@ -239,8 +234,6 @@ select:focus,
     background-repeat: no-repeat;
     background-position: calc(100% - 16px) center; 
     background-size: 32px;
-
-    /* src="../assets/img/event.svg" */
   }
 
 .subtask {
@@ -269,10 +262,20 @@ select:focus,
 }
 
 
+.invisible {
+    color: var(--bg-addtask);
+}
+
+
 .warning {
-    display: none;
     font-size: 12px;
     color: var(--warning-color);
+ 
+}
+
+
+.warning-border{
+    border-color: var(--warning-color);
 }
 
 
