@@ -25,19 +25,19 @@
 <body onload="loadIncludeHTML(), initTask()">
 
     <div w3-include-html="../assets/templates/header.html"></div>
-	<div w3-include-html="../assets/templates/sidebar.html"></div>
+    <div w3-include-html="../assets/templates/sidebar.html"></div>
 
     <div class="addTask">
         <h3>Add Task</h3>
 
-        <form class="formAddTask" >
+        <div class="formAddTask">
             <div class="formInput">
                 <div class="leftSide">
 
                     <div class="inputContainer">
                         <label class="required" for="title">Title</label>
-                        <input class="inputField" required type="text" id="title"
-                            onfocusout="checkRequieredFields()" placeholder="Enter a title">
+                        <input class="inputField" required type="text" id="title" onfocusout="checkRequieredFields()"
+                            placeholder="Enter a title">
                         <div class="warning">
                             <span id="warningTitle" class="invisible">This field is requiered</span>
                         </div>
@@ -69,7 +69,6 @@
                     <div id="showAssignedContacts"></div>
                 </div>
 
-
                 <div class="divider">
                 </div>
 
@@ -77,7 +76,8 @@
 
                     <div class="inputContainer">
                         <label class="required" for="dueDate">Due date</label>
-                        <input id="dueDate" class="inputField" onfocusout="checkRequieredFields()" required min="" type="date">
+                        <input id="dueDate" class="inputField" onfocusout="checkRequieredFields()" required min=""
+                            type="date">
                         <div class="warning">
                             <span id="warningDueDate" class="invisible">This field is requiered</span>
                         </div>
@@ -95,10 +95,10 @@
                         </div>
                     </div>
 
-
                     <div class="inputContainer">
                         <label class="required" for="category">Category</label>
-                        <select class="custom-select" id="category" name="category" required onfocusout="checkRequieredFields()">
+                        <select class="custom-select" id="category" name="category" required
+                            onfocusout="checkRequieredFields()">
                             <option value="" disabled selected hidden>Select task category</option>
                             <option value="Technical Task">Technical Task</option>
                             <option value="User Story">User Story</option>
@@ -108,38 +108,35 @@
                         </div>
                     </div>
 
-
-                    <div class="inputContainer" >
+                    <div class="inputContainer">
                         <label for="subtask">Subtask</label>
-                        <div  onfocus="switchIons(1)" onblur="switchIons(1)">
-                            <input class="subtask" type="text" id="subtask" placeholder="Add new subtask">
-                            <div id="allSubtasks">
-                                <img id="idSubtaskPlus" src="../assets/img/addbutton.svg" onclick="switchIons(2)" class="d-none">
-                                <!-- onclick="switchIons(4)" -->
-                                <div id="idSubtaskIconContainer" class="subtaskIconContainer">
-                                    <img src="../assets/img/cancel.svg" alt="" onclick="switchIons(4)">
-                                    <div id="idSubTaskDivider" class="subTaskDivider"></div>
-                                    <img src="../assets/img/checkbox.png" alt="" onclick="addSubtask(); switchIons(4)">
-                                </div>
+                        <div class="inputField subtaskContainer">
+                            <input type="text" id="subtask" placeholder="Add new subtask" onfocus="switchToInput()">
+                            <!-- onblur="switchBack()" -->
+                            <div id="addSubtask">
+                                <img src="../assets/img/add.svg" onclick="switchToInput()">
+                            </div>
+                            <div id="inputsubtask" style="display: none;">
+                                <img src="../assets/img/delete.svg" onclick="delInput()">
+                                <img src="../assets/img/check-black.svg" onclick="addSubtask()">
                             </div>
                         </div>
-                    </div>                
+                        <div id="savedSubtasks" class="savedSubtasks">
+                        </div>
+                    </div>
 
                 </div>
             </div>
-
-
 
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"
-                            alt=""></button>
-                    <button class="activeBtn" onclick="addTask('toDo')" >Create Task <img src="../assets/img/check.svg"
+                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 
     <script src="../js/add_task.js"></script>

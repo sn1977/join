@@ -17,12 +17,26 @@ let dueDate;
 let category;
 let subtask;
 let canAdd = true;
+let subtaskID = 0;
+let allSubtasks = [];
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
 document.getElementById("category").selectedIndex = 0;
 //Mindestdatum bei Fällig bis = heute
 document.getElementById("dueDate").min = new Date().toISOString().split("T")[0];
+//Fokus für subtask Input field
+const subtaskInput = document.getElementById("subtask");
+const subtaskContainer = document.querySelector(".subtaskContainer");
+
+subtaskInput.addEventListener("focus", () => {
+    subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
+});
+
+subtaskInput.addEventListener("blur", () => {
+    subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
+});
+
 
 
 /**
@@ -31,8 +45,7 @@ document.getElementById("dueDate").min = new Date().toISOString().split("T")[0];
  */
 async function initTask() {
     await loadAllTasks();
-    getLastID();
-    reload(); 
+    reload();
 }
 
 
@@ -43,7 +56,7 @@ async function initTask() {
  * 
  */
 async function loadAllTasks() {
-    tasks = JSON.parse(await getItem('tasks'));  
+    tasks = JSON.parse(await getItem('tasks'));
 }
 
 
@@ -67,21 +80,20 @@ function getInputIDs() {
  * 
  * 
  */
-function getTaskValues(progress){
+function getTaskValues(progress) {
     let task = {
-        'id' : id,
-        'title' : title.value,
-        'description' : description.value,
-        'assignedTo' : assignedTo.value,
-        'dueDate' : Date(dueDate.value),
-        'prio' : prio,
-        'type' : category.value,
-        'category' : progress,
-        'createdAt' : new Date().getTime(),
-        'modifiedAt' : new Date().getTime(),
+        'id': id,
+        'title': title.value,
+        'description': description.value,
+        'dueDate': Date(dueDate.value),
+        'prio': prio,
+        'progress': progress,
+        'category': category.value,
+        'createdAt': new Date().getTime(),
+        'modifiedAt': new Date().getTime(),
         'assignedTo': ['Gerlinde', 'Knut'],
-        'subtask' : ['putzen', 'waschen']
-    };  
+        'subtask': allSubtasks
+    };
     tasks.push(task);
 }
 
@@ -92,15 +104,15 @@ function getTaskValues(progress){
  * 
  * 
  */
-async function addTask(progress) { 
+async function addTask(progress) {
     getInputIDs();
     checkRequieredFields();
     if (canAdd) {
-        id++;
+        getLastID();
         getTaskValues(progress);
-        await setItem('tasks', JSON.stringify(tasks)); 
+        await setItem('tasks', JSON.stringify(tasks));
         emptyFields();
-        if (lastPrio!=''){
+        if (lastPrio != '') {
             resetPrio();
         }
     } else {
@@ -110,23 +122,28 @@ async function addTask(progress) {
 
 
 /**
- * This function recaluclates all task ids and retrun a task id for the new added task
+ * This function finds the mask id and retrun a task id for the new added task
  * 
  * @returns 
  * 
  */
-async function getLastID(){
-    id = tasks.length;
-    //Vorbereitung um doppelte IDs zu finden ..... bzw beim leeren Array abfangen
-    let tid = tasks.find(i => i.id == id);
-    if (tid){
-        alert("Gespeicherte Aufgaben:  " + id);
-    } else{
-        id == 0;
-        alert("Keine Aufgaben");
-        alert(id);
+async function getLastID() {
+    let maxID = 0;
+    // Finde die maximale ID in den vorhandenen Aufgaben
+    for (const task of tasks) {
+        if (task.id > maxID) {
+            maxID = task.id;
+        }
     }
+    if (maxID > 0) {
+        id = maxID + 1;
+    } else {
+        id = 1; // Setze die ID auf 1, wenn keine Aufgaben vorhanden sind
+        // alert("Keine Aufgaben");
+    }
+    // alert("Gespeicherte Aufgaben: " + maxID);
 }
+
 
 
 /**
@@ -136,7 +153,9 @@ async function getLastID(){
 function reload() {
     getInputIDs();
     emptyFields();
-    resetRequiredFields() 
+    resetRequiredFields()
+    getLastID();
+    subtaskID = 0;
 }
 
 
@@ -145,9 +164,9 @@ function reload() {
  * 
  * @param {event} event - onclick event
  */
-function eventOnClick(event) {
-    event.stopPropagation(); // prevents event bubbling
-  }
+// function eventOnClick(event) {
+//     event.stopPropagation(); // prevents event bubbling
+//   }
 
 
 /**
@@ -233,43 +252,37 @@ function emptyFields() {
 }
 
 
-function openSelect() {
-    document.getElementById('assignedTo').append = 'multiple';
-}
-
-
-
 /**
  * Funtion to check the requiered fields and mark them
  * 
  * @todo kürzen
  * 
  */
-function checkRequieredFields(){
+function checkRequieredFields() {
     canAdd = true;
     if (title.value == "") {
-        document.getElementById('warningTitle').classList.add ("warning");
-        document.getElementById('title').classList.add ("warning-border");
+        document.getElementById('warningTitle').classList.add("warning");
+        document.getElementById('title').classList.add("warning-border");
         canAdd = false;
     } else {
-        document.getElementById("warningTitle").classList.remove ("warning");
-        document.getElementById("title").classList.remove ("warning-border");
+        document.getElementById("warningTitle").classList.remove("warning");
+        document.getElementById("title").classList.remove("warning-border");
     }
     if (dueDate.value == "") {
-        document.getElementById("warningDueDate").classList.add ("warning");
-        document.getElementById("dueDate").classList.add ("warning-border");
+        document.getElementById("warningDueDate").classList.add("warning");
+        document.getElementById("dueDate").classList.add("warning-border");
         canAdd = false;
     } else {
-        document.getElementById("warningDueDate").classList.remove ("warning");
-        document.getElementById("dueDate").classList.remove ("warning-border");
-      }
+        document.getElementById("warningDueDate").classList.remove("warning");
+        document.getElementById("dueDate").classList.remove("warning-border");
+    }
     if (category.value == "") {
-        document.getElementById("warningcategory").classList.add ("warning");
-        document.getElementById("category").classList.add ("warning-border");
+        document.getElementById("warningcategory").classList.add("warning");
+        document.getElementById("category").classList.add("warning-border");
         canAdd = false;
     } else {
-        document.getElementById("warningcategory").classList.remove ("warning");
-        document.getElementById("category").classList.remove ("warning-border");
+        document.getElementById("warningcategory").classList.remove("warning");
+        document.getElementById("category").classList.remove("warning-border");
     }
 }
 
@@ -281,68 +294,88 @@ function checkRequieredFields(){
  *
  */
 function resetRequiredFields() {
-    document.getElementById("warningTitle").classList.remove ("warning");
-    document.getElementById("title").classList.remove ("warning-border");
-    document.getElementById("warningDueDate").classList.remove ("warning");
-    document.getElementById("dueDate").classList.remove ("warning-border");
-    document.getElementById("warningcategory").classList.remove ("warning");
-    document.getElementById("category").classList.remove ("warning-border");
+    document.getElementById("warningTitle").classList.remove("warning");
+    document.getElementById("title").classList.remove("warning-border");
+    document.getElementById("warningDueDate").classList.remove("warning");
+    document.getElementById("dueDate").classList.remove("warning-border");
+    document.getElementById("warningcategory").classList.remove("warning");
+    document.getElementById("category").classList.remove("warning-border");
 }
 
 
-
-// TO DO
-
 /**
- * This function adds a new subtask
  * 
+ * function to add subtasks
+ * 
+ * 
+ * @param {*} i  
  * 
  */
 function addSubtask() {
-    let subtask = document.getElementById('subtask');
-    subtask.value !== '' ? subtaskJS.push(subtask.value) : '';
-    document.getElementById('subtask').innerHTML = '';
-    for (let i = 0; i < subtaskJS.length; i++) {
-        document.getElementById('allSubtsaks').innerHTML += subtaskHTML(i);
+    if (subtask.value != '') {
+        subtaskID++;
+        getLastID();
+        let tempsubtask = {
+            'id': id,
+            'subtaskid': subtaskID,
+            'subtasktitle': subtask.value,
+            'done': false
+        }
+        allSubtasks.push(tempsubtask);
         subtask.value = '';
+        generateSubtaskHtml();
+    } else {
+        alert("Darf nicht leer sein");
     }
 }
 
-function subtaskHTML (i){
-    return `HALLO`;
+
+function generateSubtaskHtml() {
+    let subtasksHtml = document.getElementById('savedSubtasks');
+    subtasksHtml.innerHTML = '';
+    for (let i = 0; i < allSubtasks.length; i++) {
+        let temptask = allSubtasks[i];
+        subtasksHtml.innerHTML += `
+            <div class="subtaskItem">
+                <div id="editSubtask${i}" class="subtaskLine">
+                    <img class="dot" src="../assets/img/dot.svg">
+                    <p>${temptask['subtasktitle']}</p>
+                </div> 
+                <div class="subtaskEdit">
+                    <img onclick="editSubtask(${i})" src="../assets/img/edit.png" alt=""> 
+                    <img onclick="delSubtask(${i})" src="../assets/img/delete.svg" alt="">
+                </div>
+            </div>
+    `;
+    }
 }
 
-/**
- * This function delets the selected subtask
- * 
- * @param {object} subtaskObjElement 
- */
-function deleteSubtask(subtaskObjElement) {
-    subtaskObj.splice(subtaskObjElement, 1);
-    addSubtask();
+function delSubtask(i) {
+    allSubtasks.splice(i, 1);
+    generateSubtaskHtml();
 }
 
-/**
- * This function is for the edditing of the subtask
- * 
- * @param {number} count 
- */
-function editSubtask(count) {
-    const subtaskText = document.getElementById("idSubTaskText" + count).innerText;
-    document.getElementById("idSubTaskTextEditContainer" + count).classList.toggle("subTaskTextEdit");
-    document.getElementById("idSubTaskdefaultContainer" + count).classList.toggle("d-none");
-    document.getElementById("idSubTaskTextEdit" + count).value = subtaskText;
+function editSubtask(i) {
+    const txeditSubtask = document.getElementById(`editSubtask${i}`).innerText;
 }
 
 
-/**
- * This function saves the subtask into the subtask array and call the subTask function
- * 
- * @param {number} count - for unique identifier
- */
-function editSubtaskText(count) {
-    subtaskObj[count] = document.getElementById('idSubTaskTextEdit' + count).value;
-    addSubtask();
+function switchToInput(){
+    document.getElementById('inputsubtask').style.display = 'flex';
+    document.getElementById('addSubtask').style.display = 'none';
+}
+
+function switchBack (){
+
+    document.getElementById('inputsubtask').style.display = 'none';
+    document.getElementById('addSubtask').style.display = 'flex';   
+    subtask.value = "";
+}
+
+function delInput (){    
+    subtask.value = "";
+    document.getElementById('inputsubtask').style.display = 'none';
+    document.getElementById('addSubtask').style.display = 'flex';   
 }
 
 
@@ -351,4 +384,4 @@ async function delTask(i) {
     tasks.splice(i, 1);
     await setItem('tasks', JSON.stringify(tasks));
     reload();
-  }
+}
