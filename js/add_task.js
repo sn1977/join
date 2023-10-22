@@ -112,6 +112,7 @@ async function addTask(progress) {
         getTaskValues(progress);
         await setItem('tasks', JSON.stringify(tasks));
         emptyFields();
+        generateSubtaskHtml();
         if (lastPrio != '') {
             resetPrio();
         }
@@ -249,6 +250,7 @@ function emptyFields() {
     prio = '';
     category.value = '';
     subtask.value = '';
+    allSubtasks = [];
 }
 
 
