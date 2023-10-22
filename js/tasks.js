@@ -13,93 +13,46 @@ let boardNames = [
     'Done'
 ]
 
-let todos = [
-    {
-        'id': 0,
-        'title': 'Putzen',
-        'description': 'Putzen',
-        'category': 'todo',
-        'type': 'Technical Task',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 1,
-        'title': 'Kochen',
-        'description': 'Kochen',
-        'category': 'inprogress',
-        'type': 'User Story',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 2,
-        'title': 'Einkaufen',
-        'description': 'Einkaufen',
-        'category': 'awaitfeedback',
-        'type': 'User Story',
-        'lastMoved': new Date().getTime()
-    },
-    {
-        'id': 3,
-        'title': 'Arbeiten',
-        'description': 'Arbeiten',
-        'category': 'done',
-        'type': 'Technical Task',
-        'lastMoved': new Date().getTime()
-    }
-];
-
-
-
-
-todos = loadTasksFromLocalStorage();
-
-
-
-
-todos = todos.map(task => transformTaskData(task));
+let todos = [];
 
 /**
  * Initialization of all functions required for startup
  */
-function init() {
+async function init() {
+    await loadAllTasksFromRemote();
     renderBoard();
     updateHTML();
 }
 
 /**
- * function to load the tasks
  * 
- * @returns {array} - This is the array from localstorage 
+ * This function load all task from remote Storage
+ * 
  */
-function loadTasksFromLocalStorage() {
-    let allTasksAsString = localStorage.getItem('allTasks');
-    let loadedTasks = JSON.parse(allTasksAsString);
-    return loadedTasks || [];
+async function loadAllTasksFromRemote() {
+    try {
+        const remoteData = await getItem('tasks');
+        if (remoteData) {
+            todos = JSON.parse(remoteData);
+        } else {
+            todos = [];
+        }
+    } catch (error) {
+        console.error('Fehler beim Herunterladen der Daten von Remote:', error);
+    }
 }
 
 /**
- * This function transform the Array from localstorage to use
  * 
- * @param {string} task - this is the template from todo
- * @returns {array} - return the final Array to use
+ * This function save all tasks to Remote Storage
+ * 
  */
-function transformTaskData(task) {
-    return {
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        category: task.category.toLowerCase().replace(' ', ''),
-        type: task.type,
-        lastMoved: task.modifiedAt
-    };
-}
-
-/**
- * This Function save tasks to the localstorage 
- */
-function saveTasksToLocalStorage() {
-    let allTasksAsString = JSON.stringify(todos);
-    localStorage.setItem('allTasks', allTasksAsString);
+async function saveAllTasksToRemote() {
+    try {
+        await setItem('tasks', JSON.stringify(todos));
+    } catch (error) {
+        console.error('Fehler beim Hochladen der Daten:', error);
+    }
 }
 
 /**
@@ -133,7 +86,7 @@ function renderBoard() {
 
     for (let i = 0; i < boardNames.length; i++) {
         const name = boardNames[i];
-        const category = name.toLowerCase().replace(' ', '');
+        const progress = name.toLowerCase().replace(' ', '');
         if (i < 3) {
             document.getElementById('boardContent').innerHTML += /*html*/ `
             <div class="progressContainer">
@@ -145,7 +98,7 @@ function renderBoard() {
                         <img src="../assets/img/addbutton.svg" alt="Add Task">
                     </div>
                 </div>
-            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${category}')" ondragover="allowDrop(event)"></div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
         </div>`
         } else {
             document.getElementById('boardContent').innerHTML += /*html*/ `
@@ -155,7 +108,7 @@ function renderBoard() {
                         ${name}
                     </div>
                 </div>
-            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${category}')" ondragover="allowDrop(event)"></div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
         </div>`
         }
     }
@@ -167,7 +120,7 @@ function renderBoard() {
  * This function filter and sort the todos and renders the tasks on the board
  */
 function updateHTML() {
-    let todo = sortTodos(todos.filter(t => t['category'] == 'todo'));
+    let todo = sortTodos(todos.filter(t => t['progress'] == 'todo'));
     document.getElementById('statusContainer0').innerHTML = '';
     if (todo.length == 0) {
         document.getElementById('statusContainer0').innerHTML = /*html*/ `
@@ -181,7 +134,7 @@ function updateHTML() {
     }
 
 
-    let inprogress = sortTodos(todos.filter(t => t['category'] == 'inprogress'));
+    let inprogress = sortTodos(todos.filter(t => t['progress'] == 'inprogress'));
     document.getElementById('statusContainer1').innerHTML = '';
     if (inprogress.length == 0) {
         document.getElementById('statusContainer1').innerHTML = /*html*/ `
@@ -194,7 +147,7 @@ function updateHTML() {
         }
     }
 
-    let awaitfeedback = sortTodos(todos.filter(t => t['category'] == 'awaitfeedback'));
+    let awaitfeedback = sortTodos(todos.filter(t => t['progress'] == 'awaitfeedback'));
     document.getElementById('statusContainer2').innerHTML = '';
     if (awaitfeedback.length == 0) {
         document.getElementById('statusContainer2').innerHTML = /*html*/ `
@@ -207,7 +160,7 @@ function updateHTML() {
         }
     }
 
-    let done = sortTodos(todos.filter(t => t['category'] == 'done'));
+    let done = sortTodos(todos.filter(t => t['progress'] == 'done'));
     document.getElementById('statusContainer3').innerHTML = '';
     if (done.length == 0) {
         document.getElementById('statusContainer3').innerHTML = /*html*/ `
@@ -254,7 +207,7 @@ function generateHTML(element) {
              ondragstart="startDragging(${element['id']})"
              ondragend="stopDragging(${element['id']})">
             <div class="todoContainer">
-                <div class="todoType">${element['type']}</div>
+                <div class="todoType">${element['category']}</div>
                 <div class="todoInfo">
                     <span class="todoTitle">${element['title']}</span>
                     <span class="todoDescription">${element['description']}</span>
@@ -275,21 +228,22 @@ function allowDrop(ev) {
 }
 
 /**
- * This function is used to move the task to the selected category
+ * This function is used to move the task to the selected progress
  * 
- * @param {string} category 
+ * @param {string} progress 
  */
-function moveTo(category) {
+async function moveTo(progress) {
     const todoItem = todos.find(todo => todo.id === currentDraggedElement);
 
     if (todoItem) {
-        todoItem['category'] = category;
-        todoItem['lastMoved'] = new Date().getTime();
+        todoItem['progress'] = progress;
+        todoItem['modifiedAt'] = new Date().getTime();
         updateHTML();
-        saveTasksToLocalStorage();
+        await saveAllTasksToRemote();
     } else {
         console.error(`Todo with ID ${currentDraggedElement} not found!`);
     }
+
 }
 
 /**
@@ -299,5 +253,5 @@ function moveTo(category) {
  * @returns a new array sorted by last modified
  */
 function sortTodos(todosArray) {
-    return todosArray.sort((a, b) => a.lastMoved - b.lastMoved);
+    return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
 }
