@@ -212,6 +212,12 @@ function generateHTML(element) {
                     <span class="todoTitle">${element['title']}</span>
                     <span class="todoDescription">${element['description']}</span>
                 </div>
+                <div class="progress">
+                    <div class="progress-container">
+                        <div class="progress-bar" id="myBar"></div>
+                    </div>
+                    <span class="subtask-container">1/2 Subtasks</span>
+                </div>
                 <div>Users</div>
             </div>
         </div>
