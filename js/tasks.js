@@ -62,6 +62,14 @@ function renderBoard() {
     document.getElementById('content').innerHTML = '';
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
     document.getElementById('board').innerHTML += /*html*/ `
+            <div id="popup" class="popup" style="display: none;">
+                <div class="popup-content">
+                    <img src="/assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
+                    <h2 id="popupTitle"></h2>
+                    <p id="popupDescription"></p>
+                    <p id="popupCategory"></p>
+                </div>
+            </div> 
 			<section class="boardHeader" id="boardHeader">
 				<div class="boardHeadlineLeft">
 					Board
@@ -202,27 +210,38 @@ function stopDragging(id) {
  * @returns the HTML  
  */
 function generateHTML(element) {
+    // Berechne den Fortschritt der Subtasks
+    const completedSubtasks = element.subtask ? element.subtask.filter(task => task.done).length : 0;
+    const totalSubtasks = element.subtask ? element.subtask.length : 0;
+    const progress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
+
     return /*html*/ `
-        <div draggable="true" class="todo" 
-             ondragstart="startDragging(${element['id']})"
-             ondragend="stopDragging(${element['id']})">
-            <div class="todoContainer">
-                <div class="todoType">${element['category']}</div>
-                <div class="todoInfo">
-                    <span class="todoTitle">${element['title']}</span>
-                    <span class="todoDescription">${element['description']}</span>
-                </div>
-                <div class="progress">
-                    <div class="progress-container">
-                        <div class="progress-bar" id="myBar"></div>
-                    </div>
-                    <span class="subtask-container">1/2 Subtasks</span>
-                </div>
-                <div>Users</div>
+      <div draggable="true" class="todo" 
+           ondragstart="startDragging(${element['id']})"
+           ondragend="stopDragging(${element['id']})"
+           onclick="openPopup(${element['id']})"
+           data-title="${element['title']}"
+           data-description="${element['description']}"
+           data-category="${element['category']}">
+        <div class="todoContainer">
+          <div class="todoType">${element['category']}</div>
+          <div class="todoInfo">
+            <span class="todoTitle">${element['title']}</span>
+            <span class="todoDescription">${element['description']}</span>
+          </div>
+          <div class="progress">
+            <div class="progress-container">
+              <div class="progress-bar" id="myBar" style="width: ${progress}%"></div>
             </div>
+            <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
+          </div>
+          <div>Users</div>
         </div>
-    `
+      </div>
+    `;
 }
+
+
 
 /**
  * This function is used to prevent the default action of the drag event
@@ -260,4 +279,20 @@ async function moveTo(progress) {
  */
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
+}
+
+function openPopup(id) {
+    const todo = todos.find(t => t.id === id);
+    if (todo) {
+        document.getElementById('popupTitle').innerText = todo.title;
+        document.getElementById('popupDescription').innerText = todo.description;
+        document.getElementById('popupCategory').innerText = todo.category;
+        document.getElementById('popup').style.display = 'flex';
+    } else {
+        console.error('Task not found');
+    }
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
 }
