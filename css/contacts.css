@@ -340,3 +340,248 @@ h1 {
 #floatingContact.show {
     transform: translateX(0); /* Endposition (standardmäßige Position) */
 }
+
+/* Styling overlay contact */
+
+.overlay-addContact {
+    display: flex;
+    width: 1212px;
+    height: 592px;
+    border-radius: 30px;
+    background: #ffffff;
+}
+
+.frame194 {
+    display: inline-flex;
+    width: 371px;
+    padding: 66px 48px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+    background: #2A3647;
+    border-radius: 30px 0 0 30px;
+}
+
+#overlayAddContact {
+    position: fixed; /* Position fixed macht das Element unabhängig vom Scrollen */
+    top: 50%; /* Setzt das Element in die Mitte der Höhe des Fensters */
+    right: 50%; /* Das Div startet jetzt in der Bildschirmmitte */
+    transform: translateY(-50%) translateX(100%); /* Verschiebung um seine eigene Breite */
+    max-width: 1212px;
+    background-color: transparent; /* Beispielhintergrund, anpassen nach Bedarf */
+    transition: right 9s ease-out; /* Transitionseffekt für die "right"-Eigenschaft mit einer Dauer von 9 Sekunden */
+    z-index: 1000; /* Stellt sicher, dass es über anderen Inhalten liegt */
+}
+
+/*body.dark-overlay {*/
+/*    background-color: rgba(0, 0, 0, 0.1);*/
+/*    pointer-events: none; !* Verhindert, dass Klicks oder andere Interaktionen mit den Elementen hinter dem Overlay durchgeführt werden *!*/
+/*}*/
+
+.capa2 {
+    width: 55.6px;
+    height: 66.483px;
+    position: absolute;
+    left: 46.904px;
+    top: 154px;
+}
+
+.spanHeader {
+    color: #ffffff;
+    font-family: Inter;
+    font-size: 61px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 73.2px */
+}
+
+.spanText {
+    color: #ffffff;
+    font-family: Inter;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 32.4px */
+}
+
+.add-contact-text {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    position: absolute;
+    right: 48px;
+    top: 137px;
+}
+
+.add-contact-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.frame14 {
+    display: flex;
+    padding: 13px 21px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    background: #FFF;
+}
+
+.frame157 {
+    display: flex;
+    width: 380px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.text-field {
+    color: #D1D1D1;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+    border: none;
+    padding: 0;
+    outline: none;
+}
+
+::placeholder {
+    color: #D1D1D1;
+    opacity: 1; /* Firefox */
+}
+
+.frame27 {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    position: absolute;
+    top: 400px;
+    left: 742px;
+}
+
+.cancel-contact {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    border: 1px solid #2A3647;
+}
+
+.cancel-contact:hover {
+    border: 1px solid #29ABE2;
+    color: #29ABE2;
+    cursor: pointer;
+}
+
+.cancel-contact:hover .cancel-svg-icon path {
+    stroke: #29ABE2;
+}
+
+.cancel-contact:hover .cancel-btn-text {
+    color: #29ABE2;
+}
+
+.cancel-btn-text {
+    color: #2A3647;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+}
+
+.create-contact {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    background: #2A3647;
+}
+
+.create-contact:hover {
+    cursor: pointer;
+    background-color: #29ABE2;
+}
+
+.create-btn-text {
+    color: #ffffff;
+    font-family: Inter;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 25.2px */
+}
+
+.group13 {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    position: absolute;
+    right: 550px;
+    top: 204px;
+}
+
+.frame79_2 {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 70px;
+    border: 3px solid #FFF;
+    background: #FFF;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10);
+}
+
+.person-icon {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 28px;
+    top: 28px;
+}
+
+.close {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 56px;
+    position: absolute;
+    top: 48px;
+    left: 1132px;
+}
+
+.frame73 {
+    display: flex;
+    width: 326px;
+    height: 74px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: #2A3647;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.contactSuccess {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 24px */
+}

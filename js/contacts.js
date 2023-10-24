@@ -1,39 +1,69 @@
-let contacts = [];
 let nameOfContact = ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
 let emailOfContact = ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
-let telOfContact = [123456, 789456, 456951]
+let telOfContact = [123456, 789456, 456951];
+
+let contactNameElem;
+let contactEmailElem;
+let contactPhoneElem;
 let currentSelectedIndex = null;
 
+function initializeContactElements() {
+    contactNameElem = document.getElementById('contactName');
+    contactEmailElem = document.getElementById('contactEmail');
+    contactPhoneElem = document.getElementById('contactPhone');
+}
+
+async function initContact(){
+    await removeStorage();
+    await loadContacts();
+    renderContacts();
+}
+
+async function loadContacts(){
+    nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
+    emailOfContact = JSON.parse(await getItem('emailOfContact')) || ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
+    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951];
+}
+
 async function newContact() {
-    contacts.push({
-        nameContact: nameOfContact.value,
-        emailContact: emailOfContact.value,
-        telContact: telOfContact.value,
-     });
-    await setItem('contacts', JSON.stringify(contacts));
+    initializeContactElements();
+
+    nameOfContact.push(contactNameElem.value);
+    emailOfContact.push(contactEmailElem.value);
+    telOfContact.push(contactPhoneElem.value);
+
+    await setItem('nameOfContact', JSON.stringify(nameOfContact));
+    await setItem('emailOfContact', JSON.stringify(emailOfContact));
+    await setItem('telOfContact', JSON.stringify(telOfContact));
+
     resetContactField();
+    closeOverlayAddContact();
+    renderContacts();
 }
 
 function resetContactField() {
-    nameContact: nameOfContact.value = '';
-    emailContact: emailOfContact.value = '';
-    telContact: telOfContact.value = '';
+    contactNameElem.value = '';
+    contactEmailElem.value = '';
+    contactPhoneElem.value = '';
 }
 
 function groupByFirstLetter(names) {
     return names.reduce((groups, name) => {
-        const firstLetter = name[0].toUpperCase();
-        if (!groups[firstLetter]) {
-            groups[firstLetter] = [];
+        if (name && name.length > 0) {  // Überprüfen, ob der Name existiert und nicht leer ist
+            const firstLetter = name[0].toUpperCase();
+            if (!groups[firstLetter]) {
+                groups[firstLetter] = [];
+            }
+            groups[firstLetter].push(name);
         }
-        groups[firstLetter].push(name);
         return groups;
     }, {});
 }
 
+
 function renderContacts() {
     let allContacts = document.getElementById('allContacts');
-    allContacts.innerHTML = ''; // Vor dem Hinzufügen von Kontakten löschen
+    allContacts.innerHTML = '';
 
     const groupedContacts = groupByFirstLetter(nameOfContact);
 
@@ -52,7 +82,6 @@ function renderContacts() {
             const originalIndex = nameOfContact.indexOf(name);
             allContacts.innerHTML += showContact(name, originalIndex);
         });
-
     }
 }
 
@@ -77,14 +106,12 @@ function showContactDetails(i) {
         const previousContactName = document.querySelector(`#contactNameBox${currentSelectedIndex} .contactName`);
 
         if (previousContactBox && previousInnerContactBox && previousContactName) {
-            // Setzen Sie die Stile zurück (Sie müssen die ursprünglichen Stilwerte angeben)
             previousContactBox.style.background = '';
             previousInnerContactBox.style.background = '';
             previousContactName.style.color = '#000000';
         }
     }
 
-    // Den ausgewählten Kontakt aktualisieren
     let contactBox = document.getElementById(`contactNameBox${i}`);
     let innerContactBox = document.getElementById(`profileBadge${i}`);
     let contactName = document.querySelector(`#contactNameBox${i} .contactName`);
@@ -94,10 +121,50 @@ function showContactDetails(i) {
         innerContactBox.style.background = '#2A3647';
         contactName.style.color = '#ffffff';
     }
-    // Aktualisieren Sie den currentSelectedIndex für den nächsten Aufruf
     currentSelectedIndex = i;
 
     // Rufen Sie die neue Funktion auf, um die Details im floatingContact anzuzeigen
     displayFloatingContactDetails(i);
 }
 
+function overlayAddContact() {
+    const overlay = document.createElement('div');
+    overlay.id = 'overlayAddContact';
+    document.body.appendChild(overlay);
+
+    setTimeout(() => {
+        overlay.style.transform = 'translateY(-50%) translateX(50%)';
+    }, 50);
+
+    addContact();
+}
+
+function closeOverlayAddContact() {
+    document.getElementById('overlayAddContact').innerHTML = '';
+}
+
+function overlayContactCreated() {
+    let floatingContact = document.getElementById('floatingContact');
+    
+    let overlaySuccessHTML = `
+        <div class="frame73">
+            <span class="contactSuccess">Contact succesfully created</span>
+        </div>
+    `;
+
+    // Das generierte HTML in den floatingContact Container einfügen
+    floatingContact.innerHTML = overlaySuccessHTML;
+
+    // Animation starten
+    setTimeout(() => {
+        floatingContact.classList.add('show');
+    }, 50); // Verzögerung von 50ms, um sicherzustellen, dass der Browser die Änderungen bemerkt
+}
+
+async function removeStorage() {
+    await Promise.all([
+        deleteItem('nameOfContact'),
+        deleteItem('emailOfContact'),
+        deleteItem('telOfContact')
+    ]);
+}

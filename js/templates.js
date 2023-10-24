@@ -51,7 +51,6 @@ function emptyLogInTemplate() {
     let logInTemplate = document.getElementById('logInTemplate');
     logInTemplate.innerHTML = '';
     document.querySelector('.frame156').style.visibility = 'hidden';
-    // document.querySelector('.frame213').style.visibility = 'hidden';
 }
 
 
@@ -129,10 +128,10 @@ function signUpTemplate() {
 
 function displayFloatingContactDetails(index) {
     let floatingContact = document.getElementById('floatingContact');
-    
+
     // Initialen des Kontakts generieren
     let initials = nameOfContact[index].split(' ').map(word => word[0]).join('');
-  
+
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
     let contactDetailsHTML = `
         <div class="frame105">
@@ -180,9 +179,162 @@ function displayFloatingContactDetails(index) {
 
     // Das generierte HTML in den floatingContact Container einfügen
     floatingContact.innerHTML = contactDetailsHTML;
-    
+
     // Animation starten
     setTimeout(() => {
         floatingContact.classList.add('show');
     }, 50); // Verzögerung von 50ms, um sicherzustellen, dass der Browser die Änderungen bemerkt
+}
+
+function addContact() {
+    const sideLayout = returnSideLayoutOfContact();
+    const contactText = addContactText(); 
+    const contactBtn = addContactBtn();
+    const contactCircle = addCircle();
+    const closeIcon = addCloseIcon();
+
+    document.getElementById('overlayAddContact').innerHTML = `
+            ${sideLayout}
+            ${contactText} 
+            ${contactBtn}
+            ${contactCircle} 
+            ${closeIcon}
+        </div>
+    `;
+}
+
+function returnSideLayoutOfContact() {
+    return `
+          <div class="overlay-addContact">
+            <div class="frame194">
+                <img src="../assets/img/Capa%202.png" class="capa2">
+                <div class="frame209">
+                    <span class="spanHeader">Add contact</span>
+                    <span class="spanText"> Tasks are better with a team!</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="94" height="3" viewBox="0 0 94 3" fill="none">
+                        <path d="M92 1.5L2 1.5" stroke="#29ABE2" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function addContactText() {
+    const contactName = returnContactName();
+    const contactEmail = returnContactEmail();
+    const contactPhone = returnContactPhone();
+
+    return `
+        <div class=add-contact-text>
+            ${contactName}  
+            ${contactEmail}      
+            ${contactPhone}
+        </div>
+    `;
+}
+
+function returnContactName() {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14">
+                <div class="frame157">
+                <form>
+                    <input required class="text-field" placeholder="Name" id="contactName" type="text">
+                    <img src="../assets/img/person.png">
+                </form>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function returnContactEmail() {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14">
+                <div class="frame157">
+                <form onsubmit="return">
+                    <input required class="text-field" placeholder="Email" id="contactEmail" type="email">
+                    <img src="../assets/img/mail.png">
+                </form>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function returnContactPhone() {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14">
+                <div class="frame157">
+                <form>
+                    <input required class="text-field" placeholder="Phone" id="contactPhone" type="tel">
+                    <img src="../assets/img/call.png">
+                </form>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function addContactBtn() {
+    const cancelBtn = returnCancelBtn();
+    const createContactBtn = returnCreateContactBtn();
+
+    return `
+        <div class=frame27>
+            ${cancelBtn}
+            ${createContactBtn}
+        </div>
+    `;
+}
+
+function returnCancelBtn() {
+    return `
+        <btn class=cancel-contact onclick="closeOverlayAddContact()">
+            <span class="cancel-btn-text">Cancel</span>
+            <svg class="cancel-svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path d="M12.001 12.5001L17.244 17.7431M6.758 17.7431L12.001 12.5001L6.758 17.7431ZM17.244 7.25708L12 12.5001L17.244 7.25708ZM12 12.5001L6.758 7.25708L12 12.5001Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </btn>
+    `;
+}
+
+function returnCreateContactBtn() {
+    return `
+        <btn class=create-contact onclick="newContact()">
+            <span class="create-btn-text">Create contact</span>
+            <img src="../assets/img/check.svg">
+        </btn>
+    `;
+}
+
+function addCircle() {
+    const circle = returnCircle();
+    return `
+        <div class=group13>
+            ${circle}
+        </div>
+    `;
+}
+
+function returnCircle() {
+    return `
+        <div class=frame79_2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
+            </svg>
+            <img class="person-icon" src="../assets/img/person.svg">
+        </div>
+    `;
+}
+
+function addCloseIcon() {
+    return `
+        <div class="close" onclick="closeOverlayAddContact()">
+            <img src="../assets/img/cancel.svg">
+        </div>
+    `;
 }

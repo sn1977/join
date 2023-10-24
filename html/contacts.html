@@ -17,7 +17,7 @@
 	<script src="../js/templates.js"></script>
 </head>
 
-<body onload="loadIncludeHTML(), renderContacts()">
+<body onload="loadIncludeHTML(), renderContacts(), initContact()">
 	<div w3-include-html="../assets/templates/header.html"></div>
 	<div w3-include-html="../assets/templates/sidebar.html"></div>
 	<div id="contactTemplate">
@@ -31,7 +31,7 @@
 		<div id="floatingContact"></div>
 		<div class="frame97">
 			<div class="contact-list">
-				<button id="newContact">Add new contact
+				<button id="newContact" onclick="overlayAddContact()">Add new contact
 					<svg fill="none" height="33" viewBox="0 0 33 33" width="33" xmlns="http://www.w3.org/2000/svg">
 						<mask height="33" id="mask0_93463_4951" maskUnits="userSpaceOnUse" style="mask-type:alpha"
 							width="33" x="0" y="0">
