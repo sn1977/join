@@ -106,7 +106,8 @@ function getTaskValues(progress) {
  */
 async function addTask(progress) {
     getInputIDs();
-    checkRequieredFields();
+    checkRequieredFields('title');
+    // checkRequieredFields();
     if (canAdd) {
         getLastID();
         getTaskValues(progress);
@@ -261,13 +262,30 @@ function emptyFields() {
  * 
  */
 function checkRequieredFields() {
-    canAdd = true;
+    
+
+   /*  let test1 = `${field}.value`;
+    alert(test1);
+    
+    if (test1 == "") {
+        alert("HIER");
+        let test = document.getElementById(`warning${field}`);
+        test.classList.add("warning");
+        document.getElementById(`${field}`).classList.add("warning-border");
+        canAdd = false;
+    } else {
+        document.getElementById(`warning${field}`).classList.remove("warning");
+        document.getElementById(`${field}`).classList.remove("warning-border");
+        canAdd = true;
+    } */
+
+
     if (title.value == "") {
-        document.getElementById('warningTitle').classList.add("warning");
+        document.getElementById('warningtitle').classList.add("warning");
         document.getElementById('title').classList.add("warning-border");
         canAdd = false;
     } else {
-        document.getElementById("warningTitle").classList.remove("warning");
+        document.getElementById("warningtitle").classList.remove("warning");
         document.getElementById("title").classList.remove("warning-border");
     }
     if (dueDate.value == "") {
@@ -296,7 +314,7 @@ function checkRequieredFields() {
  *
  */
 function resetRequiredFields() {
-    document.getElementById("warningTitle").classList.remove("warning");
+    document.getElementById("warningtitle").classList.remove("warning");
     document.getElementById("title").classList.remove("warning-border");
     document.getElementById("warningDueDate").classList.remove("warning");
     document.getElementById("dueDate").classList.remove("warning-border");
@@ -344,7 +362,8 @@ function generateSubtaskHtml() {
                     <p>${temptask['subtasktitle']}</p>
                 </div> 
                 <div class="subtaskEdit">
-                    <img onclick="editSubtask(${i})" src="../assets/img/edit.png" alt=""> 
+                    <img onclick="editSubtaskHtml(${i})" src="../assets/img/edit.png" alt=""> 
+                    <div>|</div>
                     <img onclick="delSubtask(${i})" src="../assets/img/delete.svg" alt="">
                 </div>
             </div>
@@ -352,13 +371,34 @@ function generateSubtaskHtml() {
     }
 }
 
+
+function editSubtaskHtml(i){
+    let editSubtask = document.getElementById(`editSubtask${i}`);
+    let editValue = allSubtasks[i]['subtasktitle'];
+    editSubtask.innerHTML = `
+            <div class="editItem">
+                <div id="editSubtask${i}" class="subtaskLine">
+                    <input class="blabbla" id="editSubtask" type="text" value="${editValue}">
+                </div> 
+                <div class="editItemIcons">
+                    <img src="../assets/img/delete.svg" onclick="delSubtask(${i})">
+                    <div>|</div>
+                    <img src="../assets/img/check-black.svg" onclick="editSubtask(${i})">
+                </div>
+            </div>
+    `;
+    }
+
+
+
 function delSubtask(i) {
     allSubtasks.splice(i, 1);
     generateSubtaskHtml();
 }
 
-function editSubtask(i) {
-    const txeditSubtask = document.getElementById(`editSubtask${i}`).innerText;
+function editSubtask(i){
+    let editSubtask = document.getElementById('editSubtask');
+     allSubtasks[i].subtasktitle = editSubtask.value;
 }
 
 

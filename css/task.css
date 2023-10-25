@@ -305,7 +305,7 @@ select:focus,
     max-height: 220px;
 }
 
-.subtaskItem {
+.subtaskItem, .editItem {
     padding: 0 21px;
     width: 99%;
     display: flex;
@@ -315,7 +315,14 @@ select:focus,
     height: 32px;
 }
 
-.subtaskItem div {
+.subtaskItem div  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px; 
+}
+
+.editItem div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -335,8 +342,65 @@ select:focus,
     display: none !important;
 }
 
-.subtaskItem:hover .subtaskEdit {
+.subtaskItem:hover  .subtaskEdit{
     display: flex !important;
+}
+
+.editItem {
+    border-bottom: 1px solid var(--focus-color);
+    background-color: #fff;
+    padding-left: 0px;
+}
+
+.editItem:hover{
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.blabbla {
+    background: transparent !important;
+    border: none !important;
+    flex: 1 !important;
+    border-bottom: 1px solid var(--focus-color)!important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1.4em !important;
+    font-size: 16px !important;
+    width: 99%;
+    color: black !important;
+    height: 32px;
+}
+
+#editSubtaskX input {
+    background: transparent !important;
+    border: none !important;
+    flex: 1 !important;
+    border-bottom: 2px solid blue !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1.4em !important;
+    font-size: 16px !important;
+    color: black !important;
+}
+
+#editSubtaskX input:focus {
+    outline: none !important;
+    border-bottom: 2px solid blue !important;
+}
+
+
+
+
+#editSubtask::after {
+    box-sizing: border-box;
+}
+
+#editSubtask::before{
+    box-sizing: border-box; 
+}
+
+.editItemIcons {
+    display: flex;
 }
 
 

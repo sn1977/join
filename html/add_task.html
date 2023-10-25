@@ -36,10 +36,10 @@
 
                     <div class="inputContainer">
                         <label class="required" for="title">Title</label>
-                        <input class="inputField" required type="text" id="title" onfocusout="checkRequieredFields()"
+                        <input class="inputField" required type="text" id="title" onfocusout="checkRequieredFields('title')"
                             placeholder="Enter a title">
                         <div class="warning">
-                            <span id="warningTitle" class="invisible">This field is requiered</span>
+                            <span id="warningtitle" class="invisible">This field is requiered</span>
                         </div>
                     </div>
 
@@ -83,6 +83,10 @@
                         </div>
                     </div>
 
+                   <!--  <input class="click" required="" placeholder="dd/mm/yyyy" type="text" id="datepicker" 
+                    aria-label="Use the arrow keys to pick a date">
+ -->
+
                     <div class="inputContainer">
                         <label>Prio</label>
                         <div class="button-container" id="prio">
@@ -118,6 +122,7 @@
                             </div>
                             <div id="inputsubtask" style="display: none;">
                                 <img src="../assets/img/delete.svg" onclick="delInput()">
+                                <div>|</div>
                                 <img src="../assets/img/check-black.svg" onclick="addSubtask()">
                             </div>
                         </div>
@@ -131,7 +136,7 @@
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="cancelBtn" onclick="delTask(6)">Cancel <img src="../assets/img/cancel.svg"></button>
                     <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
