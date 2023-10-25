@@ -13,13 +13,12 @@ function initializeContactElements() {
     contactPhoneElem = document.getElementById('contactPhone');
 }
 
-async function initContact(){
-    await removeStorage();
+async function initContact() {
     await loadContacts();
     renderContacts();
 }
 
-async function loadContacts(){
+async function loadContacts() {
     nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
     emailOfContact = JSON.parse(await getItem('emailOfContact')) || ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
     telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951];
@@ -39,6 +38,7 @@ async function newContact() {
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
+    overlayContactCreated();
 }
 
 function resetContactField() {
@@ -89,7 +89,7 @@ function showContact(name, index) {
     return `
         <div class="contact-name contact-hover" id="contactNameBox${index}" onclick="showContactDetails(${index})">
             <div class="profile-badge contact-hover" id="profileBadge${index}">
-                <div class="group9">${name.substring(0,2).toUpperCase()}</div>
+                <div class="group9">${name.substring(0, 2).toUpperCase()}</div>
                 <div class="frame81">
                     <span class="contactName">${name}</span>
                     <span class="contactEmail">${emailOfContact[index]}</span>
@@ -144,27 +144,54 @@ function closeOverlayAddContact() {
 }
 
 function overlayContactCreated() {
-    let floatingContact = document.getElementById('floatingContact');
-    
-    let overlaySuccessHTML = `
-        <div class="frame73">
-            <span class="contactSuccess">Contact succesfully created</span>
-        </div>
-    `;
+    const overlayCreatedContact = document.createElement('div');
+    overlayCreatedContact.id = 'overlayCreatedContact';
+    document.body.appendChild(overlayCreatedContact);
 
-    // Das generierte HTML in den floatingContact Container einfügen
-    floatingContact.innerHTML = overlaySuccessHTML;
-
-    // Animation starten
     setTimeout(() => {
-        floatingContact.classList.add('show');
-    }, 50); // Verzögerung von 50ms, um sicherzustellen, dass der Browser die Änderungen bemerkt
+        overlayCreatedContact.style.transform = 'translateY(-250%) translateX(50%)';
+    }, 50);
+
+    addOverlayCreatedContact();
 }
 
-async function removeStorage() {
-    await Promise.all([
-        deleteItem('nameOfContact'),
-        deleteItem('emailOfContact'),
-        deleteItem('telOfContact')
-    ]);
+async function deleteContact(index) {
+    if (index >= 0 && index < nameOfContact.length) {
+        // Lokale Arrays aktualisieren
+        nameOfContact.splice(index, 1);
+        emailOfContact.splice(index, 1);
+        telOfContact.splice(index, 1);
+
+        // Die Arrays zurück in den Remote-Speicher speichern
+        await pushBackArrays();
+        renderContacts();
+        hideFloatingContact();
+    }
 }
+
+async function pushBackArrays() {
+    try {
+        await setItem('nameOfContact', nameOfContact);
+        await setItem('emailOfContact', emailOfContact);
+        await setItem('telOfContact', telOfContact);
+    } catch (error) {
+        console.error("Error updating remote storage:", error);
+    }
+}
+
+function hideFloatingContact() {
+    let floatingContact = document.getElementById('floatingContact');
+    floatingContact.classList.remove('show');
+    floatingContact.innerHTML = '';
+}
+
+function editContact(index) {
+    // Das overlayAddContact Overlay aufrufen
+    overlayAddContact();
+
+    // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
+    document.getElementById('contactName').value = nameOfContact[index];
+    document.getElementById('contactEmail').value = emailOfContact[index];
+    document.getElementById('contactPhone').value = telOfContact[index];
+}
+

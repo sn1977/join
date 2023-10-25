@@ -585,3 +585,23 @@ h1 {
     font-weight: 400;
     line-height: 120%; /* 24px */
 }
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+#overlayCreatedContact {
+    /* Andere Stile, die Sie bereits definiert haben könnten */
+    position: fixed;
+    right: 0;
+    bottom: 20%; /* oder wo auch immer Sie es vertikal positionieren möchten */
+    animation: slideInFromRight 5s forwards; /* 5s ist die gesamte Dauer der Animation */
+}

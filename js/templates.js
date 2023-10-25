@@ -139,7 +139,7 @@ function displayFloatingContactDetails(index) {
             <div class="frame104">
                 <div class="frame81">${nameOfContact[index]}</div>
                 <div class="frame204">
-                    <div class="frame108" onclick="#">
+                    <div class="frame108" onclick="(function(i) { editContact(i) })(${index})">
                         <svg class=icon-edit xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <mask id="mask0_94406_3876" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                                 <rect width="24" height="24" fill="#D9D9D9"/>
@@ -150,7 +150,7 @@ function displayFloatingContactDetails(index) {
                         </svg>                
                         <span class="delete-edit-text">Edit</span>
                     </div>
-                    <div class="deleteContact" onclick="#">
+                    <div class="deleteContact" onclick="(function(i) { deleteContact(i) })(${index})">
                         <svg class=icon-edit fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <mask height="24" id="mask0_94406_4140" maskUnits="userSpaceOnUse" style="mask-type:alpha" width="24" x="0" y="0">
                                 <rect fill="#D9D9D9" height="24" width="24"/>
@@ -337,4 +337,18 @@ function addCloseIcon() {
             <img src="../assets/img/cancel.svg">
         </div>
     `;
+}
+
+function addOverlayCreatedContact() {
+    document.getElementById('overlayCreatedContact').innerHTML = `
+        <div class="frame73">
+            <span class="contactSuccess">Contact successfully created</span>
+        </div>
+    `;
+
+    // Div entfernen, nachdem die Animation abgeschlossen ist
+    setTimeout(() => {
+        const overlay = document.getElementById('overlayCreatedContact');
+        if (overlay) overlay.remove();
+    }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
 }

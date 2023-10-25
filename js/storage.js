@@ -17,14 +17,4 @@ async function getItem(key) {
     });
 }
 
-async function deleteItem(key) {
-    const url = `${STORAGE_URL}?key=${key}&token=${STORAGE_TOKEN}`;
-    return fetch(url, {method: 'DELETE'}).then(async res => {
-        if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(`Failed to delete item with key "${key}": ${errorText}`);
-        }
-        return res.json();
-    });
 
-}
