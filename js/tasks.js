@@ -69,8 +69,15 @@ function renderBoard() {
                             <img src="/assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
                             <p class="todoType" id="popupCategory"></p>
                         </div> 
-                        <h2 id="popupTitle"></h2>
-                        <p id="popupDescription"></p>
+                        <div class="popup-info-container">
+                            <h2 id="popupTitle"></h2>
+                            <p id="popupDescription"></p>
+                            <table>
+                                <tbody id="table">
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
                 
@@ -227,7 +234,9 @@ function generateHTML(element) {
            onclick="openPopup(${element['id']})"
            data-title="${element['title']}"
            data-description="${element['description']}"
-           data-category="${element['category']}">
+           data-category="${element['category']}"
+           data-popupDueDate="${element['dueDate']}"
+           data-popupPrio="${element['prio']}">
         <div class="todoContainer">
           <div class="todoType">${element['category']}</div>
           <div class="todoInfo">
@@ -297,6 +306,9 @@ function openPopup(id) {
         document.getElementById('popupTitle').innerText = todo.title;
         document.getElementById('popupDescription').innerText = todo.description;
         document.getElementById('popupCategory').innerText = todo.category;
+        document.getElementById('table').innerHTML = '';
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td>Due Date:</td><td>${formatDate(todo.dueDate)}</td></tr>`;
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td>Priority</td><td>${todo.prio}</td></tr>`;
         document.getElementById('popup').style.display = 'flex';
     } else {
         console.error('Task not found');
@@ -308,4 +320,12 @@ function openPopup(id) {
  */
 function closePopup() {
     document.getElementById('popup').style.display = 'none';
+}
+
+function formatDate(input) {
+    let date = new Date(input);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }

@@ -3,11 +3,9 @@ body {
 }
 
 .content {
-    position: fixed;
-    top: 96px;
-    left: 232px;
-    bottom: 0;
-    right: 0;
+    height: calc(100vh - 96px);
+    margin-top: 96px;
+    margin-left: 232px;
     overflow-y: auto;
     background-color: #F6F7F8;
 }
@@ -177,6 +175,7 @@ body {
     align-items: flex-start;
     gap: 10px;
     color: white;
+    font-size: 23px;
 }
 
 .todoInfo {
@@ -243,10 +242,11 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
-    background: #fff;
-    border-radius: 5px;
-    width: 300px;
+    padding: 48px 40px 48px 40px;
+    background: #FFFFFF;
+    width: 525px;
+    height: calc(100vh - 100px);
+    border-radius: 30px;
 }
 
 .close-btn {
@@ -256,6 +256,17 @@ body {
     font-size: 20px;
     cursor: pointer;
     display: inline-block;
+}
+
+.popup-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.popup-info-container h2 {
+    font-size: 61px;
+    margin: 0;
 }
 
 .container-popup {
