@@ -63,12 +63,17 @@ function renderBoard() {
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
     document.getElementById('board').innerHTML += /*html*/ `
             <div id="popup" class="popup" style="display: none;">
-                <div class="popup-content">
-                    <img src="/assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
-                    <h2 id="popupTitle"></h2>
-                    <p id="popupDescription"></p>
-                    <p id="popupCategory"></p>
+                <div class="container-popup">
+                    <div class="popup-content">
+                        <div class="d-flex">
+                            <img src="/assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
+                            <p class="todoType" id="popupCategory"></p>
+                        </div> 
+                        <h2 id="popupTitle"></h2>
+                        <p id="popupDescription"></p>
+                    </div>
                 </div>
+                
             </div> 
 			<section class="boardHeader" id="boardHeader">
 				<div class="boardHeadlineLeft">
@@ -281,6 +286,11 @@ function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
 }
 
+/**
+ * This function opens the popup with the selected task
+ * 
+ * @param {number} id 
+ */
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
@@ -293,6 +303,9 @@ function openPopup(id) {
     }
 }
 
+/**
+ * This function closes the popup
+ */
 function closePopup() {
     document.getElementById('popup').style.display = 'none';
 }
