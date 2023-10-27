@@ -356,8 +356,8 @@ function generateSubtaskHtml() {
     for (let i = 0; i < allSubtasks.length; i++) {
         let temptask = allSubtasks[i];
         subtasksHtml.innerHTML += `
-            <div class="subtaskItem">
-                <div id="editSubtask${i}" class="subtaskLine">
+            <div class="subtaskItem" id="editSubtask${i}">
+                <div class="subtaskLine">
                     <img class="dot" src="../assets/img/dot.svg">
                     <p>${temptask['subtasktitle']}</p>
                 </div> 
@@ -374,18 +374,18 @@ function generateSubtaskHtml() {
 
 function editSubtaskHtml(i){
     let editSubtask = document.getElementById(`editSubtask${i}`);
+    editSubtask.classList.remove('subtaskItem');
+    editSubtask.classList.add('editItem');
     let editValue = allSubtasks[i]['subtasktitle'];
     editSubtask.innerHTML = `
-            <div class="editItem">
-                <div id="editSubtask${i}" class="subtaskLine">
-                    <input class="blabbla" id="editSubtask" type="text" value="${editValue}">
-                </div> 
-                <div class="editItemIcons">
-                    <img src="../assets/img/delete.svg" onclick="delSubtask(${i})">
-                    <div>|</div>
-                    <img src="../assets/img/check-black.svg" onclick="editSubtask(${i})">
-                </div>
-            </div>
+        <div id="editSubtask${i}" class="subtaskLine">
+            <input class="editTaskInput" id="editSubtask" type="text" value="${editValue}">
+        </div> 
+        <div class="editItemIcons">
+            <img src="../assets/img/delete.svg" onclick="delSubtask(${i})">
+            <div>|</div>
+            <img src="../assets/img/check-black.svg" onclick="editSubtask(${i})">
+        </div>
     `;
     }
 
@@ -399,6 +399,7 @@ function delSubtask(i) {
 function editSubtask(i){
     let editSubtask = document.getElementById('editSubtask');
      allSubtasks[i].subtasktitle = editSubtask.value;
+     generateSubtaskHtml();
 }
 
 
