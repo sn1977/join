@@ -132,10 +132,11 @@ function displayFloatingContactDetails(index) {
     // Initialen des Kontakts generieren
     let initials = nameOfContact[index].split(' ').map(word => word[0]).join('');
 
+    const color = getColorByIndex(index);
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
     let contactDetailsHTML = `
         <div class="frame105">
-            <div class="frame79">${initials}</div>
+            <div class="frame79" style="background-color: ${color};">${initials}</div>
             <div class="frame104">
                 <div class="frame81">${nameOfContact[index]}</div>
                 <div class="frame204">
@@ -188,9 +189,26 @@ function displayFloatingContactDetails(index) {
 
 function addContact() {
     const sideLayout = returnSideLayoutOfContact();
-    const contactText = addContactText(); 
+    const contactText = addContactText();
     const contactBtn = addContactBtn();
     const contactCircle = addCircle();
+    const closeIcon = addCloseIcon();
+
+    document.getElementById('overlayAddContact').innerHTML = `
+            ${sideLayout}
+            ${contactText} 
+            ${contactBtn}
+            ${contactCircle} 
+            ${closeIcon}
+        </div>
+    `;
+}
+
+function editCreatedContact() {
+    const sideLayout = returnSideLayoutOfContact();
+    const contactText = addContactText();
+    const contactBtn = addEditContactBtn();
+    const contactCircle = addEditedCircle();
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
@@ -237,10 +255,10 @@ function addContactText() {
 function returnContactName() {
     return `
         <div class="add-contact-field">
-            <div class="frame14">
+            <div class="frame14" id="frame14">
                 <div class="frame157">
                 <form>
-                    <input required class="text-field" placeholder="Name" id="contactName" type="text">
+                    <input required class="text-field" placeholder="Name" id="contactName" type="text" oninput="changeBorderColor(this)">
                     <img src="../assets/img/person.png">
                 </form>
                 </div>
@@ -255,7 +273,7 @@ function returnContactEmail() {
             <div class="frame14">
                 <div class="frame157">
                 <form onsubmit="return">
-                    <input required class="text-field" placeholder="Email" id="contactEmail" type="email">
+                    <input required class="text-field" placeholder="Email" id="contactEmail" type="email" oninput="changeBorderColor(this)">
                     <img src="../assets/img/mail.png">
                 </form>
                 </div>
@@ -270,7 +288,7 @@ function returnContactPhone() {
             <div class="frame14">
                 <div class="frame157">
                 <form>
-                    <input required class="text-field" placeholder="Phone" id="contactPhone" type="tel">
+                    <input required class="text-field" placeholder="Phone" id="contactPhone" type="tel" oninput="changeBorderColor(this)">
                     <img src="../assets/img/call.png">
                 </form>
                 </div>
@@ -287,6 +305,18 @@ function addContactBtn() {
         <div class=frame27>
             ${cancelBtn}
             ${createContactBtn}
+        </div>
+    `;
+}
+
+function addEditContactBtn() {
+    const cancelBtn = returnCancelBtn();
+    const saveContactBtn = returnSaveContactBtn();
+
+    return `
+        <div class=frame27>
+            ${cancelBtn}
+            ${saveContactBtn}
         </div>
     `;
 }
@@ -311,8 +341,26 @@ function returnCreateContactBtn() {
     `;
 }
 
+function returnSaveContactBtn() {
+    return `
+        <btn class=create-contact onclick="saveEditedContact(currentSelectedIndex)"">
+            <span class="create-btn-text">Save</span>
+            <img src="../assets/img/check.svg">
+        </btn>
+    `;
+}
+
 function addCircle() {
     const circle = returnCircle();
+    return `
+        <div class=group13>
+            ${circle}
+        </div>
+    `;
+}
+
+function addEditedCircle() {
+    const circle = returnEditedCircle();
     return `
         <div class=group13>
             ${circle}
@@ -327,6 +375,16 @@ function returnCircle() {
                 <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
             </svg>
             <img class="person-icon" src="../assets/img/person.svg">
+        </div>
+    `;
+}
+
+function returnEditedCircle() {
+    return `
+        <div class=frame79_2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
+            </svg>
         </div>
     `;
 }

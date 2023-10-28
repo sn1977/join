@@ -2,6 +2,9 @@ let nameOfContact = ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
 let emailOfContact = ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
 let telOfContact = [123456, 789456, 456951];
 
+const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
+
+
 let contactNameElem;
 let contactEmailElem;
 let contactPhoneElem;
@@ -85,11 +88,32 @@ function renderContacts() {
     }
 }
 
+function getInitials(name) {
+    let words = name.split(' ');
+    let initials = "";
+
+    if (words.length >= 2) {
+        initials = words[0][0] + words[1][0];
+    } else if (words.length === 1) {
+        initials = words[0][0];
+    }
+
+    return initials.toUpperCase();
+}
+
+function getColorByIndex(index) {
+    return colors[index % colors.length];
+}
+
+
 function showContact(name, index) {
+    const initials = getInitials(name); // getInitials Funktion verwenden
+    const color = getColorByIndex(index);
+
     return `
         <div class="contact-name contact-hover" id="contactNameBox${index}" onclick="showContactDetails(${index})">
             <div class="profile-badge contact-hover" id="profileBadge${index}">
-                <div class="group9">${name.substring(0, 2).toUpperCase()}</div>
+                <div class="group9" style="background-color: ${color};">${initials}</div> <!-- Verwenden Sie hier die Initialen -->
                 <div class="frame81">
                     <span class="contactName">${name}</span>
                     <span class="contactEmail">${emailOfContact[index]}</span>
@@ -97,6 +121,7 @@ function showContact(name, index) {
             </div>
         </div>`;
 }
+
 
 function showContactDetails(i) {
     // Wenn bereits ein Kontakt ausgewählt wurde, setzen Sie seine Stile zurück
@@ -185,13 +210,55 @@ function hideFloatingContact() {
     floatingContact.innerHTML = '';
 }
 
+function overlayEditContact() {
+    const overlay = document.createElement('div');
+    overlay.id = 'overlayAddContact';
+    document.body.appendChild(overlay);
+
+    setTimeout(() => {
+        overlay.style.transform = 'translateY(-50%) translateX(50%)';
+    }, 50);
+
+    editCreatedContact();
+}
+
 function editContact(index) {
     // Das overlayAddContact Overlay aufrufen
-    overlayAddContact();
+    overlayEditContact();
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = nameOfContact[index];
     document.getElementById('contactEmail').value = emailOfContact[index];
     document.getElementById('contactPhone').value = telOfContact[index];
+}
+
+function changeBorderColor(inputElement) {
+    const frame14Element = inputElement.closest('.frame14');
+
+    if(inputElement.value) {
+        frame14Element.style.borderColor = '#29ABE2';  // Ersetzt die 'desiredColor' durch die gewünschte Farbe
+    } else {
+        frame14Element.style.borderColor = '';  // Setzt den Rahmen zurück auf die ursprüngliche Farbe
+    }
+}
+
+async function saveEditedContact(index) {
+    // Die aktuellen Werte aus den Eingabefeldern holen
+    const newName = document.getElementById('contactName').value;
+    const newEmail = document.getElementById('contactEmail').value;
+    const newPhone = document.getElementById('contactPhone').value;
+
+    // Die Werte in den Arrays aktualisieren
+    nameOfContact[index] = newName;
+    emailOfContact[index] = newEmail;
+    telOfContact[index] = newPhone;
+
+    // Die aktualisierten Arrays zurück in den Remote-Speicher speichern
+    await pushBackArrays();
+
+    // Das Overlay schließen und die Kontaktliste aktualisieren
+    closeOverlayAddContact();
+    renderContacts();
+    showContactDetails();
 }
 
