@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>Title</title>
+	<title>Summary</title>
+	    <!-- Include favicon.ico picture -->
+		<link rel="icon" type="image/x-icon" href="../assets/img/favicon.svg">
+
+		<!-- Schriftart einbinden -->
+		<link rel="stylesheet" href="../fonts.css">
+	
+		<!-- CSS Datei einbinden -->
+		<link rel="stylesheet" href="../css/summary.css">
+		<link rel="stylesheet" href="../css/header.css">
+		<link rel="stylesheet" href="../css/sidebar.css">
+	
+		<script src="../js/w3includes.js"></script>
+		<script src="../js/storage.js"></script>
+	
 </head>
-<body>
+
+<body onload="loadIncludeHTML()"">
+
+	
+    <div w3-include-html="../assets/templates/header.html"></div>
+    <div w3-include-html="../assets/templates/sidebar.html"></div>
+
+	<headline>
+		Join 360 | Key Metrics at a Glance
+	</headline>
+	<div>
+		<div class="left">
+			To-Do
+			Done
+			Urgent
+			Upcoming Deadline
+			Tasks in Board
+			Tasks in Progress
+			Awaiting Feedback
+		</div>
+		<div class="right">
+			Good morning,
+			Sofia Müller
+		</div>
+	</div>
+
+
 
 </body>
-</html>
 
+</html>

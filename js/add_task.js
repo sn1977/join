@@ -19,6 +19,7 @@ let subtask;
 let canAdd = true;
 let subtaskID = 0;
 let allSubtasks = [];
+let allContacts = [];
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
@@ -37,6 +38,9 @@ subtaskInput.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
 
+ $(document).ready(function() {
+    $("#dueDate").datepicker();
+ });
 
 
 /**
@@ -45,6 +49,7 @@ subtaskInput.addEventListener("blur", () => {
  */
 async function initTask() {
     await loadAllTasks();
+    await loadContacts();
     reload();
 }
 
@@ -91,7 +96,7 @@ function getTaskValues(progress) {
         'category': category.value,
         'createdAt': new Date().getTime(),
         'modifiedAt': new Date().getTime(),
-        'assignedTo': ['Gerlinde', 'Knut'],
+        'assignedTo': allContacts,
         'subtask': allSubtasks
     };
     tasks.push(task);
@@ -229,11 +234,51 @@ function resetPrio() {
  */
 function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
+    getContacts();
 }
 
 
 function getContacts() {
+    let contacts = document.getElementById('assignedToContact');
+    contacts.innerHTML = '';
+    for (let i  = 0; i  < nameOfContact.length; i ++) {
+        contacts.innerHTML +=` 
+            <div class="contactLine">
+                <div> 
+                    ${nameOfContact[i]} 
+                </div>
+                <div id="checked${i}">
+                    <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
+                </div>
+            </div>
+        `;       
+    }
+}
 
+
+function choseContact (i){
+    getLastID();
+    let tempContact = {
+        'id': id,
+        'contact': nameOfContact[i],
+    }
+    allContacts.push(tempContact);
+    changeMarkedContact(i);
+}
+
+function unchoseContact (i){
+    const contactCheckbox = document.getElementById(`checked${i}`);
+    contactCheckbox.innerHTML = `
+        <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
+    `;
+    allContacts.splice(i, 1);
+}
+
+function changeMarkedContact (i) {
+    const contactCheckbox = document.getElementById(`checked${i}`);
+    contactCheckbox.innerHTML = `
+        <img onclick="unchoseContact(${i})" src="../assets/img/checkedicon.png" alt="">
+    `;
 }
 
 
@@ -344,6 +389,7 @@ function addSubtask() {
         allSubtasks.push(tempsubtask);
         subtask.value = '';
         generateSubtaskHtml();
+        switchBack();
     } else {
         alert("Darf nicht leer sein");
     }
@@ -356,7 +402,7 @@ function generateSubtaskHtml() {
     for (let i = 0; i < allSubtasks.length; i++) {
         let temptask = allSubtasks[i];
         subtasksHtml.innerHTML += `
-            <div class="subtaskItem" id="editSubtask${i}">
+            <div class="subtaskItem" id="editSubtask${i}" ondblclick="editSubtaskHtml(${i})">
                 <div class="subtaskLine">
                     <img class="dot" src="../assets/img/dot.svg">
                     <p>${temptask['subtasktitle']}</p>
@@ -409,7 +455,6 @@ function switchToInput(){
 }
 
 function switchBack (){
-
     document.getElementById('inputsubtask').style.display = 'none';
     document.getElementById('addSubtask').style.display = 'flex';   
     subtask.value = "";
