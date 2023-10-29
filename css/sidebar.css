@@ -3,10 +3,6 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-a {
-    color: #fff;
-    text-decoration: none;
-}
 
 .sidebar {
     display: flex;
