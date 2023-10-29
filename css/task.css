@@ -53,8 +53,8 @@ button {
     font-style: normal;
     font-weight: 400;
     line-height: 1.5em;
-    margin-left: 235px;
-    margin-top: 100px;
+    margin-left: 232px;
+    margin-top: 96px;
 }
 
 
@@ -247,9 +247,48 @@ select:focus,
     background-size: 32px;
 }
 
+#assignedToContact{
+    overflow-y: auto;
+    background-color: #fff;
+    height: 160px;
+    
+    
+}
+
+#showAssignedContacts {
+    padding: 7px 16px;
+    display: flex;
+    max-width: 440px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px; 
+}
+
 .contactLine {
     display: flex;
     justify-content: space-between;
+    line-height: 1.5em; 
+    padding: 7px 16px;
+    margin-top: 2px;
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.contacticon {
+    border-radius: 50%;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    font-weight: 400;
+    justify-content: center;
+    padding: 4px;
+    border: 1px solid #fff;
 }
 
 

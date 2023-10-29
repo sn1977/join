@@ -20,6 +20,7 @@ let canAdd = true;
 let subtaskID = 0;
 let allSubtasks = [];
 let allContacts = [];
+let contactpool = [];
 
 
 // JavaScript, um die Platzhalteroption auszuwählen
@@ -50,6 +51,7 @@ subtaskInput.addEventListener("blur", () => {
 async function initTask() {
     await loadAllTasks();
     await loadContacts();
+    addTaskLoadContacts ();
     reload();
 }
 
@@ -234,25 +236,80 @@ function resetPrio() {
  */
 function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
-    getContacts();
+    addTaskGetContacts();
+    showTaskContacts()
 }
 
 
-function getContacts() {
+function addTaskLoadContacts (){
+    for (let i  = 0; i  < nameOfContact.length; i ++) {
+        let tempInitialien =  getInitials(nameOfContact[i]);
+        let tempContactPool = {
+            'id' : i,
+            'name' : nameOfContact[i],
+            'color' : getColorByIndex(i),
+            'initialien' :  tempInitialien,
+            'assigned' : false     
+        }
+    contactpool.push(tempContactPool);
+    }
+    contactpool.sort(SortArray);
+    console.log(contactpool);
+}
+
+
+  function SortArray(x, y) {
+    if (x.name < y.name) {
+      return -1;
+    }
+    if (x.name > y.name) {
+      return 1;
+    }
+    return 0;
+  }
+
+
+function addTaskGetContacts() {
     let contacts = document.getElementById('assignedToContact');
     contacts.innerHTML = '';
-    for (let i  = 0; i  < nameOfContact.length; i ++) {
+
+    for (let i  = 0; i  < contactpool.length; i ++) {
         contacts.innerHTML +=` 
             <div class="contactLine">
-                <div> 
-                    ${nameOfContact[i]} 
+                <div class="contact">
+                    <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
+                        ${contactpool[i]['initialien']}
+                    </div>
+                    <div> 
+                        ${contactpool[i]['name']} 
+                    </div>
                 </div>
                 <div id="checked${i}">
-                    <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
+
                 </div>
             </div>
-        `;       
-    }
+        `;  
+
+        let icon = document.getElementById(`checked${i}`);
+        if (contactpool[i]['assigned']) {
+           icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/checkedicon.png" alt=""></img>`;
+        } else {
+           icon.innerHTML = `<img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt=""></img>`;
+        }
+    }    
+}
+
+
+function showTaskContacts(){
+    let contactsIcons = document.getElementById ('showAssignedContacts');
+    contactsIcons.innerHTML = '';
+    for (let i=0; i <  allContacts.length; i++) {
+        contactsIcons.innerHTML += `
+                <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
+                    ${allContacts[i]['initialien']}
+                </div>
+        `;
+    }  
 }
 
 
@@ -260,11 +317,17 @@ function choseContact (i){
     getLastID();
     let tempContact = {
         'id': id,
-        'contact': nameOfContact[i],
+        'contactid' : i,
+        'name': nameOfContact[i],
+        'color' : contactpool[i]['color'],
+        'initialien' :  contactpool[i]['initialien']  
     }
     allContacts.push(tempContact);
+    contactpool[i]['assigned'] = true;
     changeMarkedContact(i);
+    showTaskContacts();
 }
+
 
 function unchoseContact (i){
     const contactCheckbox = document.getElementById(`checked${i}`);
@@ -272,7 +335,10 @@ function unchoseContact (i){
         <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
     `;
     allContacts.splice(i, 1);
+    contactpool[i]['assigned'] = false;
+    showTaskContacts();
 }
+
 
 function changeMarkedContact (i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
