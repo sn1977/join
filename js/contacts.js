@@ -107,13 +107,13 @@ function getColorByIndex(index) {
 
 
 function showContact(name, index) {
-    const initials = getInitials(name); // getInitials Funktion verwenden
+    const initials = getInitials(name); 
     const color = getColorByIndex(index);
 
     return `
         <div class="contact-name contact-hover" id="contactNameBox${index}" onclick="showContactDetails(${index})">
             <div class="profile-badge contact-hover" id="profileBadge${index}">
-                <div class="group9" style="background-color: ${color};">${initials}</div> <!-- Verwenden Sie hier die Initialen -->
+                <div class="group9" style="background-color: ${color};">${initials}</div> <!-- Verwendung der Initialen -->
                 <div class="frame81">
                     <span class="contactName">${name}</span>
                     <span class="contactEmail">${emailOfContact[index]}</span>
@@ -124,7 +124,7 @@ function showContact(name, index) {
 
 
 function showContactDetails(i) {
-    // Wenn bereits ein Kontakt ausgewählt wurde, setzen Sie seine Stile zurück
+    // Wenn bereits ein Kontakt ausgewählt wurde, werden dessen Stile zurück
     if (currentSelectedIndex !== null) {
         const previousContactBox = document.getElementById(`contactNameBox${currentSelectedIndex}`);
         const previousInnerContactBox = document.getElementById(`profileBadge${currentSelectedIndex}`);
@@ -148,7 +148,6 @@ function showContactDetails(i) {
     }
     currentSelectedIndex = i;
 
-    // Rufen Sie die neue Funktion auf, um die Details im floatingContact anzuzeigen
     displayFloatingContactDetails(i);
 }
 

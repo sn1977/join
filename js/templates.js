@@ -282,6 +282,7 @@ function returnContactEmail() {
     `;
 }
 
+
 function returnContactPhone() {
     return `
         <div class="add-contact-field">

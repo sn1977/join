@@ -25,3 +25,7 @@
 .headerContent img {
     margin-left: 16px;
 }
+
+a {
+    display: flex;
+}
