@@ -107,6 +107,7 @@ body {
     flex-direction: column;
     padding: 0;
     width: 260px;
+    margin-bottom: 15px;
 }
 
 .progressContainerStatusHead {

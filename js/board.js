@@ -77,7 +77,6 @@ function renderBoard() {
                                 </tbody>
                             </table>
                         </div>
-                        
                     </div>
                 </div>
                 
@@ -231,12 +230,8 @@ function generateHTML(element) {
       <div draggable="true" class="todo" 
            ondragstart="startDragging(${element['id']})"
            ondragend="stopDragging(${element['id']})"
-           onclick="openPopup(${element['id']})"
-           data-title="${element['title']}"
-           data-description="${element['description']}"
-           data-category="${element['category']}"
-           data-popupDueDate="${element['dueDate']}"
-           data-popupPrio="${element['prio']}">
+           onclick="openPopup(${element['id']})">
+           
         <div class="todoContainer">
           <div class="todoType">${element['category']}</div>
           <div class="todoInfo">
@@ -298,7 +293,7 @@ function sortTodos(todosArray) {
 /**
  * This function opens the popup with the selected task
  * 
- * @param {number} id 
+ * @param {string} element 
  */
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
@@ -308,12 +303,55 @@ function openPopup(id) {
         document.getElementById('popupCategory').innerText = todo.category;
         document.getElementById('table').innerHTML = '';
         document.getElementById('table').innerHTML += /*html*/ `<tr><td>Due Date:</td><td>${formatDate(todo.dueDate)}</td></tr>`;
-        document.getElementById('table').innerHTML += /*html*/ `<tr><td>Priority</td><td>${todo.prio}</td></tr>`;
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td>Priority</td><td><div><span style="
+        text-transform: capitalize;
+    ">${todo.prio}</span><img src="/assets/img/${todo.prio}.svg"></div></td></tr>`;
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td><span>Assigned To:</span><div>${todo.assignedTo}</div></td></tr>`
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td>Subtask:</td><td><div id="subtask-content"></div></td></tr>`;
+        generateSubtask(todo);
         document.getElementById('popup').style.display = 'flex';
+        document.getElementById('popup').innerHTML += `
+    <button onclick="deleteTodo(${todo.id})">Löschen</button>
+`;
     } else {
         console.error('Task not found');
     }
 }
+
+function generateSubtask(todo) {
+    for (let i = 0; i < todo.subtask.length; i++) {
+        const element = todo.subtask[i];
+        const isChecked = element.done ? 'checked' : '';
+        const checkboxHTML = `
+            <input type="checkbox" ${isChecked} onchange="updateSubtaskStatus(${todo.id}, ${i}, this)">
+            <div>${element.subtasktitle}</div>
+        `;
+        document.getElementById('subtask-content').innerHTML += checkboxHTML;
+    }
+}
+
+function updateSubtaskStatus(todoId, subtaskId, checkboxElement) {
+    const todo = todos.find(t => t.id === todoId);
+    if (todo && todo.subtask[subtaskId]) {
+        todo.subtask[subtaskId].done = checkboxElement.checked;
+        saveAllTasksToRemote();
+        updateHTML();
+    }
+}
+
+function deleteTodo(todoId) {
+    const index = todos.findIndex(t => t.id === todoId);
+    if (index !== -1) {
+        todos.splice(index, 1);
+        saveAllTasksToRemote();
+        closePopup();
+        updateHTML();
+    } else {
+        console.error(`Todo with ID ${todoId} not found!`);
+    }
+}
+
+
 
 /**
  * This function closes the popup
