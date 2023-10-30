@@ -291,10 +291,13 @@ function addTaskGetContacts() {
         `;  
 
         let icon = document.getElementById(`checked${i}`);
+       
         if (contactpool[i]['assigned']) {
-           icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/checkedicon.png" alt=""></img>`;
+           icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt=""></img>`;
+           icon.parentNode.classList.add('checked');
         } else {
            icon.innerHTML = `<img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt=""></img>`;
+           icon.parentNode.classList.remove('checked');
         }
     }    
 }
@@ -334,6 +337,7 @@ function unchoseContact (i){
     contactCheckbox.innerHTML = `
         <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
     `;
+    contactCheckbox.parentNode.classList.remove('checked');
     allContacts.splice(i, 1);
     contactpool[i]['assigned'] = false;
     showTaskContacts();
@@ -343,9 +347,25 @@ function unchoseContact (i){
 function changeMarkedContact (i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
-        <img onclick="unchoseContact(${i})" src="../assets/img/checkedicon.png" alt="">
+        <img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt="">
     `;
+    contactCheckbox.parentNode.classList.add('checked');
 }
+
+
+// Klick-Ereignis außerhalb des Dropdown-Menüs hinzufügen, um es zu schließen
+document.addEventListener('click', function (event) {
+    const assignedToContainer = document.getElementById('assignedToContainer');
+    const assignedToInput = document.getElementById('assignedTo');
+
+    // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet - funktioniert noch nicht sauber!
+    if (event.target !== assignedToContainer && event.target !== assignedToInput) {
+        assignedToContainer.classList.add('d-none');
+    }
+});
+
+
+
 
 
 /**

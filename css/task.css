@@ -6,6 +6,7 @@
     --warning-color: #FF8190;
     --focus-color: #29ABE2;
     --icon-hover: #A8A8A8;
+    --bg-hover: #091931;
 }
 
 
@@ -247,12 +248,10 @@ select:focus,
     background-size: 32px;
 }
 
-#assignedToContact{
+#assignedToContact {
     overflow-y: auto;
     background-color: #fff;
     height: 160px;
-    
-    
 }
 
 #showAssignedContacts {
@@ -261,15 +260,30 @@ select:focus,
     max-width: 440px;
     flex-direction: row;
     align-items: flex-start;
-    gap: 8px; 
+    gap: 8px;
 }
 
 .contactLine {
     display: flex;
     justify-content: space-between;
-    line-height: 1.5em; 
+    line-height: 1.5em;
     padding: 7px 16px;
     margin-top: 2px;
+}
+
+.contactLine:hover {
+    border-radius: 10px;
+    background: #EEE; 
+}
+
+.checked {
+    background-color: var(--bg-button);
+    color: #fff;
+    border-radius: 10px;
+}
+
+.checked:hover {
+    background-color: var(--bg-hover);
 }
 
 .contact {
@@ -280,7 +294,7 @@ select:focus,
 }
 
 .contacticon {
-    border-radius: 50%;
+    border-radius: 45px;
     color: #fff;
     width: 24px;
     height: 24px;
@@ -289,6 +303,10 @@ select:focus,
     justify-content: center;
     padding: 4px;
     border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 
