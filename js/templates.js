@@ -206,11 +206,11 @@ function addContact() {
     `;
 }
 
-function editCreatedContact() {
+function editCreatedContact(name, index) {
     const sideLayout = returnSideLayoutOfContact();
     const contactText = addContactText();
     const contactBtn = addEditContactBtn();
-    const contactCircle = addEditedCircle();
+    const contactCircle = addEditedCircle(name, index);
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
@@ -362,8 +362,8 @@ function addCircle() {
     `;
 }
 
-function addEditedCircle() {
-    const circle = returnEditedCircle();
+function addEditedCircle(name, index) {
+    const circle = returnEditedCircle(name, index);
     return `
         <div class=group13>
             ${circle}
@@ -382,13 +382,11 @@ function returnCircle() {
     `;
 }
 
-function returnEditedCircle() {
+function returnEditedCircle(name, index) {
+    const initials = getInitials(name);
+    const color = getColorByIndex(index);
     return `
-        <div class=frame79_2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
-                <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
-            </svg>
-        </div>
+        <div class="frame79" style="background-color: ${color};">${initials}</div>
     `;
 }
 

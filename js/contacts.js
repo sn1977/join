@@ -209,7 +209,7 @@ function hideFloatingContact() {
     floatingContact.innerHTML = '';
 }
 
-function overlayEditContact() {
+function overlayEditContact(name, index) {
     const overlay = document.createElement('div');
     overlay.id = 'overlayAddContact';
     document.body.appendChild(overlay);
@@ -218,12 +218,12 @@ function overlayEditContact() {
         overlay.style.transform = 'translateY(-50%) translateX(50%)';
     }, 50);
 
-    editCreatedContact();
+    editCreatedContact(name, index);
 }
 
 function editContact(index) {
     // Das overlayAddContact Overlay aufrufen
-    overlayEditContact();
+    overlayEditContact(nameOfContact[index], index);
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = nameOfContact[index];

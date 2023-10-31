@@ -15,6 +15,7 @@ body {
 
 #contactTemplate {
     position: relative;
+    overflow-y: auto;
 }
 
 h1 {
