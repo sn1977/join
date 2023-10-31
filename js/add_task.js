@@ -274,7 +274,7 @@ function addTaskGetContacts() {
 
     for (let i = 0; i < contactpool.length; i++) {
         contacts.innerHTML += ` 
-            <div class="contactLine">
+            <div class="contactLine" onclick="toggleContact(${i})">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
                         ${contactpool[i]['initialien']}
@@ -292,12 +292,20 @@ function addTaskGetContacts() {
         let icon = document.getElementById(`checked${i}`);
 
         if (contactpool[i]['assigned']) {
-            icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt=""></img>`;
+            icon.innerHTML = `<img src="../assets/img/check_button_white.svg" alt=""></img>`;
             icon.parentNode.classList.add('checked');
         } else {
-            icon.innerHTML = `<img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt=""></img>`;
+            icon.innerHTML = `<img src="../assets/img/checkbox.png" alt=""></img>`;
             icon.parentNode.classList.remove('checked');
         }
+    }
+}
+
+function toggleContact(i){
+    if (contactpool[i]['assigned']) {
+        unchoseContact(i);
+    } else {
+        choseContact(i);
     }
 }
 
@@ -334,10 +342,12 @@ function choseContact(i) {
 function unchoseContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
-        <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
+        <img src="../assets/img/checkbox.png" alt="">
     `;
-    contactCheckbox.parentNode.classList.remove('checked');
-    allContacts.splice(i, 1);
+    contactCheckbox.parentNode.classList.remove('checked');   
+    const suche = allContacts.map(el => el.contactid); 
+    let x = suche.indexOf(i);
+    allContacts.splice(x, 1);
     contactpool[i]['assigned'] = false;
     showTaskContacts();
 }
@@ -346,22 +356,26 @@ function unchoseContact(i) {
 function changeMarkedContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
-        <img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt="">
+        <img src="../assets/img/check_button_white.svg" alt="">
     `;
     contactCheckbox.parentNode.classList.add('checked');
 }
 
 
-// Klick-Ereignis außerhalb des Dropdown-Menüs hinzufügen, um es zu schließen
 document.addEventListener('click', function (event) {
     const assignedToContainer = document.getElementById('assignedToContainer');
     const assignedToInput = document.getElementById('assignedTo');
 
-    // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet - funktioniert noch nicht sauber!
-    if (event.target !== assignedToContainer && event.target !== assignedToInput) {
+    // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet
+    if (
+        event.target !== assignedToContainer &&
+        event.target !== assignedToInput &&
+        !assignedToContainer.contains(event.target)
+    ) {
         assignedToContainer.classList.add('d-none');
     }
 });
+
 
 
 /**
@@ -416,7 +430,6 @@ function checkRequieredFields() {
         document.getElementById("warningcategory").classList.remove("warning");
         document.getElementById("category").classList.remove("warning-border");
     }
-    alert(canAdd);
 }
 
 
