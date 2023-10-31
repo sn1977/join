@@ -253,7 +253,7 @@ function addTaskLoadContacts() {
         contactpool.push(tempContactPool);
     }
     contactpool.sort(SortArray);
-    console.log(contactpool);
+    // console.log(contactpool);
 }
 
 
@@ -320,7 +320,7 @@ function choseContact(i) {
     let tempContact = {
         'id': id,
         'contactid': i,
-        'name': nameOfContact[i],
+        'name': contactpool[i]['name'],
         'color': contactpool[i]['color'],
         'initialien': contactpool[i]['initialien']
     }
