@@ -40,7 +40,7 @@ function logInTemplate() {
                         </div>
                         <div class="frame176">
                             <button class="btn-login" onclick="login(event)" type="submit">Log in</button>
-                            <button class="btn-guest">Guest Log in</button>
+                            <button class="btn-guest" onclick="location.href='../html/contacts.html'">Guest Log in</button>
                         </div>
                     </div>
     			</form>
@@ -128,19 +128,21 @@ function signUpTemplate() {
 
 function displayFloatingContactDetails(index) {
     let floatingContact = document.getElementById('floatingContact');
+    floatingContact.classList.remove('d-none');
+    floatingContact.classList.add('floatingContact');
 
     // Initialen des Kontakts generieren
     let initials = nameOfContact[index].split(' ').map(word => word[0]).join('');
-
     const color = getColorByIndex(index);
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
+    
     let contactDetailsHTML = `
         <div class="frame105">
             <div class="frame79" style="background-color: ${color};">${initials}</div>
             <div class="frame104">
                 <div class="frame81">${nameOfContact[index]}</div>
                 <div class="frame204">
-                    <div class="frame108" onclick="(function(i) { editContact(i) })(${index})">
+                    <div class="frame108" onclick="editContact(${index})">
                         <svg class=icon-edit xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <mask id="mask0_94406_3876" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                                 <rect width="24" height="24" fill="#D9D9D9"/>
@@ -151,7 +153,7 @@ function displayFloatingContactDetails(index) {
                         </svg>                
                         <span class="delete-edit-text">Edit</span>
                     </div>
-                    <div class="deleteContact" onclick="(function(i) { deleteContact(i) })(${index})">
+                    <div class="deleteContact" onclick="deleteContact(${index})">
                         <svg class=icon-edit fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <mask height="24" id="mask0_94406_4140" maskUnits="userSpaceOnUse" style="mask-type:alpha" width="24" x="0" y="0">
                                 <rect fill="#D9D9D9" height="24" width="24"/>
