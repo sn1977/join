@@ -39,9 +39,9 @@ subtaskInput.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
 
- $(document).ready(function() {
+$(document).ready(function () {
     $("#dueDate").datepicker();
- });
+});
 
 
 /**
@@ -51,7 +51,7 @@ subtaskInput.addEventListener("blur", () => {
 async function initTask() {
     await loadAllTasks();
     await loadContacts();
-    addTaskLoadContacts ();
+    addTaskLoadContacts();
     reload();
 }
 
@@ -113,8 +113,7 @@ function getTaskValues(progress) {
  */
 async function addTask(progress) {
     getInputIDs();
-    checkRequieredFields('title');
-    // checkRequieredFields();
+    checkRequieredFields();
     if (canAdd) {
         getLastID();
         getTaskValues(progress);
@@ -241,40 +240,40 @@ function toggleContacts() {
 }
 
 
-function addTaskLoadContacts (){
-    for (let i  = 0; i  < nameOfContact.length; i ++) {
-        let tempInitialien =  getInitials(nameOfContact[i]);
+function addTaskLoadContacts() {
+    for (let i = 0; i < nameOfContact.length; i++) {
+        let tempInitialien = getInitials(nameOfContact[i]);
         let tempContactPool = {
-            'id' : i,
-            'name' : nameOfContact[i],
-            'color' : getColorByIndex(i),
-            'initialien' :  tempInitialien,
-            'assigned' : false     
+            'id': i,
+            'name': nameOfContact[i],
+            'color': getColorByIndex(i),
+            'initialien': tempInitialien,
+            'assigned': false
         }
-    contactpool.push(tempContactPool);
+        contactpool.push(tempContactPool);
     }
     contactpool.sort(SortArray);
     console.log(contactpool);
 }
 
 
-  function SortArray(x, y) {
+function SortArray(x, y) {
     if (x.name < y.name) {
-      return -1;
+        return -1;
     }
     if (x.name > y.name) {
-      return 1;
+        return 1;
     }
     return 0;
-  }
+}
 
 
 function addTaskGetContacts() {
     let contacts = document.getElementById('assignedToContact');
     contacts.innerHTML = '';
 
-    for (let i  = 0; i  < contactpool.length; i ++) {
-        contacts.innerHTML +=` 
+    for (let i = 0; i < contactpool.length; i++) {
+        contacts.innerHTML += ` 
             <div class="contactLine">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
@@ -288,42 +287,42 @@ function addTaskGetContacts() {
 
                 </div>
             </div>
-        `;  
+        `;
 
         let icon = document.getElementById(`checked${i}`);
-       
+
         if (contactpool[i]['assigned']) {
-           icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt=""></img>`;
-           icon.parentNode.classList.add('checked');
+            icon.innerHTML = `<img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt=""></img>`;
+            icon.parentNode.classList.add('checked');
         } else {
-           icon.innerHTML = `<img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt=""></img>`;
-           icon.parentNode.classList.remove('checked');
+            icon.innerHTML = `<img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt=""></img>`;
+            icon.parentNode.classList.remove('checked');
         }
-    }    
+    }
 }
 
 
-function showTaskContacts(){
-    let contactsIcons = document.getElementById ('showAssignedContacts');
+function showTaskContacts() {
+    let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
-    for (let i=0; i <  allContacts.length; i++) {
+    for (let i = 0; i < allContacts.length; i++) {
         contactsIcons.innerHTML += `
                 <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
                     ${allContacts[i]['initialien']}
                 </div>
         `;
-    }  
+    }
 }
 
 
-function choseContact (i){
+function choseContact(i) {
     getLastID();
     let tempContact = {
         'id': id,
-        'contactid' : i,
+        'contactid': i,
         'name': nameOfContact[i],
-        'color' : contactpool[i]['color'],
-        'initialien' :  contactpool[i]['initialien']  
+        'color': contactpool[i]['color'],
+        'initialien': contactpool[i]['initialien']
     }
     allContacts.push(tempContact);
     contactpool[i]['assigned'] = true;
@@ -332,7 +331,7 @@ function choseContact (i){
 }
 
 
-function unchoseContact (i){
+function unchoseContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
         <img onclick="choseContact(${i})" src="../assets/img/checkbox.png" alt="">
@@ -344,7 +343,7 @@ function unchoseContact (i){
 }
 
 
-function changeMarkedContact (i) {
+function changeMarkedContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
         <img onclick="unchoseContact(${i})" src="../assets/img/check_button_white.svg" alt="">
@@ -365,9 +364,6 @@ document.addEventListener('click', function (event) {
 });
 
 
-
-
-
 /**
  * function to empty the input fields
  * 
@@ -383,6 +379,9 @@ function emptyFields() {
     category.value = '';
     subtask.value = '';
     allSubtasks = [];
+    canAdd = true;
+    let contactsIcons = document.getElementById('showAssignedContacts');
+    contactsIcons.innerHTML = '';
 }
 
 
@@ -393,24 +392,6 @@ function emptyFields() {
  * 
  */
 function checkRequieredFields() {
-    
-
-   /*  let test1 = `${field}.value`;
-    alert(test1);
-    
-    if (test1 == "") {
-        alert("HIER");
-        let test = document.getElementById(`warning${field}`);
-        test.classList.add("warning");
-        document.getElementById(`${field}`).classList.add("warning-border");
-        canAdd = false;
-    } else {
-        document.getElementById(`warning${field}`).classList.remove("warning");
-        document.getElementById(`${field}`).classList.remove("warning-border");
-        canAdd = true;
-    } */
-
-
     if (title.value == "") {
         document.getElementById('warningtitle').classList.add("warning");
         document.getElementById('title').classList.add("warning-border");
@@ -435,6 +416,7 @@ function checkRequieredFields() {
         document.getElementById("warningcategory").classList.remove("warning");
         document.getElementById("category").classList.remove("warning-border");
     }
+    alert(canAdd);
 }
 
 
@@ -504,7 +486,7 @@ function generateSubtaskHtml() {
 }
 
 
-function editSubtaskHtml(i){
+function editSubtaskHtml(i) {
     let editSubtask = document.getElementById(`editSubtask${i}`);
     editSubtask.classList.remove('subtaskItem');
     editSubtask.classList.add('editItem');
@@ -519,7 +501,7 @@ function editSubtaskHtml(i){
             <img src="../assets/img/check-black.svg" onclick="editSubtask(${i})">
         </div>
     `;
-    }
+}
 
 
 
@@ -528,28 +510,28 @@ function delSubtask(i) {
     generateSubtaskHtml();
 }
 
-function editSubtask(i){
+function editSubtask(i) {
     let editSubtask = document.getElementById('editSubtask');
-     allSubtasks[i].subtasktitle = editSubtask.value;
-     generateSubtaskHtml();
+    allSubtasks[i].subtasktitle = editSubtask.value;
+    generateSubtaskHtml();
 }
 
 
-function switchToInput(){
+function switchToInput() {
     document.getElementById('inputsubtask').style.display = 'flex';
     document.getElementById('addSubtask').style.display = 'none';
 }
 
-function switchBack (){
+function switchBack() {
     document.getElementById('inputsubtask').style.display = 'none';
-    document.getElementById('addSubtask').style.display = 'flex';   
+    document.getElementById('addSubtask').style.display = 'flex';
     subtask.value = "";
 }
 
-function delInput (){    
+function delInput() {
     subtask.value = "";
     document.getElementById('inputsubtask').style.display = 'none';
-    document.getElementById('addSubtask').style.display = 'flex';   
+    document.getElementById('addSubtask').style.display = 'flex';
 }
 
 
