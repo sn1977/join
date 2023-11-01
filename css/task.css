@@ -252,13 +252,26 @@ select:focus,
     height: 48px;
 }
 
+
+.assignedToContainer {
+    background-color: #fff;
+    height: 200px;
+    z-index: 1;
+    width: 440px;
+    overflow: auto;
+    position: absolute;
+    margin-top: 96px;
+}
+
+
 #assignedToContact {
     overflow-y: auto;
     background-color: #fff;
-    height: 160px;
-    position: absolute;
+    height: 140px;
     z-index: 1;
-    width: 440px;;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
 }
 
 #showAssignedContacts {
@@ -363,7 +376,7 @@ select:focus,
 
 
 .warning-border {
-    border-color: var(--warning-color);
+    border-color: var(--warning-color) !important;
 }
 
 

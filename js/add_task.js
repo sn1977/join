@@ -124,7 +124,7 @@ async function addTask(progress) {
             resetPrio();
         }
     } else {
-        alert("Füll den Käse richtig aus!")
+       
     }
 }
 
@@ -146,10 +146,8 @@ async function getLastID() {
     if (maxID > 0) {
         id = maxID + 1;
     } else {
-        id = 1; // Setze die ID auf 1, wenn keine Aufgaben vorhanden sind
-        // alert("Keine Aufgaben");
+        id = 1; 
     }
-    // alert("Gespeicherte Aufgaben: " + maxID);
 }
 
 
@@ -268,11 +266,39 @@ function SortArray(x, y) {
 
 
 function addTaskGetContacts() {
-    let contacts = document.getElementById('assignedToContact');
-    contacts.innerHTML = '';
+    let contacts = document.getElementById('assignedToContainer');
+    contacts.innerHTML = `
+        <section id="assignedToContact">
+            ${contactlistHtml()}
+        </section>
+        <button class="createContactBtn"  onclick="overlayAddContact()">
+            Add new contact
+            <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+        </button>
+        `;
+    getIcon();
+}
 
+
+function getIcon() {
     for (let i = 0; i < contactpool.length; i++) {
-        contacts.innerHTML += ` 
+        let icon = document.getElementById(`checked${i}`);
+        if (contactpool[i]['assigned']) {
+            icon.innerHTML = `<img src="../assets/img/check_button_white.svg" alt="">`;
+            icon.parentNode.classList.add('checked');
+        } else {
+            icon.innerHTML = `<img src="../assets/img/checkbox.png" alt="">`;
+            icon.parentNode.classList.remove('checked');
+        }
+
+    }
+}
+
+
+function contactlistHtml() {
+    let contacthtml = '';
+    for (let i = 0; i < contactpool.length; i++) {
+        contacthtml += ` 
             <div class="contactLine" onclick="toggleContact(${i}, event)">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
@@ -283,29 +309,15 @@ function addTaskGetContacts() {
                     </div>
                 </div>
                 <div id="checked${i}">
-
+                    <img src="../assets/img/checkbox.png" alt="">
                 </div>
             </div>
         `;
-
-        let icon = document.getElementById(`checked${i}`);
-
-        if (contactpool[i]['assigned']) {
-            icon.innerHTML = `<img src="../assets/img/check_button_white.svg" alt=""></img>`;
-            icon.parentNode.classList.add('checked');
-        } else {
-            icon.innerHTML = `<img src="../assets/img/checkbox.png" alt=""></img>`;
-            icon.parentNode.classList.remove('checked');
-        }
     }
-    contacts.innerHTML += ` 
-    <button class="createContactBtn"  onclick="overlayAddContact()">
-    Add new contact
-    <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
-</button>`;
+    return contacthtml;
 }
 
-function toggleContact(i, event){
+function toggleContact(i, event) {
     if (contactpool[i]['assigned']) {
         unchoseContact(i);
     } else {
@@ -348,8 +360,8 @@ function unchoseContact(i) {
     contactCheckbox.innerHTML = `
         <img src="../assets/img/checkbox.png" alt="">
     `;
-    contactCheckbox.parentNode.classList.remove('checked');   
-    const suche = allContacts.map(el => el.contactid); 
+    contactCheckbox.parentNode.classList.remove('checked');
+    const suche = allContacts.map(el => el.contactid);
     let x = suche.indexOf(i);
     allContacts.splice(x, 1);
     contactpool[i]['assigned'] = false;
