@@ -253,7 +253,6 @@ function addTaskLoadContacts() {
         contactpool.push(tempContactPool);
     }
     contactpool.sort(SortArray);
-    // console.log(contactpool);
 }
 
 
