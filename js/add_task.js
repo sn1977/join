@@ -273,7 +273,7 @@ function addTaskGetContacts() {
 
     for (let i = 0; i < contactpool.length; i++) {
         contacts.innerHTML += ` 
-            <div class="contactLine" onclick="toggleContact(${i})">
+            <div class="contactLine" onclick="toggleContact(${i}, event)">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
                         ${contactpool[i]['initialien']}
@@ -298,16 +298,21 @@ function addTaskGetContacts() {
             icon.parentNode.classList.remove('checked');
         }
     }
+    contacts.innerHTML += ` 
+    <button class="createContactBtn"  onclick="overlayAddContact()">
+    Add new contact
+    <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+</button>`;
 }
 
-function toggleContact(i){
+function toggleContact(i, event){
     if (contactpool[i]['assigned']) {
         unchoseContact(i);
     } else {
         choseContact(i);
     }
+    event.stopPropagation(); // Verhindert das Ausbreiten des Ereignisses auf übergeordnete Elemente
 }
-
 
 function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
