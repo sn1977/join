@@ -7,7 +7,7 @@
  */
 let tasks = [];
 let lastPrio = '';
-let prio = '';
+let prio = 'low';
 let progress = '';
 let id;
 let title;
@@ -369,6 +369,22 @@ function unchoseContact(i) {
 }
 
 
+function removeContactFromArray(contactName) {
+    for (let i = 0; i < tasks.length; i++) {
+      const item = tasks[i];
+      if (item.assignedTo) {
+        for (let j = 0; j < item.assignedTo.length; j++) {
+          if (item.assignedTo[j].name === contactName) {
+            // Der Kontakt wurde gefunden, lösche ihn aus dem Array
+            item.assignedTo.splice(j, 1);
+            return;
+          }
+        }
+      }
+    }
+  }
+
+
 function changeMarkedContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
@@ -405,7 +421,7 @@ function emptyFields() {
     description.value = '';
     assignedTo.value = '';
     dueDate.value = '';
-    prio = '';
+    prio = 'low';
     category.value = '';
     subtask.value = '';
     allSubtasks = [];
@@ -488,7 +504,7 @@ function addSubtask() {
         generateSubtaskHtml();
         switchBack();
     } else {
-        alert("Darf nicht leer sein");
+        alert("Darf nicht leer sein");  
     }
 }
 
