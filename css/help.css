@@ -5,9 +5,12 @@ body {
 
 .content {
     position: relative;
-    top: 206px;
-    left: 328px;
-    width: 1014px;
+    top: 96px;
+    left: 232px;
+    padding: 110px 96px;
+    width: calc(100vw - 424px);
+    height: calc(100vh - 206px);
+    overflow-y: auto;
 }
 
 .heading-text-function {
