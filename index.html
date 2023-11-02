@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>Title</title>
-	<script src="js/storage.js"></script>
+	<link rel="stylesheet" href="../fonts.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/sidebar.css">
+	<link rel="stylesheet" href="../css/board.css">
+	<link rel="stylesheet" href="../css/contacts.css">
+	<script src="../js/board.js"></script>
+	<script src="..js/templates.js"></script>
+	<script src="../js/w3includes.js"></script>
+	<script src="/js/storage.js"></script>
 </head>
-<body>
 
+<body onload="loadIncludeHTML()">
+	<div w3-include-html="../assets/templates/header.html"></div>
+	<div w3-include-html="../assets/templates/sidebar.html"></div>
+	<div id="content" class="content"></div>
 </body>
+
 </html>
