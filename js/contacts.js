@@ -181,6 +181,7 @@ function overlayContactCreated() {
 
 async function deleteContact(index) {
     if (index >= 0 && index < nameOfContact.length) {
+        removeContactFromArray(nameOfContact[index])
         // Lokale Arrays aktualisieren
         nameOfContact.splice(index, 1);
         emailOfContact.splice(index, 1);
@@ -261,3 +262,8 @@ async function saveEditedContact(index) {
     showContactDetails();
 }
 
+function loadInitialsHeader() {
+    // Wenn der Benutzer gefunden wird, setzen Sie die Initialen
+    let initials = getInitials(userInitials);
+    document.getElementById("profileInitials").innerHTML = `<span>${initials}</span>`;
+}

@@ -6,27 +6,28 @@
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>Summary</title>
-	    <!-- Include favicon.ico picture -->
-		<link rel="icon" type="image/x-icon" href="../assets/img/favicon.svg">
+	<!-- Include favicon.ico picture -->
+	<link href="../assets/img/favicon.svg" rel="icon" type="image/x-icon">
 
-		<!-- Schriftart einbinden -->
-		<link rel="stylesheet" href="../fonts.css">
-	
-		<!-- CSS Datei einbinden -->
-		<link rel="stylesheet" href="../css/summary.css">
-		<link rel="stylesheet" href="../css/header.css">
-		<link rel="stylesheet" href="../css/sidebar.css">
-	
-		<script src="../js/w3includes.js"></script>
-		<script src="../js/storage.js"></script>
-	
+	<!-- Schriftart einbinden -->
+	<link href="../fonts.css" rel="stylesheet">
+
+	<!-- CSS Datei einbinden -->
+	<link href="../css/summary.css" rel="stylesheet">
+	<link href="../css/header.css" rel="stylesheet">
+	<link href="../css/sidebar.css" rel="stylesheet">
+
+	<script src="../js/w3includes.js"></script>
+	<script src="../js/storage.js"></script>
+	<script src="../js/script.js"></script>
+	<script src="../js/contacts.js"></script>
 </head>
 
-<body onload="loadIncludeHTML()"">
+<body onload="loadIncludeHTML(), loadInitialsHeader()">
 
-	
-    <div w3-include-html="../assets/templates/header.html"></div>
-    <div w3-include-html="../assets/templates/sidebar.html"></div>
+
+	<div w3-include-html="../assets/templates/header.html"></div>
+	<div w3-include-html="../assets/templates/sidebar.html"></div>
 
 	<headline>
 		Join 360 | Key Metrics at a Glance
@@ -46,7 +47,6 @@
 			Sofia Müller
 		</div>
 	</div>
-
 
 
 </body>
