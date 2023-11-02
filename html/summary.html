@@ -7,47 +7,71 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>Summary</title>
 	<!-- Include favicon.ico picture -->
-	<link href="../assets/img/favicon.svg" rel="icon" type="image/x-icon">
+	<link rel="icon" type="image/x-icon" href="../assets/img/favicon.svg">
 
 	<!-- Schriftart einbinden -->
-	<link href="../fonts.css" rel="stylesheet">
+	<link rel="stylesheet" href="../fonts.css">
 
 	<!-- CSS Datei einbinden -->
-	<link href="../css/summary.css" rel="stylesheet">
-	<link href="../css/header.css" rel="stylesheet">
-	<link href="../css/sidebar.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/add_task.css">
+	<link rel="stylesheet" href="../css/summary.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/sidebar.css">
 
 	<script src="../js/w3includes.js"></script>
 	<script src="../js/storage.js"></script>
-	<script src="../js/script.js"></script>
-	<script src="../js/contacts.js"></script>
+
+
 </head>
 
-<body onload="loadIncludeHTML(), loadInitialsHeader()">
+<body onload="loadIncludeHTML(), tasksCount()">
 
-
-	<div w3-include-html="../assets/templates/header.html"></div>
+	
+    <div w3-include-html=" ../assets/templates/header.html">
+	</div>
 	<div w3-include-html="../assets/templates/sidebar.html"></div>
 
-	<headline>
-		Join 360 | Key Metrics at a Glance
-	</headline>
-	<div>
-		<div class="left">
-			To-Do
-			Done
-			Urgent
-			Upcoming Deadline
-			Tasks in Board
-			Tasks in Progress
-			Awaiting Feedback
-		</div>
-		<div class="right">
-			Good morning,
-			Sofia Müller
+	<div class="content">
+		<h3>
+			Join 360 | Key Metrics at a Glance
+		</h3>
+		<div class="summary">
+			<div class="left">
+				<div class="firstLine">
+					<div id="todo" class="box twobox">
+						To Do
+					</div>
+					<div id="done" class="box twobox">
+						Done
+					</div>
+				</div>
+
+				<div class="secondLine">
+					<div id="upcoming" class="box">
+					Upcoming Deadline
+					</div>
+				</div>
+
+				<div class="thirdLine">
+					<div id="tasks" class="box threebox">
+						Tasks in Board
+					</div>
+					<div id="progress" class="box threebox">
+						Tasks in Progress
+					</div>
+					<div id="waiting" class="box threebox">
+						Awaiting Feedback
+					</div>
+				</div>
+			</div>
+
+			<div class="right">
+				Good morning,
+				Sofia Müller
+			</div>
 		</div>
 	</div>
-
+	<script src="../js/summary.js"></script>
 
 </body>
 
