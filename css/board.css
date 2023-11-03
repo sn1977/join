@@ -2,6 +2,15 @@ body {
     font-family: 'inter';
 }
 
+img,
+svg {
+    vertical-align: middle;
+}
+
+textarea {
+    font-family: 'Inter';
+}
+
 .content {
     height: calc(100vh - 96px);
     margin-top: 96px;
@@ -223,6 +232,11 @@ body {
     margin-top: 16px;
 }
 
+.popupInputStyle {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
 .popup {
     display: none;
     position: fixed;
@@ -263,10 +277,19 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow-y: auto;
+    height: 70vh;
+    margin-bottom: 24px;
 }
 
 .popup-info-container h2 {
     font-size: 61px;
+    margin: 0;
+}
+
+
+#popupDescription {
+    font-size: 20px;
     margin: 0;
 }
 
@@ -286,4 +309,234 @@ body {
 
 .d-flex {
     display: flex;
+}
+
+.td-left {
+    color: #2A3647;
+    width: 150px;
+}
+
+#subtask-container-table {
+    font-size: 20px;
+}
+
+.table-style {
+    font-size: 20px;
+}
+
+.subtask-popup-content {
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    gap: 16px;
+}
+
+
+.checked {
+    background-image: url('../assets/img/checked.svg');
+    background-size: cover;
+    display: inline-block;
+    width: 24px;
+    /* oder die gewünschte Größe */
+    height: 24px;
+    /* oder die gewünschte Größe */
+}
+
+.unchecked {
+    background-image: url('../assets/img/unchecked.svg');
+    background-size: cover;
+    display: inline-block;
+    width: 24px;
+    /* oder die gewünschte Größe */
+    height: 24px;
+    /* oder die gewünschte Größe */
+}
+
+.unchecked:hover {
+    opacity: 0.5;
+    /* oder der gewünschte Transparenzgrad */
+    background-image: url('../assets/img/checked.svg');
+}
+
+.checked:hover {
+    opacity: 0.5;
+    /* oder der gewünschte Transparenzgrad */
+    background-image: url('../assets/img/unchecked.svg');
+}
+
+
+.table-style td {
+    padding-bottom: 25px;
+}
+
+
+
+.buttonpopup {
+    z-index: 9999999;
+}
+
+.assignedToContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-badge-board {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    margin-right: 16px;
+}
+
+.assignedToUsers {
+    display: flex;
+    align-items: center;
+    padding: 7px 16px 7px 16px;
+}
+
+#assigned-table-div {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 4px;
+}
+
+.table-row {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.subtask-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.delete-edit-buttons {
+    padding: 4px;
+    cursor: pointer;
+    gap: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.d-none {
+    display: none;
+}
+
+
+.popup-content input,
+textarea,
+select {
+    /* width: calc( 100% - 14px); */
+    /* width: 98%;*/
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    min-height: 24px;
+    padding: 16px;
+}
+
+select {
+    width: 100%;
+}
+
+textarea {
+    /*width: 515px;*/
+    min-height: 80px;
+    resize: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    /*width: 515px;*/
+    margin-top: 8px;
+    gap: 16px;
+}
+
+.button-container button {
+    width: 30%;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    border: 1px solid #D1D1D1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+}
+
+#editpopup h4 {
+    margin: 0;
+}
+
+button {
+    border: 1px solid #D1D1D1;
+    height: 56px;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 4px;
+}
+
+.inputfield {
+    width: 98%;
+}
+
+.selected {
+    background-color: #007bff;
+    /* Ändern Sie die Hervorhebungsfarbe nach Ihren Wünschen */
+    color: white;
+    /* Ändern Sie die Textfarbe nach Ihren Wünschen */
+    border: none;
+    /* Entfernt den Button-Rand (optional) */
+}
+
+.direction {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    flex-direction: column;
+}
+
+.savedSubtasks input {
+    width: -webkit-fill-available;
+}
+
+.editSubtask {
+    display: flex;
+
+}
+
+.editSubtask input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.editSubtask button {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border: 1px solid #D1D1D1;
+    height: auto;
 }
