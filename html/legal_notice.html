@@ -4,9 +4,35 @@
 	<meta charset="UTF-8">
 	<meta content="ie=edge" http-equiv="X-UA-Compatible">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>Title</title>
+	<title>Legal Notice</title>
+	<link href="../css/header.css" rel="stylesheet">
+	<link href="../css/sidebar.css" rel="stylesheet">
+	<link href="../css/help.css" rel="stylesheet">
+	<link href="../assets/img/favicon-icon.svg" rel="shortcut icon" type="image/x-icon">
+	<link href="../fonts.css" rel="stylesheet">
+	<script src="../js/w3includes.js"></script>
+	<script src="../js/contacts.js"></script>
 </head>
-<body>
-<h1>TEST2</h1>
+<body onload="loadIncludeHTML()">
+	<div w3-include-html="../assets/templates/header.html"></div>
+	<div w3-include-html="../assets/templates/sidebar.html"></div>
+	<div class="content">
+		<div class="heading-text-function">
+			<h1>Impressum</h1>
+			<div class="arrow-left-line" onclick="history.back()">
+				<img alt="arrow-back" class="img-back" src="../assets/img/arrow-left.png">
+			</div>
+		</div>
+		<h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
+		<p>Christiane, Patrick &amp; Sascha <br>Gruppe Join<br/>
+			Musterstrasse 123<br/>
+			123456 Musterstadt</p>
+
+		<h2>Kontakt</h2>
+		<p>Telefon: 12345678<br/>
+			E-Mail: muster@muster.com</p>
+
+		<p>Quelle: <a href="https://www.e-recht24.de">eRecht24</a></p>
+	</div>
 </body>
 </html>

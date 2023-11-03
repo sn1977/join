@@ -29,3 +29,17 @@
 a {
     display: flex;
 }
+#profileInitials {
+    position: relative;
+}
+
+#profileInitials span {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+    color: #29ABE2;
+    font-size: 20px;
+    line-height: 120%;
+}

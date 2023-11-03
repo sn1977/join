@@ -263,7 +263,9 @@ async function saveEditedContact(index) {
 }
 
 function loadInitialsHeader() {
+    let userInitials = localStorage.getItem('userInitials');
     // Wenn der Benutzer gefunden wird, setzen Sie die Initialen
     let initials = getInitials(userInitials);
-    document.getElementById("profileInitials").innerHTML = `<span>${initials}</span>`;
+    document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
+
