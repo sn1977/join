@@ -4,20 +4,49 @@
     margin-left: 232px;
     overflow-y: auto;
     background-color: #F6F7F8;
+    font-family: 'Inter', sans-serif;
 }
+
+.headlineSummary {
+    display: inline-flex;
+    align-items: center;
+    gap: 30px;
+    padding-left: 32px;
+}
+
+h1 {
+    color: #000;
+    font-size: 61px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 73.2px */
+    margin-bottom: 8px;
+}
+
+.spanHeadline {
+    color: #2A3647;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 32.4px */
+}
+
 
 .summary {
     display: flex;
-    height: 50%;
+    /* height: calc(100vh - 96px); */
+    height: 75%;
     background-color: blanchedalmond;
     gap: 16px;
-    padding: 64px;
-
+    padding: 8px 64px;
 }
 
 .left {
     background-color: aqua;
     width: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 32px;
 }
 
@@ -28,7 +57,7 @@
 .firstLine {
     background-color: blueviolet;
     display: flex;
-    gap:32px;
+    gap: 32px;
     width: 560px;
 
 }
