@@ -20,16 +20,18 @@
 
 	<script src="../js/w3includes.js"></script>
 	<script src="../js/storage.js"></script>
-	<script src="../js/contacts.js"></script>
+	<script src="../js/add_task.js"></script>
+	<!-- <script src="../js/contacts.js"></script> -->
 
 
 </head>
 
-<body onload="loadIncludeHTML(), tasksCount()">
+<!-- loadIncludeHTML(), -->
 
-	
-    <div w3-include-html=" ../assets/templates/header.html">
-	</div>
+<body onload="loadIncludeHTML(), loadAllSummaryTasks()">
+
+
+	<div w3-include-html=" ../assets/templates/header.html"></div>
 	<div w3-include-html="../assets/templates/sidebar.html"></div>
 
 	<div class="content">
@@ -40,33 +42,33 @@
 			</svg>
 			<span class="spanHeadline">Key Metrics at a Glance</span>
 		</div>
-	
+
 		<div class="summary">
 			<div class="left">
 				<div class="firstLine">
 					<div id="todo" class="box twobox">
-						To Do
+
 					</div>
 					<div id="done" class="box twobox">
-						Done
 					</div>
 				</div>
 
-				<div class="secondLine">
-					<div id="upcoming" class="box">
-					Upcoming Deadline
+				<div class="secondLine box" >
+					<div id="urgentbox"></div>
+					<div id="upcoming">
+						Upcoming Deadline
 					</div>
 				</div>
 
 				<div class="thirdLine">
 					<div id="tasks" class="box threebox">
-						Tasks in Board
+
 					</div>
 					<div id="progress" class="box threebox">
-						Tasks in Progress
+
 					</div>
 					<div id="waiting" class="box threebox">
-						Awaiting Feedback
+
 					</div>
 				</div>
 			</div>
@@ -75,9 +77,9 @@
 				Good morning,
 				Sofia Müller
 			</div>
+
 		</div>
-	</div>
-	<script src="../js/summary.js"></script>
+		<script src="../js/summary.js"></script>
 
 </body>
 

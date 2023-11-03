@@ -30,7 +30,6 @@ let contactpool = [];
 async function initTask() {
     await loadAllTasks();
     await loadContacts();
-    addTaskLoadContacts();
     reload();
 }
 
@@ -71,7 +70,7 @@ function getTaskValues(progress) {
         'id': id,
         'title': title.value,
         'description': description.value,
-        'dueDate': Date(dueDate.value),
+        'dueDate': dueDate.value,
         'prio': prio,
         'progress': progress,
         'category': category.value,
@@ -102,6 +101,7 @@ async function addTask(progress) {
         if (lastPrio != '') {
             resetPrio();
         }
+        
     } else {
        
     }
@@ -140,6 +140,7 @@ function reload() {
     emptyFields();
     resetRequiredFields()
     getLastID();
+    addTaskLoadContacts();
     subtaskID = 0;
 }
 
@@ -218,6 +219,7 @@ function toggleContacts() {
 
 
 function addTaskLoadContacts() {
+    contactpool = [];
     for (let i = 0; i < nameOfContact.length; i++) {
         let tempInitialien = getInitials(nameOfContact[i]);
         let tempContactPool = {
@@ -391,6 +393,8 @@ function emptyFields() {
     canAdd = true;
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
+    contactpool = [];
+    addTaskLoadContacts();
 }
 
 
