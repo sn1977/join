@@ -5,7 +5,6 @@ let nameElement;
 let emailElement;
 let passwordElement;
 let passwordSignupElement;
-let userInitials = [];
 
 function initializeElements() {
     nameElement = document.getElementById('name');
@@ -145,13 +144,18 @@ function login(event) {
     let password = document.getElementById('password-login');
     let user = users.find(u => u.email == email.value && u.password == password.value);
     if (user) {
-        userInitials.push(user.name);
-        location.href = "../html/summary.html";
+        localStorage.setItem('userInitials', user.name);
+        location.href = "../html/contacts.html";
     } else {
         password.value = '';
         document.getElementById('loginPassword').style.border = '1px solid #FF001F';
         wrongPassword();
     }
+}
+
+function guestLogin() {
+    localStorage.setItem('userInitials', 'G');
+    location.href = "../html/contacts.html";
 }
 
 function wrongPassword() {

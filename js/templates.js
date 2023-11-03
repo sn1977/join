@@ -40,7 +40,7 @@ function logInTemplate() {
                         </div>
                         <div class="frame176">
                             <button class="btn-login" onclick="login(event)" type="submit">Log in</button>
-                            <button class="btn-guest" onclick="location.href='../html/summary.html'">Guest Log in</button>
+                            <button class="btn-guest" onclick="guestLogin()">Guest Log in</button>
                         </div>
                     </div>
     			</form>
