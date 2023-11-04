@@ -11,6 +11,7 @@ body {
     margin: 0;
 }
 
+
 .content {
     height: calc(100vh - 96px);
     margin-top: 96px;
@@ -49,7 +50,6 @@ h1 {
 .summary {
     display: flex;
     height: 75%;
-    gap: 16px;
     padding: 8px 64px;
 }
 
@@ -59,13 +59,11 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 32px;
 }
 
 
 .firstLine {
     display: flex;
-    gap: 32px;
     width: 560px;
 }
 
@@ -79,13 +77,13 @@ h1 {
     align-items: center;
     gap: 61px;
     flex-shrink: 0;
+    margin: 16px;
 }
 
 
 #urgentbox {
     display: flex;
     align-items: center;
-    gap: 18px;
 }
 
 
@@ -106,10 +104,8 @@ h1 {
     background: var(--white, #FFF);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10);
     color: #000;
-
     animation-timing-function: ease-in-out;
     animation-duration: 100ms;
-
 }
 
 
@@ -129,23 +125,23 @@ h1 {
     padding: 38px 19px;
     justify-content: center;
     align-items: center;
-    gap: 18px;
     flex-shrink: 0;
     background-color: #2A3647;
     color: #fff;
 }
+
 
 .secondLine:hover {
     width: 480px;
     height: 128px;
     flex-shrink: 0;
     padding: 28px 48px;
+    margin: 8px 4px;
 }
 
 
 .box:hover .upcomingSubline {
     color: #fff;
-    /* Schriftfarbe der .upcomingSubline ändern, wenn .box gehovert wird */
 }
 
 
@@ -156,6 +152,7 @@ h1 {
     background-size: cover;
     display: inline-block;
 }
+
 
 .box:hover #todoImg {
     background: url('../assets/img/todo_white.svg') no-repeat;
@@ -208,6 +205,7 @@ h1 {
     flex-direction: column;
 }
 
+
 .d-flex-start {
     display: flex;
     flex-direction: column;
@@ -222,14 +220,17 @@ h1 {
     padding: 38px 19px;
     justify-content: center;
     align-items: center;
-    gap: 18px;
     flex-shrink: 0;
+    margin: 18px;
 }
+
 
 .twobox:hover {
     width: 244.5px;
     height: 118px;
+    margin: 0px;
 }
+
 
 .threebox {
     display: flex;
@@ -239,20 +240,21 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 13px;
+    margin: 14px;
     flex-shrink: 0;
 }
+
 
 .threebox:hover {
     width: 184px;
     height: 134px;
+    margin: 4px;
 }
 
 
 .thirdLine {
     width: 560px;
     display: flex;
-    gap: 28px;
 }
 
 
@@ -276,6 +278,7 @@ h1 {
     margin: 0;
     line-height: 120%;
 }
+
 
 .right h3 {
     font-size: 47px;
