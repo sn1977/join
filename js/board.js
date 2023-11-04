@@ -342,7 +342,7 @@ function openPopup(id) {
         justify-content: flex-end;
         gap: 8px;">
         <div class="buttonContainer">
-        <div class="buttonpopup delete-edit-buttons" onclick="deleteTodo(${todo.id})"><img src="../assets/img/delete.svg">Delete</div><img src="../assets/img/vector.svg"><div class="buttonpopup delete-edit-buttons" onclick="openEditPopup(${todo.id})"><img src="../assets/img/edit.svg">Edit</div></div></div>`;
+        <div class="buttonpopup delete-edit-buttons" onclick="deleteTodo(${todo.id})"><img src="../assets/img/delete.svg">Delete</div><img src="../assets/img/small_vector.svg"><div class="buttonpopup delete-edit-buttons" onclick="openEditPopup(${todo.id})"><img src="../assets/img/edit.svg">Edit</div></div></div>`;
 
     } else {
         console.error('Task not found');
