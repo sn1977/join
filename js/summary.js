@@ -54,23 +54,33 @@ async function tasksCount() {
 
 
 /**
- * This function searches all arrays for the earliest date
+ * This function searches for the earliest date after today for tasks with progress not "done"
  * 
- * @returns the next deadline date
+ * @returns the next deadline date after today for tasks with progress not "done"
  */
 function getNextDate() {
-    let nextDate = 0;
-    summarytasks.find((element) => {
-        if (element.dueDate < nextDate || nextDate == 0) {
-            nextDate = element.dueDate;
+    const today = new Date(); // Aktuelles Datum und Uhrzeit
+
+    let nextDate = null; // Nutze null anstelle von 0 für Datumswerte
+    summarytasks.forEach((element) => {
+        if (element.progress !== "done") {
+            const taskDueDate = new Date(element.dueDate);
+
+            if (taskDueDate > today && (!nextDate || taskDueDate < nextDate)) {
+                nextDate = taskDueDate;
+            }
         }
     });
-    if (nextDate == 0) {
+
+    if (!nextDate) {
         return "";
     }
-    const timeOptions = { month: "long", day: "numeric", year: "numeric" }
-    return new Date(nextDate).toLocaleString("en", timeOptions);
+
+    const timeOptions = { month: "long", day: "numeric", year: "numeric" };
+    return nextDate.toLocaleString("en", timeOptions);
 }
+
+
 
 function upcomingHtml(date) {
     let upcomingToHtml = document.getElementById('upcoming');
@@ -84,8 +94,6 @@ function upcomingHtml(date) {
             </span>
         </div>
     `;
-
-
 }
 
 
@@ -167,6 +175,4 @@ function summaryHtml (){
         </div>
         <img src="../assets/img/vector.svg" alt="">
     `;
-
-
 }
