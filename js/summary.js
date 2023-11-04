@@ -193,7 +193,7 @@ function greetByTime() {
      
     let greetingToHtml = document.getElementById('greeting');
     greetingToHtml.innerHTML = `
-      ${greeting}
+        <h3>${greeting}</h3>
     `;
   }
   
