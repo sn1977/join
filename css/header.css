@@ -29,6 +29,7 @@
 a {
     display: flex;
 }
+
 #profileInitials {
     position: relative;
 }
@@ -42,4 +43,17 @@ a {
     color: #29ABE2;
     font-size: 20px;
     line-height: 120%;
+}
+
+/* media queries */
+
+@media (max-width: 1050px) {
+    .headerH2 {
+        visibility: hidden;
+        margin: 0;
+    }
+
+    span {
+        padding-right: 8px;
+    }
 }

@@ -26,7 +26,7 @@ h1 {
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 73.2px */
-   }
+}
 
 .arrow-left-line {
     display: flex;
@@ -46,7 +46,7 @@ h1 {
 
 .text {
     display: flex;
-    width: 1014px;
+    width: calc(100vw - 424px);
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
@@ -113,4 +113,35 @@ h1 {
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 32.4px */
+}
+
+
+/*media queries */
+
+@media (max-width: 1150px) {
+    h1 {
+        font-size: 47px;
+    }
+
+    /*.content {*/
+    /*    padding-left: 46px;*/
+    /*}*/
+}
+
+@media (max-width: 900px) {
+    h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 800px) {
+    .content {
+        position: unset;
+        padding: 110px 46px;
+        width: 90%;
+    }
+
+    .text {
+        width: 100%;
+    }
 }

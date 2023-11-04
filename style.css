@@ -38,15 +38,23 @@ body {
 }
 
 .frame156 {
-    width: 279px;
-    height: 49px;
+    /*width: 279px;*/
+    /*height: 49px;*/
+    /*position: absolute;*/
+    /*top: 67px;*/
+    /*left: 1039px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*gap: 35px;*/
+    visibility: hidden;
     position: absolute;
     top: 67px;
-    left: 1039px;
+    left: 0;
+    right: 48px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 35px;
-    visibility: hidden;
 }
 
 .query-user {

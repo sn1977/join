@@ -413,7 +413,7 @@ function addOverlayCreatedContact() {
 }
 
 function contactsHTML() {
-    return `
+    document.getElementById('content').innerHTML += `
         <div id="contactTemplate" onload="loadIncludeHTML(), renderContacts(), initContact()">
             <div class="frame40">
                 <h1>Contacts</h1>
