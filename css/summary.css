@@ -10,6 +10,11 @@ body {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 .content {
     height: calc(100vh - 96px);
@@ -24,9 +29,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 30px;
-    padding-left: 32px;
     height: 144px;
     margin-top: 32px;
+    padding-left: 84px;
 }
 
 
@@ -249,7 +254,7 @@ h1 {
 .threebox:hover {
     width: 184px;
     height: 134px;
-    margin: 4px;
+    margin: 0px;
 }
 
 
@@ -285,4 +290,33 @@ h1 {
     font-size: 47px;
     font-weight: 500;
     margin: 0;
+}
+
+@media (max-width: 1150px) {
+    .summary {
+        display: block;
+    }
+
+    .content {
+        min-height: 80vh;
+        height: unset;
+        margin-bottom: 80px;;
+    }
+}
+
+@media (max-width: 950px) {
+    .headlineSummary {
+        padding-left: 12px;
+    }
+
+    .summary {
+        padding-left: 0px;
+    }
+}
+
+@media (max-width: 800px) {
+    .content {
+        margin-left: 0;
+        padding-left: 50px; 
+    }
 }

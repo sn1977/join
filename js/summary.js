@@ -25,7 +25,8 @@ async function loadAllSummaryTasks() {
 }
 
 
-async function tasksCount() {    
+async function tasksCount() {   
+    let urgentTodoCount = 0; 
     tasksOnBoard = summarytasks.length;
     for (let i = 0; i < summarytasks.length; i++) {
         const item = summarytasks[i].progress;
@@ -43,7 +44,7 @@ async function tasksCount() {
         if (item === 'awaitfeedback'){   
             feedback++;
         }
-        if (itemprio === 'urgent'){
+        if (itemprio === 'urgent' && item !=="done"){
             urgent++;
         }
     }
@@ -80,7 +81,6 @@ function getNextDate() {
     const timeOptions = { month: "long", day: "numeric", year: "numeric" };
     return nextDate.toLocaleString("en", timeOptions);
 }
-
 
 
 function upcomingHtml(date) {
@@ -196,5 +196,3 @@ function greetByTime() {
         <h3>${greeting}</h3>
     `;
   }
-  
-  
