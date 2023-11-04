@@ -5,7 +5,6 @@ body {
     font-weight: 400;
     line-height: 120%;
     color: #2A3647;
-    cursor: pointer;
     scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;
@@ -84,6 +83,7 @@ h1 {
 #urgentbox {
     display: flex;
     align-items: center;
+    gap: 32px;
 }
 
 
@@ -106,6 +106,7 @@ h1 {
     color: #000;
     animation-timing-function: ease-in-out;
     animation-duration: 100ms;
+    cursor: pointer;
 }
 
 

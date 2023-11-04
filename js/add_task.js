@@ -109,7 +109,7 @@ async function addTask(progress) {
 
 
 /**
- * This function finds the mask id and retrun a task id for the new added task
+ * This function finds the max id and retrun a task id for the new added task
  * 
  * @returns 
  * 
