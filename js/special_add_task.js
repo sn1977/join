@@ -1,3 +1,10 @@
+/**
+ * Eventlistener für Add Task ohne gesonderten Funtkionsaufruf
+ * 
+ * 
+ * 
+ * 
+ */
 document.addEventListener('click', function (event) {
     const assignedToContainer = document.getElementById('assignedToContainer');
     const assignedToInput = document.getElementById('assignedTo');
@@ -14,11 +21,11 @@ document.addEventListener('click', function (event) {
 
 
 
-// JavaScript, um die Platzhalteroption auszuwählen
+// placeholder select category
 document.getElementById("category").selectedIndex = 0;
-//Mindestdatum bei Fällig bis = heute
-document.getElementById("dueDate").min = new Date().toISOString().split("T")[0];
-//Fokus für subtask Input field
+
+
+//focus subtask Input field change border colour
 const subtaskInput = document.getElementById("subtask");
 const subtaskContainer = document.querySelector(".subtaskContainer");
 
@@ -30,11 +37,8 @@ subtaskInput.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
 
-$(document).ready(function () {
-    $("#dueDate").datepicker();
-});
 
-
+// filter assignedTo
 const assignedToInput = document.getElementById('assignedTo');
 assignedToInput.addEventListener('input', filterContacts);
 
@@ -48,4 +52,31 @@ document.addEventListener('click', function (event) {
         // Schließe die Auswahlliste
         assignedToContainer.classList.add('d-none');
     }
+});
+
+
+//datepicker and min date = today for dueDate
+$(document).ready(function () {
+    // Aktuelles Datum abrufen
+    var currentDate = new Date();
+
+    // Datepicker initialisieren
+    $("#dueDate").datepicker({
+        minDate: currentDate, // Das heutige Datum als Mindestdatum festlegen
+        dateFormat: 'dd/mm/yy' // Datumsformat festlegen
+    });
+
+    // Event-Listener hinzufügen
+    $("#dueDate").on("input", function () {
+        var selectedDate = $("#dueDate").datepicker("getDate");
+
+        var warningDueDate = $("#warningDueDate");
+
+        if (selectedDate < currentDate) {
+            warningDueDate.text("Das Datum sollte mindestens heute sein");
+            warningDueDate.removeClass("invisible");
+        } else {
+            warningDueDate.addClass("invisible");
+        }
+    });
 });
