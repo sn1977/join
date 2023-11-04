@@ -86,11 +86,11 @@ function getNextDate() {
 function upcomingHtml(date) {
     let upcomingToHtml = document.getElementById('upcoming');
     upcomingToHtml.innerHTML = `
-        <div class="d-flex">
+        <div class="d-flex-start">
             <div class="upcoming">
                 ${date}
             </div>
-            <span>
+            <span class="upcomingSubline">
                 Upcoming Deadline
             </span>
         </div>
@@ -102,7 +102,7 @@ function summaryHtml (){
 
     let todoToHtml = document.getElementById('todo');
     todoToHtml.innerHTML = `
-        <img src="../assets/img/todo.svg" alt="">
+        <div id="todoImg">     </div>
         <div class="d-flex">
             <div class="number">
                 ${todo}
@@ -115,7 +115,7 @@ function summaryHtml (){
 
     let doneToHtml = document.getElementById('done');
     doneToHtml.innerHTML = `
-        <img src="../assets/img/done.svg" alt="">
+        <div id="doneImg">     </div>
         <div class="d-flex">
             <div class="number">
                 ${done}
@@ -183,11 +183,11 @@ function greetByTime() {
     let greeting = '';
 
     if (currentHour >= 5 && currentHour < 12) {
-        greeting = "Good morning";
+        greeting = "Good morning,";
       } else if (currentHour >= 12 && currentHour < 18) {
-        greeting = "Good afternoon";
+        greeting = "Good afternoon,";
       } else {
-        greeting = "Good evening";
+        greeting = "Good evening,";
       }
 
      

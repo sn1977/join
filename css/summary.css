@@ -1,12 +1,15 @@
-
 body {
     font-family: 'Inter', sans-serif;
     font-size: 21px;
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
+    color: #2A3647;
+    cursor: pointer;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    margin: 0;
 }
-
 
 .content {
     height: calc(100vh - 96px);
@@ -22,6 +25,8 @@ body {
     align-items: center;
     gap: 30px;
     padding-left: 32px;
+    height: 144px;
+    margin-top: 32px;
 }
 
 
@@ -68,11 +73,12 @@ h1 {
 .secondLine {
     display: flex;
     width: 464px;
-    height: 168px;
+    height: 112px;
     padding: 28px 48px;
     justify-content: center;
     align-items: center;
     gap: 61px;
+    flex-shrink: 0;
 }
 
 
@@ -89,7 +95,7 @@ h1 {
     align-items: center;
     width: 60px;
     height: 60px;
-    background-color: red;
+    background-color: #FF3D00;
     border-radius: 50%;
 }
 
@@ -100,6 +106,10 @@ h1 {
     background: var(--white, #FFF);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10);
     color: #000;
+
+    animation-timing-function: ease-in-out;
+    animation-duration: 100ms;
+
 }
 
 
@@ -109,7 +119,7 @@ h1 {
 }
 
 
-.box.hover span {
+.box:hover span {
     color: #fff;
 }
 
@@ -125,6 +135,53 @@ h1 {
     color: #fff;
 }
 
+.secondLine:hover {
+    width: 480px;
+    height: 128px;
+    flex-shrink: 0;
+    padding: 28px 48px;
+}
+
+
+.box:hover .upcomingSubline {
+    color: #fff;
+    /* Schriftfarbe der .upcomingSubline ändern, wenn .box gehovert wird */
+}
+
+
+#todoImg {
+    width: 60px;
+    height: 60px;
+    background: url('../assets/img/todo.svg') no-repeat;
+    background-size: cover;
+    display: inline-block;
+}
+
+.box:hover #todoImg {
+    background: url('../assets/img/todo_white.svg') no-repeat;
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    display: inline-block;
+}
+
+
+#doneImg {
+    width: 60px;
+    height: 60px;
+    background: url('../assets/img/done.svg') no-repeat;
+    background-size: cover;
+    display: inline-block;
+}
+
+.box:hover #doneImg {
+    background: url('../assets/img/done_white.svg') no-repeat;
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    display: inline-block;
+}
+
 
 .number {
     text-align: center;
@@ -135,21 +192,26 @@ h1 {
 
 
 .upcoming {
-    color: #2A3647;
     font-weight: 700;
-    line-height: 120%;
+    line-height: 1.8em;
 }
 
-.upcoming span {
-    color: #2A3647;
+
+.upcomingSubline {
     font-size: 16px;
-    line-height: 120%;
+    font-weight: 400;
 }
 
 
 .d-flex {
     display: flex;
     flex-direction: column;
+}
+
+.d-flex-start {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 
@@ -164,6 +226,11 @@ h1 {
     flex-shrink: 0;
 }
 
+.twobox:hover {
+    width: 244.5px;
+    height: 118px;
+}
+
 .threebox {
     display: flex;
     width: 168px;
@@ -176,28 +243,42 @@ h1 {
     flex-shrink: 0;
 }
 
+.threebox:hover {
+    width: 184px;
+    height: 134px;
+}
+
 
 .thirdLine {
     width: 560px;
     display: flex;
-    gap: 32px;
+    gap: 28px;
 }
 
 
 .right {
-        height: calc(100vh - 160px);
-        background-color: #ffffff;
-        color: rgb(42, 54, 71);
-        padding: 10px;
+    height: calc(100vh - 360px);
+    color: rgb(42, 54, 71);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-left: 64px;
 }
 
-.right h3 {
-    font-size: 36px;
-    font-weight: 400;
-}
+
 .right h2 {
-    font-size: 47px;
+    font-size: 64px;
     font-weight: 700;
     color: #29ABE2;
     text-transform: capitalize;
+    margin: 0;
+    line-height: 120%;
+}
+
+.right h3 {
+    font-size: 47px;
+    font-weight: 500;
+    margin: 0;
 }
