@@ -33,3 +33,19 @@ subtaskInput.addEventListener("blur", () => {
 $(document).ready(function () {
     $("#dueDate").datepicker();
 });
+
+
+const assignedToInput = document.getElementById('assignedTo');
+assignedToInput.addEventListener('input', filterContacts);
+
+
+document.addEventListener('click', function (event) {
+    const assignedToInput = document.getElementById('assignedTo');
+    const assignedToContainer = document.getElementById('assignedToContainer');
+
+    // Prüfe, ob der Klick außerhalb des Eingabefelds und der Auswahlliste liegt
+    if (event.target !== assignedToInput && event.target !== assignedToContainer) {
+        // Schließe die Auswahlliste
+        assignedToContainer.classList.add('d-none');
+    }
+});

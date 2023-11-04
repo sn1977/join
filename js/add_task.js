@@ -213,8 +213,8 @@ function resetPrio() {
  */
 function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
-    addTaskGetContacts();
-    showTaskContacts()
+/*     addTaskGetContacts();
+    showTaskContacts(); */
 }
 
 
@@ -245,20 +245,53 @@ function SortArray(x, y) {
     return 0;
 }
 
+function contactlistHtml(contacts) {
+    let contacthtml = '';
+    for (let i = 0; i < contacts.length; i++) {
+        contacthtml += ` 
+            <div class="contactLine" onclick="toggleContact(${contacts[i].id}, event)">
+                <div class="contact">
+                    <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
+                        ${contacts[i].initialien}
+                    </div>
+                    <div> 
+                        ${contacts[i].name} 
+                    </div>
+                </div>
+                <div id="checked${contacts[i].id}">
+                    <img src="../assets/img/checkbox.png" alt="">
+                </div>
+            </div>
+        `;
+    }
+    
+    return contacthtml;
+}
 
-function addTaskGetContacts() {
-    let contacts = document.getElementById('assignedToContainer');
-    contacts.innerHTML = `
+
+
+
+function filterContacts() {
+    const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
+
+    const filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
+
+    const contactsContainer = document.getElementById('assignedToContainer');
+    contactsContainer.innerHTML = `
         <section id="assignedToContact">
-            ${contactlistHtml()}
+            ${contactlistHtml(filteredContacts)}
         </section>
         <button class="createContactBtn"  onclick="overlayAddContact()">
             Add new contact
             <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
         </button>
-        `;
-    getIcon();
+    `;
+    // getIcon();
+    updateIcons(filteredContacts);
 }
+
+
+
 
 
 function getIcon() {
@@ -271,32 +304,49 @@ function getIcon() {
             icon.innerHTML = `<img src="../assets/img/checkbox.png" alt="">`;
             icon.parentNode.classList.remove('checked');
         }
-
     }
 }
 
 
-function contactlistHtml() {
-    let contacthtml = '';
-    for (let i = 0; i < contactpool.length; i++) {
-        contacthtml += ` 
-            <div class="contactLine" onclick="toggleContact(${i}, event)">
-                <div class="contact">
-                    <div class="contacticon" style="background-color:  ${contactpool[i]['color']};"> 
-                        ${contactpool[i]['initialien']}
-                    </div>
-                    <div> 
-                        ${contactpool[i]['name']} 
-                    </div>
-                </div>
-                <div id="checked${i}">
-                    <img src="../assets/img/checkbox.png" alt="">
-                </div>
-            </div>
+function updateIcons(filteredContacts) {
+    for (let i = 0; i < filteredContacts.length; i++) {
+        let icon = document.getElementById(`checked${filteredContacts[i].id}`);
+        if (filteredContacts[i].assigned) {
+            icon.innerHTML = `<img src="../assets/img/check_button_white.svg" alt="">`;
+            icon.parentNode.classList.add('checked');
+        } else {
+            icon.innerHTML = `<img src="../assets/img/checkbox.png" alt="">`;
+            icon.parentNode.classList.remove('checked');
+        }
+    }
+}
+
+// Beispiel, wie du die Icons aktualisieren kannst
+function toggleContact(contactId, event) {
+    // Ändere den ausgewählten Zustand des Kontakts
+    const selectedContact = filteredContacts.find(contact => contact.id === contactId);
+    selectedContact.assigned = !selectedContact.assigned;
+
+    // Rufe die Funktion zur Aktualisierung der Icons auf
+    updateIcons(filteredContacts);
+}
+
+
+function addTaskGetContacts() {
+    let contacts = document.getElementById('assignedToContainer');
+    contacts.innerHTML = `
+        <section id="assignedToContact">
+            ${contactlistHtml(filteredContacts)}
+        </section>
+        <button class="createContactBtn"  onclick="overlayAddContact()">
+            Add new contact
+            <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+        </button>
         `;
-    }
-    return contacthtml;
+    // getIcon();
+    updateIcons(filteredContacts);
 }
+
 
 function toggleContact(i, event) {
     if (contactpool[i]['assigned']) {
