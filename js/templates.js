@@ -415,7 +415,7 @@ function addOverlayCreatedContact() {
 function contactsHTML() {
     document.getElementById('content').innerHTML += `
         <div id="contactTemplate" onload="loadIncludeHTML(), renderContacts(), initContact()">
-            <div class="frame40">
+            <div class="frame40" id="frame40">
                 <h1>Contacts</h1>
                 <svg fill="none" height="63" viewBox="0 0 4 63" width="4" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 2V61" stroke="#29ABE2" stroke-linecap="round" stroke-width="3" />

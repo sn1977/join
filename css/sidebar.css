@@ -82,6 +82,12 @@ body {
 @media (max-width: 650px) {
     .sidebarbuttons {
         flex-direction: column;
+      }
+
+    .sidebarbuttons:hover {
+        background: #091931;
+        border-radius: 8px;
+        width: 90px;
     }
 
     .sidebarNavigation {

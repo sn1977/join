@@ -16,6 +16,7 @@ body {
 #contactTemplate {
     position: relative;
     overflow-y: auto;
+    height: 100vh;
 }
 
 h1 {
@@ -198,7 +199,6 @@ h1 {
 
 
 #floatingContact {
-
     gap: 21px;
     width: 650px;
     height: 364px;
@@ -639,4 +639,72 @@ h1 {
 #customScrollbarContainer {
     display: flex;
     justify-content: center;
+}
+
+/* media queries */
+
+@media (max-width: 1250px) {
+    .frame97 {
+        width: 350px;
+    }
+
+    .contact-list {
+        width: 300px;
+        margin: 0;
+    }
+
+    #newContact {
+        width: 300px;
+    }
+
+    .frame40 {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0;
+        top: 90px;
+    }
+
+    .frame40 h1 {
+        margin-bottom: 0;
+        font-size: 50px;
+    }
+
+    .header-line {
+        rotate: 90deg;
+    }
+
+    .spanContacts {
+        text-align: center;
+    }
+}
+
+@media (max-width: 800px) {
+    .frame97 {
+        left: 0;
+        width: 100vw;
+        justify-content: center;
+    }
+
+    .frame40 {
+        display: none;
+    }
+
+    .floatingContact {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    svg {
+        width: 300px;
+    }
+
+    .frame119 {
+        width: 300px;
+    }
+
+    #allContacts {
+        margin-left: 48px;
+    }
 }

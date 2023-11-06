@@ -107,7 +107,7 @@ function getColorByIndex(index) {
 
 
 function showContact(name, index) {
-    const initials = getInitials(name); 
+    const initials = getInitials(name);
     const color = getColorByIndex(index);
 
     return `
@@ -147,8 +147,71 @@ function showContactDetails(i) {
         contactName.style.color = '#ffffff';
     }
     currentSelectedIndex = i;
-
+    displayWindows(i);
     displayFloatingContactDetails(i);
+}
+
+
+window.addEventListener('resize', function () {
+    displayWindows(currentSelectedIndex);
+});
+
+function applyStyles(element, styles) {
+    Object.assign(element.style, styles);
+}
+
+function resetStyles(element) {
+    element.removeAttribute('style');
+}
+
+function displayWindows() {
+    let contactsHeader = document.getElementById('frame40');
+    let floatingContact = document.getElementById('floatingContact');
+    let allRenderedContacts = document.getElementById('frame97');
+
+    if (window.innerWidth <= 800) {
+        if (contactsHeader) {
+            applyStyles(contactsHeader, {
+                display: 'inline-flex',
+                position: 'fixed',
+                left: '0',
+                right: '0',
+                top: '96px',
+                justifyContent: 'center'
+            });
+        }
+        if (floatingContact) {
+            applyStyles(floatingContact, {
+                display: 'inline-flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: '21px',
+                width: '650px',
+                height: '364px',
+                top: '250px',
+                position: 'absolute',
+                left: '50px'
+            });
+        }
+        if (allRenderedContacts) {
+            applyStyles(allRenderedContacts, {
+                display: 'none',
+                // position: 'absolute',
+                // top: '120px',
+                // right: '60px'
+            });
+        }
+
+        // back.addEventListener('click', () => {
+        //     resetStyles(contactMobile);
+        //     resetStyles(back);
+        // });
+    } else {
+        if (contactsHeader) resetStyles(contactsHeader);
+        if (floatingContact) resetStyles(floatingContact);
+        if (allRenderedContacts) resetStyles(allRenderedContacts);
+    }
+
 }
 
 function overlayAddContact() {
@@ -235,7 +298,7 @@ function editContact(index) {
 function changeBorderColor(inputElement) {
     const frame14Element = inputElement.closest('.frame14');
 
-    if(inputElement.value) {
+    if (inputElement.value) {
         frame14Element.style.borderColor = '#29ABE2';  // Ersetzt die 'desiredColor' durch die gewünschte Farbe
     } else {
         frame14Element.style.borderColor = '';  // Setzt den Rahmen zurück auf die ursprüngliche Farbe
