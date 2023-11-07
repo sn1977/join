@@ -1,5 +1,6 @@
 body {
     font-family: 'inter';
+    height: unset !important;
 }
 
 img,
@@ -352,19 +353,6 @@ textarea {
     /* oder die gewünschte Größe */
 }
 
-.unchecked:hover {
-    opacity: 0.5;
-    /* oder der gewünschte Transparenzgrad */
-    background-image: url('../assets/img/checked.svg');
-}
-
-.checked:hover {
-    opacity: 0.5;
-    /* oder der gewünschte Transparenzgrad */
-    background-image: url('../assets/img/unchecked.svg');
-}
-
-
 .table-style td {
     padding-bottom: 25px;
 }
@@ -490,6 +478,7 @@ textarea {
 
 #editpopup h4 {
     margin: 0;
+    font-size: 20px;
 }
 
 button {
@@ -526,17 +515,75 @@ button {
 
 .editSubtask {
     display: flex;
-
+    align-items: center;
 }
 
-.editSubtask input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
+
 
 .editSubtask button {
+    border: none;
+    background: none;
+}
+
+.button-right {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     border: 1px solid #D1D1D1;
     height: auto;
+}
+
+.todoType.user-story {
+    background-color: blue;
+    color: white;
+    /* Ändere die Textfarbe nach Bedarf */
+}
+
+.todoType.technical-task {
+    background-color: #20D7C2;
+    color: white;
+    /* Ändere die Textfarbe nach Bedarf */
+}
+
+.inputSubtaskContainer {
+    background: white !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+}
+
+.additional-image {
+    height: 32px;
+}
+
+.addSubtaskContainer {
+    display: flex;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
+.plus-image {
+    padding: 1px;
+    margin-right: 24px;
+}
+
+#newSubtaskInput {
+    border: none;
+}
+
+.addSubtaskButtonsContainer {
+    display: flex;
+}
+
+.addSubtaskButtons {
+    position: relative;
+    border: unset;
+    background-color: unset;
+}
+
+.extra-margin {
+    margin-right: -20px;
 }

@@ -4,7 +4,7 @@
  * October 2023
  * 
  */
-
+let subtaskEditMode = false;
 let currentDraggedElement;
 let boardNames = [
     'To do',
@@ -109,7 +109,7 @@ function renderBoard() {
 							<img src="../assets/img/search.svg" alt="Search">
 						</div>
 					</div>
-					<button class="buttonAddTask">
+					<button class="buttonAddTask" onclick="location.href='../../html/add_task.html'">
 						<span>Add Task</span>
 						<span>+</span>
 					</button>
@@ -148,20 +148,37 @@ function renderBoard() {
         </div>`
         }
     }
+
+    const searchInput = document.getElementById('inputSearch');
+    searchInput.addEventListener('keyup', searchTasks);
 }
 
+/**
+ * This function filters the tasks based on the search query and updates the HTML
+ */
+function searchTasks() {
+    const searchQuery = document.getElementById('inputSearch').value.toLowerCase();
+    const filteredTodos = todos.filter(todo => {
+        return todo.title.toLowerCase().includes(searchQuery) ||
+            todo.category.toLowerCase().includes(searchQuery);
+    });
+
+    // Call updateHTML but pass the filtered list if there is a search query
+    updateHTML(searchQuery ? filteredTodos : todos);
+}
 
 
 /**
  * This function filter and sort the todos and renders the tasks on the board
+ * @param {array} tasks - The list of tasks to display, defaults to original todos if not provided
  */
-function updateHTML() {
-    let todo = sortTodos(todos.filter(t => t['progress'] == 'todo'));
+function updateHTML(tasks = todos) {
+    let todo = sortTodos(tasks.filter(t => t['progress'] == 'todo'));
     document.getElementById('statusContainer0').innerHTML = '';
     if (todo.length == 0) {
         document.getElementById('statusContainer0').innerHTML = /*html*/ `
         <div class="noTaskDiv">No Tasks To do</div>
-        `
+        `;
     } else {
         for (let i = 0; i < todo.length; i++) {
             const element = todo[i];
@@ -169,13 +186,12 @@ function updateHTML() {
         }
     }
 
-
-    let inprogress = sortTodos(todos.filter(t => t['progress'] == 'inprogress'));
+    let inprogress = sortTodos(tasks.filter(t => t['progress'] == 'inprogress'));
     document.getElementById('statusContainer1').innerHTML = '';
     if (inprogress.length == 0) {
         document.getElementById('statusContainer1').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks To do</div>
-        `
+        <div class="noTaskDiv">No Tasks In Progress</div>
+        `;
     } else {
         for (let i = 0; i < inprogress.length; i++) {
             const element = inprogress[i];
@@ -183,12 +199,12 @@ function updateHTML() {
         }
     }
 
-    let awaitfeedback = sortTodos(todos.filter(t => t['progress'] == 'awaitfeedback'));
+    let awaitfeedback = sortTodos(tasks.filter(t => t['progress'] == 'awaitfeedback'));
     document.getElementById('statusContainer2').innerHTML = '';
     if (awaitfeedback.length == 0) {
         document.getElementById('statusContainer2').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks To do</div>
-        `
+        <div class="noTaskDiv">No Tasks Awaiting Feedback</div>
+        `;
     } else {
         for (let i = 0; i < awaitfeedback.length; i++) {
             const element = awaitfeedback[i];
@@ -196,12 +212,12 @@ function updateHTML() {
         }
     }
 
-    let done = sortTodos(todos.filter(t => t['progress'] == 'done'));
+    let done = sortTodos(tasks.filter(t => t['progress'] == 'done'));
     document.getElementById('statusContainer3').innerHTML = '';
     if (done.length == 0) {
         document.getElementById('statusContainer3').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks To do</div>
-        `
+        <div class="noTaskDiv">No Tasks Done</div>
+        `;
     } else {
         for (let i = 0; i < done.length; i++) {
             const element = done[i];
@@ -209,6 +225,7 @@ function updateHTML() {
         }
     }
 }
+
 
 /**
  * This function starts the dragging of the task and add the rotaded class
@@ -231,17 +248,24 @@ function stopDragging(id) {
     element.classList.remove("rotated");
 }
 
+
 /**
- * This Function renders the Todo HTML
+ * Diese Funktion generiert HTML für eine Aufgabe und deren zugewiesene Benutzer.
  * 
  * @param {array} element 
- * @returns the HTML  
+ * @returns das HTML  
  */
 function generateHTML(element) {
-    // Berechne den Fortschritt der Subtasks
-    const completedSubtasks = element.subtask ? element.subtask.filter(task => task.done).length : 0;
-    const totalSubtasks = element.subtask ? element.subtask.length : 0;
-    const progress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
+    const categoryClass = element['category'] === 'User Story' ? 'user-story' : 'technical-task';
+
+    // Berechne den Fortschritt der Teilaufgaben
+    const abgeschlosseneTeilaufgaben = element.subtask ? element.subtask.filter(task => task.done).length : 0;
+    const gesamteTeilaufgaben = element.subtask ? element.subtask.length : 0;
+    const fortschritt = gesamteTeilaufgaben > 0 ? (abgeschlosseneTeilaufgaben / gesamteTeilaufgaben) * 100 : 0;
+
+    const zugewieseneBenutzerHTML = element.assignedTo.map(benutzer => (
+        `<div class="user-badge-board extra-margin" style="background-color:${benutzer.color}">${benutzer.initialien}</div>`
+    )).join('');
 
     return /*html*/ `
       <div draggable="true" class="todo" 
@@ -250,22 +274,24 @@ function generateHTML(element) {
            onclick="openPopup(${element['id']})">
            
         <div class="todoContainer">
-          <div class="todoType">${element['category']}</div>
+          <div class="todoType ${categoryClass}">${element['category']}</div>
           <div class="todoInfo">
             <span class="todoTitle">${element['title']}</span>
             <span class="todoDescription">${element['description']}</span>
           </div>
           <div class="progress">
             <div class="progress-container">
-              <div class="progress-bar" id="myBar" style="width: ${progress}%"></div>
+              <div class="progress-bar" id="myBar" style="width: ${fortschritt}%"></div>
             </div>
-            <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
+            <span class="subtask-container">${abgeschlosseneTeilaufgaben}/${gesamteTeilaufgaben} Teilaufgaben</span>
           </div>
-          <div>Users</div>
+          <div class="assignedToUsers">${zugewieseneBenutzerHTML}</div>
         </div>
       </div>
     `;
 }
+
+
 
 
 
@@ -315,11 +341,20 @@ function sortTodos(todosArray) {
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
+        const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
+
+        // Entferne zuerst alle vorherigen Klassen
+        const popupCategory = document.getElementById('popupCategory');
+        popupCategory.classList.remove('user-story', 'technical-task');
+
+        // Füge die entsprechende Klasse basierend auf der Kategorie hinzu
+        popupCategory.classList.add(categoryClass);
+
         document.getElementById('popupTitle').innerText = todo.title;
         document.getElementById('popupDescription').innerText = todo.description;
         document.getElementById('popupCategory').innerText = todo.category;
         document.getElementById('table').innerHTML = '';
-        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Due Date:</td><td>${formatDate(todo.dueDate)}</td></tr>`;
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Due Date:</td><td>${todo.dueDate}</td></tr>`;
         document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Priority</td><td><div class="d-flex"><span style="
         text-transform: capitalize;
         margin-right: 15px;">
@@ -348,6 +383,7 @@ function openPopup(id) {
         console.error('Task not found');
     }
 }
+
 
 function generateSubtask(todo) {
     for (let i = 0; i < todo.subtask.length; i++) {
@@ -407,13 +443,15 @@ function formatDate(input) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${day}/${month}/${year}`;
 }
+
 
 
 function openEditPopup(id) {
     const todo = todos.find(t => t.id === id);
     createEditPopup(todo);
+    initializeDatepicker();
     document.getElementById('editpopup').style.display = 'flex';
     document.getElementById('popup').style.display = 'none';
 }
@@ -433,7 +471,7 @@ function createEditPopup(todo) {
                     <h4>Description</h4>
                     <textarea type="text" id="tododescription" placeholder="Description">${todo.description}</textarea>
                     <h4>Due Date</h4>
-                    <input type="date" id="tododuedate" value="${formatDate(todo.dueDate)}">
+                    <input type="text" id="dueDate" value="${todo.dueDate}">
                     <div class="direction" id="priority">
                         <h4>Priority</h4>
                         <div class="button-container">
@@ -479,7 +517,6 @@ function createEditPopup(todo) {
     generateAssignedToEditPopup(todo);
 }
 
-
 function closeEditPopup(id) {
     openPopup(id)
     document.getElementById('editpopup').style.display = 'none';
@@ -490,22 +527,186 @@ function closeEditPopup(id) {
 function generateEditSubtasks(todo) {
     const subtasksContainer = document.getElementById('savedSubtasks');
     subtasksContainer.innerHTML = '';
+
+    // Erstelle eine gemeinsame div für das Input-Feld und die Buttons
+    const addSubtaskContainer = document.createElement('div');
+    addSubtaskContainer.classList.add('addSubtaskContainer'); // Fügen Sie eine CSS-Klasse für das Styling hinzu
+
+    // Füge ein Eingabefeld zum Hinzufügen neuer Subtasks über den aktuellen Subtasks hinzu
+    const addSubtaskInput = document.createElement('input');
+    addSubtaskInput.type = 'text';
+    addSubtaskInput.placeholder = 'Add a new subtask';
+    addSubtaskInput.id = 'newSubtaskInput'; // Setze eine ID für das Eingabefeld
+
+    // Erstelle ein Bild mit einem Plus-Symbol und füge es zur gemeinsamen div hinzu
+    const addSubtaskImage = document.createElement('img');
+    addSubtaskImage.src = '../assets/img/add.svg'; // Pfad zum Plus-Symbol
+    addSubtaskImage.classList.add('plus-image'); // Füge eine CSS-Klasse hinzu, um das Bild zu stylen
+
+    // Erstelle einen Button-Container für die Buttons
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('addSubtaskButtonsContainer');
+
+    // Erstelle einen Button mit einem Kreuz-Symbol und füge ihn zum Button-Container hinzu
+    const cancelSubtaskButton = document.createElement('button');
+    const cancelSubtaskImage = document.createElement('img');
+    cancelSubtaskImage.src = '../assets/img/cancel.svg'; // Pfad zum Kreuz-Symbol
+    cancelSubtaskButton.classList.add('addSubtaskButtons');
+    cancelSubtaskButton.appendChild(cancelSubtaskImage);
+    cancelSubtaskButton.style.display = 'none'; // Verstecke den Button standardmäßig
+
+    // Erstelle einen Button mit einem Haken-Symbol und füge ihn zum Button-Container hinzu
+    const acceptSubtaskButton = document.createElement('button');
+    const acceptSubtaskImage = document.createElement('img');
+    const vectorImage = document.createElement('img');
+    vectorImage.src = '../assets/img/small_vector.svg';
+    vectorImage.style.display = 'none';
+    acceptSubtaskImage.src = '../assets/img/check-black.svg'; // Pfad zum Haken-Symbol
+    acceptSubtaskButton.appendChild(acceptSubtaskImage);
+    acceptSubtaskButton.classList.add('addSubtaskButtons');
+    acceptSubtaskButton.style.display = 'none'; // Verstecke den Button standardmäßig
+
+
+    // Füge die Buttons zum Button-Container hinzu
+    buttonsContainer.appendChild(cancelSubtaskButton);
+    buttonsContainer.appendChild(vectorImage);
+    buttonsContainer.appendChild(acceptSubtaskButton);
+
+    // Füge das Eingabefeld und das Bild zur gemeinsamen div hinzu
+    addSubtaskContainer.appendChild(addSubtaskInput);
+    addSubtaskContainer.appendChild(addSubtaskImage);
+    addSubtaskContainer.appendChild(buttonsContainer);
+
+    // Füge die gemeinsame div dem Subtask-Container hinzu
+    subtasksContainer.appendChild(addSubtaskContainer);
+
+    // Überwache das Klickereignis für das Eingabefeld, um das Bild und die Buttons anzuzeigen
+    addSubtaskInput.addEventListener('click', () => {
+        addSubtaskImage.style.display = 'none'; // Verstecke das Plus-Symbol
+        cancelSubtaskButton.style.display = 'block'; // Zeige den Abbrechen-Button an
+        acceptSubtaskButton.style.display = 'block'; // Zeige den Akzeptieren-Button an
+        vectorImage.style = 'block';
+    });
+
+    // Überwache das Klickereignis für das Plus-Symbol, um es zu verbergen und die Buttons anzuzeigen
+    addSubtaskImage.addEventListener('click', () => {
+        addSubtaskImage.style.display = 'none'; // Verstecke das Plus-Symbol
+        cancelSubtaskButton.style.display = 'block'; // Zeige den Abbrechen-Button an
+        acceptSubtaskButton.style.display = 'block'; // Zeige den Akzeptieren-Button an
+        vectorImage.style.display = 'block';
+        addSubtaskInput.focus(); // Fokussiere automatisch das Eingabefeld
+    });
+
+    // Klickereignis für den Abbrechen-Button
+    cancelSubtaskButton.addEventListener('click', () => {
+        addSubtaskInput.value = ''; // Setze das Eingabefeld zurück
+        addSubtaskImage.style.display = 'block'; // Zeige das Plus-Symbol wieder an
+        cancelSubtaskButton.style.display = 'none'; // Verstecke den Abbrechen-Button
+        acceptSubtaskButton.style.display = 'none'; // Verstecke den Akzeptieren-Button
+        vectorImage.style.display = 'none';
+    });
+
+    // Klickereignis für den Akzeptieren-Button
+    acceptSubtaskButton.addEventListener('click', () => {
+        const newSubtaskTitle = addSubtaskInput.value;
+        if (newSubtaskTitle.trim() !== '') {
+            // Hinzufügen des neuen Subtasks und Zurücksetzen des Eingabefelds
+            todo.subtask.push({ subtasktitle: newSubtaskTitle });
+            saveAllTasksToRemote();
+            addSubtaskInput.value = ''; // Setze das Eingabefeld zurück
+            addSubtaskImage.style.display = 'block'; // Zeige das Plus-Symbol wieder an
+            cancelSubtaskButton.style.display = 'none'; // Verstecke den Abbrechen-Button
+            acceptSubtaskButton.style.display = 'none'; // Verstecke den Akzeptieren-Button
+            vectorImage.style.display = 'none';
+            generateEditSubtasks(todo); // Aktualisiere die Ansicht der Subtasks
+        }
+    });
+
     if (todo.subtask && todo.subtask.length > 0) {
         todo.subtask.forEach((subtask, index) => {
             const subtaskDiv = document.createElement('div');
             subtaskDiv.classList.add('editSubtask');
+
+            // Füge das Bild (Punkt oder anderes Symbol) links neben dem Input-Element hinzu
+            const bulletImage = document.createElement('img');
+            bulletImage.classList.add('dot');
+            bulletImage.src = '../assets/img/dot.svg'; // Passen Sie den Pfad zum gewünschten Bild an
+            subtaskDiv.appendChild(bulletImage);
+
             const subtaskInput = document.createElement('input');
             subtaskInput.type = 'text';
-            subtaskInput.id = `subtaskInput-${index}`;
             subtaskInput.value = subtask.subtasktitle;
-            subtaskInput.addEventListener('input', (e) => {
-                todo.subtask[index].subtasktitle = e.target.value;
-                saveAllTasksToRemote();
+            subtaskInput.classList.add('inputSubtaskContainer');
+            subtaskInput.disabled = true; // Eingabefeld ist standardmäßig deaktiviert
+            subtaskInput.id = `inputSubtask-${index}`; // Setze eine eindeutige ID für jedes Eingabefeld
+
+            const editSubtaskButton = document.createElement('button');
+            const editSubtaskImage = document.createElement('img');
+
+            // Prüfe, ob das Eingabefeld aktiviert ist, und ändere das Symbol entsprechend
+            if (subtaskInput.disabled) {
+                editSubtaskImage.src = '../assets/img/edit.svg'; // Stiftsymbol, wenn das Eingabefeld deaktiviert ist
+            } else {
+                editSubtaskImage.src = '../assets/img/check-black.svg'; // Häkchensymbol, wenn das Eingabefeld aktiviert ist
+            }
+
+            editSubtaskButton.appendChild(editSubtaskImage);
+            editSubtaskButton.addEventListener('click', () => {
+                if (editSubtaskImage.src.includes('edit.svg')) {
+                    // Ändere das Symbol zu einem Löschsymbol
+                    editSubtaskImage.src = '../assets/img/delete.svg';
+
+                    // Entferne das Bild (Punkt) links neben dem Input-Element
+                    subtaskDiv.removeChild(bulletImage);
+
+                    // Ersetze das "Delete"-Button-Element durch ein "Haken"-Button-Element
+                    subtaskDiv.removeChild(deleteSubtaskButton);
+                    const acceptSubtaskButton = document.createElement('button');
+                    const acceptSubtaskImage = document.createElement('img');
+                    acceptSubtaskImage.src = '../assets/img/check-black.svg';
+                    acceptSubtaskButton.appendChild(acceptSubtaskImage);
+
+                    acceptSubtaskButton.addEventListener('click', () => {
+                        // Aktualisiere den Subtask-Titel mit dem Wert aus dem Eingabefeld
+                        subtask.subtasktitle = subtaskInput.value;
+
+                        // Deaktiviere das Eingabefeld
+                        subtaskInput.disabled = true;
+
+                        // Ändere das Symbol zurück zu einem Stiftsymbol
+                        editSubtaskImage.src = '../assets/img/edit.svg';
+
+                        // Füge das Bild (Punkt) links neben dem Input-Element hinzu
+                        subtaskDiv.insertBefore(bulletImage, subtaskInput);
+
+                        // Ersetze das "Haken"-Button-Element durch das "Delete"-Button-Element
+                        subtaskDiv.removeChild(acceptSubtaskButton);
+                        subtaskDiv.appendChild(deleteSubtaskButton);
+                    });
+
+                    subtaskDiv.appendChild(acceptSubtaskButton);
+
+                    // Aktiviere das Eingabefeld, damit es bearbeitet werden kann
+                    subtaskInput.disabled = false;
+                    subtaskInput.focus(); // Setze den Fokus auf das Eingabefeld
+                } else if (editSubtaskImage.src.includes('delete.svg')) {
+                    // Löschen des Subtasks (wie zuvor)
+                    todo.subtask.splice(index, 1);
+                    saveAllTasksToRemote();
+                    generateEditSubtasks(todo);
+                }
             });
 
-            const deleteSubtaskButton = document.createElement('button');
+            const additionalImage = document.createElement('img');
+            additionalImage.src = '../assets/img/vector.svg'; // Pfad zum zusätzlichen Bild
+            additionalImage.classList.add('additional-image'); // Füge eine CSS-Klasse hinzu, um das zusätzliche Bild zu stylen
+
+            let deleteSubtaskButton; // Deklarieren Sie die deleteSubtaskButton-Variable im äußeren Gültigkeitsbereich
+
             const deleteSubtaskImage = document.createElement('img');
             deleteSubtaskImage.src = '../assets/img/delete.svg';
+
+            deleteSubtaskButton = document.createElement('button');
             deleteSubtaskButton.appendChild(deleteSubtaskImage);
             deleteSubtaskButton.addEventListener('click', () => {
                 todo.subtask.splice(index, 1);
@@ -514,29 +715,17 @@ function generateEditSubtasks(todo) {
             });
 
             subtaskDiv.appendChild(subtaskInput);
-            subtaskDiv.appendChild(deleteSubtaskButton);
+            subtaskDiv.appendChild(editSubtaskButton);
+            subtaskDiv.appendChild(additionalImage); // Füge das zusätzliche Bild zwischen Edit und Delete Buttons hinzu
+
+            // Überprüfen Sie, ob deleteSubtaskButton bereits ein Kind von subtaskDiv ist, bevor Sie es hinzufügen
+            if (!subtask.editMode) {
+                subtaskDiv.appendChild(deleteSubtaskButton);
+            }
+
             subtasksContainer.appendChild(subtaskDiv);
         });
     }
-
-    const addSubtaskInput = document.createElement('input');
-    addSubtaskInput.type = 'text';
-    addSubtaskInput.placeholder = 'Add a new subtask';
-    addSubtaskInput.id = 'inputSubtask'
-    addSubtaskInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && addSubtaskInput.value.trim() !== '') {
-            const newSubtask = {
-                subtasktitle: addSubtaskInput.value.trim(),
-                done: false
-            };
-            todo.subtask.push(newSubtask);
-            saveAllTasksToRemote();
-            addSubtaskInput.value = '';
-            generateEditSubtasks(todo);
-        }
-    });
-
-    subtasksContainer.insertBefore(addSubtaskInput, subtasksContainer.firstChild);
 }
 
 function generateAssignedToEditPopup(todo) {
@@ -593,7 +782,7 @@ function saveAllChanges(id) {
             todo.prio = priority;
         }
 
-        const dueDate = document.getElementById('tododuedate').value;
+        const dueDate = document.getElementById('dueDate').value;
         todo.dueDate = dueDate;
 
         const categorySelect = document.getElementById('category');
@@ -608,4 +797,22 @@ function saveAllChanges(id) {
     }
 }
 
+function initializeDatepicker() {
+    var currentDate = new Date();
+    $("#dueDate").datepicker({
+        minDate: currentDate,
+        dateFormat: 'dd/mm/yy'
+    });
 
+    $("#dueDate").on("input", function () {
+        var selectedDate = $("#dueDate").datepicker("getDate");
+        var warningDueDate = $("#warningDueDate");
+
+        if (selectedDate < currentDate) {
+            warningDueDate.text("Das Datum sollte mindestens heute sein");
+            warningDueDate.removeClass("invisible");
+        } else {
+            warningDueDate.addClass("invisible");
+        }
+    });
+}
