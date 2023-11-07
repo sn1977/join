@@ -641,17 +641,6 @@ h1 {
     justify-content: center;
 }
 
-.arrow-left-line {
-    position: absolute;
-    right: 24px;
-    top: 140px;
-    display: none;
-}
-
-.parting-line {
-    width: 354px;
-}
-
 /* media queries */
 
 @media (max-width: 1250px) {
@@ -660,12 +649,12 @@ h1 {
     }
 
     .contact-list {
-        width: 250px;
-        margin: 24px;
+        width: 300px;
+        margin: 0;
     }
 
     #newContact {
-        width: 250px;
+        width: 300px;
     }
 
     .frame40 {
@@ -688,46 +677,9 @@ h1 {
     .spanContacts {
         text-align: center;
     }
-
-    #allContacts {
-        display: contents;
-    }
-
-    .contact-name {
-        width: 200px;
-    }
-
-    .frame105 {
-        gap: 24px;
-    }
-
-    .frame79 {
-        width: 80px;
-        height: 80px;
-        font-size: 24px;
-    }
-
-    .frame81 {
-        font-size: 32px;
-    }
-
-    #floatingContact {
-        left: calc(743px - 80px);
-    }
-
-    .parting-line {
-        width: 250px;
-    }
 }
 
-@media (max-width: 1110px) {
-    .frame81 {
-        inline-size: 160px;
-        overflow-wrap: break-word;
-    }
-}
-
-@media (max-width: 990px) {
+@media (max-width: 800px) {
     .frame97 {
         left: 0;
         width: 100vw;
@@ -741,44 +693,18 @@ h1 {
     .floatingContact {
         display: none;
     }
-
 }
 
-@media (max-width: 550px) {
-    .frame40 h1 {
-               font-size: 40px;
+@media (max-width: 400px) {
+    svg {
+        width: 300px;
     }
 
-    .spanContacts {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 405px) {
-    /*svg {*/
-    /*    width: 300px;*/
-    /*}*/
     .frame119 {
         width: 300px;
     }
 
     #allContacts {
         margin-left: 48px;
-    }
-
-    .frame81 {
-        font-size: 24px;
-    }
-
-    .delete-edit-text {
-        font-size: 12px;
-    }
-
-    .delete-edit-text {
-        font-size: 12px;
-    }
-
-    .icon-edit {
-        height: 16px;
     }
 }
