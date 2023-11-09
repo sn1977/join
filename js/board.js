@@ -13,11 +13,11 @@ let boardNames = [
     'Done'
 ];
 
-let contactNameElem;
-let contactEmailElem;
-let contactPhoneElem;
-
 let todos = [];
+let contactpool = [];
+const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
+let allContacts = [];
+
 
 /**
  * Initialization of all functions required for startup
@@ -27,6 +27,7 @@ async function initboard() {
     await loadContacts();
     renderBoard();
     updateHTML();
+    addTaskLoadContacts();
 }
 
 /**
@@ -489,7 +490,18 @@ function createEditPopup(todo) {
                         </select>
                     </div>
                     <h4>Assigned to</h4>
-                    <div id="assignedToContactEditPopup"></div>
+
+                    <div class="inputContainer">
+                        <label for="assignedTo">Assigned to</label>
+                        <input class="custom-select"  onclick="toggleContacts(),filterContacts()"
+                            id="assignedTo" type="text" placeholder="Select contacts to assign">
+                        <div class="d-none assignedToContainer" id="assignedToContainer">                          
+                        </div>
+                    </div>
+
+                    <div id="showAssignedContacts"></div>
+
+
                     <div class="inputContainer">
                         <h4>Subtask</h4>
                         <div id="savedSubtasks" class="savedSubtasks"></div>
@@ -729,8 +741,6 @@ function generateEditSubtasks(todo) {
 }
 
 function generateAssignedToEditPopup(todo) {
-    const assignedToContainer = document.getElementById('assignedToContactEditPopup');
-    assignedToContainer.innerHTML = '';
 
     if (todo.assignedTo && todo.assignedTo.length > 0) {
         todo.assignedTo.forEach((contact) => {
@@ -815,4 +825,250 @@ function initializeDatepicker() {
             warningDueDate.addClass("invisible");
         }
     });
+}
+
+function addTaskLoadContacts() {
+    contactpool = [];
+    for (let i = 0; i < nameOfContact.length; i++) {
+        let tempInitialien = getInitials(nameOfContact[i]);
+        let tempContactPool = {
+            'id': i, // Hier sollte die ID eindeutig sein und mit der ID des zugehörigen HTML-Elements übereinstimmen
+            'name': nameOfContact[i],
+            'color': getColorByIndex(i),
+            'initialien': tempInitialien,
+            'assigned': false
+        }
+        contactpool.push(tempContactPool);
+    }
+    contactpool.sort(SortArray);
+}
+
+
+function SortArray(x, y) {
+    if (x.name < y.name) {
+        return -1;
+    }
+    if (x.name > y.name) {
+        return 1;
+    }
+    return 0;
+}
+
+function toggleContacts() {
+    const assignedToContainer = document.getElementById('assignedToContainer');
+    const isHidden = assignedToContainer.classList.contains('d-none');
+
+    // Wenn der Container ausgeblendet ist, aktualisieren Sie die angezeigten Kontakte
+    if (isHidden) {
+        filterContacts(); // Aktualisieren Sie die angezeigten Kontakte basierend auf dem aktuellen Filter
+        updateIcons(contactpool); // Stellen Sie sicher, dass dies alle Kontakte berücksichtigt, nicht nur gefilterte
+        showSelectedContacts(); // Aktualisieren Sie die ausgewählten Kontakte
+    }
+
+    // Hier wird die Klasse umgeschaltet, um die Liste zu zeigen oder zu verstecken.
+    assignedToContainer.classList.toggle('d-none');
+}
+
+
+function getInitials(name) {
+    let words = name.split(' ');
+    let initials = "";
+
+    if (words.length >= 2) {
+        initials = words[0][0] + words[1][0];
+    } else if (words.length === 1) {
+        initials = words[0][0];
+    }
+
+    return initials.toUpperCase();
+}
+
+function getColorByIndex(index) {
+    return colors[index % colors.length];
+}
+function filterContacts() {
+    const assignedToInput = document.getElementById('assignedTo');
+    const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
+
+    const filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
+
+    const contactsContainer = document.getElementById('assignedToContainer');
+    contactsContainer.innerHTML = `
+        <section id="assignedToContact">
+            ${contactlistHtml(filteredContacts)}
+        </section>
+        <button class="createContactBtn"  onclick="overlayAddContact()">
+            Add new contact
+            <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+        </button>
+    `;
+    // getIcon();
+    updateIcons(filteredContacts);
+}
+
+
+function updateIcons(contacts) {
+    contacts.forEach(contact => {
+        let icon = document.getElementById(`checked${contact.id}`);
+        if (icon) { // Stellen Sie sicher, dass das Element existiert
+            if (contact.assigned) {
+                icon.innerHTML = `<img src="../assets/img/checked.svg" alt="Assigned">`; // Pfad zum "Haken" Bild
+                icon.parentNode.classList.add('Contactchecked');
+            } else {
+                icon.innerHTML = `<img src="../assets/img/checkbox.png" alt="Not assigned">`; // Pfad zum "Checkbox" Bild
+                icon.parentNode.classList.remove('Contactchecked');
+            }
+        }
+    });
+}
+
+
+function contactlistHtml(contacts) {
+    let contacthtml = '';
+    for (let i = 0; i < contacts.length; i++) {
+        contacthtml += ` 
+        <div class="contactLine" onclick="toggleContact(${contacts[i].id})">
+                <div class="contact">
+                    <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
+                        ${contacts[i].initialien}
+                    </div>
+                    <div class="contactName"> 
+                        ${contacts[i].name} 
+                    </div>
+                </div>
+                <div class="contactImage" id="checked${contacts[i].id}">
+                    <img src="../assets/img/checkbox.png">
+                </div>
+            </div>
+        `;
+    }
+
+    return contacthtml;
+}
+
+function toggleContact(contactId) {
+    const contact = contactpool.find(contact => contact.id === contactId);
+    if (contact) {
+        if (contact.assigned) {
+            unchoseContact(contactId);
+        } else {
+            choseContact(contactId);
+        }
+    }
+}
+
+
+
+async function choseContact(contactId) {
+    // Rufe die nächste ID ab.
+    const nextId = await getLastID(); // Stellen Sie sicher, dass diese Funktion richtig implementiert ist
+
+    // Finde den Kontakt im Pool
+    const contact = contactpool.find(contact => contact.id === contactId);
+
+    // Wenn der Kontakt gefunden wurde und noch nicht zugewiesen wurde
+    if (contact && !contact.assigned) {
+        // Erstelle eine Kopie des Kontakts für allContacts
+        const tempContact = {
+            'id': nextId, // Verwenden Sie die nächste verfügbare ID
+            'contactid': contact.id, // Referenz auf die ursprüngliche ID des Kontakts
+            'name': contact.name,
+            'color': contact.color,
+            'initialien': contact.initialien
+        };
+
+        // Füge den Kontakt zu allContacts hinzu
+        allContacts.push(tempContact);
+
+        // Markiere den Kontakt als zugewiesen
+        contact.assigned = true;
+
+        // Aktualisiere die Anzeige für diesen Kontakt
+        updateContactDisplay(contact.id, true);
+
+        // Aktualisiere die Anzeige aller zugewiesenen Kontakte
+        showSelectedContacts();
+    } else {
+        console.log("Der Kontakt ist bereits zugewiesen oder existiert nicht.");
+    }
+}
+
+
+function unchoseContact(contactId) {
+    const indexToRemove = allContacts.findIndex(contact => contact.contactid === contactId);
+    if (indexToRemove !== -1) {
+        allContacts.splice(indexToRemove, 1);
+        const contact = contactpool.find(contact => contact.id === contactId);
+        contact.assigned = false; // Zustand auf 'nicht zugewiesen' setzen
+        updateContactDisplay(contactId, false); // UI aktualisieren
+        showSelectedContacts(); // Liste der ausgewählten Kontakte aktualisieren
+    }
+}
+
+
+function updateContactDisplay(i, assigned) {
+    const contactCheckbox = document.getElementById(`checked${i}`);
+    const imageSrc = assigned ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
+    contactCheckbox.innerHTML = `<img src="${imageSrc}" alt="">`;
+    contactCheckbox.parentNode.classList.toggle('Contactchecked', assigned);
+}
+
+
+
+
+/**
+ * This function finds the max id and retrun a task id for the new added task
+ * 
+ * @returns 
+ * 
+ */
+async function getLastID() {
+    let maxID = 0;
+    // Finde die maximale ID in den vorhandenen Aufgaben
+    for (const task of todos) {
+        if (task.id > maxID) {
+            maxID = task.id;
+        }
+    }
+    if (maxID > 0) {
+        id = maxID + 1;
+    } else {
+        id = 1;
+    }
+}
+
+
+
+function changeMarkedContact(i) {
+    const contactCheckbox = document.getElementById(`checked${i}`);
+    contactCheckbox.innerHTML = `
+        <img src="../assets/img/checked.svg" alt="">
+    `;
+    contactCheckbox.parentNode.classList.add('checked');
+}
+
+
+function showTaskContacts() {
+    let contactsIcons = document.getElementById('showAssignedContacts');
+    contactsIcons.innerHTML = '';
+    for (let i = 0; i < allContacts.length; i++) {
+        contactsIcons.innerHTML += `
+                <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
+                    ${allContacts[i]['initialien']}
+                </div>
+        `;
+    }
+}
+
+function showSelectedContacts() {
+    let selectedContactsContainer = document.getElementById('showAssignedContacts');
+    selectedContactsContainer.innerHTML = '';
+
+    for (let i = 0; i < allContacts.length; i++) {
+        selectedContactsContainer.innerHTML += `
+            <div class="contacticon" style="background-color: ${allContacts[i].color};"> 
+                ${allContacts[i].initialien}
+            </div>
+        `;
+    }
 }

@@ -587,3 +587,101 @@ button {
 .extra-margin {
     margin-right: -20px;
 }
+
+.contactLine {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.5em;
+    padding: 7px 16px;
+    margin-top: 2px;
+    width: 85%;
+}
+
+.contactLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contactName {
+    margin-right: 10px;
+    /* Abstand zwischen dem Namen und dem Bild */
+}
+
+.contactImage {
+    display: flex;
+    align-items: center;
+    /* Vertikal zentrieren */
+    margin-left: auto;
+    /* Auf die rechte Seite verschieben */
+}
+
+.contactImage img {
+    display: block;
+    /* Das Bild in eine separate Zeile setzen */
+    margin-left: 10px;
+    /* Das Bild auf die rechte Seite verschieben */
+}
+
+
+
+.contactLine:hover {
+    border-radius: 10px;
+    background: #EEE;
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    align-items: center;
+}
+
+.contacticon {
+    border-radius: 45px;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+    border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.assignedToContainerContact {
+    background-color: #fff;
+    height: 200px;
+    z-index: 1;
+    width: 440px;
+    overflow: auto;
+    position: absolute;
+    margin-top: 96px;
+}
+
+#assignedToContact {
+    overflow-y: auto;
+    background-color: #fff;
+    height: 140px;
+    z-index: 1;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Contactchecked {
+    background-color: var(--bg-button);
+    border-radius: 10px;
+}
+
+.Contactchecked:hover {
+    background-color: var(--bg-hover);
+}
+
+#showAssignedContacts {
+    display: flex;
+}
