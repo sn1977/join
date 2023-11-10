@@ -668,7 +668,6 @@ button {
     background-color: #fff;
     height: 140px;
     z-index: 1;
-    width: 440px;
     display: flex;
     flex-direction: column;
 }
@@ -684,4 +683,18 @@ button {
 
 #showAssignedContacts {
     display: flex;
+}
+
+.custom-select {
+    appearance: none;
+    background-image: url('../assets/img/arrow_drop_downaa.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 16px) center;
+    background-size: 32px;
+}
+
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
 }

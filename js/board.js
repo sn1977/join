@@ -30,6 +30,8 @@ async function initboard() {
     addTaskLoadContacts();
 }
 
+
+
 /**
  * 
  * This function load all task from remote Storage
@@ -458,6 +460,7 @@ function openEditPopup(id) {
 }
 
 function createEditPopup(todo) {
+    allContacts = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
     document.getElementById("editpopup").innerHTML += /*html*/ `
         <div class="container-popup">
@@ -492,7 +495,6 @@ function createEditPopup(todo) {
                     <h4>Assigned to</h4>
 
                     <div class="inputContainer">
-                        <label for="assignedTo">Assigned to</label>
                         <input class="custom-select"  onclick="toggleContacts(),filterContacts()"
                             id="assignedTo" type="text" placeholder="Select contacts to assign">
                         <div class="d-none assignedToContainer" id="assignedToContainer">                          
@@ -525,6 +527,9 @@ function createEditPopup(todo) {
         }
     }
 
+
+    showSelectedContacts();
+    setupSearchListener();
     generateEditSubtasks(todo);
     generateAssignedToEditPopup(todo);
 }
@@ -832,16 +837,16 @@ function addTaskLoadContacts() {
     for (let i = 0; i < nameOfContact.length; i++) {
         let tempInitialien = getInitials(nameOfContact[i]);
         let tempContactPool = {
-            'id': i, // Hier sollte die ID eindeutig sein und mit der ID des zugehörigen HTML-Elements übereinstimmen
+            'id': i, // Die ID sollte eindeutig sein und mit der ID des zugehörigen HTML-Elements übereinstimmen
             'name': nameOfContact[i],
             'color': getColorByIndex(i),
-            'initialien': tempInitialien,
-            'assigned': false
+            'initialien': tempInitialien
         }
         contactpool.push(tempContactPool);
     }
     contactpool.sort(SortArray);
 }
+
 
 
 function SortArray(x, y) {
@@ -869,6 +874,14 @@ function toggleContacts() {
     assignedToContainer.classList.toggle('d-none');
 }
 
+function setupSearchListener() {
+    const searchField = document.getElementById('assignedTo'); // Stellen Sie sicher, dass dies die ID Ihres Suchfeldes ist
+    if (searchField) {
+        searchField.addEventListener('input', filterContacts);
+    } else {
+        console.log('Suchfeld nicht gefunden');
+    }
+}
 
 function getInitials(name) {
     let words = name.split(' ');
@@ -886,6 +899,7 @@ function getInitials(name) {
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
+
 function filterContacts() {
     const assignedToInput = document.getElementById('assignedTo');
     const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
@@ -897,10 +911,6 @@ function filterContacts() {
         <section id="assignedToContact">
             ${contactlistHtml(filteredContacts)}
         </section>
-        <button class="createContactBtn"  onclick="overlayAddContact()">
-            Add new contact
-            <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
-        </button>
     `;
     // getIcon();
     updateIcons(filteredContacts);
@@ -911,7 +921,10 @@ function updateIcons(contacts) {
     contacts.forEach(contact => {
         let icon = document.getElementById(`checked${contact.id}`);
         if (icon) { // Stellen Sie sicher, dass das Element existiert
-            if (contact.assigned) {
+            // Überprüfen, ob der Kontakt in allContacts vorhanden ist
+            const isContactChosen = allContacts.some(ac => ac.contactid === contact.id);
+
+            if (isContactChosen) {
                 icon.innerHTML = `<img src="../assets/img/checked.svg" alt="Assigned">`; // Pfad zum "Haken" Bild
                 icon.parentNode.classList.add('Contactchecked');
             } else {
@@ -921,6 +934,7 @@ function updateIcons(contacts) {
         }
     });
 }
+
 
 
 function contactlistHtml(contacts) {
@@ -947,31 +961,27 @@ function contactlistHtml(contacts) {
 }
 
 function toggleContact(contactId) {
-    const contact = contactpool.find(contact => contact.id === contactId);
-    if (contact) {
-        if (contact.assigned) {
-            unchoseContact(contactId);
-        } else {
-            choseContact(contactId);
-        }
+    const contactIsChosen = allContacts.some(contact => contact.contactid === contactId);
+    if (contactIsChosen) {
+        unchoseContact(contactId);
+    } else {
+        choseContact(contactId);
     }
 }
 
 
-
 async function choseContact(contactId) {
-    // Rufe die nächste ID ab.
-    const nextId = await getLastID(); // Stellen Sie sicher, dass diese Funktion richtig implementiert ist
-
     // Finde den Kontakt im Pool
     const contact = contactpool.find(contact => contact.id === contactId);
 
-    // Wenn der Kontakt gefunden wurde und noch nicht zugewiesen wurde
-    if (contact && !contact.assigned) {
+    // Überprüfen, ob der Kontakt bereits in allContacts existiert
+    const isContactAlreadyChosen = allContacts.some(c => c.contactid === contactId);
+
+    // Wenn der Kontakt gefunden wurde und nicht bereits in allContacts existiert
+    if (contact && !isContactAlreadyChosen) {
         // Erstelle eine Kopie des Kontakts für allContacts
         const tempContact = {
-            'id': nextId, // Verwenden Sie die nächste verfügbare ID
-            'contactid': contact.id, // Referenz auf die ursprüngliche ID des Kontakts
+            'contactid': contact.id,
             'name': contact.name,
             'color': contact.color,
             'initialien': contact.initialien
@@ -980,38 +990,41 @@ async function choseContact(contactId) {
         // Füge den Kontakt zu allContacts hinzu
         allContacts.push(tempContact);
 
-        // Markiere den Kontakt als zugewiesen
-        contact.assigned = true;
-
         // Aktualisiere die Anzeige für diesen Kontakt
-        updateContactDisplay(contact.id, true);
+        updateContactDisplay(contactId, true);
+        showTaskContacts();
 
-        // Aktualisiere die Anzeige aller zugewiesenen Kontakte
-        showSelectedContacts();
     } else {
-        console.log("Der Kontakt ist bereits zugewiesen oder existiert nicht.");
+        console.log("Der Kontakt wurde schon ausgewählt oder existiert nicht.");
     }
+
 }
+
 
 
 function unchoseContact(contactId) {
     const indexToRemove = allContacts.findIndex(contact => contact.contactid === contactId);
     if (indexToRemove !== -1) {
         allContacts.splice(indexToRemove, 1);
-        const contact = contactpool.find(contact => contact.id === contactId);
-        contact.assigned = false; // Zustand auf 'nicht zugewiesen' setzen
+
         updateContactDisplay(contactId, false); // UI aktualisieren
-        showSelectedContacts(); // Liste der ausgewählten Kontakte aktualisieren
+        showTaskContacts();
     }
 }
 
 
-function updateContactDisplay(i, assigned) {
-    const contactCheckbox = document.getElementById(`checked${i}`);
-    const imageSrc = assigned ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
+function updateContactDisplay(contactId) {
+    const contactCheckbox = document.getElementById(`checked${contactId}`);
+    if (!contactCheckbox) return; // Stelle sicher, dass das Element existiert
+
+    // Überprüfen, ob der Kontakt in allContacts vorhanden ist
+    const isContactChosen = allContacts.some(contact => contact.contactid === contactId);
+
+    const imageSrc = isContactChosen ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
     contactCheckbox.innerHTML = `<img src="${imageSrc}" alt="">`;
-    contactCheckbox.parentNode.classList.toggle('Contactchecked', assigned);
+    contactCheckbox.parentNode.classList.toggle('Contactchecked', isContactChosen);
 }
+
 
 
 
