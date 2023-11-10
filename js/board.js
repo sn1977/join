@@ -286,7 +286,7 @@ function generateHTML(element) {
             <div class="progress-container">
               <div class="progress-bar" id="myBar" style="width: ${fortschritt}%"></div>
             </div>
-            <span class="subtask-container">${abgeschlosseneTeilaufgaben}/${gesamteTeilaufgaben} Teilaufgaben</span>
+            <span class="subtask-container">${abgeschlosseneTeilaufgaben}/${gesamteTeilaufgaben} Subtasks</span>
           </div>
           <div class="assignedToUsers">${zugewieseneBenutzerHTML}</div>
         </div>
