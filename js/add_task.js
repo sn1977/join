@@ -96,6 +96,7 @@ async function addTask(progress) {
         getLastID();
         getTaskValues(progress);
         await setItem('tasks', JSON.stringify(tasks));
+        overlaySuccessAddTask();
         emptyFields();
         generateSubtaskHtml();
         if (lastPrio != '') {
@@ -105,6 +106,34 @@ async function addTask(progress) {
     } else {
        
     }
+}
+
+
+function overlaySuccessAddTask() {
+    const overlayAddTaskSuccess = document.createElement('div');
+    overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
+    document.body.appendChild(overlayAddTaskSuccess);
+
+    setTimeout(() => {
+        overlayAddTaskSuccess.style.transform = 'translateY(-250%) translateX(50%)';
+    }, 50);
+
+    addOverlayAddTaskSuccess();
+}
+
+function addOverlayAddTaskSuccess() {
+    document.getElementById('overlayAddTaskSuccess').innerHTML = `
+        <div class="success">
+            <span class="addtaskSuccess">Task successfully created</span>
+            <img src="../assets/img/iconboard.svg">
+        </div>
+    `;
+
+    // Div entfernen, nachdem die Animation abgeschlossen ist
+    setTimeout(() => {
+        const overlay = document.getElementById('overlayAddTaskSuccess');
+        if (overlay) overlay.remove();
+    }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
 }
 
 

@@ -1,38 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Task</title>
 
-    <!-- Include favicon.ico picture -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon.svg">
+function overlayAddTask(progressBoard) {
+    const overlay = document.createElement('div');
+    overlay.id = 'taskContent';
+    document.body.appendChild(overlay);
 
-    <!-- Schriftart einbinden -->
-    <link rel="stylesheet" href="../fonts.css">
+    setTimeout(() => {
+        overlay.style.transform = 'translateY(-50%) translateX(50%)';
+    }, 50);
 
-    <!-- CSS Datei einbinden -->
-    <link rel="stylesheet" href="../css/add_task.css">
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/sidebar.css">
-    <link rel="stylesheet" href="../css/contacts.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    addTaskOverlay(progressBoard);
+}
 
-    <script src="../js/w3includes.js"></script>
-    <script src="../js/storage.js"></script>
-    <script src="../js/templates.js"></script>
-    <script src="../js/task_template.js"></script>
-</head>
 
-<body onload="loadIncludeHTML(), initTask(), addTaskLoadContacts()">
 
-    <div w3-include-html="../assets/templates/header.html"></div>
-    <div w3-include-html="../assets/templates/sidebar.html"></div>
 
-    <div class="addTask" id="taskContent">
+
+function addTaskOverlay(progressBoard) {
+
+    document.getElementById('taskContent').innerHTML = /*HTML*/ `
+    
+   
+    <div class="taskOverlay">
+        <div class="dialogAddTask">
         <h3>Add Task</h3>
 
         <div class="formAddTask">
@@ -125,19 +115,14 @@
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="addTaskOverlay()">Cancel <img src="../assets/img/cancel.svg"></button>
-                    <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
+                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="activeBtn" onclick="addTask(${progressBoard})">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
-            
+        </div>
         </div>
     </div>
-
-
-    <script src="../js/contacts.js"></script>
-    <script src="../js/add_task.js"></script>
-    <script src="../js/special_add_task.js"></script>
-</body>
-
-</html>
+</div>
+    `;
+}

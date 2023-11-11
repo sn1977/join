@@ -134,7 +134,7 @@ function renderBoard() {
                         ${name}
                     </div>
                     <div>
-                        <img src="../assets/img/addbutton.svg" alt="Add Task">
+                        <img src="../assets/img/addbutton.svg" alt="Add Task" onclick="location.href='../../html/add_task.html'">
                     </div>
                 </div>
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
@@ -343,6 +343,7 @@ function sortTodos(todosArray) {
  */
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
+    allContacts = todo.assignedTo;
     if (todo) {
         const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
 
@@ -460,7 +461,6 @@ function openEditPopup(id) {
 }
 
 function createEditPopup(todo) {
-    allContacts = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
     document.getElementById("editpopup").innerHTML += /*html*/ `
         <div class="container-popup">

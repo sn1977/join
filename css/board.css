@@ -129,6 +129,11 @@ textarea {
     cursor: pointer;
 }
 
+.progressContainerStatusHead button {
+    border: none;
+    background: unset;
+}
+
 .progressStatus {
     font-weight: 700;
     font-size: 21px;
