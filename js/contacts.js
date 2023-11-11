@@ -84,10 +84,6 @@ function renderContacts() {
                 </svg>
             </div>`;
 
-        // groupedContacts[firstLetter].forEach((name) => {
-        //     const originalIndex = nameOfContact.indexOf(name);
-        //     allContacts.innerHTML += showContact(name, originalIndex);
-        // });
         groupedContacts[firstLetter].forEach((contact) => {
             const index = contacts.indexOf(contact);
             allContacts.innerHTML += showContact(contact.nameOfContact, index);
@@ -111,23 +107,6 @@ function getInitials(name) {
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
-
-
-// function showContact(name, index) {
-//     const initials = getInitials(name);
-//     const color = getColorByIndex(index);
-//
-//     return `
-//         <div class="contact-name contact-hover" id="contactNameBox${index}" onclick="showContactDetails(${index})">
-//             <div class="profile-badge contact-hover" id="profileBadge${index}">
-//                 <div class="group9" style="background-color: ${color};">${initials}</div> <!-- Verwendung der Initialen -->
-//                 <div class="frame81">
-//                     <span class="contactName">${name}</span>
-//                     <span class="contactEmail">${emailOfContact[index]}</span>
-//                 </div>
-//             </div>
-//         </div>`;
-// }
 
 function showContact(name, index) {
     const contact = contacts[index];
@@ -238,10 +217,6 @@ function displayWindows() {
             }
         }
 
-        // back.addEventListener('click', () => {
-        //     resetStyles(contactMobile);
-        //     resetStyles(back);
-        // });
     } else {
         if (contactsHeader) resetStyles(contactsHeader);
         if (floatingContact) resetStyles(floatingContact);
@@ -277,21 +252,6 @@ function overlayContactCreated() {
 
     addOverlayCreatedContact();
 }
-
-// async function deleteContact(index) {
-//     if (index >= 0 && index < nameOfContact.length) {
-//         removeContactFromArray(nameOfContact[index])
-//         // Lokale Arrays aktualisieren
-//         nameOfContact.splice(index, 1);
-//         emailOfContact.splice(index, 1);
-//         telOfContact.splice(index, 1);
-//
-//         // Die Arrays zurück in den Remote-Speicher speichern
-//         await pushBackArrays();
-//         renderContacts();
-//         hideFloatingContact();
-//     }
-// }
 
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
@@ -335,7 +295,7 @@ function overlayEditContact(name, index) {
 
 function editContact(index) {
     // Das overlayAddContact Overlay aufrufen
-    overlayEditContact(nameOfContact[index], index);
+    overlayEditContact(contacts[index].nameOfContact, index);
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = nameOfContact[index];
@@ -379,4 +339,5 @@ function loadInitialsHeader() {
     let initials = getInitials(userInitials);
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
+
 

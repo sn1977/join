@@ -305,7 +305,7 @@ function addContactBtn() {
     const createContactBtn = returnCreateContactBtn();
 
     return `
-        <div class=frame27>
+        <div class=frame27 id="frame27">
             ${cancelBtn}
             ${createContactBtn}
         </div>
@@ -374,7 +374,7 @@ function addEditedCircle(name, index) {
 function returnCircle() {
     return `
         <div class=frame79_2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <svg class="svg-person-icon" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
                 <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
             </svg>
             <img class="person-icon" src="../assets/img/person.svg">
@@ -426,6 +426,7 @@ function contactsHTML() {
             <div class="frame97">
                 <div class="contact-list">
                     <button id="newContact" onclick="overlayAddContact()">Add new contact
+                    <<img src="../assets/img/person_add.svg" alt="add-person-icon">
                         <svg fill="none" height="33" viewBox="0 0 33 33" width="33" xmlns="http://www.w3.org/2000/svg">
                             <mask height="33" id="mask0_93463_4951" maskUnits="userSpaceOnUse" style="mask-type:alpha"
                             width="33" x="0" y="0">
