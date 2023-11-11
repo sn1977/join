@@ -335,7 +335,7 @@ function overlayEditContact(name, index) {
 
 function editContact(index) {
     // Das overlayAddContact Overlay aufrufen
-    overlayEditContact(nameOfContact[index], index);
+    overlayEditContact(contacts[index].nameOfContact, index);
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = nameOfContact[index];

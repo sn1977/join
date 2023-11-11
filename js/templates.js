@@ -132,7 +132,7 @@ function displayFloatingContactDetails(index) {
     floatingContact.classList.add('floatingContact');
 
     // Initialen des Kontakts generieren
-    let initials = nameOfContact[index].split(' ').map(word => word[0]).join('');
+    let initials = contacts[index].nameOfContact.split(' ').map(word => word[0]).join('');
     const color = getColorByIndex(index);
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
     
@@ -140,7 +140,7 @@ function displayFloatingContactDetails(index) {
         <div class="frame105">
             <div class="frame79" style="background-color: ${color};">${initials}</div>
             <div class="frame104">
-                <div class="frame81">${nameOfContact[index]}</div>
+                <div class="frame81">${contacts[index].nameOfContact}</div>
                 <div class="frame204">
                     <div class="frame108" onclick="editContact(${index})">
                         <svg class=icon-edit xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -171,11 +171,11 @@ function displayFloatingContactDetails(index) {
         <div class="frame101">
             <div class="frame102">
                 <span class="text">Email</span>
-                <span class="email">${emailOfContact[index]}</span>
+                <span class="email">${contacts[index].emailOfContact}</span>
             </div>
             <div class="frame103">
                 <span class="text">Phone</span>
-                <span class="delete-edit-text">${telOfContact[index]}</span>
+                <span class="delete-edit-text">${contacts[index].telOfContact}</span>
             </div>
         </div>
     `;
