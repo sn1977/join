@@ -40,7 +40,6 @@ button {
 }
 
 
-
 .taskOverlay{
     background-color: rgba(0, 0, 0, .2);
     z-index: 999;
@@ -56,11 +55,11 @@ button {
 }
 
 .dialogAddTask{
-    height: 50vh;
-    width: 50vw;
-    background-color: var(--invalid-color);
+    background-color: #FFF;
+    padding: 16px 74px;
     border: 1px solid var(--icon-hover);
     border-radius: 30px;
+    width:70%;
 }
 
 
