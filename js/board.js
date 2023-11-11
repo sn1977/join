@@ -51,9 +51,10 @@ async function loadAllTasksFromRemote() {
 }
 
 async function loadContacts() {
-    nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
+    /* nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
     emailOfContact = JSON.parse(await getItem('emailOfContact')) || ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
-    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951];
+    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951]; */
+    contacts = JSON.parse(await getItem('contacts')) || contacts;
 }
 
 /**

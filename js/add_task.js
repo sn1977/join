@@ -264,11 +264,11 @@ function toggleContacts() {
  */
 function addTaskLoadContacts() {
     contactpool = [];
-    for (let i = 0; i < nameOfContact.length; i++) {
-        let tempInitialien = getInitials(nameOfContact[i]);
+    for (let i = 0; i < contacts.length; i++) {
+        let tempInitialien = getInitials(contacts[i].nameOfContact);
         let tempContactPool = {
             'id': i,
-            'name': nameOfContact[i],
+            'name': contacts[i].nameOfContact,
             'color': getColorByIndex(i),
             'initialien': tempInitialien,
             'assigned': false
