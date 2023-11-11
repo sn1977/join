@@ -15,7 +15,6 @@ body {
     scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;
- 
 }
 
 
@@ -54,24 +53,35 @@ button {
     align-items: center;
 }
 
+
 .dialogAddTask{
     background-color: #FFF;
     padding: 16px 74px;
     border: 1px solid var(--icon-hover);
     border-radius: 30px;
     width:70%;
+    max-height: 100vh;
+    min-height: calc(100vh - 110px);
+    overflow-y: auto;
+    position: relative;
 }
 
+
+#closeOverlay {
+    cursor: pointer;
+    position: absolute;
+    height: 40px;
+    top: 32px;
+    right: 32px;
+}
 
 
 .addTask {
     max-width: 968px;
     min-height: calc(100vh - 124px);
-    /* border-radius: 30px; */
     padding-top: 16px;
     padding-left: 74px;
     padding-right: 74px;
-    /* border: 1px solid var(--invalid-color); */
     background-color: var(--bg-addtask);
     color: var(--tx-color);
     font-size: 20px;
@@ -124,7 +134,7 @@ button {
 }
 
 
-.footArea {
+.footArea, .footAreaOverlay {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -133,7 +143,7 @@ button {
 }
 
 
-.footArea p {
+.footArea p, .footAreaOverlay p {
     font-size: 16px;
     font-weight: 400;
     text-align: bottom;
@@ -196,9 +206,16 @@ button {
     cursor: pointer;
 }
 
+.cancelBtn:hover {
+    color: var(--focus-color);
+    border: 1px solid var(--focus-color);
+}
+
+.cancelBtn:hover img {
+    filter: invert(53%) sepia(35%) saturate(885%) hue-rotate(153deg) brightness(102%) contrast(103%);
+}
 
 /* Input Felder */
-
 input,
 textarea,
 select {
@@ -536,6 +553,12 @@ select:focus,
     gap: 8px;
 }
 
+/* button-container button:hover  */
+.white:hover {
+    border-radius: 10px;
+    background: var(--white, #FFF);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
 .urgent {
     background-color: #FF3D00;
@@ -543,16 +566,29 @@ select:focus,
     color: white !important;
 }
 
+.urgent:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
 .medium {
     background-color: #FFA800;
     border: 1px solid #FFA800 !important;
     color: white !important;
 }
 
+.medium:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 .low {
     background-color: #7AE229;
     border: 1px solid #7AE229 !important;
     color: white !important;
+}
+
+.low:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .white {
@@ -606,6 +642,11 @@ select:focus,
         padding-left: 36px;
         padding-right: 36px;
     }
+
+
+    .dialogAddTask{
+        padding: 16px 36px; 
+    }
 }
 
 @media (max-width: 1140px) {
@@ -618,17 +659,26 @@ select:focus,
         display: none;
     }
 
+
     .addTask {
         align-items: center;
         justify-content: center;
         display: grid;
+        height: unset;
     }
 
     .footArea {
         flex-direction: column;
-        margin-bottom: 80px;
         gap: 32px;
         align-items: center;
+        padding-bottom: 128px;
+    }
+
+    .footAreaOverlay {
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
+        padding-bottom: 2px;
     }
 }
 
@@ -637,5 +687,48 @@ select:focus,
 
     .addTask {
         margin-left: 0;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .dialogAddTask{
+        padding: 16px;
+        width:99%;
+    }
+
+    .taskOverlay{
+        padding: 4px;
+        margin: 2px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .formAddTask {
+        width: calc(100vw - 8px );
+    }
+
+
+    .addTask {
+        margin-left: 0;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .button-container button {
+        font-size: 16px;
+        line-height: 120%;
+        gap: 4px;
+    }
+
+    .dialogAddTask{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .taskOverlay{
+        padding: 1px;
+        margin: 1px;
     }
 }

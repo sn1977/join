@@ -21,23 +21,25 @@ let subtaskID = 0;
 let allSubtasks = [];
 let allContacts = [];
 let contactpool = [];
+let filteredContacts = [];
 
 
 /**
- * Call initial functions
+ * call initial functions addTask
  * 
  */
 async function initTask() {
     await loadAllTasks();
     await loadContacts();
+
     reload();
 }
 
 
 /**
- * funtion to load all tasks from remote
+ * funtion to load all tasks from remote server
  * 
- *
+ *@param {array} tasks -all tasks
  * 
  */
 async function loadAllTasks() {
@@ -46,9 +48,16 @@ async function loadAllTasks() {
 
 
 /**
- * Function to get the ids from the inputfields
+ * function to get the ids from the inputfields and save in global variables
  * 
- * @returns 
+ * @param {string} title -inputfield for title
+ * @param {string} description -inputfield for description
+ * @param {string} assignedTo -inputfield for assigned contacts
+ * @param {string} dueDate -inputfield for  due date
+ * @param {string} category -inputfield for category
+ * @param {string} subtask -inputfield for subtasks
+ * 
+ * 
  */
 function getInputIDs() {
     title = document.getElementById('title');
@@ -61,8 +70,9 @@ function getInputIDs() {
 
 
 /**
+ * function to get the values from the input fields and save in task fo push in tasks
  * 
- * 
+ * @param {array} task - temp array fo save the values and create the json
  * 
  */
 function getTaskValues(progress) {
@@ -102,13 +112,17 @@ async function addTask(progress) {
         if (lastPrio != '') {
             resetPrio();
         }
-        
     } else {
-       
     }
 }
 
 
+/**
+ * 
+ * 
+ * 
+ * 
+ */
 function overlaySuccessAddTask() {
     const overlayAddTaskSuccess = document.createElement('div');
     overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
@@ -121,6 +135,13 @@ function overlaySuccessAddTask() {
     addOverlayAddTaskSuccess();
 }
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ */
 function addOverlayAddTaskSuccess() {
     document.getElementById('overlayAddTaskSuccess').innerHTML = `
         <div class="success">
@@ -128,12 +149,10 @@ function addOverlayAddTaskSuccess() {
             <img src="../assets/img/iconboard.svg">
         </div>
     `;
-
-    // Div entfernen, nachdem die Animation abgeschlossen ist
     setTimeout(() => {
         const overlay = document.getElementById('overlayAddTaskSuccess');
         if (overlay) overlay.remove();
-    }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
+    }, 10000);
 }
 
 
@@ -154,10 +173,9 @@ async function getLastID() {
     if (maxID > 0) {
         id = maxID + 1;
     } else {
-        id = 1; 
+        id = 1;
     }
 }
-
 
 
 /**
@@ -170,18 +188,9 @@ function reload() {
     resetRequiredFields()
     getLastID();
     addTaskLoadContacts();
+    allContacts = [];
     subtaskID = 0;
 }
-
-
-/**
- * This function prevents the onclick event 
- * 
- * @param {event} event - onclick event
- */
-// function eventOnClick(event) {
-//     event.stopPropagation(); // prevents event bubbling
-//   }
 
 
 /**
@@ -205,6 +214,8 @@ function taskPrio(x) {
 /**
  * Function to change the color of the selected prio
  * 
+ * 
+ * 
  */
 function setPrio() {
     let element = '';
@@ -219,7 +230,7 @@ function setPrio() {
 
 
 /**
- * Function to change the color of the previously selected prio back to white
+ * function to change the color of the previously selected prio back to white
  * 
  */
 function resetPrio() {
@@ -242,11 +253,15 @@ function resetPrio() {
  */
 function toggleContacts() {
     document.getElementById('assignedToContainer').classList.toggle('d-none');
-/*     addTaskGetContacts();
-    showTaskContacts(); */
 }
 
 
+/**
+ * function
+ * 
+ * @todo
+ * 
+ */
 function addTaskLoadContacts() {
     contactpool = [];
     for (let i = 0; i < nameOfContact.length; i++) {
@@ -260,11 +275,18 @@ function addTaskLoadContacts() {
         }
         contactpool.push(tempContactPool);
     }
-    contactpool.sort(SortArray);
+    // contactpool.sort(SortArray);
+    contactpool.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 
-function SortArray(x, y) {
+/**
+ * function to sort the contact in alphabetical order
+ * 
+ * @todo
+ * 
+ */
+/* function SortArray(x, y) {
     if (x.name < y.name) {
         return -1;
     }
@@ -272,8 +294,15 @@ function SortArray(x, y) {
         return 1;
     }
     return 0;
-}
+} */
 
+
+/**
+ * function
+ * 
+ * @todo
+ * 
+ */
 function contactlistHtml(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
@@ -293,48 +322,40 @@ function contactlistHtml(contacts) {
             </div>
         `;
     }
-    
     return contacthtml;
 }
 
 
-
-
+/**
+ * function
+ * 
+ * @todo
+ * 
+ */
 function filterContacts() {
     const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
 
-    const filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
+    // Wenn kein Text eingegeben wurde, zeige die gesamte Kontaktliste an
+    if (inputText === '') {
+        filteredContacts = contactpool;
+    } else {
+        // Andernfalls filtere die Kontakte basierend auf dem eingegebenen Text
+        filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
+    }
 
     const contactsContainer = document.getElementById('assignedToContainer');
     contactsContainer.innerHTML = `
-        <section id="assignedToContact">
-            ${contactlistHtml(filteredContacts)}
-        </section>
-        <button class="createContactBtn"  onclick="overlayAddContact()">
-            Add new contact
-            <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
-        </button>
-    `;
-    // getIcon();
+            <section id="assignedToContact">
+                ${contactlistHtml(filteredContacts)}
+            </section>
+            <button class="createContactBtn"  onclick="overlayAddContact()">
+                Add new contact
+                <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
+            </button>
+        `;
     updateIcons(filteredContacts);
 }
 
-
-
-
-
-function getIcon() {
-    for (let i = 0; i < contactpool.length; i++) {
-        let icon = document.getElementById(`checked${i}`);
-        if (contactpool[i]['assigned']) {
-            icon.innerHTML = `<img src="../assets/img/check_button_white.svg" alt="">`;
-            icon.parentNode.classList.add('checked');
-        } else {
-            icon.innerHTML = `<img src="../assets/img/checkbox.png" alt="">`;
-            icon.parentNode.classList.remove('checked');
-        }
-    }
-}
 
 
 function updateIcons(filteredContacts) {
@@ -350,16 +371,6 @@ function updateIcons(filteredContacts) {
     }
 }
 
-// Beispiel, wie du die Icons aktualisieren kannst
-function toggleContact(contactId, event) {
-    // Ändere den ausgewählten Zustand des Kontakts
-    const selectedContact = filteredContacts.find(contact => contact.id === contactId);
-    selectedContact.assigned = !selectedContact.assigned;
-
-    // Rufe die Funktion zur Aktualisierung der Icons auf
-    updateIcons(filteredContacts);
-}
-
 
 function addTaskGetContacts() {
     let contacts = document.getElementById('assignedToContainer');
@@ -372,19 +383,25 @@ function addTaskGetContacts() {
             <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
         </button>
         `;
-    // getIcon();
     updateIcons(filteredContacts);
 }
 
-
-function toggleContact(i, event) {
-    if (contactpool[i]['assigned']) {
-        unchoseContact(i);
-    } else {
-        choseContact(i);
-    }
-    event.stopPropagation(); // Verhindert das Ausbreiten des Ereignisses auf übergeordnete Elemente
+/**
+ * 
+ * function to chose or unchose a contact
+ * 
+ * @param {*} contactId 
+ * @param {*} event 
+ * 
+ */
+function toggleContact(contactId, event) {
+    const i = filteredContacts.findIndex(contact => contact.id === contactId);
+    contactpool[i]['assigned'] ? unchoseContact(i) : choseContact(i);
+    updateIcons(filteredContacts);
+    event.stopPropagation();
 }
+
+
 
 function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
@@ -400,18 +417,22 @@ function showTaskContacts() {
 
 
 function choseContact(i) {
-    getLastID();
-    let tempContact = {
-        'id': id,
-        'contactid': i,
-        'name': contactpool[i]['name'],
-        'color': contactpool[i]['color'],
-        'initialien': contactpool[i]['initialien']
+    if (!contactpool[i]['assigned']) {
+        const tempContact = {
+            'id': id,
+            'contactid': i,
+            'name': contactpool[i]['name'],
+            'color': contactpool[i]['color'],
+            'initialien': contactpool[i]['initialien']
+        };
+        allContacts.push(tempContact); 
+        contactpool[i]['assigned'] = true; 
+        changeMarkedContact(i); 
+        showTaskContacts(); 
+    } else {
+        // Der Kontakt ist bereits ausgewählt / nur für Testzwecke, sollte nie erreicht werden
+        alert("Kontakt bereits ausgewählt.");
     }
-    allContacts.push(tempContact);
-    contactpool[i]['assigned'] = true;
-    changeMarkedContact(i);
-    showTaskContacts();
 }
 
 
@@ -431,18 +452,18 @@ function unchoseContact(i) {
 
 function removeContactFromArray(contactName) {
     for (let i = 0; i < tasks.length; i++) {
-      const item = tasks[i];
-      if (item.assignedTo) {
-        for (let j = 0; j < item.assignedTo.length; j++) {
-          if (item.assignedTo[j].name === contactName) {
-            // Der Kontakt wurde gefunden, lösche ihn aus dem Array
-            item.assignedTo.splice(j, 1);
-            return;
-          }
+        const item = tasks[i];
+        if (item.assignedTo) {
+            for (let j = 0; j < item.assignedTo.length; j++) {
+                if (item.assignedTo[j].name === contactName) {
+                    // Der Kontakt wurde gefunden, lösche ihn aus dem Array
+                    item.assignedTo.splice(j, 1);
+                    return;
+                }
+            }
         }
-      }
     }
-  }
+}
 
 
 function changeMarkedContact(i) {
@@ -550,7 +571,7 @@ function addSubtask() {
         generateSubtaskHtml();
         switchBack();
     } else {
-        alert("Darf nicht leer sein");  
+        alert("Darf nicht leer sein");
     }
 }
 

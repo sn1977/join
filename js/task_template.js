@@ -1,29 +1,35 @@
-
-
 function overlayAddTask(progressBoard) {
     const overlay = document.createElement('div');
     overlay.id = 'taskContent';
     document.body.appendChild(overlay);
-
- /*    setTimeout(() => {
-        overlay.style.transform = 'translateY(-50%) translateX(50%)';
-    }, 50);
- */
     addTaskOverlay(progressBoard);
 }
 
-
-
+function closeOverlay () {
+    document.getElementById('taskContent').innerHTML = '';
+}
 
 
 function addTaskOverlay(progressBoard) {
 
     document.getElementById('taskContent').innerHTML = /*HTML*/ `
-    
-   
+     
     <div class="taskOverlay">
         <div class="dialogAddTask">
         <h3>Add Task</h3>
+
+        <p>Progress: ${progressBoard}</p>  
+        
+        <div id="closeOverlay" onclick="closeOverlay()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask0_102384_5574" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                    <rect width="24" height="24" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_102384_5574)">
+                    <path d="M12 13.4L7.1 18.3C6.91667 18.4834 6.68333 18.575 6.4 18.575C6.11667 18.575 5.88333 18.4834 5.7 18.3C5.51667 18.1167 5.425 17.8834 5.425 17.6C5.425 17.3167 5.51667 17.0834 5.7 16.9L10.6 12L5.7 7.10005C5.51667 6.91672 5.425 6.68338 5.425 6.40005C5.425 6.11672 5.51667 5.88338 5.7 5.70005C5.88333 5.51672 6.11667 5.42505 6.4 5.42505C6.68333 5.42505 6.91667 5.51672 7.1 5.70005L12 10.6L16.9 5.70005C17.0833 5.51672 17.3167 5.42505 17.6 5.42505C17.8833 5.42505 18.1167 5.51672 18.3 5.70005C18.4833 5.88338 18.575 6.11672 18.575 6.40005C18.575 6.68338 18.4833 6.91672 18.3 7.10005L13.4 12L18.3 16.9C18.4833 17.0834 18.575 17.3167 18.575 17.6C18.575 17.8834 18.4833 18.1167 18.3 18.3C18.1167 18.4834 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4834 16.9 18.3L12 13.4Z" fill="#2A3647"/>
+                </g>
+            </svg> 
+        </div>
 
         <div class="formAddTask">
             <div class="formInput">
@@ -95,7 +101,6 @@ function addTaskOverlay(progressBoard) {
                         <label for="subtask">Subtask</label>
                         <div class="inputField subtaskContainer">
                             <input type="text" id="subtask" placeholder="Add new subtask" onfocus="switchToInput()">
-                            <!-- onblur="switchBack()" -->
                             <div id="addSubtask">
                                 <img src="../assets/img/add.svg" onclick="switchToInput()">
                             </div>
@@ -112,11 +117,11 @@ function addTaskOverlay(progressBoard) {
                 </div>
             </div>
 
-            <div class="footArea">
+            <div class="footAreaOverlay">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
                     <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
-                    <button class="activeBtn" onclick="addTask(${progressBoard})">Create Task <img src="../assets/img/check.svg"
+                    <button class="activeBtn" onclick="addTask('${progressBoard}')">Create Task <img src="../assets/img/check.svg"   
                             alt=""></button>
                 </div>
             </div>
@@ -125,4 +130,13 @@ function addTaskOverlay(progressBoard) {
     </div>
 </div>
     `;
+
+    loadExternalScript()
+}
+
+function loadExternalScript() {
+    const script = document.createElement('script');
+    script.src = '../js/special_add_task.js';
+    document.body.appendChild(script);
+    initTask();
 }

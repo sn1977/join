@@ -14,9 +14,9 @@ let boardNames = [
 ];
 
 let todos = [];
-let contactpool = [];
+// let contactpool = [];
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
-let allContacts = [];
+// let allContacts = [];
 
 
 /**
@@ -112,7 +112,7 @@ function renderBoard() {
 							<img src="../assets/img/search.svg" alt="Search">
 						</div>
 					</div>
-					<button class="buttonAddTask" onclick="location.href='../../html/add_task.html'">
+					<button class="buttonAddTask" onclick="overlayAddTask('todo')">
 						<span>Add Task</span>
 						<span>+</span>
 					</button>
@@ -134,7 +134,7 @@ function renderBoard() {
                         ${name}
                     </div>
                     <div>
-                        <img src="../assets/img/addbutton.svg" alt="Add Task" onclick="location.href='../../html/add_task.html'">
+                        <img src="../assets/img/addbutton.svg" alt="Add Task" onclick="overlayAddTask('${progress}')">
                     </div>
                 </div>
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>

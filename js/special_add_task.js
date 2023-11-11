@@ -26,14 +26,14 @@ document.getElementById("category").selectedIndex = 0;
 
 
 //focus subtask Input field change border colour
-const subtaskInput = document.getElementById("subtask");
+const subtaskInputX = document.getElementById("subtask");
 const subtaskContainer = document.querySelector(".subtaskContainer");
 
-subtaskInput.addEventListener("focus", () => {
+subtaskInputX.addEventListener("focus", () => {
     subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
 });
 
-subtaskInput.addEventListener("blur", () => {
+subtaskInputX.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
 
