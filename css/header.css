@@ -46,6 +46,11 @@ a {
     line-height: 120%;
 }
 
+.small-logo {
+    height: 56px;
+    padding-left: 46px;
+}
+
 /* media queries */
 
 @media (max-width: 1050px) {
@@ -56,5 +61,11 @@ a {
 
     span {
         padding-right: 8px;
+    }
+}
+
+@media (max-width: 550px) {
+    .headerH2 {
+        display: none;
     }
 }

@@ -52,7 +52,7 @@ body {
 
 /* media queries */
 
-@media (max-width: 800px) {
+@media (max-width: 990px) {
     .sidebar {
         right: 0;
         top: unset;

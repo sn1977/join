@@ -132,7 +132,7 @@ function displayFloatingContactDetails(index) {
     floatingContact.classList.add('floatingContact');
 
     // Initialen des Kontakts generieren
-    let initials = nameOfContact[index].split(' ').map(word => word[0]).join('');
+    let initials = contacts[index].nameOfContact.split(' ').map(word => word[0]).join('');
     const color = getColorByIndex(index);
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
     
@@ -140,7 +140,7 @@ function displayFloatingContactDetails(index) {
         <div class="frame105">
             <div class="frame79" style="background-color: ${color};">${initials}</div>
             <div class="frame104">
-                <div class="frame81">${nameOfContact[index]}</div>
+                <div class="frame81">${contacts[index].nameOfContact}</div>
                 <div class="frame204">
                     <div class="frame108" onclick="editContact(${index})">
                         <svg class=icon-edit xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -171,11 +171,11 @@ function displayFloatingContactDetails(index) {
         <div class="frame101">
             <div class="frame102">
                 <span class="text">Email</span>
-                <span class="email">${emailOfContact[index]}</span>
+                <span class="email">${contacts[index].emailOfContact}</span>
             </div>
             <div class="frame103">
                 <span class="text">Phone</span>
-                <span class="delete-edit-text">${telOfContact[index]}</span>
+                <span class="delete-edit-text">${contacts[index].telOfContact}</span>
             </div>
         </div>
     `;
@@ -305,7 +305,7 @@ function addContactBtn() {
     const createContactBtn = returnCreateContactBtn();
 
     return `
-        <div class=frame27>
+        <div class=frame27 id="frame27">
             ${cancelBtn}
             ${createContactBtn}
         </div>
@@ -374,7 +374,7 @@ function addEditedCircle(name, index) {
 function returnCircle() {
     return `
         <div class=frame79_2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <svg class="svg-person-icon" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
                 <circle cx="60" cy="60" r="60" fill="#D1D1D1"/>
             </svg>
             <img class="person-icon" src="../assets/img/person.svg">
@@ -426,6 +426,7 @@ function contactsHTML() {
             <div class="frame97">
                 <div class="contact-list">
                     <button id="newContact" onclick="overlayAddContact()">Add new contact
+                    <<img src="../assets/img/person_add.svg" alt="add-person-icon">
                         <svg fill="none" height="33" viewBox="0 0 33 33" width="33" xmlns="http://www.w3.org/2000/svg">
                             <mask height="33" id="mask0_93463_4951" maskUnits="userSpaceOnUse" style="mask-type:alpha"
                             width="33" x="0" y="0">
