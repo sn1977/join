@@ -15,6 +15,7 @@ body {
     scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;
+ 
 }
 
 
@@ -39,6 +40,31 @@ button {
 }
 
 
+
+.taskOverlay{
+    background-color: rgba(0, 0, 0, .2);
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogAddTask{
+    height: 50vh;
+    width: 50vw;
+    background-color: var(--invalid-color);
+    border: 1px solid var(--icon-hover);
+    border-radius: 30px;
+}
+
+
+
 .addTask {
     max-width: 968px;
     min-height: calc(100vh - 124px);
@@ -55,6 +81,8 @@ button {
     line-height: 1.5em;
     margin-left: 232px;
     margin-top: 96px;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 
@@ -530,8 +558,46 @@ select:focus,
 
 .white {
     background-color: white;
-    border: 1px solid #D1D1D1 !important;
+    border: 1px solid  var(--invalid-color) !important;
     color: var(--tx-color) !important;
+}
+
+
+.success {
+    display: flex;
+    width: 326px;
+    height: 74px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: #2A3647;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+
+.addtaskSuccess {
+    color: #FFF;
+    line-height: 120%; /* 24px */
+}
+
+
+#overlayAddTaskSuccess {
+    /* Andere Stile, die Sie bereits definiert haben könnten */
+    position: fixed;
+    right: 0;
+    bottom: 40%; /* oder wo auch immer Sie es vertikal positionieren möchten */
+    animation: slideInFromRight 10s forwards; /* 5s ist die gesamte Dauer der Animation */
+}
+
+
+.sucessIcon {
+    width: 30px;
+    height: 30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
 
