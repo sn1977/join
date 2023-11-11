@@ -1,5 +1,6 @@
 body {
     font-family: 'inter';
+    height: unset !important;
 }
 
 img,
@@ -352,19 +353,6 @@ textarea {
     /* oder die gewünschte Größe */
 }
 
-.unchecked:hover {
-    opacity: 0.5;
-    /* oder der gewünschte Transparenzgrad */
-    background-image: url('../assets/img/checked.svg');
-}
-
-.checked:hover {
-    opacity: 0.5;
-    /* oder der gewünschte Transparenzgrad */
-    background-image: url('../assets/img/unchecked.svg');
-}
-
-
 .table-style td {
     padding-bottom: 25px;
 }
@@ -490,6 +478,7 @@ textarea {
 
 #editpopup h4 {
     margin: 0;
+    font-size: 20px;
 }
 
 button {
@@ -526,17 +515,186 @@ button {
 
 .editSubtask {
     display: flex;
-
+    align-items: center;
 }
 
-.editSubtask input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
+
 
 .editSubtask button {
+    border: none;
+    background: none;
+}
+
+.button-right {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     border: 1px solid #D1D1D1;
     height: auto;
+}
+
+.todoType.user-story {
+    background-color: blue;
+    color: white;
+    /* Ändere die Textfarbe nach Bedarf */
+}
+
+.todoType.technical-task {
+    background-color: #20D7C2;
+    color: white;
+    /* Ändere die Textfarbe nach Bedarf */
+}
+
+.inputSubtaskContainer {
+    background: white !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+}
+
+.additional-image {
+    height: 32px;
+}
+
+.addSubtaskContainer {
+    display: flex;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
+.plus-image {
+    padding: 1px;
+    margin-right: 24px;
+}
+
+#newSubtaskInput {
+    border: none;
+}
+
+.addSubtaskButtonsContainer {
+    display: flex;
+}
+
+.addSubtaskButtons {
+    position: relative;
+    border: unset;
+    background-color: unset;
+}
+
+.extra-margin {
+    margin-right: -20px;
+}
+
+.contactLine {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.5em;
+    padding: 7px 16px;
+    margin-top: 2px;
+    width: 85%;
+}
+
+.contactLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contactName {
+    margin-right: 10px;
+    /* Abstand zwischen dem Namen und dem Bild */
+}
+
+.contactImage {
+    display: flex;
+    align-items: center;
+    /* Vertikal zentrieren */
+    margin-left: auto;
+    /* Auf die rechte Seite verschieben */
+}
+
+.contactImage img {
+    display: block;
+    /* Das Bild in eine separate Zeile setzen */
+    margin-left: 10px;
+    /* Das Bild auf die rechte Seite verschieben */
+}
+
+
+
+.contactLine:hover {
+    border-radius: 10px;
+    background: #EEE;
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    align-items: center;
+}
+
+.contacticon {
+    border-radius: 45px;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 4px;
+    border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.assignedToContainerContact {
+    background-color: #fff;
+    height: 200px;
+    z-index: 1;
+    width: 440px;
+    overflow: auto;
+    position: absolute;
+    margin-top: 96px;
+}
+
+#assignedToContact {
+    overflow-y: auto;
+    background-color: #fff;
+    height: 140px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Contactchecked {
+    background-color: var(--bg-button);
+    border-radius: 10px;
+}
+
+.Contactchecked:hover {
+    background-color: var(--bg-hover);
+}
+
+#showAssignedContacts {
+    display: flex;
+}
+
+.custom-select {
+    appearance: none;
+    background-image: url('../assets/img/arrow_drop_downaa.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 16px) center;
+    background-size: 32px;
+}
+
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
 }
