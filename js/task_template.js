@@ -1,6 +1,6 @@
 
 
-function overlayAddTask() {
+function overlayAddTask(progressBoard) {
     const overlay = document.createElement('div');
     overlay.id = 'taskContent';
     document.body.appendChild(overlay);
@@ -9,14 +9,14 @@ function overlayAddTask() {
         overlay.style.transform = 'translateY(-50%) translateX(50%)';
     }, 50);
 
-    addTaskOverlay();
+    addTaskOverlay(progressBoard);
 }
 
 
 
 
 
-function addTaskOverlay() {
+function addTaskOverlay(progressBoard) {
 
     document.getElementById('taskContent').innerHTML = /*HTML*/ `
     
@@ -116,7 +116,7 @@ function addTaskOverlay() {
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
                     <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
-                    <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
+                    <button class="activeBtn" onclick="addTask(${progressBoard})">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
