@@ -5,10 +5,10 @@ function overlayAddTask(progressBoard) {
     overlay.id = 'taskContent';
     document.body.appendChild(overlay);
 
-    setTimeout(() => {
+ /*    setTimeout(() => {
         overlay.style.transform = 'translateY(-50%) translateX(50%)';
     }, 50);
-
+ */
     addTaskOverlay(progressBoard);
 }
 
