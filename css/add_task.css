@@ -172,10 +172,13 @@ button {
     gap: 8px;
 }
 
-.activeBtn:hover {
+.activeBtn:hover  {
     background-color: #29ABE2;
 }
 
+.createContactBtn:hover {
+    background-color: #29ABE2;
+}
 
 .createContactBtn {
     background-color: var(--bg-button);
