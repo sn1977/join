@@ -18,12 +18,14 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/sidebar.css">
 
+	    <!--jquery for datepicker-->
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 	<script src="../js/w3includes.js"></script>
 	<script src="../js/storage.js"></script>
 	<script src="../js/templates.js"></script>
-	<script src="../js/add_task.js"></script>
-	<script src="../js/task_template.js"></script>
-
 </head>
 
 <body onload="loadIncludeHTML(), loadAllSummaryTasks()">
@@ -87,9 +89,7 @@
 
 			<div class="right">
 				<div id="greeting">
-
 				</div>
-				<button onclick="overlayAddTask('done')">test</button>
 				
 				<h2>Sofia Müller</h2>
 			</div>
@@ -97,6 +97,9 @@
 		</div>
 		<script src="../js/summary.js"></script>
 		<script src="../js/contacts.js"></script>
+		<script src="../js/add_task.js"></script>
+		<script src="../js/task_template.js"></script>
+	
 
 </body>
 

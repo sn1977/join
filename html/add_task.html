@@ -17,14 +17,15 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/contacts.css">
+    <!--jquery for datepicker-->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <!--js Dateien einbinden-->
     <script src="../js/w3includes.js"></script>
     <script src="../js/storage.js"></script>
     <script src="../js/templates.js"></script>
-    <script src="../js/task_template.js"></script>
 </head>
 
 <body onload="loadIncludeHTML(), initTask(), addTaskLoadContacts()">
@@ -125,7 +126,9 @@
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="addTaskOverlay()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="cancelBtn" onclick="reload()">Cancel 
+                        <img src="../assets/img/cancel.svg">                      
+                    </button>
                     <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
@@ -133,7 +136,6 @@
             
         </div>
     </div>
-
 
     <script src="../js/contacts.js"></script>
     <script src="../js/add_task.js"></script>

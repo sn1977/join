@@ -26,7 +26,7 @@ async function loadAllSummaryTasks() {
 
 
 async function tasksCount() {   
-    let urgentTodoCount = 0; 
+/*     let urgentTodoCount = 0;  // prüfen was ich mir hier gedacht habe ???
     tasksOnBoard = summarytasks.length;
     for (let i = 0; i < summarytasks.length; i++) {
         const item = summarytasks[i].progress;
@@ -47,7 +47,23 @@ async function tasksCount() {
         if (itemprio === 'urgent' && item !=="done"){
             urgent++;
         }
-    }
+    } */
+
+  
+
+    tasksOnBoard = summarytasks.length;
+
+    summarytasks.forEach(task => {
+        const { progress, prio } = task;
+        if (progress === 'todo') todo++;
+        if (progress === 'done') done++;
+        if (progress === 'inprogress') inprogress++;
+        if (progress === 'awaitfeedback') feedback++;
+        if (prio === 'urgent' && progress !== 'done') urgent++;
+    });
+
+
+
     let date = getNextDate();
     upcomingHtml (date);
     summaryHtml ();
@@ -61,26 +77,28 @@ async function tasksCount() {
  * @returns the next deadline date after today for tasks with progress not "done"
  */
 function getNextDate() {
-    const today = new Date(); // Aktuelles Datum und Uhrzeit
-
-    let nextDate = null; // Nutze null anstelle von 0 für Datumswerte
+    const today = new Date();
+    let nextDate = null;
     summarytasks.forEach((element) => {
         if (element.progress !== "done") {
-            const taskDueDate = new Date(element.dueDate);
+            // Umformatieren des Datums von "TT/MM/JJJJ" zu "MM/TT/JJJJ"
+            const [day, month, year] = element.dueDate.split("/");
+            const reformattedDate = `${month}/${day}/${year}`;
+            const taskDueDate = new Date(reformattedDate);
 
-            if (taskDueDate > today && (!nextDate || taskDueDate < nextDate)) {
+            if (!isNaN(taskDueDate.getTime()) && taskDueDate > today && (!nextDate || taskDueDate < nextDate)) {
                 nextDate = taskDueDate;
             }
         }
     });
-
     if (!nextDate) {
         return "";
     }
-
     const timeOptions = { month: "long", day: "numeric", year: "numeric" };
     return nextDate.toLocaleString("en", timeOptions);
 }
+
+
 
 
 function upcomingHtml(date) {

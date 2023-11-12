@@ -14,9 +14,9 @@ let boardNames = [
 ];
 
 let todos = [];
-let contactpool = [];
-const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
-let allContacts = [];
+// let contactpool = [];
+// const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
+// let allContacts = [];
 
 
 /**
@@ -51,9 +51,10 @@ async function loadAllTasksFromRemote() {
 }
 
 async function loadContacts() {
-    nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
+    /* nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
     emailOfContact = JSON.parse(await getItem('emailOfContact')) || ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
-    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951];
+    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951]; */
+    contacts = JSON.parse(await getItem('contacts')) || contacts;
 }
 
 /**
@@ -112,7 +113,7 @@ function renderBoard() {
 							<img src="../assets/img/search.svg" alt="Search">
 						</div>
 					</div>
-					<button class="buttonAddTask" onclick="location.href='../../html/add_task.html'">
+					<button class="buttonAddTask" onclick="overlayAddTask('todo')">
 						<span>Add Task</span>
 						<span>+</span>
 					</button>
@@ -134,7 +135,7 @@ function renderBoard() {
                         ${name}
                     </div>
                     <div>
-                        <img src="../assets/img/addbutton.svg" alt="Add Task" onclick="location.href='../../html/add_task.html'">
+                        <img src="../assets/img/addbutton.svg" alt="Add Task" onclick="overlayAddTask('${progress}')">
                     </div>
                 </div>
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
@@ -832,7 +833,7 @@ function initializeDatepicker() {
     });
 }
 
-function addTaskLoadContacts() {
+/* function addTaskLoadContacts() {
     contactpool = [];
     for (let i = 0; i < nameOfContact.length; i++) {
         let tempInitialien = getInitials(nameOfContact[i]);
@@ -858,6 +859,8 @@ function SortArray(x, y) {
     }
     return 0;
 }
+ */
+
 
 function toggleContacts() {
     const assignedToContainer = document.getElementById('assignedToContainer');
@@ -937,11 +940,11 @@ function updateIcons(contacts) {
 
 
 
-function contactlistHtml(contacts) {
+/* function contactlistHtml(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
         contacthtml += ` 
-        <div class="contactLine" onclick="toggleContact(${contacts[i].id})">
+        <div class="contactLine" onclick="toggleContact(${contacts[i].id, })">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
                         ${contacts[i].initialien}
@@ -959,15 +962,15 @@ function contactlistHtml(contacts) {
 
     return contacthtml;
 }
-
-function toggleContact(contactId) {
+ */
+/* function toggleContact(contactId) {
     const contactIsChosen = allContacts.some(contact => contact.contactid === contactId);
     if (contactIsChosen) {
         unchoseContact(contactId);
     } else {
         choseContact(contactId);
     }
-}
+} */
 
 
 async function choseContact(contactId) {
@@ -1035,7 +1038,7 @@ function updateContactDisplay(contactId) {
  * @returns 
  * 
  */
-async function getLastID() {
+/* async function getLastID() {
     let maxID = 0;
     // Finde die maximale ID in den vorhandenen Aufgaben
     for (const task of todos) {
@@ -1048,7 +1051,7 @@ async function getLastID() {
     } else {
         id = 1;
     }
-}
+} */
 
 
 
