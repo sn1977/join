@@ -42,10 +42,13 @@ async function newContact() {
     });
     await setItem('contacts', JSON.stringify(contacts));
 
+    updateContactPool();
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
     overlayContactCreated();
+
+
 }
 
 function resetContactField() {

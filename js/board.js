@@ -15,7 +15,7 @@ let boardNames = [
 
 let todos = [];
 // let contactpool = [];
-const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
+// const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
 // let allContacts = [];
 
 
@@ -833,7 +833,7 @@ function initializeDatepicker() {
     });
 }
 
-function addTaskLoadContacts() {
+/* function addTaskLoadContacts() {
     contactpool = [];
     for (let i = 0; i < nameOfContact.length; i++) {
         let tempInitialien = getInitials(nameOfContact[i]);
@@ -859,6 +859,8 @@ function SortArray(x, y) {
     }
     return 0;
 }
+ */
+
 
 function toggleContacts() {
     const assignedToContainer = document.getElementById('assignedToContainer');
@@ -938,11 +940,11 @@ function updateIcons(contacts) {
 
 
 
-function contactlistHtml(contacts) {
+/* function contactlistHtml(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
         contacthtml += ` 
-        <div class="contactLine" onclick="toggleContact(${contacts[i].id})">
+        <div class="contactLine" onclick="toggleContact(${contacts[i].id, })">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
                         ${contacts[i].initialien}
@@ -960,15 +962,15 @@ function contactlistHtml(contacts) {
 
     return contacthtml;
 }
-
-function toggleContact(contactId) {
+ */
+/* function toggleContact(contactId) {
     const contactIsChosen = allContacts.some(contact => contact.contactid === contactId);
     if (contactIsChosen) {
         unchoseContact(contactId);
     } else {
         choseContact(contactId);
     }
-}
+} */
 
 
 async function choseContact(contactId) {
@@ -1036,7 +1038,7 @@ function updateContactDisplay(contactId) {
  * @returns 
  * 
  */
-async function getLastID() {
+/* async function getLastID() {
     let maxID = 0;
     // Finde die maximale ID in den vorhandenen Aufgaben
     for (const task of todos) {
@@ -1049,7 +1051,7 @@ async function getLastID() {
     } else {
         id = 1;
     }
-}
+} */
 
 
 

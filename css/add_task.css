@@ -317,11 +317,11 @@ select:focus,
     overflow-y: auto;
     background-color: #fff;
     height: 140px;
-    z-index: 1;
     width: 440px;
     display: flex;
     flex-direction: column;
 }
+
 
 #showAssignedContacts {
     padding: 7px 16px;
@@ -643,13 +643,12 @@ select:focus,
         padding-right: 36px;
     }
 
-
     .dialogAddTask{
         padding: 16px 36px; 
     }
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 1195px) {
 
     .formInput {
         display: unset;
@@ -660,7 +659,7 @@ select:focus,
     }
 
 
-    .addTask {
+    .addTask, .dialogAddTask {
         align-items: center;
         justify-content: center;
         display: grid;
@@ -730,5 +729,9 @@ select:focus,
     .taskOverlay{
         padding: 1px;
         margin: 1px;
+    }
+
+    .contactLine {
+        width: 80%;
     }
 }

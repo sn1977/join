@@ -280,21 +280,6 @@ function addTaskLoadContacts() {
 }
 
 
-/**
- * function to sort the contact in alphabetical order
- * 
- * @todo
- * 
- */
-/* function SortArray(x, y) {
-    if (x.name < y.name) {
-        return -1;
-    }
-    if (x.name > y.name) {
-        return 1;
-    }
-    return 0;
-} */
 
 
 /**
@@ -348,7 +333,7 @@ function filterContacts() {
             <section id="assignedToContact">
                 ${contactlistHtml(filteredContacts)}
             </section>
-            <button class="createContactBtn"  onclick="overlayAddContact()">
+            <button class="createContactBtn"  onclick="addNewContact()">
                 Add new contact
                 <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
             </button>
@@ -356,6 +341,32 @@ function filterContacts() {
     updateIcons(filteredContacts);
 }
 
+
+async function updateContactPool() {
+    await loadContacts();
+    if (contactpool.length < contacts.length) {
+
+        let i = contacts.length-1;
+        let tempInitialien = getInitials(contacts[i].nameOfContact);
+        let tempContactPool = {
+            'id': i,
+            'name': contacts[i].nameOfContact,
+            'color': getColorByIndex(i),
+            'initialien': tempInitialien,
+            'assigned': false
+        }
+        contactpool.push(tempContactPool);
+
+        // contactpool.sort(SortArray);
+        contactpool.sort((a, b) => a.name.localeCompare(b.name));
+        filteredContacts();
+    }
+}
+
+
+function addNewContact() {
+    overlayAddContact();
+}
 
 
 function updateIcons(filteredContacts) {
@@ -425,10 +436,10 @@ function choseContact(i) {
             'color': contactpool[i]['color'],
             'initialien': contactpool[i]['initialien']
         };
-        allContacts.push(tempContact); 
-        contactpool[i]['assigned'] = true; 
-        changeMarkedContact(i); 
-        showTaskContacts(); 
+        allContacts.push(tempContact);
+        contactpool[i]['assigned'] = true;
+        changeMarkedContact(i);
+        showTaskContacts();
     } else {
         // Der Kontakt ist bereits ausgewählt / nur für Testzwecke, sollte nie erreicht werden
         alert("Kontakt bereits ausgewählt.");
