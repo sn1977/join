@@ -22,7 +22,8 @@ let allSubtasks = [];
 let allContacts = [];
 let contactpool = [];
 let filteredContacts = [];
-
+// Globale Referenz auf den Event-Listener
+let clickEventListener = null;
 
 /**
  * call initial functions addTask
@@ -322,7 +323,7 @@ function contactlistHtml(contacts) {
  */
 function filterContacts() {
     const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
-
+    addClickEventListener();
     // Wenn kein Text eingegeben wurde, zeige die gesamte Kontaktliste an
     if (inputText === '') {
         filteredContacts = contactpool;
