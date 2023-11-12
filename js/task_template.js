@@ -1,8 +1,39 @@
+
+let subtaskInputX;
+let subtaskContainer;
+let subtaskInputFocusListener = () => {};
+let subtaskInputBlurListener = () => {};
+
+
+function addSubtaskEventListeners() {
+    subtaskInputX = document.getElementById("subtask"); 
+    subtaskContainer = document.querySelector(".subtaskContainer");
+
+    subtaskInputFocusListener = () => {
+        subtaskContainer.style.borderColor = "#29ABE2";
+    };
+
+    subtaskInputBlurListener = () => {
+        subtaskContainer.style.borderColor = "#D1D1D1";
+    };
+
+    subtaskInputX.addEventListener("focus", subtaskInputFocusListener);
+    subtaskInputX.addEventListener("blur", subtaskInputBlurListener);
+}
+
+
+function removeSubtaskEventListeners() {
+    subtaskInputX.removeEventListener("focus", subtaskInputFocusListener);
+    subtaskInputX.removeEventListener("blur", subtaskInputBlurListener);
+}
+
+
 function overlayAddTask(progressBoard) {
     const overlay = document.createElement('div');
     overlay.id = 'taskContent';
     document.body.appendChild(overlay);
     addTaskOverlay(progressBoard);
+    addSubtaskEventListeners();
 }
 
 // Funktion zum Entfernen des Event Listeners
@@ -33,6 +64,7 @@ function closeOverlay() {
         script.remove();
         removeEventListenerFromAssignedToContainer();
         removeClickEventListener(); // Entferne den Event Listener
+        removeSubtaskEventListeners()
     }
 }
 

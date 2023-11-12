@@ -27,9 +27,10 @@ document.addEventListener('click', function (event) {
 document.getElementById("category").selectedIndex = 0;
 
 
-//focus subtask Input field change border colour
-const subtaskInputX = document.getElementById("subtask");
-const subtaskContainer = document.querySelector(".subtaskContainer");
+
+/* //focus subtask Input field change border colour
+let subtaskInputX = document.getElementById("subtask");
+let subtaskContainer = document.querySelector(".subtaskContainer");
 
 subtaskInputX.addEventListener("focus", () => {
     subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
@@ -38,10 +39,10 @@ subtaskInputX.addEventListener("focus", () => {
 subtaskInputX.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
-
+ */
 
 // filter assignedTo
-const assignedToInput = document.getElementById('assignedTo');
+let assignedToInput = document.getElementById('assignedTo');
 assignedToInput.addEventListener('input', filterContacts);
 
 
