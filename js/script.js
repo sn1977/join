@@ -145,7 +145,7 @@ function login(event) {
     let user = users.find(u => u.email == email.value && u.password == password.value);
     if (user) {
         localStorage.setItem('userInitials', user.name);
-        location.href = "../html/contacts.html";
+        location.href = "../html/summary.html";
     } else {
         password.value = '';
         document.getElementById('loginPassword').style.border = '1px solid #FF001F';
@@ -155,7 +155,7 @@ function login(event) {
 
 function guestLogin() {
     localStorage.setItem('userInitials', 'G');
-    location.href = "../html/contacts.html";
+    location.href = "../html/summary.html";
 }
 
 function wrongPassword() {
