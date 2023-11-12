@@ -61,6 +61,7 @@ button {
     border-radius: 30px;
     width:70%;
     max-height: 100vh;
+    max-width: 960px;
     min-height: calc(100vh - 110px);
     overflow-y: auto;
     position: relative;
