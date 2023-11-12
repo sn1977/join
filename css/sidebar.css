@@ -15,6 +15,7 @@ body {
     z-index: 10;
     flex-direction: column;
     justify-content: center;
+
 }
 
 .contentSidebar {
@@ -24,6 +25,7 @@ body {
     justify-content: space-between;
     height: 90%;
     gap: 90px;
+    font-size: 16px;
 }
 
 .sidebarNavigation {

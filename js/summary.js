@@ -183,20 +183,17 @@ function greetByTime() {
 }
 
 
-  
 function greetingHtml() {
     let greeting = greetByTime();
     let name = localStorage.getItem('userInitials');
     let greetHtml = document.getElementById("greetingHtml");
-    if (name === 'G') {
-         greetHtml.innerHTML = `
-            <h3>${greeting}!</h3>
-            `;
-        }
-    else {
+
+    if (!name || name === 'G') {
+        greetHtml.innerHTML = `<h3>${greeting}!</h3>`;
+    } else {
         greetHtml.innerHTML = `
             <h3>${greeting},</h3>
-            <h2>${name} </h2>
-            `;
+            <h2>${name}</h2>
+        `;
     }
-} 
+}
