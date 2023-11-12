@@ -38,14 +38,6 @@ body {
 }
 
 .frame156 {
-    /*width: 279px;*/
-    /*height: 49px;*/
-    /*position: absolute;*/
-    /*top: 67px;*/
-    /*left: 1039px;*/
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*gap: 35px;*/
     visibility: hidden;
     position: absolute;
     top: 67px;
@@ -494,7 +486,7 @@ body.animate {
     right: 0;
     bottom: 0;
     border-radius: 0;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     z-index: 99;
 }
 
@@ -517,25 +509,20 @@ body.animate {
 
 @media (max-width: 1050px) {
 
-    .frame156 {
-        top: 640px;
-        justify-content: center;
-        right: 0;
-    }
-
     .frame213 {
         justify-content: center;
         position: relative;
-        top: 90px;
+        top: 80px;
     }
 
-    .frame155, .div-156 {
-        justify-content: center;
-        display: flex;
-    }
+    .frame155, .div-156{
+    justify-content: center;
+    display: flex;
+}
 
-    .frame14, .frame159 {
+    .frame14, .frame159, .frame14-signUp {
         width: 250px;
+        gap: 0;
     }
 
     .remember-password {
@@ -545,13 +532,14 @@ body.animate {
     }
 
     .frame176 {
-            flex-direction: column;
-            align-items: center;
-            padding-top: 90px;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 90px;
     }
 
     .frame153 {
         padding: 80px 0px;
+        padding-top: 15px;
     }
 
     h1 {
@@ -560,5 +548,132 @@ body.animate {
 
     .underline {
         width: 92px;
+    }
+
+    #logInTemplate {
+        position: relative;
+        top: 55px;
+    }
+
+    .login {
+        align-items: center;
+    }
+
+    .frame160 {
+        gap: 16px;
+    }
+
+    @keyframes slideAndResize {
+        0% {
+            width: 100.03px;
+            height: 121.97px;
+            top: 50%;
+            left: 50%;
+        }
+        100% {
+            width: 64px;
+            height: 78.031px;
+            top: 30px;
+            left: 30px;
+            transform: none;
+        }
+    }
+
+    #signUp-container {
+        padding: 10px 22px;
+    }
+}
+
+@media (max-width: 570px) {
+
+    .frame156 {
+        top: 580px;
+        justify-content: center;
+        right: 0;
+    }
+
+    .frame153 {
+        width: 280px;
+        padding-bottom: 0;
+        padding-top: 20px;
+    }
+
+    .frame14, .frame14-signUp {
+        width: 200px;
+        height: 20px;
+    }
+
+    .input-login {
+        font-size: 16px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .btn-login, .btn-guest, #btn-signup {
+        font-size: 16px;
+        justify-content: center;
+        height: 36px;
+    }
+
+    .btn-guest {
+        width: 148px;
+    }
+
+    .frame176 {
+        gap: 16px;
+        padding-top: 16px;
+    }
+
+    .remember-password {
+        top: -8px;
+    }
+
+    .login {
+        gap: 20px;
+    }
+
+    .frame159 {
+        gap: 8px;
+        padding-bottom: 0;
+    }
+
+    #logInTemplate {
+        top: -15px;
+    }
+
+    .query-user {
+        font-size: 16px;
+    }
+
+    .frame156 {
+        gap: 8px;
+    }
+
+    .btn-dark {
+        height: 36px;
+        display: flex;
+        align-items: center;
+    }
+
+    a {
+        font-size: 14px;
+    }
+
+    #signUp-container {
+        padding: 10px 0px;
+        width: 280px;
+        top: 72px;
+        height: 500px;
+    }
+
+    .frame159-2 {
+        gap: 8px;
+    }
+
+    .arrow-left-line {
+        top: 32px;
+        left: 10px;
     }
 }

@@ -82,7 +82,7 @@ function signUpTemplate() {
                                 </div>
                             </div>
                         </div>
-                        <div class="156">
+                        <div class="frame155">
                             <div class="frame14-signUp">
                                 <div class="frame158">
                                     <input required class="input-login input-asterisk" id="password" oninput="updatePasswordIcon('password', '.img-lock')"
@@ -207,7 +207,7 @@ function addContact() {
 }
 
 function editCreatedContact(name, index) {
-    const sideLayout = returnSideLayoutOfContact();
+    const sideLayout = returnSideLayoutOfEditContact();
     const contactText = addContactText();
     const contactBtn = addEditContactBtn();
     const contactCircle = addEditedCircle(name, index);
@@ -231,6 +231,22 @@ function returnSideLayoutOfContact() {
                 <div class="frame209">
                     <span class="spanHeader">Add contact</span>
                     <span class="spanText"> Tasks are better with a team!</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="94" height="3" viewBox="0 0 94 3" fill="none">
+                        <path d="M92 1.5L2 1.5" stroke="#29ABE2" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function returnSideLayoutOfEditContact() {
+    return `
+          <div class="overlay-addContact">
+            <div class="frame194">
+                <img src="../assets/img/Capa%202.png" class="capa2">
+                <div class="frame209">
+                    <span class="spanHeader">Edit contact</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="94" height="3" viewBox="0 0 94 3" fill="none">
                         <path d="M92 1.5L2 1.5" stroke="#29ABE2" stroke-width="3" stroke-linecap="round"/>
                     </svg>

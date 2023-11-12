@@ -753,7 +753,7 @@ h1 {
         left: 390px;
     }
 
-    .frame79_2 {
+    .frame79_2, .group13, .capa2 {
         display: none;
     }
 }
@@ -804,11 +804,25 @@ h1 {
         display: none;
     }
 
+    .overlay-addContact {
+        rotate: 90deg;
+        min-width: 90%;
+    }
+
+    .frame209 {
+        rotate: -90deg;
+    }
+
+    .add-contact-text {
+        top: 210px;
+        right: 130px;
+    }
+
 }
 
 @media (max-width: 550px) {
     .frame40 h1 {
-               font-size: 40px;
+        font-size: 40px;
     }
 
     .spanContacts {
