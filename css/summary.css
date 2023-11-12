@@ -34,8 +34,15 @@ a {
     padding-left: 84px;
 }
 
+.hideOnWideScreen {
+    display: block;
+}
 
-h1 {
+.showOnSmallScreen {
+    display: none;
+}
+
+.headlineSummary h1 {
     color: #000;
     font-size: 61px;
     font-weight: 700;
@@ -348,14 +355,30 @@ h1 {
         width: 100%;
     }
 
+    .headlineSummary h1 {
+        font-size: 47px;
+    }
+
     .headlineSummary {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-     /*    gap: 30px;
-        height: 144px;
-        margin-top: 32px; */
-        padding-left: 50px;
+        gap: 8px;
+        height: 240px;
+      /*  margin-top: 32px; */
+        padding-left: 16px;
+    }
+
+    .hideOnWideScreen {
+        display: none;
+    }
+
+    .showOnSmallScreen {
+        display: block;
+    }
+
+    .spanHeadline {
+        font-size: 20px;
     }
 }
 
