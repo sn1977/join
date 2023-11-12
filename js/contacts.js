@@ -154,6 +154,7 @@ function showContactDetails(i) {
     }
     currentSelectedIndex = i;
     displayWindows(i);
+    renderContacts();
     displayFloatingContactDetails(i);
 
     isContactDetailsShown = true;
