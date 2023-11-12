@@ -157,6 +157,7 @@ function renderBoard() {
     searchInput.addEventListener('keyup', searchTasks);
 }
 
+
 /**
  * This function filters the tasks based on the search query and updates the HTML
  */
