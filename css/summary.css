@@ -1,11 +1,5 @@
 body {
     font-family: 'Inter', sans-serif;
-    font-size: 21px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-    color: #2A3647;
-    scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;    
 }
@@ -22,6 +16,12 @@ a {
     margin-left: 232px;
     overflow-y: auto;
     background-color: #F6F7F8;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    color: #2A3647;
+    scroll-behavior: smooth;
 }
 
 
