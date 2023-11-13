@@ -440,8 +440,8 @@ function deleteTodo(todoId) {
         todos.splice(index, 1);
         saveAllTasksToRemote();
         closePopup();
-        updateHTML();
         renderBoard();
+        updateHTML();
     } else {
         console.error(`Todo with ID ${todoId} not found!`);
     }
