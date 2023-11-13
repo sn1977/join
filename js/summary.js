@@ -25,6 +25,11 @@ async function loadAllSummaryTasks() {
 }
 
 
+/**
+ * 
+ * 
+ * 
+ */
 async function tasksCount() {   
     tasksOnBoard = summarytasks.length;
     summarytasks.forEach(task => {
@@ -56,9 +61,10 @@ function getNextDate() {
             const [day, month, year] = element.dueDate.split("/");
             const reformattedDate = `${month}/${day}/${year}`;
             const taskDueDate = new Date(reformattedDate);
-
-            if (!isNaN(taskDueDate.getTime()) && taskDueDate > today && (!nextDate || taskDueDate < nextDate)) {
+            console.log(element.progress, element.id, element.dueDate);
+            if (!isNaN(taskDueDate.getTime()) && (taskDueDate >= today || taskDueDate.getDate() === today.getDate()) && (!nextDate || taskDueDate < nextDate)) {
                 nextDate = taskDueDate;
+                console.log(nextDate);
             }
         }
     });
