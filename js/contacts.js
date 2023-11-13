@@ -301,9 +301,9 @@ function editContact(index) {
     overlayEditContact(contacts[index].nameOfContact, index);
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
-    document.getElementById('contactName').value = nameOfContact[index];
-    document.getElementById('contactEmail').value = emailOfContact[index];
-    document.getElementById('contactPhone').value = telOfContact[index];
+    document.getElementById('contactName').value = contacts[index].nameOfContact;
+    document.getElementById('contactEmail').value = contacts[index].emailOfContact;
+    document.getElementById('contactPhone').value = contacts[index].telOfContact;
 }
 
 function changeBorderColor(inputElement) {
