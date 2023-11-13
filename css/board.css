@@ -338,7 +338,7 @@ textarea {
 }
 
 
-.checked {
+.checkedSub {
     background-image: url('../assets/img/checked.svg');
     background-size: cover;
     display: inline-block;
@@ -348,7 +348,7 @@ textarea {
     /* oder die gewünschte Größe */
 }
 
-.unchecked {
+.uncheckedSub {
     background-image: url('../assets/img/unchecked.svg');
     background-size: cover;
     display: inline-block;
@@ -368,7 +368,7 @@ textarea {
     z-index: 9999999;
 }
 
-.assignedToContainer {
+.assignedToContainerContacts {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -512,6 +512,20 @@ button {
     justify-content: space-between;
     margin-top: 8px;
     flex-direction: column;
+}
+
+
+.savedSubtasks {
+    font-size: 16px;
+    line-height: 1.4em;
+    display: block !important;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    transition: 0.5s ease;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: unset !important;
 }
 
 .savedSubtasks input {
@@ -702,4 +716,74 @@ button {
 .inputContainer {
     display: flex;
     flex-direction: column;
+}
+
+.mobileHeadlineRight {
+    display: none;
+}
+
+.searchMobile {
+    display: none;
+}
+
+.mobile {
+    width: 100%;
+}
+
+@media (max-width:1130px) {
+    .boardHeader {
+        flex-direction: column;
+    }
+
+
+
+    .boardHeadlineRight {
+        display: none;
+    }
+
+    .searchMobile {
+        display: block;
+        width: 70vw;
+    }
+
+    .mobileHeadlineRight {
+        display: block;
+    }
+
+    .boardHeadlineLeft {
+        display: flex;
+        justify-content: space-between;
+        width: 70vw;
+    }
+}
+
+@media (max-width:990px) {
+    .content {
+        margin-left: 0px;
+    }
+
+    .boardHeadlineLeft {
+        width: 90vw;
+    }
+
+    .boardContent {
+        flex-direction: column;
+    }
+
+    .statusContainer {
+        flex-direction: row;
+    }
+
+    .progressContainer {
+        width: 90vw;
+    }
+
+    .todo {
+        min-width: 250px;
+        max-width: 250px;
+    }
+
+    .container-popup {
+        margin-left: 0px;
+    }
 }

@@ -14,9 +14,9 @@ let boardNames = [
 ];
 
 let todos = [];
-// let contactpool = [];
+let contactpoolBoard = [];
 // const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
-// let allContacts = [];
+let allContactsBoard = [];
 
 
 /**
@@ -27,7 +27,7 @@ async function initboard() {
     await loadContacts();
     renderBoard();
     updateHTML();
-    addTaskLoadContacts();
+    addTaskLoadContactsBoard();
 }
 
 
@@ -105,6 +105,11 @@ function renderBoard() {
 			<section class="boardHeader" id="boardHeader">
 				<div class="boardHeadlineLeft">
 					Board
+                    <div class="mobileHeadlineRight">
+                    <button class="buttonAddTask" onclick="overlayAddTask('todo')">
+						<span>+</span>
+					</button>
+                </div>
 				</div>
 				<div class="boardHeadlineRight">
 					<div class="search">
@@ -117,6 +122,13 @@ function renderBoard() {
 						<span>Add Task</span>
 						<span>+</span>
 					</button>
+				</div>
+                
+                <div class="searchMobile">
+					<input type="text" id="inputSearch" class="inputSearch mobile" placeholder="Find task">
+					<div class="buttonSearch">
+						<img src="../assets/img/search.svg" alt="Search">
+					</div>
 				</div>
 			</section>
             <section class="boardContent" id="boardContent">
@@ -345,7 +357,6 @@ function sortTodos(todosArray) {
  */
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
-    allContacts = todo.assignedTo;
     if (todo) {
         const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
 
@@ -365,7 +376,7 @@ function openPopup(id) {
         text-transform: capitalize;
         margin-right: 15px;">
         ${todo.prio}</span><img src="/assets/img/${todo.prio}.svg"></div></td></tr>`;
-        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left" id="assigned-table"><div class="assignedToContainer"><span>Assigned To:</span><div id="assigned-table-div"></div></div></td></tr>`;
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left" id="assigned-table"><div class=""><span>Assigned To:</span><div id="assigned-table-div"></div></div></td></tr>`;
         document.getElementById('subtask-container-table').innerHTML = '';
         document.getElementById('subtask-container-table').innerHTML += /*html*/ `<div class="table-row">
         <div class="table-cell td-left">Subtasks</div>
@@ -385,8 +396,6 @@ function openPopup(id) {
         <div class="buttonContainer">
         <div class="buttonpopup delete-edit-buttons" onclick="deleteTodo(${todo.id})"><img src="../assets/img/delete.svg">Delete</div><img src="../assets/img/small_vector.svg"><div class="buttonpopup delete-edit-buttons" onclick="openEditPopup(${todo.id})"><img src="../assets/img/edit.svg">Edit</div></div></div>`;
 
-    } else {
-        console.error('Task not found');
     }
 }
 
@@ -394,7 +403,7 @@ function openPopup(id) {
 function generateSubtask(todo) {
     for (let i = 0; i < todo.subtask.length; i++) {
         const element = todo.subtask[i];
-        const imgClass = element.done ? 'checked' : 'unchecked';
+        const imgClass = element.done ? 'checkedSub' : 'uncheckedSub';
         const checkboxHTML = `
         <div class="subtask-popup-content">
             <div class="popupInputStyle ${imgClass}" id="popupSubtask${i}" onclick="updateSubtaskStatus(${todo.id}, ${i}, this)" style="cursor:pointer"></div>
@@ -419,7 +428,7 @@ function updateSubtaskStatus(todoId, subtaskId, imgElement) {
     const todo = todos.find(t => t.id === todoId);
     if (todo && todo.subtask[subtaskId]) {
         todo.subtask[subtaskId].done = !todo.subtask[subtaskId].done;
-        imgElement.className = todo.subtask[subtaskId].done ? 'popupInputStyle checked' : 'popupInputStyle unchecked';
+        imgElement.className = todo.subtask[subtaskId].done ? 'popupInputStyle checkedSub' : 'popupInputStyle uncheckedSub';
         saveAllTasksToRemote();
         updateHTML();
     }
@@ -432,6 +441,7 @@ function deleteTodo(todoId) {
         saveAllTasksToRemote();
         closePopup();
         updateHTML();
+        renderBoard();
     } else {
         console.error(`Todo with ID ${todoId} not found!`);
     }
@@ -442,6 +452,8 @@ function deleteTodo(todoId) {
  */
 function closePopup() {
     document.getElementById('popup').style.display = 'none';
+    renderBoard();
+    updateHTML();
 }
 
 function formatDate(input) {
@@ -456,6 +468,8 @@ function formatDate(input) {
 
 function openEditPopup(id) {
     const todo = todos.find(t => t.id === id);
+
+    closePopup();
     createEditPopup(todo);
     initializeDatepicker();
     document.getElementById('editpopup').style.display = 'flex';
@@ -463,6 +477,7 @@ function openEditPopup(id) {
 }
 
 function createEditPopup(todo) {
+    allContactsBoard = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
     document.getElementById("editpopup").innerHTML += /*html*/ `
         <div class="container-popup">
@@ -497,17 +512,16 @@ function createEditPopup(todo) {
                     <h4>Assigned to</h4>
 
                     <div class="inputContainer">
-                        <input class="custom-select"  onclick="toggleContacts(),filterContacts()"
+                        <input class="custom-select"  onclick="toggleContactsBoard(),filterContactsBoard()"
                             id="assignedTo" type="text" placeholder="Select contacts to assign">
-                        <div class="d-none assignedToContainer" id="assignedToContainer">                          
+                        <div class="d-none assignedToContainerBoard" id="assignedToContainer">                          
                         </div>
                     </div>
 
                     <div id="showAssignedContacts"></div>
 
-
+                    <h4>Subtask</h4>
                     <div class="inputContainer">
-                        <h4>Subtask</h4>
                         <div id="savedSubtasks" class="savedSubtasks"></div>
                     </div>
                 </div>
@@ -536,7 +550,8 @@ function createEditPopup(todo) {
     generateAssignedToEditPopup(todo);
 }
 
-function closeEditPopup(id) {
+async function closeEditPopup(id) {
+    await loadAllTasksFromRemote();
     openPopup(id)
     document.getElementById('editpopup').style.display = 'none';
     document.getElementById('popup').style.display = 'flex';
@@ -784,7 +799,7 @@ function selectPriority(priority, id) {
         saveAllTasksToRemote();
     }
 }
-function saveAllChanges(id) {
+async function saveAllChanges(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
         const newTitle = document.getElementById('todotitle').value;
@@ -807,11 +822,12 @@ function saveAllChanges(id) {
         todo.category = selectedCategory;
 
         saveAllTasksToRemote();
+        await loadAllTasksFromRemote();
         closeEditPopup(id);
+        openPopup();
         updateHTML();
-    } else {
-        console.error('Task not found');
     }
+
 }
 
 function initializeDatepicker() {
@@ -834,19 +850,19 @@ function initializeDatepicker() {
     });
 }
 
-/* function addTaskLoadContacts() {
-    contactpool = [];
-    for (let i = 0; i < nameOfContact.length; i++) {
-        let tempInitialien = getInitials(nameOfContact[i]);
+function addTaskLoadContactsBoard() {
+    contactpoolBoard = [];
+    for (let i = 0; i < contacts.length; i++) {
+        let tempInitialien = getInitials(contacts[i].nameOfContact);
         let tempContactPool = {
             'id': i, // Die ID sollte eindeutig sein und mit der ID des zugehörigen HTML-Elements übereinstimmen
-            'name': nameOfContact[i],
+            'name': contacts[i].nameOfContact,
             'color': getColorByIndex(i),
             'initialien': tempInitialien
         }
-        contactpool.push(tempContactPool);
+        contactpoolBoard.push(tempContactPool);
     }
-    contactpool.sort(SortArray);
+    contactpoolBoard.sort(SortArray);
 }
 
 
@@ -860,17 +876,17 @@ function SortArray(x, y) {
     }
     return 0;
 }
- */
 
 
-function toggleContacts() {
+
+function toggleContactsBoard() {
     const assignedToContainer = document.getElementById('assignedToContainer');
     const isHidden = assignedToContainer.classList.contains('d-none');
 
     // Wenn der Container ausgeblendet ist, aktualisieren Sie die angezeigten Kontakte
     if (isHidden) {
-        filterContacts(); // Aktualisieren Sie die angezeigten Kontakte basierend auf dem aktuellen Filter
-        updateIcons(contactpool); // Stellen Sie sicher, dass dies alle Kontakte berücksichtigt, nicht nur gefilterte
+        filterContactsBoard(); // Aktualisieren Sie die angezeigten Kontakte basierend auf dem aktuellen Filter
+        updateIconsBoard(contactpoolBoard); // Stellen Sie sicher, dass dies alle Kontakte berücksichtigt, nicht nur gefilterte
         showSelectedContacts(); // Aktualisieren Sie die ausgewählten Kontakte
     }
 
@@ -881,7 +897,7 @@ function toggleContacts() {
 function setupSearchListener() {
     const searchField = document.getElementById('assignedTo'); // Stellen Sie sicher, dass dies die ID Ihres Suchfeldes ist
     if (searchField) {
-        searchField.addEventListener('input', filterContacts);
+        searchField.addEventListener('input', filterContactsBoard);
     } else {
         console.log('Suchfeld nicht gefunden');
     }
@@ -904,29 +920,29 @@ function getColorByIndex(index) {
     return colors[index % colors.length];
 }
 
-function filterContacts() {
-    const assignedToInput = document.getElementById('assignedTo');
-    const inputText = assignedToInput.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
+function filterContactsBoard() {
+    const assignedToInputBoard = document.getElementById('assignedTo');
+    const inputText = assignedToInputBoard.value.toLowerCase(); // Eingegebener Text in Kleinbuchstaben
 
-    const filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
+    const filteredContacts = contactpoolBoard.filter(contact => contact.name.toLowerCase().includes(inputText));
 
     const contactsContainer = document.getElementById('assignedToContainer');
     contactsContainer.innerHTML = `
         <section id="assignedToContact">
-            ${contactlistHtml(filteredContacts)}
+            ${contactlistHtmlBoard(filteredContacts)}
         </section>
     `;
     // getIcon();
-    updateIcons(filteredContacts);
+    updateIconsBoard(filteredContacts);
 }
 
 
-function updateIcons(contacts) {
+function updateIconsBoard(contacts) {
     contacts.forEach(contact => {
         let icon = document.getElementById(`checked${contact.id}`);
         if (icon) { // Stellen Sie sicher, dass das Element existiert
-            // Überprüfen, ob der Kontakt in allContacts vorhanden ist
-            const isContactChosen = allContacts.some(ac => ac.contactid === contact.id);
+            // Überprüfen, ob der Kontakt in allContactsBoard vorhanden ist
+            const isContactChosen = allContactsBoard.some(ac => ac.contactid === contact.id);
 
             if (isContactChosen) {
                 icon.innerHTML = `<img src="../assets/img/checked.svg" alt="Assigned">`; // Pfad zum "Haken" Bild
@@ -941,11 +957,11 @@ function updateIcons(contacts) {
 
 
 
-/* function contactlistHtml(contacts) {
+function contactlistHtmlBoard(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
         contacthtml += ` 
-        <div class="contactLine" onclick="toggleContact(${contacts[i].id, })">
+        <div class="contactLine" onclick="toggleContactBoard(${contacts[i].id})">
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
                         ${contacts[i].initialien}
@@ -963,27 +979,27 @@ function updateIcons(contacts) {
 
     return contacthtml;
 }
- */
-/* function toggleContact(contactId) {
-    const contactIsChosen = allContacts.some(contact => contact.contactid === contactId);
+
+function toggleContactBoard(contactId) {
+    const contactIsChosen = allContactsBoard.some(contact => contact.contactid === contactId);
     if (contactIsChosen) {
-        unchoseContact(contactId);
+        unchoseContactBoard(contactId);
     } else {
-        choseContact(contactId);
+        choseContactBoard(contactId);
     }
-} */
+}
 
 
-async function choseContact(contactId) {
+async function choseContactBoard(contactId) {
     // Finde den Kontakt im Pool
-    const contact = contactpool.find(contact => contact.id === contactId);
+    const contact = contactpoolBoard.find(contact => contact.id === contactId);
 
-    // Überprüfen, ob der Kontakt bereits in allContacts existiert
-    const isContactAlreadyChosen = allContacts.some(c => c.contactid === contactId);
+    // Überprüfen, ob der Kontakt bereits in allContactsBoard existiert
+    const isContactAlreadyChosen = allContactsBoard.some(c => c.contactid === contactId);
 
-    // Wenn der Kontakt gefunden wurde und nicht bereits in allContacts existiert
+    // Wenn der Kontakt gefunden wurde und nicht bereits in allContactsBoard existiert
     if (contact && !isContactAlreadyChosen) {
-        // Erstelle eine Kopie des Kontakts für allContacts
+        // Erstelle eine Kopie des Kontakts für allContactsBoard
         const tempContact = {
             'contactid': contact.id,
             'name': contact.name,
@@ -991,12 +1007,12 @@ async function choseContact(contactId) {
             'initialien': contact.initialien
         };
 
-        // Füge den Kontakt zu allContacts hinzu
-        allContacts.push(tempContact);
+        // Füge den Kontakt zu allContactsBoard hinzu
+        allContactsBoard.push(tempContact);
 
         // Aktualisiere die Anzeige für diesen Kontakt
         updateContactDisplay(contactId, true);
-        showTaskContacts();
+        showTaskContactsBoard();
 
     } else {
         console.log("Der Kontakt wurde schon ausgewählt oder existiert nicht.");
@@ -1006,13 +1022,13 @@ async function choseContact(contactId) {
 
 
 
-function unchoseContact(contactId) {
-    const indexToRemove = allContacts.findIndex(contact => contact.contactid === contactId);
+function unchoseContactBoard(contactId) {
+    const indexToRemove = allContactsBoard.findIndex(contact => contact.contactid === contactId);
     if (indexToRemove !== -1) {
-        allContacts.splice(indexToRemove, 1);
+        allContactsBoard.splice(indexToRemove, 1);
 
         updateContactDisplay(contactId, false); // UI aktualisieren
-        showTaskContacts();
+        showTaskContactsBoard();
     }
 }
 
@@ -1021,8 +1037,8 @@ function updateContactDisplay(contactId) {
     const contactCheckbox = document.getElementById(`checked${contactId}`);
     if (!contactCheckbox) return; // Stelle sicher, dass das Element existiert
 
-    // Überprüfen, ob der Kontakt in allContacts vorhanden ist
-    const isContactChosen = allContacts.some(contact => contact.contactid === contactId);
+    // Überprüfen, ob der Kontakt in allContactsBoard vorhanden ist
+    const isContactChosen = allContactsBoard.some(contact => contact.contactid === contactId);
 
     const imageSrc = isContactChosen ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
     contactCheckbox.innerHTML = `<img src="${imageSrc}" alt="">`;
@@ -1055,23 +1071,13 @@ function updateContactDisplay(contactId) {
 } */
 
 
-
-function changeMarkedContact(i) {
-    const contactCheckbox = document.getElementById(`checked${i}`);
-    contactCheckbox.innerHTML = `
-        <img src="../assets/img/checked.svg" alt="">
-    `;
-    contactCheckbox.parentNode.classList.add('checked');
-}
-
-
-function showTaskContacts() {
+function showTaskContactsBoard() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
-    for (let i = 0; i < allContacts.length; i++) {
+    for (let i = 0; i < allContactsBoard.length; i++) {
         contactsIcons.innerHTML += `
-                <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
-                    ${allContacts[i]['initialien']}
+                <div class="contacticon" style="background-color:  ${allContactsBoard[i]['color']};"> 
+                    ${allContactsBoard[i]['initialien']}
                 </div>
         `;
     }
@@ -1081,10 +1087,10 @@ function showSelectedContacts() {
     let selectedContactsContainer = document.getElementById('showAssignedContacts');
     selectedContactsContainer.innerHTML = '';
 
-    for (let i = 0; i < allContacts.length; i++) {
+    for (let i = 0; i < allContactsBoard.length; i++) {
         selectedContactsContainer.innerHTML += `
-            <div class="contacticon" style="background-color: ${allContacts[i].color};"> 
-                ${allContacts[i].initialien}
+            <div class="contacticon" style="background-color: ${allContactsBoard[i].color};"> 
+                ${allContactsBoard[i].initialien}
             </div>
         `;
     }
