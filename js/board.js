@@ -82,7 +82,7 @@ function renderBoard() {
                 <div class="container-popup">
                     <div class="popup-content">
                         <div class="d-flex">
-                            <img src="/assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
+                            <img src="../assets/img/cancel.svg" class="close-btn" onclick="closePopup()" alt="Close">
                             <p class="todoType" id="popupCategory"></p>
                         </div> 
                         <div class="popup-info-container">
@@ -125,7 +125,7 @@ function renderBoard() {
 				</div>
                 
                 <div class="searchMobile">
-					<input type="text" id="inputSearch" class="inputSearch mobile" placeholder="Find task">
+					<input type="text" id="inputSearchMobile" class="inputSearch mobile" placeholder="Find task">
 					<div class="buttonSearch">
 						<img src="../assets/img/search.svg" alt="Search">
 					</div>
@@ -167,6 +167,8 @@ function renderBoard() {
 
     const searchInput = document.getElementById('inputSearch');
     searchInput.addEventListener('keyup', searchTasks);
+    const searchInputMobile = document.getElementById('inputSearchMobile');
+    searchInputMobile.addEventListener('keyup', searchTasksMobile);
 }
 
 
@@ -175,6 +177,17 @@ function renderBoard() {
  */
 function searchTasks() {
     const searchQuery = document.getElementById('inputSearch').value.toLowerCase();
+    const filteredTodos = todos.filter(todo => {
+        return todo.title.toLowerCase().includes(searchQuery) ||
+            todo.category.toLowerCase().includes(searchQuery);
+    });
+
+    // Call updateHTML but pass the filtered list if there is a search query
+    updateHTML(searchQuery ? filteredTodos : todos);
+}
+
+function searchTasksMobile() {
+    const searchQuery = document.getElementById('inputSearchMobile').value.toLowerCase();
     const filteredTodos = todos.filter(todo => {
         return todo.title.toLowerCase().includes(searchQuery) ||
             todo.category.toLowerCase().includes(searchQuery);
@@ -372,10 +385,10 @@ function openPopup(id) {
         document.getElementById('popupCategory').innerText = todo.category;
         document.getElementById('table').innerHTML = '';
         document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Due Date:</td><td>${todo.dueDate}</td></tr>`;
-        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Priority</td><td><div class="d-flex"><span style="
+        document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left">Priority</td><td><div class="priodiv"><span style="
         text-transform: capitalize;
         margin-right: 15px;">
-        ${todo.prio}</span><img src="/assets/img/${todo.prio}.svg"></div></td></tr>`;
+        ${todo.prio}</span><img src="../assets/img/${todo.prio}.svg"></div></td></tr>`;
         document.getElementById('table').innerHTML += /*html*/ `<tr><td class="td-left" id="assigned-table"><div class=""><span>Assigned To:</span><div id="assigned-table-div"></div></div></td></tr>`;
         document.getElementById('subtask-container-table').innerHTML = '';
         document.getElementById('subtask-container-table').innerHTML += /*html*/ `<div class="table-row">
@@ -482,7 +495,7 @@ function createEditPopup(todo) {
     document.getElementById("editpopup").innerHTML += /*html*/ `
         <div class="container-popup">
             <div class="popup-content">
-                <img src="/assets/img/cancel.svg" class="close-btn" onclick="closeEditPopup(${todo.id})" alt="Close">
+                <img src="../assets/img/cancel.svg" class="close-btn" onclick="closeEditPopup(${todo.id})" alt="Close">
                 <div>
                     <h2>Editmodus: "${todo.title}"</h2>
                 </div>
@@ -496,9 +509,9 @@ function createEditPopup(todo) {
                     <div class="direction" id="priority">
                         <h4>Priority</h4>
                         <div class="button-container">
-                            <button class="white ${todo.prio === 'urgent' ? 'selected' : ''}" id="urgent" type="button" onclick="selectPriority('urgent', ${todo.id})">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
-                            <button class="white ${todo.prio === 'medium' ? 'selected' : ''}" id="medium" type="button" onclick="selectPriority('medium', ${todo.id})">Medium<img src="../assets/img/medium.svg" alt=""></button>
-                            <button class="white ${todo.prio === 'low' ? 'selected' : ''}" id="low" type="button" onclick="selectPriority('low', ${todo.id})">Low<img src="../assets/img/low.svg" alt=""></button>
+                            <button class="${todo.prio === 'urgent' ? 'selectedPrio' : ''}" id="urgent" type="button" onclick="selectPriority('urgent', ${todo.id})">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
+                            <button class="${todo.prio === 'medium' ? 'selectedPrio' : ''}" id="medium" type="button" onclick="selectPriority('medium', ${todo.id})">Medium<img src="../assets/img/medium.svg" alt=""></button>
+                            <button class="${todo.prio === 'low' ? 'selectedPrio' : ''}" id="low" type="button" onclick="selectPriority('low', ${todo.id})">Low<img src="../assets/img/low.svg" alt=""></button>
                         </div>
                     </div>
                     <h4>Category</h4>
@@ -790,11 +803,11 @@ function selectPriority(priority, id) {
         todo.prio = priority;
 
         document.querySelectorAll('.button-container button').forEach(button => {
-            button.classList.remove('selected');
+            button.classList.remove('selectedPrio');
         });
 
         const selectedButton = document.getElementById(priority);
-        selectedButton.classList.add('selected');
+        selectedButton.classList.add('selectedPrio');
 
         saveAllTasksToRemote();
     }
@@ -808,7 +821,7 @@ async function saveAllChanges(id) {
         const newDescription = document.getElementById('tododescription').value;
         todo.description = newDescription;
 
-        const selectedPriority = document.querySelector('.button-container .selected');
+        const selectedPriority = document.querySelector('.button-container .selectedPrio');
         if (selectedPriority) {
             const priority = selectedPriority.id;
             todo.prio = priority;

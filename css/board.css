@@ -66,7 +66,6 @@ textarea {
     font-weight: 400;
     font-size: 16px;
     cursor: pointer;
-    border-right: 1px solid #D1D1D1;
     outline: none;
 }
 
@@ -375,8 +374,8 @@ textarea {
 }
 
 .user-badge-board {
-    width: 42px;
-    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     border-radius: 50%;
     border: 2px solid #ffffff;
     color: #ffffff;
@@ -498,7 +497,7 @@ button {
     width: 98%;
 }
 
-.selected {
+.selectedPrio {
     background-color: #007bff;
     /* Ändern Sie die Hervorhebungsfarbe nach Ihren Wünschen */
     color: white;
@@ -691,14 +690,16 @@ button {
     flex-direction: column;
 }
 
+.popup-buttons {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
 .Contactchecked {
-    background-color: var(--bg-button);
     border-radius: 10px;
 }
 
-.Contactchecked:hover {
-    background-color: var(--bg-hover);
-}
 
 #showAssignedContacts {
     display: flex;
@@ -724,6 +725,7 @@ button {
 
 .searchMobile {
     display: none;
+    position: relative;
 }
 
 .mobile {
@@ -742,8 +744,9 @@ button {
     }
 
     .searchMobile {
-        display: block;
-        width: 70vw;
+        display: flex;
+        width: 100%;
+
     }
 
     .mobileHeadlineRight {
@@ -753,17 +756,37 @@ button {
     .boardHeadlineLeft {
         display: flex;
         justify-content: space-between;
-        width: 70vw;
+        width: 100%;
+    }
+
+    .buttonAddTask {
+        height: 40px;
+        width: 40px;
+    }
+
+    .buttonSearch {
+        position: absolute;
+        right: 24px;
+        top: 24px;
     }
 }
 
 @media (max-width:990px) {
+    .board {
+        padding: 0 16px;
+        margin-bottom: 32px;
+    }
+
+    .noTaskDiv {
+        width: 100%;
+    }
+
     .content {
         margin-left: 0px;
     }
 
     .boardHeadlineLeft {
-        width: 90vw;
+        width: 100%;
     }
 
     .boardContent {
@@ -775,15 +798,75 @@ button {
     }
 
     .progressContainer {
-        width: 90vw;
+        width: 100%;
+    }
+
+    .progressContainerStatusHead {
+        width: 100%;
     }
 
     .todo {
-        min-width: 250px;
-        max-width: 250px;
+        min-width: 252px;
+        max-width: 252px;
+        min-height: 350px;
+        max-height: 350px;
     }
 
     .container-popup {
         margin-left: 0px;
     }
+
+
+}
+
+@media(max-width:620px) {
+    .popup-content {
+        width: 96%;
+        height: 98%;
+        padding: 16px;
+        border: unset;
+        border-radius: unset;
+    }
+
+    #assigned-table-div {
+        width: unset;
+    }
+
+    .d-flex {
+        padding-top: 24px;
+        padding-left: 24px;
+    }
+
+    .table-style td {
+        padding: 8px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .button-container button {
+        width: 100% !important;
+    }
+
+    .buttonContainer {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+    }
+
+    #newSubtaskInput {
+        width: 90%;
+    }
+
+    .inputSubtaskContainer {
+        width: 90%;
+    }
+
+    .savedSubtasks input {
+        width: 90%;
+    }
+
 }

@@ -59,9 +59,7 @@ a {
         margin: 0;
     }
 
-    span {
-        padding-right: 8px;
-    }
+
 }
 
 @media (max-width: 550px) {

@@ -70,6 +70,7 @@ body {
 
     .sidebarNavigation {
         flex-direction: unset;
+        justify-content: center;
     }
 
     .white-logo {
@@ -84,7 +85,7 @@ body {
 @media (max-width: 650px) {
     .sidebarbuttons {
         flex-direction: column;
-      }
+    }
 
     .sidebarbuttons:hover {
         background: #091931;
@@ -100,7 +101,7 @@ body {
         margin-left: 0;
         margin-right: 0;
         margin-top: 16px;
-       }
+    }
 
     p {
         margin-top: 8px;
