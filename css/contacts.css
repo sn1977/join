@@ -703,7 +703,7 @@ h1 {
         gap: 24px;
     }
 
-    .frame79 {
+    .frame79, .frame79_2 {
         width: 80px;
         height: 80px;
         font-size: 24px;
@@ -746,30 +746,40 @@ h1 {
     }
 
     .frame14 {
-        width: 60%;
+        width: 78%;
     }
 
     .frame27 {
-        left: 390px;
+        left: 46%;
     }
 
-    .frame79_2, .group13, .capa2 {
-        display: none;
-    }
-}
-
-@media (max-width: 1110px) {
-    .frame81 {
-        inline-size: 160px;
-        overflow-wrap: break-word;
-    }
-
-    .create-btn-text, .cancel-btn-text {
+    .capa2 {
         display: none;
     }
 
-    .create-contact {
-        padding: 23px;
+    .overlay-contact {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .group13 {
+        right: 55%;
+        top: 40%;
+    }
+
+    .frame79, .frame79_2 {
+        width: 100px;
+        height: 100px;
+    }
+
+    .close {
+        left: 85%;
+    }
+
+    .person-icon {
+        left: 20px;
+        top: 20px;
     }
 }
 
@@ -800,13 +810,14 @@ h1 {
         right: 20px;
     }
 
-    .new-contact {
+    .new-contact, .close {
         display: none;
     }
 
     .overlay-addContact {
         rotate: 90deg;
         min-width: 90%;
+        width: 1000px;
     }
 
     .frame209 {
@@ -815,9 +826,56 @@ h1 {
 
     .add-contact-text {
         top: 210px;
-        right: 130px;
+        right: 19%;
+        align-items: center;
     }
 
+    #overlayAddContact {
+        width: 60%;
+    }
+
+    .frame27 {
+        top: 500px;
+        left: 35%;
+    }
+
+    #frame27 {
+        top: 500px;
+        left: 38%;
+        flex-direction: column;
+    }
+
+    .create-btn-text, .cancel-btn-text {
+        display: unset;
+    }
+
+    .create-contact {
+        height: 16px;
+    }
+
+    .cancel-contact {
+        height: 14px;
+    }
+
+    .group13 {
+        top: 77px;
+        right: 43%;
+        display: unset;
+    }
+
+    .frame14 {
+        width: 60%;
+    }
+}
+
+@media (max-width: 700px) {
+    .overlay-addContact {
+        height: 500px;
+    }
+
+    .group13 {
+        top: 24px;
+    }
 }
 
 @media (max-width: 550px) {
@@ -828,12 +886,40 @@ h1 {
     .spanContacts {
         font-size: 20px;
     }
+
+    .overlay-addContact {
+        height: 390px;
+        width: 900px;
+    }
+
+    .group13 {
+        top: -7px;
+    }
+
+    .frame79_2 {
+        width: 80px;
+        height: 80px;
+        top: 16px;
+        position: absolute;
+    }
+
+    .person-icon {
+        width: 48px;
+        height: 48px;
+        left: 16px;
+        top: 16px;
+    }
+
+    #frame27 {
+        top: 430px;
+    }
+
+    .add-contact-text {
+        top: 160px;
+    }
 }
 
 @media (max-width: 405px) {
-    /*svg {*/
-    /*    width: 300px;*/
-    /*}*/
     .frame119 {
         width: 300px;
     }
@@ -856,5 +942,53 @@ h1 {
 
     .icon-edit {
         height: 16px;
+    }
+
+    .overlay-addContact {
+        height: 310px;
+        width: 800px;
+    }
+
+    .frame79, .frame79_2 {
+        width: 80px;
+        height: 80px;
+    }
+
+    .group13 {
+        right: 40%;
+    }
+
+    .add-contact-text {
+        right: 16%;
+        top: 130px;
+    }
+
+    .text-field {
+        font-size: 16px;
+    }
+
+    .frame27 {
+        top: 380px;
+        left: 33%;
+    }
+
+    .cancel-btn-text, .create-btn-text {
+        font-size: 16px;
+    }
+
+    .create-contact {
+        height: 12px;
+    }
+
+    .cancel-contact {
+        height: 10px
+    }
+
+    .frame14 {
+        width: 56%;
+    }
+
+    #frame27 {
+        top: 375px;
     }
 }

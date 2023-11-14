@@ -197,6 +197,7 @@ function addContact() {
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
+        <div class="overlay-contact">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
@@ -214,6 +215,7 @@ function editCreatedContact(name, index) {
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
+        <div class="overlay-contact">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
