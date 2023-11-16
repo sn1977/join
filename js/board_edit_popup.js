@@ -212,8 +212,10 @@ function generateEditSubtasks(todo) {
             // Prüfe, ob das Eingabefeld aktiviert ist, und ändere das Symbol entsprechend
             if (subtaskInput.disabled) {
                 editSubtaskImage.src = '../assets/img/edit.svg'; // Stiftsymbol, wenn das Eingabefeld deaktiviert ist
+                editSubtaskImage.classList.add('editimages');
             } else {
                 editSubtaskImage.src = '../assets/img/check-black.svg'; // Häkchensymbol, wenn das Eingabefeld aktiviert ist
+                editSubtaskImage.classList.add('editimages');
             }
 
             editSubtaskButton.appendChild(editSubtaskImage);
@@ -230,6 +232,8 @@ function generateEditSubtasks(todo) {
                     const acceptSubtaskButton = document.createElement('button');
                     const acceptSubtaskImage = document.createElement('img');
                     acceptSubtaskImage.src = '../assets/img/check-black.svg';
+                    acceptSubtaskImage.classList.add('editimages')
+
                     acceptSubtaskButton.appendChild(acceptSubtaskImage);
 
                     acceptSubtaskButton.addEventListener('click', () => {
@@ -241,6 +245,7 @@ function generateEditSubtasks(todo) {
 
                         // Ändere das Symbol zurück zu einem Stiftsymbol
                         editSubtaskImage.src = '../assets/img/edit.svg';
+
 
                         // Füge das Bild (Punkt) links neben dem Input-Element hinzu
                         subtaskDiv.insertBefore(bulletImage, subtaskInput);
@@ -271,6 +276,7 @@ function generateEditSubtasks(todo) {
 
             const deleteSubtaskImage = document.createElement('img');
             deleteSubtaskImage.src = '../assets/img/delete.svg';
+            deleteSubtaskImage.classList.add('editimages');
 
             deleteSubtaskButton = document.createElement('button');
             deleteSubtaskButton.appendChild(deleteSubtaskImage);

@@ -202,6 +202,7 @@ textarea {
     border-radius: 10px;
     border: 1px dashed #A8A8A8;
     background-color: #E7E7E7;
+    text-align: center;
 }
 
 .rotated {
@@ -647,6 +648,11 @@ button {
     border-radius: 10px;
 }
 
+
+.editimages {
+    cursor: pointer;
+}
+
 .plus-image {
     padding: 1px;
     margin-right: 24px;
@@ -664,6 +670,11 @@ button {
     position: relative;
     border: unset;
     background-color: unset;
+}
+
+.addSubtaskButtons img:hover {
+    background-color: lightgray;
+    border-radius: 50%;
 }
 
 .extra-margin {
