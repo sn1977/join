@@ -143,6 +143,8 @@ function showContactDetails(i) {
         }
     }
 
+    renderContacts();
+
     let contactBox = document.getElementById(`contactNameBox${i}`);
     let innerContactBox = document.getElementById(`profileBadge${i}`);
     let contactName = document.querySelector(`#contactNameBox${i} .contactName`);
@@ -154,13 +156,13 @@ function showContactDetails(i) {
     }
     currentSelectedIndex = i;
     displayWindows(i);
-    renderContacts();
     displayFloatingContactDetails(i);
 
     isContactDetailsShown = true;
 
     // Manuelles Auslösen eines resize Events
     window.dispatchEvent(new Event('resize'));
+
 }
 
 
@@ -238,6 +240,7 @@ function overlayAddContact() {
     }, 50);
 
     addContact();
+    attachSubmitListener();
 }
 
 function closeOverlayAddContact() {
@@ -270,9 +273,7 @@ async function deleteContact(index) {
 
 async function pushBackArrays() {
     try {
-        await setItem('nameOfContact', nameOfContact);
-        await setItem('emailOfContact', emailOfContact);
-        await setItem('telOfContact', telOfContact);
+        await setItem('contacts', JSON.stringify(contacts));
     } catch (error) {
         console.error("Error updating remote storage:", error);
     }
@@ -323,9 +324,9 @@ async function saveEditedContact(index) {
     const newPhone = document.getElementById('contactPhone').value;
 
     // Die Werte in den Arrays aktualisieren
-    nameOfContact[index] = newName;
-    emailOfContact[index] = newEmail;
-    telOfContact[index] = newPhone;
+    contacts[index].nameOfContact = newName;
+    contacts[index].emailOfContact = newEmail;
+    contacts[index].telOfContact = newPhone;
 
     // Die aktualisierten Arrays zurück in den Remote-Speicher speichern
     await pushBackArrays();
@@ -333,7 +334,7 @@ async function saveEditedContact(index) {
     // Das Overlay schließen und die Kontaktliste aktualisieren
     closeOverlayAddContact();
     renderContacts();
-    showContactDetails();
+    showContactDetails(index);
 }
 
 function loadInitialsHeader() {
@@ -342,4 +343,28 @@ function loadInitialsHeader() {
     let initials = getInitials(userInitials);
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
+
+function attachSubmitListener() {
+    const submitButton = document.getElementById('mySubmitButton');
+    const form = document.getElementById('myForm');
+
+    console.log('attachSubmitListener aufgerufen', { submitButton, form });
+
+    if (submitButton && form) {
+        console.log('Event Listener wird hinzugefügt');
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Verhindert die Standard-Formularübermittlung
+            console.log('Submit-Button geklickt, überprüfe Validität');
+            if (form.checkValidity() && form.reportValidity()) {
+                console.log('Formular ist gültig, wird eingereicht');
+                form.submit(); // Reicht das Formular ein, wenn es gültig ist
+            } else {
+                console.log('Formular ist ungültig');
+            }
+        });
+    } else {
+        console.error('Formular oder Button nicht im DOM gefunden');
+    }
+}
+
 
