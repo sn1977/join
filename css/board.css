@@ -318,6 +318,22 @@ textarea {
     display: inline-block;
 }
 
+.close-btn:hover {
+    background-color: #28abe2;
+    border-radius: 50%;
+    color: #ffffff;
+    content: url(../assets/img/close-white.svg);
+}
+
+.searchImg:hover {
+    content: url(../assets/img/search_blue.svg);
+}
+
+.buttonpopup:hover {
+    background-color: lightgrey;
+    border-radius: 10px;
+}
+
 .popup-info-container {
     display: flex;
     flex-direction: column;
@@ -351,7 +367,6 @@ textarea {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin-left: 232px;
 }
 
 .d-flex {
@@ -390,6 +405,11 @@ textarea {
     /* oder die gewünschte Größe */
 }
 
+.checkedSub:hover {
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
 .uncheckedSub {
     background-image: url('../assets/img/unchecked.svg');
     background-size: cover;
@@ -398,6 +418,11 @@ textarea {
     /* oder die gewünschte Größe */
     height: 24px;
     /* oder die gewünschte Größe */
+}
+
+.uncheckedSub:hover {
+    background-color: lightgray;
+    border-radius: 50%;
 }
 
 .table-style td {

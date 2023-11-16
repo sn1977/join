@@ -38,7 +38,7 @@ function boardHTML() {
             <div class="search">
                 <input type="text" id="inputSearch" class="inputSearch" placeholder="Find task">
                 <div class="buttonSearch">
-                    <img src="../assets/img/search.svg" alt="Search">
+                    <img class="searchImg" src="../assets/img/search.svg" alt="Search">
                 </div>
             </div>
             <button class="buttonAddTask" onclick="overlayAddTask('todo')">
@@ -50,7 +50,7 @@ function boardHTML() {
         <div class="searchMobile">
             <input type="text" id="inputSearchMobile" class="inputSearch mobile" placeholder="Find task">
             <div class="buttonSearch">
-                <img src="../assets/img/search.svg" alt="Search">
+                <img class="searchImg" src="../assets/img/search.svg" alt="Search">
             </div>
         </div>
     </section>
