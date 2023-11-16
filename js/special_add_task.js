@@ -42,13 +42,13 @@ subtaskInputX.addEventListener("blur", () => {
  */
 
 // filter assignedTo
-let assignedToInput = document.getElementById('assignedTo');
+var assignedToInput = document.getElementById('assignedTo');
 assignedToInput.addEventListener('input', filterContacts);
 
 
 // Funktion zum Hinzufügen des Event-Listeners
 function addClickEventListener() {
-    clickEventListener = function(event) {
+    clickEventListener = function (event) {
         const assignedToInput = document.getElementById('assignedTo');
         const assignedToContainer = document.getElementById('assignedToContainer');
 

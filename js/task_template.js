@@ -1,12 +1,12 @@
 
 let subtaskInputX;
 let subtaskContainer;
-let subtaskInputFocusListener = () => {};
-let subtaskInputBlurListener = () => {};
+let subtaskInputFocusListener = () => { };
+let subtaskInputBlurListener = () => { };
 
 
 function addSubtaskEventListeners() {
-    subtaskInputX = document.getElementById("subtask"); 
+    subtaskInputX = document.getElementById("subtask");
     subtaskContainer = document.querySelector(".subtaskContainer");
 
     subtaskInputFocusListener = () => {
@@ -133,7 +133,7 @@ function addTaskOverlay(progressBoard) {
                     </div>
 
                     <div class="inputContainer">
-                        <label>Prio</label>
+                        Prio
                         <div class="button-container" id="prio">
                             <button class="white" id="urgent" onclick="taskPrio('urgent')" type="button">Urgent<img
                                     src="../assets/img/urgent.svg" alt=""></button>
@@ -179,8 +179,8 @@ function addTaskOverlay(progressBoard) {
             <div class="footAreaOverlay">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
-                    <button class="activeBtn" onclick="addTask('${progressBoard}')">Create Task <img src="../assets/img/check.svg"   
+                    <button class="cancelBtn" onclick="reload(), closeOverlay()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="activeBtn" onclick="addTaskBoard('${progressBoard}')">Create Task <img src="../assets/img/check.svg"   
                             alt=""></button>
                 </div>
             </div>
@@ -198,4 +198,26 @@ function loadExternalScript() {
     script.src = '../js/special_add_task.js';
     document.body.appendChild(script);
     initTask();
+}
+
+
+async function addTaskBoard(progress) {
+    getInputIDs();
+    checkRequieredFields();
+    if (canAdd) {
+        getLastID();
+        getTaskValues(progress);
+        await setItem('tasks', JSON.stringify(tasks));
+        emptyFields();
+        generateSubtaskHtml();
+
+        overlaySuccessAddTask();
+        if (lastPrio != '') {
+            resetPrio();
+        }
+
+        closeOverlay();
+    } else {
+    }
+    await initboard();
 }
