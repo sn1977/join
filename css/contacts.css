@@ -611,24 +611,23 @@ h1 {
     line-height: 120%; /* 24px */
 }
 
-@keyframes slideInFromRight {
-    0% {
-        transform: translateX(100%);
-    }
-    50% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
-}
+/*@keyframes slideInOut {*/
+/*    0%, 100% {*/
+/*        left: 100%; !* Startet und endet außerhalb des rechten Bildschirmrandes *!*/
+/*    }*/
+/*    50% {*/
+/*        left: 50%; !* Bewegt sich zur Mitte des Bildschirms *!*/
+/*    }*/
+/*}*/
 
 #overlayCreatedContact {
-    /* Andere Stile, die Sie bereits definiert haben könnten */
-    position: fixed;
-    right: 0;
-    bottom: 20%; /* oder wo auch immer Sie es vertikal positionieren möchten */
-    animation: slideInFromRight 5s forwards; /* 5s ist die gesamte Dauer der Animation */
+    position: fixed; /* oder 'absolute', je nach Bedarf */
+    left: 100%; /* Startet außerhalb des rechten Bildschirmrandes */
+    top: 80%; /* oder einen anderen Wert, je nach Bedarf */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
+    transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
+    /* Weitere Stile für Ihr Overlay */
+    animation: slideInOut 5s ease-in-out; /* Wenden Sie die Animation an */
 }
 
 #scrollBar {
@@ -780,6 +779,20 @@ h1 {
     .person-icon {
         left: 20px;
         top: 20px;
+    }
+}
+
+@media (max-width: 1150px) {
+    @keyframes slideInFromRight {
+        0% {
+            transform: translateX(100%);
+        }
+        50% {
+            transform: translateX(-30%);
+        }
+        100% {
+            transform: translateX(100%);
+        }
     }
 }
 

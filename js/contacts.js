@@ -252,9 +252,15 @@ function overlayContactCreated() {
     overlayCreatedContact.id = 'overlayCreatedContact';
     document.body.appendChild(overlayCreatedContact);
 
+    // Erste Bewegung: Overlay in die Ansicht bringen
     setTimeout(() => {
-        overlayCreatedContact.style.transform = 'translateY(-250%) translateX(50%)';
+        overlayCreatedContact.style.left = '20%'; // Bewegt das Overlay nach links
     }, 50);
+
+    // Zweite Bewegung: Overlay zurückbewegen
+    setTimeout(() => {
+        overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+    }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
 
     addOverlayCreatedContact();
 }
