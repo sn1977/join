@@ -1,7 +1,7 @@
 let contacts = [
-    {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
-    {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
-    {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
+    // {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
+    // {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
+    // {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
 ]
 
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
@@ -35,20 +35,33 @@ function sortContactsByName() {
 async function newContact() {
     initializeContactElements();
 
-    contacts.push({
+    // Neuen Kontakt erstellen
+    let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
-    });
+    };
+
+    // Kontakt zur Liste hinzufügen
+    contacts.push(newContact);
+
+    // Speichern des aktualisierten Arrays im Remote-Speicher
     await setItem('contacts', JSON.stringify(contacts));
 
+    // Aktualisieren und Anzeigen der Kontakte
     updateContactPool();
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
+
+    // Finden Sie den Index des neuen Kontakts
+    let newIndex = contacts.findIndex(contact => contact.nameOfContact === newContact.nameOfContact);
+
+    // Anzeigen der Details für den neuen Kontakt
+    showContactDetails(newIndex);
+
+    // Overlay für den neu erstellten Kontakt anzeigen
     overlayContactCreated();
-
-
 }
 
 function resetContactField() {
@@ -254,7 +267,7 @@ function overlayContactCreated() {
 
     // Erste Bewegung: Overlay in die Ansicht bringen
     setTimeout(() => {
-        overlayCreatedContact.style.left = '20%'; // Bewegt das Overlay nach links
+        overlayCreatedContact.style.left = '60%'; // Bewegt das Overlay nach links
     }, 50);
 
     // Zweite Bewegung: Overlay zurückbewegen
