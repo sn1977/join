@@ -409,3 +409,20 @@ function initializeDatepicker() {
         }
     });
 }
+
+function closeAssignedToWindow() {
+    const assignedToContainer = document.getElementById('assignedToContainer');
+    assignedToContainer.classList.add('d-none'); // Verstecke das Fenster
+}
+
+document.addEventListener('click', function (event) {
+    const assignedToContainer = document.getElementById('assignedToContainer');
+    const assignedToInput = document.getElementById('assignedTo');
+
+    // Prüfe, ob die Elemente existieren, bevor die 'contains' Methode aufgerufen wird
+    if (assignedToContainer && assignedToInput) {
+        if (!assignedToContainer.contains(event.target) && !assignedToInput.contains(event.target)) {
+            closeAssignedToWindow(); // Schließe das Fenster
+        }
+    }
+});
