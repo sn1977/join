@@ -28,9 +28,9 @@ function createEditPopup(todo) {
                     <div class="direction" id="priority">
                         <h4>Priority</h4>
                         <div class="button-container">
-                            <button class="${todo.prio === 'urgent' ? 'selectedPrio' : ''}" id="urgent" type="button" onclick="selectPriority('urgent', ${todo.id})">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
-                            <button class="${todo.prio === 'medium' ? 'selectedPrio' : ''}" id="medium" type="button" onclick="selectPriority('medium', ${todo.id})">Medium<img src="../assets/img/medium.svg" alt=""></button>
-                            <button class="${todo.prio === 'low' ? 'selectedPrio' : ''}" id="low" type="button" onclick="selectPriority('low', ${todo.id})">Low<img src="../assets/img/low.svg" alt=""></button>
+                            <button class="" id="urgent" type="button" onclick="selectPriority('urgent', ${todo.id})">Urgent<img src="../assets/img/urgent.svg" alt=""></button>
+                            <button class="" id="medium" type="button" onclick="selectPriority('medium', ${todo.id})">Medium<img src="../assets/img/medium.svg" alt=""></button>
+                            <button class="" id="low" type="button" onclick="selectPriority('low', ${todo.id})">Low<img src="../assets/img/low.svg" alt=""></button>
                         </div>
                     </div>
                     <h4>Category</h4>
@@ -80,6 +80,8 @@ function createEditPopup(todo) {
     setupSearchListener();
     generateEditSubtasks(todo);
     generateAssignedToEditPopup(todo);
+    setPriorityButton(todo.prio);
+
 }
 
 async function closeEditPopup(id) {
@@ -322,21 +324,41 @@ function generateAssignedToEditPopup(todo) {
     }
 }
 
+function setPriorityButton(priority) {
+    // Gehe durch alle Buttons und aktualisiere ihre Klassen und Stile
+    document.querySelectorAll('.button-container button').forEach(button => {
+        // Entferne spezifische Klassen und Stile
+        button.classList.remove('urgent', 'medium', 'low');
+        button.classList.add('white'); // Füge zunächst allen Buttons die Klasse 'white' hinzu
+        const image = button.querySelector('img');
+        if (image) {
+            image.style.filter = ""; // Setze den Bildstil zurück
+        }
+    });
+
+    // Füge die spezifische Prioritätsklasse zum ausgewählten Button hinzu
+    // Entferne die Klasse 'white' und wende den Stil auf das Bild an
+    if (priority) {
+        const selectedButton = document.getElementById(priority);
+        if (selectedButton) {
+            selectedButton.classList.add(priority);
+            selectedButton.classList.remove('white'); // Entferne 'white' vom ausgewählten Button
+            const image = selectedButton.querySelector('img');
+            if (image) {
+                image.style.filter = "brightness(0%) invert(1)";
+            }
+        }
+    }
+}
+
 function selectPriority(priority, id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
         todo.prio = priority;
-
-        document.querySelectorAll('.button-container button').forEach(button => {
-            button.classList.remove('selectedPrio');
-        });
-
-        const selectedButton = document.getElementById(priority);
-        selectedButton.classList.add('selectedPrio');
-
-        saveAllTasksToRemote();
+        setPriorityButton(priority);
     }
 }
+
 async function saveAllChanges(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
