@@ -25,14 +25,21 @@
 
 .headerContent img {
     margin-left: 16px;
+    cursor: pointer;
 }
 
 a {
     display: flex;
 }
 
+img,
+svg {
+    vertical-align: middle;
+}
+
 #profileInitials {
     position: relative;
+    cursor: pointer;
 }
 
 #profileInitials span {

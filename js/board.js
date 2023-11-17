@@ -17,7 +17,6 @@ const progressStages = ['todo', 'inprogress', 'awaitfeedback', 'done'];
 
 let todos = [];
 let contactpoolBoard = [];
-// const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
 let allContactsBoard = [];
 
 
@@ -53,9 +52,6 @@ async function loadAllTasksFromRemote() {
 }
 
 async function loadContacts() {
-    /* nameOfContact = JSON.parse(await getItem('nameOfContact')) || ['Anton Mayer', 'Alfred Müller', 'Beate Müller'];
-    emailOfContact = JSON.parse(await getItem('emailOfContact')) || ['anton@gmail.com', 'alfred@gmail.com', 'beate@gmail.com'];
-    telOfContact = JSON.parse(await getItem('telOfContact')) || [123456, 789456, 456951]; */
     contacts = JSON.parse(await getItem('contacts')) || contacts;
 }
 
@@ -107,7 +103,6 @@ function renderBoard() {
         </div>`
         }
     }
-
     const searchInput = document.getElementById('inputSearch');
     searchInput.addEventListener('keyup', searchTasks);
     const searchInputMobile = document.getElementById('inputSearchMobile');
@@ -129,8 +124,6 @@ function searchTasks() {
                     benutzer.initialien.toLowerCase().includes(searchQuery);
             }));
     });
-
-    // Call updateHTML but pass the filtered list if there is a search query
     updateHTML(searchQuery ? filteredTodos : todos);
 }
 
@@ -145,8 +138,6 @@ function searchTasksMobile() {
                     benutzer.initialien.toLowerCase().includes(searchQuery);
             }));
     });
-
-    // Call updateHTML but pass the filtered list if there is a search query
     updateHTML(searchQuery ? filteredTodos : todos);
 }
 
@@ -168,7 +159,6 @@ function updateHTML(tasks = todos) {
             document.getElementById('statusContainer0').innerHTML += generateHTML(element);
         }
     }
-
     let inprogress = sortTodos(tasks.filter(t => t['progress'] == 'inprogress'));
     document.getElementById('statusContainer1').innerHTML = '';
     if (inprogress.length == 0) {
@@ -181,7 +171,6 @@ function updateHTML(tasks = todos) {
             document.getElementById('statusContainer1').innerHTML += generateHTML(element);
         }
     }
-
     let awaitfeedback = sortTodos(tasks.filter(t => t['progress'] == 'awaitfeedback'));
     document.getElementById('statusContainer2').innerHTML = '';
     if (awaitfeedback.length == 0) {
@@ -194,7 +183,6 @@ function updateHTML(tasks = todos) {
             document.getElementById('statusContainer2').innerHTML += generateHTML(element);
         }
     }
-
     let done = sortTodos(tasks.filter(t => t['progress'] == 'done'));
     document.getElementById('statusContainer3').innerHTML = '';
     if (done.length == 0) {
@@ -240,26 +228,20 @@ function stopDragging(id) {
  */
 function generateHTML(element) {
     const categoryClass = element['category'] === 'User Story' ? 'user-story' : 'technical-task';
-
-    // Berechne den Fortschritt der Teilaufgaben
     const abgeschlosseneTeilaufgaben = element.subtask ? element.subtask.filter(task => task.done).length : 0;
     const gesamteTeilaufgaben = element.subtask ? element.subtask.length : 0;
     const fortschritt = gesamteTeilaufgaben > 0 ? (abgeschlosseneTeilaufgaben / gesamteTeilaufgaben) * 100 : 0;
-
     let zugewieseneBenutzerHTML = '';
     const benutzerAnzahl = element.assignedTo.length;
     const maxAnzeigeBenutzer = 5;
-
     if (benutzerAnzahl > 0) {
         element.assignedTo.slice(0, maxAnzeigeBenutzer).forEach(benutzer => {
             zugewieseneBenutzerHTML += `<div class="user-badge-board extra-margin" style="background-color:${benutzer.color}">${benutzer.initialien}</div>`;
         });
-
         if (benutzerAnzahl > maxAnzeigeBenutzer) {
             zugewieseneBenutzerHTML += `<div class="user-badge-board extra-margin moreusers">+${benutzerAnzahl - maxAnzeigeBenutzer}</div>`;
         }
     }
-
     let progressHTML = '';
     if (gesamteTeilaufgaben > 0) {
         progressHTML = `
@@ -273,24 +255,19 @@ function generateHTML(element) {
     } else {
         progressHTML = `
         <div class="progress">
-            
         </div>`
     }
 
-    // Überprüfe den Status des Todos, um Pfeile zu aktivieren oder zu deaktivieren
-    const isTop = element.progress === 'todo'; // Anpassen basierend auf Ihrer Logik
-    const isBottom = element.progress === 'done'; // Anpassen basierend auf Ihrer Logik
-
+    const isTop = element.progress === 'todo';
+    const isBottom = element.progress === 'done';
     let upArrowDisabled = isTop ? 'disabled' : '';
     let downArrowDisabled = isBottom ? 'disabled' : '';
-
     return /*html*/ `
       <div class="todo" 
            draggable="true"
            ondragstart="startDragging(${element['id']})"
            ondragend="stopDragging(${element['id']})"
            onclick="openPopup(${element['id']})">
-           
         <div class="todoContainer">
           <div class="todoType ${categoryClass}">${element['category']}</div>
           <div class="todoInfo">
@@ -315,39 +292,28 @@ async function moveTask(taskId, direction) {
     if (taskIndex !== -1) {
         const currentStageIndex = progressStages.indexOf(todos[taskIndex].progress);
         if (direction === 'up' && currentStageIndex > 0) {
-            // Bewege den Task zum vorherigen Fortschrittsstatus
             todos[taskIndex].progress = progressStages[currentStageIndex - 1];
         } else if (direction === 'down' && currentStageIndex < progressStages.length - 1) {
-            // Bewege den Task zum nächsten Fortschrittsstatus
             todos[taskIndex].progress = progressStages[currentStageIndex + 1];
         }
-
-        // Aktualisiere die Ansicht nach dem Verschieben
         updateHTML();
         await saveAllTasksToRemote();
-
     } else {
         console.error(`Task with ID ${taskId} not found.`);
     }
 }
 
-
-
 function moveTaskUp(index) {
     if (index > 0) {
-        // Tausche den Task mit dem vorherigen Task
         [todos[index], todos[index - 1]] = [todos[index - 1], todos[index]];
         console.log(`Task moved up: `, todos);
-
     }
 }
 
 function moveTaskDown(index) {
     if (index < todos.length - 1) {
-        // Tausche den Task mit dem nächsten Task
         [todos[index], todos[index + 1]] = [todos[index + 1], todos[index]];
         console.log(`Task moved down: `, todos);
-
     }
 }
 
@@ -369,7 +335,6 @@ function allowDrop(ev) {
  */
 async function moveTo(progress) {
     const todoItem = todos.find(todo => todo.id === currentDraggedElement);
-
     if (todoItem) {
         todoItem['progress'] = progress;
         todoItem['modifiedAt'] = new Date().getTime();
@@ -378,7 +343,6 @@ async function moveTo(progress) {
     } else {
         console.error(`Todo with ID ${currentDraggedElement} not found!`);
     }
-
 }
 
 /**
@@ -390,5 +354,3 @@ async function moveTo(progress) {
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
 }
-
-

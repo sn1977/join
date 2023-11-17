@@ -2,14 +2,9 @@ function openPopup(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
         const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
-
-        // Entferne zuerst alle vorherigen Klassen
         const popupCategory = document.getElementById('popupCategory');
         popupCategory.classList.remove('user-story', 'technical-task');
-
-        // Füge die entsprechende Klasse basierend auf der Kategorie hinzu
         popupCategory.classList.add(categoryClass);
-
         document.getElementById('popupTitle').innerText = todo.title;
         document.getElementById('popupDescription').innerText = todo.description;
         document.getElementById('popupCategory').innerText = todo.category;
@@ -33,12 +28,22 @@ function openPopup(id) {
         generateAssignedTo(todo);
         document.getElementById('popup').style.display = 'flex';
         document.getElementById('popup-buttons').innerHTML = '';
-        document.getElementById('popup-buttons').innerHTML += /*html*/`<div style="display: flex;
+        document.getElementById('popup-buttons').innerHTML += /*html*/`
+        <div style="display: flex;
         justify-content: flex-end;
         gap: 8px;">
-        <div class="buttonContainer">
-        <div class="buttonpopup delete-edit-buttons" onclick="deleteTodo(${todo.id})"><img src="../assets/img/delete.svg">Delete</div><img src="../assets/img/small_vector.svg"><div class="buttonpopup delete-edit-buttons" onclick="openEditPopup(${todo.id})"><img src="../assets/img/edit.svg">Edit</div></div></div>`;
-
+            <div class="buttonContainer">
+                <div class="buttonpopup delete-edit-buttons" onclick="deleteTodo(${todo.id})">
+                    <img src="../assets/img/delete.svg">
+                    Delete
+                </div>
+                <img src="../assets/img/small_vector.svg">
+                <div class="buttonpopup delete-edit-buttons" onclick="openEditPopup(${todo.id})">
+                    <img src="../assets/img/edit.svg">Edit
+                </div>
+            </div>
+        </div>
+        `;
     }
 }
 
@@ -62,8 +67,16 @@ function generateAssignedTo(todo) {
     document.getElementById("assigned-table-div").innerHTML += /*html*/ ``
     for (let i = 0; i < todo.assignedTo.length; i++) {
         const element = todo.assignedTo[i];
-        document.getElementById("assigned-table-div").innerHTML += /*html*/ `<div class="assignedToUsers"><div class="user-badge-board" style="background-color:${element.color}">${element.initialien}</div><div>${element.name}</div></div>`
-
+        document.getElementById("assigned-table-div").innerHTML += /*html*/ `
+        <div class="assignedToUsers">
+            <div class="user-badge-board" style="background-color:${element.color}">
+                ${element.initialien}
+            </div>
+            <div>
+                ${element.name}
+            </div>
+        </div>
+        `
     }
 }
 
