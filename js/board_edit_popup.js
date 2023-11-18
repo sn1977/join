@@ -1,3 +1,7 @@
+/**
+ * Opens the edit popup for a specific todo item.
+ * @param {number} id - The unique identifier of the todo item to be edited.
+ */
 function openEditPopup(id) {
     const todo = todos.find(t => t.id === id);
     closePopup();
@@ -7,6 +11,10 @@ function openEditPopup(id) {
     document.getElementById('popup').style.display = 'none';
 }
 
+/**
+ * Creates and displays the edit popup with the details of the specified todo item.
+ * @param {Object} todo - The todo item to be edited.
+ */
 function createEditPopup(todo) {
     allContactsBoard = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
@@ -27,6 +35,10 @@ function createEditPopup(todo) {
     setPriorityButton(todo.prio);
 }
 
+/**
+ * Closes the edit popup and refreshes the task list.
+ * @param {number} id - The unique identifier of the todo item.
+ */
 async function closeEditPopup(id) {
     await loadAllTasksFromRemote();
     openPopup(id)
@@ -35,6 +47,10 @@ async function closeEditPopup(id) {
     document.getElementById("editpopup").innerHTML = '';
 }
 
+/**
+ * Generates the subtask editing section within the edit popup.
+ * @param {Object} todo - The todo item containing subtasks to be edited.
+ */
 function generateEditSubtasks(todo) {
     const subtasksContainer = document.getElementById('savedSubtasks');
     subtasksContainer.innerHTML = '';
@@ -180,6 +196,10 @@ function generateEditSubtasks(todo) {
     }
 }
 
+/**
+ * Generates and displays assigned contacts in the edit popup.
+ * @param {Object} todo - The todo item with assigned contacts.
+ */
 function generateAssignedToEditPopup(todo) {
     if (todo.assignedTo && todo.assignedTo.length > 0) {
         todo.assignedTo.forEach((contact) => {
@@ -198,6 +218,10 @@ function generateAssignedToEditPopup(todo) {
     }
 }
 
+/**
+ * Sets the priority button in the UI based on the todo item's priority.
+ * @param {string} priority - The priority level of the todo item.
+ */
 function setPriorityButton(priority) {
     document.querySelectorAll('.button-container button').forEach(button => {
         button.classList.remove('urgent', 'medium', 'low');
@@ -220,6 +244,11 @@ function setPriorityButton(priority) {
     }
 }
 
+/**
+ * Updates the priority of a todo item.
+ * @param {string} priority - The new priority to be set.
+ * @param {number} id - The unique identifier of the todo item.
+ */
 function selectPriority(priority, id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
@@ -228,6 +257,10 @@ function selectPriority(priority, id) {
     }
 }
 
+/**
+ * Saves all changes made in the edit popup to the todo item.
+ * @param {number} id - The unique identifier of the todo item to be updated.
+ */
 async function saveAllChanges(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
@@ -254,6 +287,9 @@ async function saveAllChanges(id) {
 
 }
 
+/**
+ * Initializes the date picker for selecting due dates.
+ */
 function initializeDatepicker() {
     var currentDate = new Date();
     $("#dueDate").datepicker({
@@ -272,11 +308,17 @@ function initializeDatepicker() {
     });
 }
 
+/**
+ * Closes the assigned to window in the UI.
+ */
 function closeAssignedToWindow() {
     const assignedToContainer = document.getElementById('assignedToContainer');
     assignedToContainer.classList.add('d-none');
 }
 
+/**
+ * Event listener to handle clicks outside of the assigned to window, causing it to close.
+ */
 document.addEventListener('click', function (event) {
     const assignedToContainer = document.getElementById('assignedToContainer');
     const assignedToInput = document.getElementById('assignedTo');

@@ -21,7 +21,7 @@ let allContactsBoard = [];
 
 
 /**
- * Initialization of all functions required for startup
+ * Initializes the application, loads tasks and contacts from remote storage, and prepares the board.
  */
 async function initboard() {
     await loadAllTasksFromRemote();
@@ -34,9 +34,7 @@ async function initboard() {
 
 
 /**
- * 
- * This function load all task from remote Storage
- * 
+ * Loads all tasks from remote storage and updates the local state.
  */
 async function loadAllTasksFromRemote() {
     try {
@@ -51,14 +49,15 @@ async function loadAllTasksFromRemote() {
     }
 }
 
+/**
+ * Loads contact data from remote storage.
+ */
 async function loadContacts() {
     contacts = JSON.parse(await getItem('contacts')) || contacts;
 }
 
 /**
- * 
- * This function save all tasks to Remote Storage
- * 
+ * Saves all current tasks to remote storage.
  */
 async function saveAllTasksToRemote() {
     try {
@@ -69,7 +68,7 @@ async function saveAllTasksToRemote() {
 }
 
 /**
- * This function renders the board
+ * Renders the main task board with different progress containers.
  */
 function renderBoard() {
     document.getElementById('content').innerHTML = '';
@@ -111,7 +110,7 @@ function renderBoard() {
 
 
 /**
- * This function filters the tasks based on the search query and updates the HTML
+ * Filters tasks based on a search query entered in the standard search input.
  */
 function searchTasks() {
     const searchQuery = document.getElementById('inputSearch').value.toLowerCase();
@@ -127,6 +126,9 @@ function searchTasks() {
     updateHTML(searchQuery ? filteredTodos : todos);
 }
 
+/**
+ * Filters tasks based on a search query entered in the mobile search input.
+ */
 function searchTasksMobile() {
     const searchQuery = document.getElementById('inputSearchMobile').value.toLowerCase();
     const filteredTodos = todos.filter(todo => {
@@ -143,8 +145,8 @@ function searchTasksMobile() {
 
 
 /**
- * This function filter and sort the todos and renders the tasks on the board
- * @param {array} tasks - The list of tasks to display, defaults to original todos if not provided
+ * Updates the HTML representation of the task board, optionally filtering the tasks displayed.
+ * @param {array} [tasks=todos] - The list of tasks to be displayed. Defaults to the original list of all tasks.
  */
 function updateHTML(tasks = todos) {
     let todo = sortTodos(tasks.filter(t => t['progress'] == 'todo'));
@@ -199,9 +201,8 @@ function updateHTML(tasks = todos) {
 
 
 /**
- * This function starts the dragging of the task and add the rotaded class
- * 
- * @param {number} id 
+ * Starts the drag action for a task and applies a visual effect.
+ * @param {number} id - The unique identifier of the task being dragged.
  */
 function startDragging(id) {
     currentDraggedElement = id;
@@ -210,9 +211,8 @@ function startDragging(id) {
 }
 
 /**
- * This function stops the dragging of the task and remove the rotaded class
- * 
- * @param {number} id 
+ * Stops the drag action for a task and removes the visual effect.
+ * @param {number} id - The unique identifier of the task that was being dragged.
  */
 function stopDragging(id) {
     let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
@@ -221,10 +221,9 @@ function stopDragging(id) {
 
 
 /**
- * Diese Funktion generiert HTML für eine Aufgabe und deren zugewiesene Benutzer.
- * 
- * @param {array} element 
- * @returns das HTML  
+ * Generates HTML content for a single task, including its subtasks and assigned users.
+ * @param {Object} element - The task object for which HTML content is generated.
+ * @returns {string} HTML content for the given task.
  */
 function generateHTML(element) {
     const categoryClass = element['category'] === 'User Story' ? 'user-story' : 'technical-task';
@@ -285,8 +284,11 @@ function generateHTML(element) {
     `;
 }
 
-
-
+/**
+ * Moves a task up or down in the list of tasks based on the specified direction.
+ * @param {number} taskId - The unique identifier of the task to be moved.
+ * @param {string} direction - The direction to move the task ('up' or 'down').
+ */
 async function moveTask(taskId, direction) {
     const taskIndex = todos.findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
@@ -303,6 +305,10 @@ async function moveTask(taskId, direction) {
     }
 }
 
+/**
+ * Moves a task up in the task list by swapping it with the task above it.
+ * @param {number} index - The current index of the task in the todos array.
+ */
 function moveTaskUp(index) {
     if (index > 0) {
         [todos[index], todos[index - 1]] = [todos[index - 1], todos[index]];
@@ -310,6 +316,10 @@ function moveTaskUp(index) {
     }
 }
 
+/**
+ * Moves a task down in the task list by swapping it with the task below it.
+ * @param {number} index - The current index of the task in the todos array.
+ */
 function moveTaskDown(index) {
     if (index < todos.length - 1) {
         [todos[index], todos[index + 1]] = [todos[index + 1], todos[index]];
@@ -317,21 +327,17 @@ function moveTaskDown(index) {
     }
 }
 
-
-
 /**
- * This function is used to prevent the default action of the drag event
- * 
- * @param {string} ev 
+ * Prevents the default behavior for the dragover event to allow dropping.
+ * @param {Event} ev - The dragover event object.
  */
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
 /**
- * This function is used to move the task to the selected progress
- * 
- * @param {string} progress 
+ * Moves a task to a specified progress stage when dropped.
+ * @param {string} progress - The progress stage to move the task to.
  */
 async function moveTo(progress) {
     const todoItem = todos.find(todo => todo.id === currentDraggedElement);
@@ -346,10 +352,9 @@ async function moveTo(progress) {
 }
 
 /**
- * This function sorts the todos by last modified
- * 
- * @param {array} todosArray 
- * @returns a new array sorted by last modified
+ * Sorts an array of tasks by their last modification time.
+ * @param {array} todosArray - The array of tasks to be sorted.
+ * @returns {array} A sorted array of tasks.
  */
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);

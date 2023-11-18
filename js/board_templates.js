@@ -1,3 +1,8 @@
+/**
+ * Generates the HTML structure for the main board.
+ * This includes the main popup for viewing todo items and the board header with search and add task features.
+ * @returns {string} The HTML string representing the board's layout.
+ */
 function boardHTML() {
     return `
     <div id="editpopup" class="popup"></div>
@@ -59,7 +64,12 @@ function boardHTML() {
 `
 }
 
-
+/**
+ * Generates the HTML structure for the edit mode of a todo item.
+ * This includes fields for editing the title, description, due date, priority, category, assigned contacts, and subtasks of the todo item.
+ * @param {Object} todo - The todo item to be edited.
+ * @returns {string} The HTML string for the edit mode layout of the specified todo item.
+ */
 function editBoardHTML(todo) {
     return `
         <div class="container-popup">
