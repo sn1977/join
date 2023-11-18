@@ -338,21 +338,21 @@ function addEditContactBtn() {
 
 function returnCancelBtn() {
     return `
-        <btn class=cancel-contact onclick="closeOverlayAddContact()">
+        <button class=cancel-contact onclick="closeOverlayAddContact()">
             <span class="cancel-btn-text">Cancel</span>
             <svg class="cancel-svg-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                 <path d="M12.001 12.5001L17.244 17.7431M6.758 17.7431L12.001 12.5001L6.758 17.7431ZM17.244 7.25708L12 12.5001L17.244 7.25708ZM12 12.5001L6.758 7.25708L12 12.5001Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-        </btn>
+        </button>
     `;
 }
 
 function returnCreateContactBtn() {
     return `
-        <btn type="submit" class=create-contact onclick="newContact()" id="mySubmitButton">
+        <button type="submit" class=create-contact id="mySubmitButton">
             <span class="create-btn-text">Create contact</span>
             <img src="../assets/img/check.svg">
-        </btn>
+        </button>
     `;
 }
 

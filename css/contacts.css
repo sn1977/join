@@ -1,5 +1,5 @@
 body {
-    height: 100vh;
+    /*height: 100vh;*/
     background: #F6F7F8;
 }
 
@@ -626,8 +626,6 @@ h1 {
     top: 80%; /* oder einen anderen Wert, je nach Bedarf */
     transform: translateY(-50%); /* Vertikale Zentrierung */
     transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
-    /* Weitere Stile für Ihr Overlay */
-    animation: slideInOut 5s ease-in-out; /* Wenden Sie die Animation an */
 }
 
 #scrollBar {
