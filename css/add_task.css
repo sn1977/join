@@ -695,6 +695,15 @@ select:focus,
 }
 
 
+#overlaySuccess {
+    position: fixed; /* oder 'absolute', je nach Bedarf */
+    left: 100%; /* Startet außerhalb des rechten Bildschirmrandes */
+    top: 80%; /* oder einen anderen Wert, je nach Bedarf */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
+    transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
+}
+
+
 @keyframes slideInFromRight {
     from {
         transform: translateX(100%);

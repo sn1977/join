@@ -17,8 +17,7 @@ let subtask;
 let canAdd = true;
 let subtaskID = 0;
 let allSubtasks = [];
-
-
+let prio = 'low';
 
 
 /**
@@ -43,6 +42,13 @@ async function loadAllTasks() {
     tasks = JSON.parse(await getItem('tasks'));
 }
 
+
+/**
+ * funtion to load all categories from remote server
+ * 
+ *@param {array} categories -all tasks
+ * 
+ */
 async function loadCategories() {
     categoryArray = JSON.parse(await getItem('categories')) || categoryArray;
 }
@@ -106,12 +112,12 @@ async function addTask(progress) {
     if (canAdd) {
         getLastID();
         getTaskValues(progress);
-        await setItem('tasks', JSON.stringify(tasks));      
+        await setItem('tasks', JSON.stringify(tasks));
         emptyFields();
         generateSubtaskHtml();
         overlaySuccessAddTask();
-    
     } else {
+        alert("sollte nicht möglich sein");
     }
 }
 
@@ -122,33 +128,70 @@ async function addTask(progress) {
  * 
  * 
  */
-function overlaySuccessAddTask() {
+/* function overlaySuccessAddTask() {
     const overlayContainer = document.createElement('div');
     overlayContainer.style.display = 'flex';
     overlayContainer.style.alignItems = 'center';
     overlayContainer.style.justifyContent = 'center';
-    overlayContainer.style.height = '100vh'; // Vollständige Bildschirmhöhe
+    overlayContainer.style.height = '100vh'; 
     overlayContainer.style.position = 'fixed';
     overlayContainer.style.top = '0';
     overlayContainer.style.left = '0';
     overlayContainer.style.width = '100%';
-
     const overlayAddTaskSuccess = document.createElement('div');
     overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
     overlayAddTaskSuccess.classList.add('success');
     overlayContainer.appendChild(overlayAddTaskSuccess);
     document.body.appendChild(overlayContainer);
-
     setTimeout(() => {
         overlayAddTaskSuccess.style.transform = 'translateY(-50%) translateX(-50%)';
-
-        // Nach weiteren 3 Sekunden auf eine andere Seite weiterleiten
         setTimeout(() => {
             window.location.href = 'board.html';
         }, 3000);
     }, 50);
+    addOverlayAddTaskSuccess();
+} */
+function overlaySuccessAddTask() {
+    const overlayContainer = document.createElement('div');
+    overlayContainer.id = 'overlaySuccess';
+    document.body.appendChild(overlayContainer);
+
+    // Erste Bewegung: Overlay in die Ansicht bringen
+    setTimeout(() => {
+        if (window.innerWidth <= 990) {
+            overlayContainer.style.top = '70%'; // Endposition am oberen Rand
+        } else if (window.innerWidth <= 1250) {
+            overlayContainer.style.left = '650px'; // Für mittelgroße Bildschirme
+        } else {
+            overlayContainer.style.left = '743px'; // Standardbewegung
+        }
+    }, 50);
+
+    setTimeout(() => {
+        if (window.innerWidth <= 990) {
+            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
+            overlayContainer.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+        } else {
+            overlayContainer.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+        }
+    }, 3050);
 
     addOverlayAddTaskSuccess();
+}
+
+function addOverlayAddTaskSuccess() {
+    const overlayContainer = document.createElement('div');
+    document.getElementById('overlaySuccess').innerHTML = `
+    <div class="success">
+        <span class="addtaskSuccess">Task successfully created</span>
+        <img src="../assets/img/iconboard.svg" class="successIcon">
+    </div>
+    `;
+    // Div entfernen, nachdem die Animation abgeschlossen ist
+    setTimeout(() => {
+        const overlay = document.getElementById('overlaySuccess');
+        if (overlay) overlay.remove();
+    }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
 }
 
 
@@ -158,19 +201,19 @@ function overlaySuccessAddTask() {
  * 
  * 
  */
-function addOverlayAddTaskSuccess() {
+/* function addOverlayAddTaskSuccess() {
     document.getElementById('overlayAddTaskSuccess').innerHTML = `
     <div class="success">
         <span class="addtaskSuccess">Task successfully created</span>
         <img src="../assets/img/iconboard.svg" class="successIcon">
     </div>
 `;
-setTimeout(() => {
-    const overlay = document.getElementById('overlayAddTaskSuccess');
-    if (overlay) overlay.remove();
-}, 10000);
+    setTimeout(() => {
+        const overlay = document.getElementById('overlayAddTaskSuccess');
+        if (overlay) overlay.remove();
+    }, 10000);
 }
-
+ */
 
 
 /**
@@ -224,8 +267,7 @@ async function reload() {
  * 
  */
 
-let prio = 'low'; // Overall variable containing the prio of the current task input
-
+ 
 /**
  * This function adds the class 'white' to all buttons at the beginning or clearing
  */
@@ -240,13 +282,13 @@ function initializeButtons() {
 }
 
 
-  /**
-     * This function determines the clicked prio of the current task, removes the class 'white',
-     * and sets the overall variable 'prio' to the current priority
-     *
-     * @param {string} priority - the selected prio by clicking
-     */
-  function selectTaskPrio(priority) {
+/**
+* This function determines the clicked prio of the current task, removes the class 'white',
+* and sets the overall variable 'prio' to the current priority
+*
+* @param {string} priority - the selected prio by clicking
+*/
+function selectTaskPrio(priority) {
     initializeButtons();
     const currentPriorityButton = document.getElementById(prio);
     if (currentPriorityButton) {
@@ -288,7 +330,7 @@ async function emptyFields() {
 /**
  * Funtion to check the requiered fields and mark them
  * 
- * @todo kürzen
+ * 
  * 
  */
 function checkRequieredFields() {
@@ -324,7 +366,7 @@ function checkRequieredFields() {
 /**
  * This functions resests all error messages by making them invisible
  * 
- * @todo kürzen
+ * 
  *
  */
 function resetRequiredFields() {
@@ -434,13 +476,3 @@ function delInput() {
     document.getElementById('inputsubtask').style.display = 'none';
     document.getElementById('addSubtask').style.display = 'flex';
 }
-
-
-// nur für Testzwecke wenn man mal einen Task löschen will
-async function delTask(i) {
-    tasks.splice(i, 1);
-    await setItem('tasks', JSON.stringify(tasks));
-    reload();
-}
-
-
