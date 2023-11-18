@@ -50,10 +50,12 @@ textarea {
 }
 
 .search {
+    height: 65px;
+    padding-right: 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 12px 24px;
+    /*padding: 12px 24px;*/
     border: 1px solid #A8A8A8;
     border-radius: 10px;
     background-color: #FFFFFF;
@@ -66,7 +68,6 @@ textarea {
     font-weight: 400;
     font-size: 16px;
     cursor: pointer;
-    border-right: 1px solid #D1D1D1;
     outline: none;
 }
 
@@ -94,6 +95,10 @@ textarea {
     border-radius: 10px;
     font-size: 24px;
     cursor: pointer;
+}
+
+.buttonAddTask:hover {
+    background: #28abe2;
 }
 
 .boardContent {
@@ -134,6 +139,33 @@ textarea {
     background: unset;
 }
 
+.moreusers {
+    color: white !important;
+    border: 2px solid white !important;
+    background-color: grey !important;
+}
+
+.arrow-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 18px 10px;
+    gap: 10px;
+    width: 50px;
+    height: 50px;
+    color: white;
+    background: #2A3647;
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.arrow-buttons:disabled {
+    background: lightgray;
+}
+
 .progressStatus {
     font-weight: 700;
     font-size: 21px;
@@ -143,7 +175,7 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 50vh;
+    height: 420px;
     margin-top: 20px;
     gap: 15px;
     overflow-y: auto;
@@ -156,6 +188,7 @@ textarea {
     cursor: pointer;
     position: relative;
     box-sizing: border-box;
+    height: 300px;
     width: calc(100% - 2px);
 }
 
@@ -169,6 +202,7 @@ textarea {
     border-radius: 10px;
     border: 1px dashed #A8A8A8;
     background-color: #E7E7E7;
+    text-align: center;
 }
 
 .rotated {
@@ -209,6 +243,7 @@ textarea {
 
 .todoDescription {
     color: #a8a8a8;
+    height: 20px;
 }
 
 .progress {
@@ -216,6 +251,7 @@ textarea {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 45px;
 }
 
 .progress-container {
@@ -232,6 +268,10 @@ textarea {
     color: white;
     background-color: #4589FF;
     border-radius: 10px;
+}
+
+.progress-bar-empty {
+    height: 10px;
 }
 
 .subtask-container {
@@ -279,6 +319,22 @@ textarea {
     display: inline-block;
 }
 
+.close-btn:hover {
+    background-color: #28abe2;
+    border-radius: 50%;
+    color: #ffffff;
+    content: url(../assets/img/close-white.svg);
+}
+
+.searchImg:hover {
+    content: url(../assets/img/search_blue.svg);
+}
+
+.buttonpopup:hover {
+    background-color: lightgrey;
+    border-radius: 10px;
+}
+
 .popup-info-container {
     display: flex;
     flex-direction: column;
@@ -291,12 +347,14 @@ textarea {
 .popup-info-container h2 {
     font-size: 61px;
     margin: 0;
+    word-wrap: break-word;
 }
 
 
 #popupDescription {
     font-size: 20px;
     margin: 0;
+    word-wrap: break-word;
 }
 
 .container-popup {
@@ -310,7 +368,6 @@ textarea {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin-left: 232px;
 }
 
 .d-flex {
@@ -319,7 +376,7 @@ textarea {
 
 .td-left {
     color: #2A3647;
-    width: 150px;
+    /*width: 150px;*/
 }
 
 #subtask-container-table {
@@ -328,6 +385,7 @@ textarea {
 
 .table-style {
     font-size: 20px;
+    border-spacing: 0;
 }
 
 .subtask-popup-content {
@@ -338,7 +396,7 @@ textarea {
 }
 
 
-.checked {
+.checkedSub {
     background-image: url('../assets/img/checked.svg');
     background-size: cover;
     display: inline-block;
@@ -348,7 +406,12 @@ textarea {
     /* oder die gewünschte Größe */
 }
 
-.unchecked {
+.checkedSub:hover {
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+.uncheckedSub {
     background-image: url('../assets/img/unchecked.svg');
     background-size: cover;
     display: inline-block;
@@ -356,6 +419,11 @@ textarea {
     /* oder die gewünschte Größe */
     height: 24px;
     /* oder die gewünschte Größe */
+}
+
+.uncheckedSub:hover {
+    background-color: lightgray;
+    border-radius: 50%;
 }
 
 .table-style td {
@@ -368,15 +436,15 @@ textarea {
     z-index: 9999999;
 }
 
-.assignedToContainer {
+.assignedToContainerContacts {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
 .user-badge-board {
-    width: 42px;
-    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     border-radius: 50%;
     border: 2px solid #ffffff;
     color: #ffffff;
@@ -390,11 +458,7 @@ textarea {
     margin-right: 16px;
 }
 
-.assignedToUsers {
-    display: flex;
-    align-items: center;
-    padding: 7px 16px 7px 16px;
-}
+
 
 #assigned-table-div {
     display: flex;
@@ -498,7 +562,7 @@ button {
     width: 98%;
 }
 
-.selected {
+.selectedPrio {
     background-color: #007bff;
     /* Ändern Sie die Hervorhebungsfarbe nach Ihren Wünschen */
     color: white;
@@ -512,6 +576,20 @@ button {
     justify-content: space-between;
     margin-top: 8px;
     flex-direction: column;
+}
+
+
+.savedSubtasks {
+    font-size: 16px;
+    line-height: 1.4em;
+    display: block !important;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    transition: 0.5s ease;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: unset !important;
 }
 
 .savedSubtasks input {
@@ -570,6 +648,11 @@ button {
     border-radius: 10px;
 }
 
+
+.editimages {
+    cursor: pointer;
+}
+
 .plus-image {
     padding: 1px;
     margin-right: 24px;
@@ -587,6 +670,11 @@ button {
     position: relative;
     border: unset;
     background-color: unset;
+}
+
+.addSubtaskButtons img:hover {
+    background-color: lightgray;
+    border-radius: 50%;
 }
 
 .extra-margin {
@@ -677,17 +765,20 @@ button {
     flex-direction: column;
 }
 
+.popup-buttons {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+}
+
 .Contactchecked {
-    background-color: var(--bg-button);
     border-radius: 10px;
 }
 
-.Contactchecked:hover {
-    background-color: var(--bg-hover);
-}
 
 #showAssignedContacts {
     display: flex;
+    padding: unset !important;
 }
 
 .custom-select {
@@ -702,4 +793,186 @@ button {
 .inputContainer {
     display: flex;
     flex-direction: column;
+}
+
+.mobileHeadlineRight {
+    display: none;
+}
+
+.searchMobile {
+    display: none;
+    position: relative;
+}
+
+.mobile {
+    width: 100%;
+}
+
+
+.add-button {
+    cursor: pointer;
+}
+
+.add-button:hover {
+    content: url('../assets/img/add-blue.svg');
+}
+
+.assignedToUsers {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 7px 0;
+}
+
+.todo-arrows {
+    align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    display: none;
+}
+
+@media (max-width:1130px) {
+    .boardHeader {
+        flex-direction: column;
+    }
+
+    .boardHeadlineRight {
+        display: none;
+    }
+
+    .searchMobile {
+        display: flex;
+        width: 100%;
+
+    }
+
+    .mobileHeadlineRight {
+        display: block;
+    }
+
+    .boardHeadlineLeft {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .buttonAddTask {
+        height: 40px;
+        width: 40px;
+    }
+
+    .buttonSearch {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+    }
+}
+
+@media (max-width:990px) {
+    .board {
+        padding: 0 16px;
+        margin-bottom: 80px;
+    }
+
+
+    .noTaskDiv {
+        width: 100%;
+    }
+
+    .content {
+        margin-left: 0px;
+    }
+
+    .boardHeadlineLeft {
+        width: 100%;
+    }
+
+    .boardContent {
+        flex-direction: column;
+    }
+
+    .statusContainer {
+        flex-direction: row;
+    }
+
+    .progressContainer {
+        width: 100%;
+    }
+
+    .progressContainerStatusHead {
+        width: 100%;
+    }
+
+    .todo {
+        min-width: 252px;
+        max-width: 252px;
+        min-height: 350px;
+        max-height: 350px;
+    }
+
+    .todo-arrows {
+        display: flex;
+    }
+
+    .container-popup {
+        margin-left: 0px;
+    }
+
+    .todo {
+        min-height: 400px;
+    }
+
+
+}
+
+@media(max-width:620px) {
+    .popup-content {
+        width: 96%;
+        height: 98%;
+        padding: 16px;
+        border: unset;
+        border-radius: unset;
+    }
+
+    #assigned-table-div {
+        width: unset;
+    }
+
+
+
+    .d-flex {
+        padding-top: 24px;
+        padding-left: 24px;
+    }
+
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .button-container button {
+        width: 100% !important;
+    }
+
+    .buttonContainer {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+    }
+
+    #newSubtaskInput {
+        width: 90%;
+    }
+
+    .inputSubtaskContainer {
+        width: 90%;
+    }
+
+    .savedSubtasks input {
+        width: 90%;
+    }
+
 }

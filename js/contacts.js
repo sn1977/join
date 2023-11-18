@@ -34,16 +34,36 @@ function sortContactsByName() {
 
 async function newContact() {
     initializeContactElements();
+    console.log('nameOfContact:', contactNameElem.value);
+    console.log('emailOfContact:', contactEmailElem.value);
+    console.log('telOfContact:', contactPhoneElem.value);
 
-    contacts.push({
+    // Neuen Kontakt erstellen
+    let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
-    });
+    };
+
+    // Kontakt zur Liste hinzufügen
+    contacts.push(newContact);
+
+    // Speichern des aktualisierten Arrays im Remote-Speicher
     await setItem('contacts', JSON.stringify(contacts));
+
+    // Aktualisieren und Anzeigen der Kontakte
+    updateContactPool();
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
+
+    // Finden Sie den Index des neuen Kontakts
+    let newIndex = contacts.findIndex(contact => contact.nameOfContact === newContact.nameOfContact);
+
+    // Anzeigen der Details für den neuen Kontakt
+    showContactDetails(newIndex);
+
+    // Overlay für den neu erstellten Kontakt anzeigen
     overlayContactCreated();
 }
 
@@ -83,10 +103,6 @@ function renderContacts() {
                 </svg>
             </div>`;
 
-        // groupedContacts[firstLetter].forEach((name) => {
-        //     const originalIndex = nameOfContact.indexOf(name);
-        //     allContacts.innerHTML += showContact(name, originalIndex);
-        // });
         groupedContacts[firstLetter].forEach((contact) => {
             const index = contacts.indexOf(contact);
             allContacts.innerHTML += showContact(contact.nameOfContact, index);
@@ -110,23 +126,6 @@ function getInitials(name) {
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
-
-
-// function showContact(name, index) {
-//     const initials = getInitials(name);
-//     const color = getColorByIndex(index);
-//
-//     return `
-//         <div class="contact-name contact-hover" id="contactNameBox${index}" onclick="showContactDetails(${index})">
-//             <div class="profile-badge contact-hover" id="profileBadge${index}">
-//                 <div class="group9" style="background-color: ${color};">${initials}</div> <!-- Verwendung der Initialen -->
-//                 <div class="frame81">
-//                     <span class="contactName">${name}</span>
-//                     <span class="contactEmail">${emailOfContact[index]}</span>
-//                 </div>
-//             </div>
-//         </div>`;
-// }
 
 function showContact(name, index) {
     const contact = contacts[index];
@@ -160,6 +159,8 @@ function showContactDetails(i) {
         }
     }
 
+    renderContacts();
+
     let contactBox = document.getElementById(`contactNameBox${i}`);
     let innerContactBox = document.getElementById(`profileBadge${i}`);
     let contactName = document.querySelector(`#contactNameBox${i} .contactName`);
@@ -177,6 +178,7 @@ function showContactDetails(i) {
 
     // Manuelles Auslösen eines resize Events
     window.dispatchEvent(new Event('resize'));
+
 }
 
 
@@ -236,11 +238,6 @@ function displayWindows() {
                 });
             }
         }
-
-        // back.addEventListener('click', () => {
-        //     resetStyles(contactMobile);
-        //     resetStyles(back);
-        // });
     } else {
         if (contactsHeader) resetStyles(contactsHeader);
         if (floatingContact) resetStyles(floatingContact);
@@ -259,6 +256,7 @@ function overlayAddContact() {
     }, 50);
 
     addContact();
+    attachSubmitListener();
 }
 
 function closeOverlayAddContact() {
@@ -270,27 +268,32 @@ function overlayContactCreated() {
     overlayCreatedContact.id = 'overlayCreatedContact';
     document.body.appendChild(overlayCreatedContact);
 
+    // Erste Bewegung: Overlay in die Ansicht bringen
     setTimeout(() => {
-        overlayCreatedContact.style.transform = 'translateY(-250%) translateX(50%)';
+        if (window.innerWidth <= 990) {
+            overlayCreatedContact.style.top = '70%'; // Endposition am oberen Rand
+        } else if (window.innerWidth <= 1250) {
+            overlayCreatedContact.style.left = '650px'; // Für mittelgroße Bildschirme
+        } else {
+            overlayCreatedContact.style.left = '743px'; // Standardbewegung
+        }
     }, 50);
+
+    // Zweite Bewegung: Overlay zurückbewegen
+    // setTimeout(() => {
+    //     overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+    // }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
+    setTimeout(() => {
+        if (window.innerWidth <= 990) {
+            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
+            overlayCreatedContact.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+        } else {
+            overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+        }
+    }, 3050);
 
     addOverlayCreatedContact();
 }
-
-// async function deleteContact(index) {
-//     if (index >= 0 && index < nameOfContact.length) {
-//         removeContactFromArray(nameOfContact[index])
-//         // Lokale Arrays aktualisieren
-//         nameOfContact.splice(index, 1);
-//         emailOfContact.splice(index, 1);
-//         telOfContact.splice(index, 1);
-//
-//         // Die Arrays zurück in den Remote-Speicher speichern
-//         await pushBackArrays();
-//         renderContacts();
-//         hideFloatingContact();
-//     }
-// }
 
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
@@ -309,9 +312,7 @@ async function deleteContact(index) {
 
 async function pushBackArrays() {
     try {
-        await setItem('nameOfContact', nameOfContact);
-        await setItem('emailOfContact', emailOfContact);
-        await setItem('telOfContact', telOfContact);
+        await setItem('contacts', JSON.stringify(contacts));
     } catch (error) {
         console.error("Error updating remote storage:", error);
     }
@@ -340,9 +341,9 @@ function editContact(index) {
     overlayEditContact(contacts[index].nameOfContact, index);
 
     // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
-    document.getElementById('contactName').value = nameOfContact[index];
-    document.getElementById('contactEmail').value = emailOfContact[index];
-    document.getElementById('contactPhone').value = telOfContact[index];
+    document.getElementById('contactName').value = contacts[index].nameOfContact;
+    document.getElementById('contactEmail').value = contacts[index].emailOfContact;
+    document.getElementById('contactPhone').value = contacts[index].telOfContact;
 }
 
 function changeBorderColor(inputElement) {
@@ -362,9 +363,9 @@ async function saveEditedContact(index) {
     const newPhone = document.getElementById('contactPhone').value;
 
     // Die Werte in den Arrays aktualisieren
-    nameOfContact[index] = newName;
-    emailOfContact[index] = newEmail;
-    telOfContact[index] = newPhone;
+    contacts[index].nameOfContact = newName;
+    contacts[index].emailOfContact = newEmail;
+    contacts[index].telOfContact = newPhone;
 
     // Die aktualisierten Arrays zurück in den Remote-Speicher speichern
     await pushBackArrays();
@@ -372,7 +373,7 @@ async function saveEditedContact(index) {
     // Das Overlay schließen und die Kontaktliste aktualisieren
     closeOverlayAddContact();
     renderContacts();
-    showContactDetails();
+    showContactDetails(index);
 }
 
 function loadInitialsHeader() {
@@ -381,4 +382,28 @@ function loadInitialsHeader() {
     let initials = getInitials(userInitials);
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
+
+function attachSubmitListener() {
+    const submitButton = document.getElementById('mySubmitButton');
+    const form = document.getElementById('myForm');
+
+    console.log('attachSubmitListener aufgerufen', { submitButton, form });
+
+    if (submitButton && form) {
+        console.log('Event Listener wird hinzugefügt');
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Verhindert die Standard-Formularübermittlung
+            console.log('Submit-Button geklickt, überprüfe Validität');
+            if (form.checkValidity() && form.reportValidity()) {
+                console.log('Formular ist gültig, wird eingereicht');
+                form.submit(); // Reicht das Formular ein, wenn es gültig ist
+            } else {
+                console.log('Formular ist ungültig');
+            }
+        });
+    } else {
+        console.error('Formular oder Button nicht im DOM gefunden');
+    }
+}
+
 

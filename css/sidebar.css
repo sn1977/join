@@ -15,6 +15,7 @@ body {
     z-index: 10;
     flex-direction: column;
     justify-content: center;
+
 }
 
 .contentSidebar {
@@ -24,6 +25,7 @@ body {
     justify-content: space-between;
     height: 90%;
     gap: 90px;
+    font-size: 16px;
 }
 
 .sidebarNavigation {
@@ -68,6 +70,7 @@ body {
 
     .sidebarNavigation {
         flex-direction: unset;
+        justify-content: center;
     }
 
     .white-logo {
@@ -82,7 +85,7 @@ body {
 @media (max-width: 650px) {
     .sidebarbuttons {
         flex-direction: column;
-      }
+    }
 
     .sidebarbuttons:hover {
         background: #091931;
@@ -98,7 +101,7 @@ body {
         margin-left: 0;
         margin-right: 0;
         margin-top: 16px;
-       }
+    }
 
     p {
         margin-top: 8px;

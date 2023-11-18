@@ -9,15 +9,23 @@ document.addEventListener('click', function (event) {
     const assignedToContainer = document.getElementById('assignedToContainer');
     const assignedToInput = document.getElementById('assignedTo');
 
-    // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet
-    if (
-        event.target !== assignedToContainer &&
-        event.target !== assignedToInput &&
-        !assignedToContainer.contains(event.target)
-    ) {
-        assignedToContainer.classList.add('d-none');
+    if (assignedToContainer) {
+        // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet
+        if (
+            event.target !== assignedToContainer &&
+            event.target !== assignedToInput &&
+            !assignedToContainer.contains(event.target)
+        ) {
+            assignedToContainer.classList.add('d-none');
+        }
     }
 });
+
+
+// filter assignedTo
+const assignedToInput = document.getElementById('assignedTo');
+assignedToInput.addEventListener('input', filterContacts);
+
 
 
 
@@ -25,9 +33,10 @@ document.addEventListener('click', function (event) {
 document.getElementById("category").selectedIndex = 0;
 
 
-//focus subtask Input field change border colour
-const subtaskInputX = document.getElementById("subtask");
-const subtaskContainer = document.querySelector(".subtaskContainer");
+
+/* //focus subtask Input field change border colour
+let subtaskInputX = document.getElementById("subtask");
+let subtaskContainer = document.querySelector(".subtaskContainer");
 
 subtaskInputX.addEventListener("focus", () => {
     subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
@@ -38,11 +47,36 @@ subtaskInputX.addEventListener("blur", () => {
 });
 
 // filter assignedTo
-const assignedToInput = document.getElementById('assignedTo');
+var assignedToInput = document.getElementById('assignedTo');
 assignedToInput.addEventListener('input', filterContacts);
 
 
-document.addEventListener('click', function (event) {
+// Funktion zum Hinzufügen des Event-Listeners
+function addClickEventListener() {
+    clickEventListener = function (event) {
+        const assignedToInput = document.getElementById('assignedTo');
+        const assignedToContainer = document.getElementById('assignedToContainer');
+
+        // Prüfe, ob der Klick außerhalb des Eingabefelds und der Auswahlliste liegt
+        if (event.target !== assignedToInput && event.target !== assignedToContainer) {
+            // Schließe die Auswahlliste
+            assignedToContainer.classList.add('d-none');
+        }
+    };
+
+    document.addEventListener('click', clickEventListener);
+}
+
+
+// Funktion zum Entfernen des Event-Listeners
+function removeClickEventListener() {
+    if (clickEventListener) {
+        document.removeEventListener('click', clickEventListener);
+    }
+}
+
+
+/* document.addEventListener('click', function (event) {
     const assignedToInput = document.getElementById('assignedTo');
     const assignedToContainer = document.getElementById('assignedToContainer');
 
@@ -54,7 +88,7 @@ document.addEventListener('click', function (event) {
 });
 
 
-//datepicker and min date = today for dueDate -- bei overlay über function initialize Datepicker()
+//datepicker and min date = today for dueDate
 $(document).ready(function () {
     // Aktuelles Datum abrufen
     var currentDate = new Date();
@@ -78,4 +112,4 @@ $(document).ready(function () {
             warningDueDate.addClass("invisible");
         }
     });
-});
+});*/

@@ -1,11 +1,5 @@
 body {
     font-family: 'Inter', sans-serif;
-    font-size: 21px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-    color: #2A3647;
-    scroll-behavior: smooth;
     box-sizing: border-box;
     margin: 0;    
 }
@@ -22,6 +16,12 @@ a {
     margin-left: 232px;
     overflow-y: auto;
     background-color: #F6F7F8;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    color: #2A3647;
+    scroll-behavior: smooth;
 }
 
 
@@ -34,8 +34,15 @@ a {
     padding-left: 84px;
 }
 
+.hideOnWideScreen {
+    display: block;
+}
 
-h1 {
+.showOnSmallScreen {
+    display: none;
+}
+
+.headlineSummary h1 {
     color: #000;
     font-size: 61px;
     font-weight: 700;
@@ -308,6 +315,7 @@ h1 {
         justify-content: center;
         align-items: center;
         height: calc(100vh - 240px);
+        margin-left: 16px;
     }
 
     .content {
@@ -341,6 +349,36 @@ h1 {
 
     .content {
         padding-left: 8px;
+    }
+
+    .right {
+        width: 100%;
+    }
+
+    .headlineSummary h1 {
+        font-size: 47px;
+    }
+
+    .headlineSummary {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        height: 240px;
+      /*  margin-top: 32px; */
+        padding-left: 16px;
+    }
+
+    .hideOnWideScreen {
+        display: none;
+    }
+
+    .showOnSmallScreen {
+        display: block;
+    }
+
+    .spanHeadline {
+        font-size: 20px;
     }
 }
 

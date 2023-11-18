@@ -1,14 +1,40 @@
+
+let subtaskInputX;
+let subtaskContainer;
+let subtaskInputFocusListener = () => { };
+let subtaskInputBlurListener = () => { };
+
+
+function addSubtaskEventListeners() {
+    subtaskInputX = document.getElementById("subtask");
+    subtaskContainer = document.querySelector(".subtaskContainer");
+
+    subtaskInputFocusListener = () => {
+        subtaskContainer.style.borderColor = "#29ABE2";
+    };
+
+    subtaskInputBlurListener = () => {
+        subtaskContainer.style.borderColor = "#D1D1D1";
+    };
+
+    subtaskInputX.addEventListener("focus", subtaskInputFocusListener);
+    subtaskInputX.addEventListener("blur", subtaskInputBlurListener);
+}
+
+
+function removeSubtaskEventListeners() {
+    subtaskInputX.removeEventListener("focus", subtaskInputFocusListener);
+    subtaskInputX.removeEventListener("blur", subtaskInputBlurListener);
+}
+
+
 function overlayAddTask(progressBoard) {
     const overlay = document.createElement('div');
     overlay.id = 'taskContent';
     document.body.appendChild(overlay);
     addTaskOverlay(progressBoard);
-}
-
-function closeOverlay () {
     addSubtaskEventListeners();
 }
-
 
 // Funktion zum Entfernen des Event Listeners
 function removeEventListenerFromAssignedToContainer() {
@@ -33,6 +59,13 @@ function removeEventListenerFromAssignedToContainer() {
 // Funktion zum Schließen des Overlays und Entfernen des Skripts
 function closeOverlay() {
     document.getElementById('taskContent').innerHTML = '';
+    const script = document.querySelector('script[src="../js/special_add_task.js"]');
+    if (script) {
+        script.remove();
+        removeEventListenerFromAssignedToContainer();
+        removeClickEventListener(); // Entferne den Event Listener
+        removeSubtaskEventListeners()
+    }
 }
 
 
@@ -100,7 +133,7 @@ function addTaskOverlay(progressBoard) {
                     </div>
 
                     <div class="inputContainer">
-                        <label>Prio</label>
+                        Prio
                         <div class="button-container" id="prio">
                             <button class="white" id="urgent" onclick="taskPrio('urgent')" type="button">Urgent<img
                                     src="../assets/img/urgent.svg" alt=""></button>
@@ -146,8 +179,8 @@ function addTaskOverlay(progressBoard) {
             <div class="footAreaOverlay">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel <img src="../assets/img/cancel.svg"></button>
-                    <button class="activeBtn" onclick="addTask('${progressBoard}')">Create Task <img src="../assets/img/check.svg"   
+                    <button class="cancelBtn" onclick="reload(), closeOverlay()">Cancel <img src="../assets/img/cancel.svg"></button>
+                    <button class="activeBtn" onclick="addTaskBoard('${progressBoard}')">Create Task <img src="../assets/img/check.svg"   
                             alt=""></button>
                 </div>
             </div>
@@ -166,4 +199,26 @@ function loadExternalScript() {
     document.body.appendChild(script);
     initTask();
     initializeDatepicker();
+}
+
+
+async function addTaskBoard(progress) {
+    getInputIDs();
+    checkRequieredFields();
+    if (canAdd) {
+        getLastID();
+        getTaskValues(progress);
+        await setItem('tasks', JSON.stringify(tasks));
+        emptyFields();
+        generateSubtaskHtml();
+
+        overlaySuccessAddTask();
+        if (lastPrio != '') {
+            resetPrio();
+        }
+
+        closeOverlay();
+    } else {
+    }
+    await initboard();
 }

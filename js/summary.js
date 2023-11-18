@@ -25,34 +25,13 @@ async function loadAllSummaryTasks() {
 }
 
 
+/**
+ * 
+ * 
+ * 
+ */
 async function tasksCount() {   
-/*     let urgentTodoCount = 0;  // prüfen was ich mir hier gedacht habe ???
     tasksOnBoard = summarytasks.length;
-    for (let i = 0; i < summarytasks.length; i++) {
-        const item = summarytasks[i].progress;
-        const itemprio = summarytasks[i].prio;
-
-        if (item === 'todo'){
-            todo++
-        }
-        if (item === 'done'){
-            done++
-        }
-        if (item === 'inprogress'){
-            inprogress++;
-        }
-        if (item === 'awaitfeedback'){   
-            feedback++;
-        }
-        if (itemprio === 'urgent' && item !=="done"){
-            urgent++;
-        }
-    } */
-
-  
-
-    tasksOnBoard = summarytasks.length;
-
     summarytasks.forEach(task => {
         const { progress, prio } = task;
         if (progress === 'todo') todo++;
@@ -61,13 +40,10 @@ async function tasksCount() {
         if (progress === 'awaitfeedback') feedback++;
         if (prio === 'urgent' && progress !== 'done') urgent++;
     });
-
-
-
     let date = getNextDate();
     upcomingHtml (date);
     summaryHtml ();
-    greetByTime();
+    greetingHtml();
 }
 
 
@@ -85,9 +61,10 @@ function getNextDate() {
             const [day, month, year] = element.dueDate.split("/");
             const reformattedDate = `${month}/${day}/${year}`;
             const taskDueDate = new Date(reformattedDate);
-
-            if (!isNaN(taskDueDate.getTime()) && taskDueDate > today && (!nextDate || taskDueDate < nextDate)) {
+            console.log(element.progress, element.id, element.dueDate);
+            if (!isNaN(taskDueDate.getTime()) && (taskDueDate >= today || taskDueDate.getDate() === today.getDate()) && (!nextDate || taskDueDate < nextDate)) {
                 nextDate = taskDueDate;
+                console.log(nextDate);
             }
         }
     });
@@ -196,21 +173,33 @@ function summaryHtml (){
     `;
 }
 
+
 function greetByTime() {
     const currentHour = new Date().getHours();
     let greeting = '';
 
     if (currentHour >= 5 && currentHour < 12) {
-        greeting = "Good morning,";
+        greeting = "Good morning";
       } else if (currentHour >= 12 && currentHour < 18) {
-        greeting = "Good afternoon,";
+        greeting = "Good afternoon";
       } else {
-        greeting = "Good evening,";
-      }
+        greeting = "Good evening";
+      } 
+      return greeting;
+}
 
-     
-    let greetingToHtml = document.getElementById('greeting');
-    greetingToHtml.innerHTML = `
-        <h3>${greeting}</h3>
-    `;
-  }
+
+function greetingHtml() {
+    let greeting = greetByTime();
+    let name = localStorage.getItem('userInitials');
+    let greetHtml = document.getElementById("greetingHtml");
+
+    if (!name || name === 'G') {
+        greetHtml.innerHTML = `<h3>${greeting}!</h3>`;
+    } else {
+        greetHtml.innerHTML = `
+            <h3>${greeting},</h3>
+            <h2>${name}</h2>
+        `;
+    }
+}

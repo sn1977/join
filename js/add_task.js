@@ -107,8 +107,7 @@ async function addTask(progress) {
     if (canAdd) {
         getLastID();
         getTaskValues(progress);
-        await setItem('tasks', JSON.stringify(tasks));
-        overlaySuccessAddTask();
+        await setItem('tasks', JSON.stringify(tasks));      
         emptyFields();
         generateSubtaskHtml();
     } else {

@@ -4,7 +4,11 @@ const STORAGE_URL = 'https://remote-storage.developerakademie.org/item';
 async function setItem(key, value) {
     const payload = {key, value, token: STORAGE_TOKEN};
     return fetch(STORAGE_URL, {method: 'POST', body: JSON.stringify(payload)})
-        .then(res => res.json());
+        .then(res => res.json())
+        .then(data => {
+            console.log('Response from setItem:', data);
+            return data;
+        });
 }
 
 async function getItem(key) {
@@ -13,7 +17,8 @@ async function getItem(key) {
         // Verbesserter code
         if (res.data) {
             return res.data.value;
-        } throw `Could not find data with key "${key}".`;
+        }
+        throw `Could not find data with key "${key}".`;
     });
 }
 

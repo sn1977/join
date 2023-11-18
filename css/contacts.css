@@ -400,6 +400,8 @@ h1 {
     background-color: transparent; /* Beispielhintergrund, anpassen nach Bedarf */
     transition: right 9s ease-out; /* Transitionseffekt für die "right"-Eigenschaft mit einer Dauer von 9 Sekunden */
     z-index: 1000; /* Stellt sicher, dass es über anderen Inhalten liegt */
+    justify-content: center;
+    display: flex;
 }
 
 .capa2 {
@@ -460,7 +462,7 @@ h1 {
     width: 380px;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
+    gap: 130px;
 }
 
 .text-field {
@@ -609,24 +611,23 @@ h1 {
     line-height: 120%; /* 24px */
 }
 
-@keyframes slideInFromRight {
-    0% {
-        transform: translateX(100%);
-    }
-    50% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
-}
+/*@keyframes slideInOut {*/
+/*    0%, 100% {*/
+/*        left: 100%; !* Startet und endet außerhalb des rechten Bildschirmrandes *!*/
+/*    }*/
+/*    50% {*/
+/*        left: 50%; !* Bewegt sich zur Mitte des Bildschirms *!*/
+/*    }*/
+/*}*/
 
 #overlayCreatedContact {
-    /* Andere Stile, die Sie bereits definiert haben könnten */
-    position: fixed;
-    right: 0;
-    bottom: 20%; /* oder wo auch immer Sie es vertikal positionieren möchten */
-    animation: slideInFromRight 5s forwards; /* 5s ist die gesamte Dauer der Animation */
+    position: fixed; /* oder 'absolute', je nach Bedarf */
+    left: 100%; /* Startet außerhalb des rechten Bildschirmrandes */
+    top: 80%; /* oder einen anderen Wert, je nach Bedarf */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
+    transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
+    /* Weitere Stile für Ihr Overlay */
+    animation: slideInOut 5s ease-in-out; /* Wenden Sie die Animation an */
 }
 
 #scrollBar {
@@ -701,7 +702,7 @@ h1 {
         gap: 24px;
     }
 
-    .frame79 {
+    .frame79, .frame79_2 {
         width: 80px;
         height: 80px;
         font-size: 24px;
@@ -719,14 +720,85 @@ h1 {
         width: 250px;
     }
 
-}
+    #overlayAddContact {
+        max-width: 80%;
+    }
 
-@media (max-width: 1110px) {
-    .frame81 {
-        inline-size: 160px;
-        overflow-wrap: break-word;
+    .overlay-addContact {
+        max-width: 80%;
+    }
+
+    .frame194 {
+        max-width: 20%;
+    }
+
+    .spanHeader {
+        font-size: 40px;
+    }
+
+    .spanText {
+        font-size: 20px;
+    }
+
+    .add-contact-text {
+        width: 50%;
+    }
+
+    .frame14 {
+        width: 78%;
+    }
+
+    .frame27 {
+        left: 46%;
+    }
+
+    .capa2 {
+        display: none;
+    }
+
+    .overlay-contact {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .group13 {
+        right: 55%;
+        top: 40%;
+    }
+
+    .frame79, .frame79_2 {
+        width: 100px;
+        height: 100px;
+    }
+
+    .close {
+        left: 85%;
+    }
+
+    .person-icon {
+        left: 20px;
+        top: 20px;
+    }
+
+    .frame157 {
+        gap: 90px;
     }
 }
+
+/*@media (max-width: 1150px) {*/
+/*    @keyframes slideInFromRight {*/
+/*        0% {*/
+/*            transform: translateX(100%);*/
+/*        }*/
+/*        50% {*/
+/*            transform: translateX(-30%);*/
+/*        }*/
+/*        100% {*/
+/*            transform: translateX(100%);*/
+/*        }*/
+/*    }*/
+/*}*/
 
 @media (max-width: 990px) {
     .frame97 {
@@ -743,22 +815,139 @@ h1 {
         display: none;
     }
 
+    #newContact {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 120px;
+        right: 20px;
+    }
+
+    .new-contact, .close {
+        display: none;
+    }
+
+    .overlay-addContact {
+        rotate: 90deg;
+        min-width: 90%;
+        width: 1000px;
+    }
+
+    .frame209 {
+        rotate: -90deg;
+    }
+
+    .add-contact-text {
+        top: 210px;
+        right: 19%;
+        align-items: center;
+    }
+
+    #overlayAddContact {
+        width: 60%;
+    }
+
+    .frame27 {
+        top: 500px;
+        left: 35%;
+    }
+
+    #frame27 {
+        top: 500px;
+        left: 38%;
+        flex-direction: column;
+    }
+
+    .create-btn-text, .cancel-btn-text {
+        display: unset;
+    }
+
+    .create-contact {
+        height: 16px;
+    }
+
+    .cancel-contact {
+        height: 14px;
+    }
+
+    .group13 {
+        top: 77px;
+        right: 43%;
+        display: unset;
+    }
+
+    .frame14 {
+        width: 60%;
+    }
+
+    .frame157 {
+        gap: 16px;
+    }
+
+    #overlayCreatedContact {
+        left: 50%; /* Horizontale Zentrierung im Viewport */
+        top: 100%; /* Startet außerhalb des unteren Bildschirmrandes */
+        transform: translateX(-50%); /* Zentriert das Overlay horizontal */
+        transition: top 1s ease; /* Animiert nun die 'top'-Eigenschaft */
+    }
+}
+
+@media (max-width: 700px) {
+    .overlay-addContact {
+        height: 500px;
+    }
+
+    .group13 {
+        top: 24px;
+    }
 }
 
 @media (max-width: 550px) {
     .frame40 h1 {
-               font-size: 40px;
+        font-size: 40px;
     }
 
     .spanContacts {
         font-size: 20px;
     }
+
+    .overlay-addContact {
+        height: 390px;
+        width: 900px;
+    }
+
+    .group13 {
+        top: -7px;
+    }
+
+    .frame79_2 {
+        width: 80px;
+        height: 80px;
+        top: 16px;
+        position: absolute;
+    }
+
+    .person-icon {
+        width: 48px;
+        height: 48px;
+        left: 16px;
+        top: 16px;
+    }
+
+    #frame27 {
+        top: 430px;
+    }
+
+    .add-contact-text {
+        top: 160px;
+    }
 }
 
 @media (max-width: 405px) {
-    /*svg {*/
-    /*    width: 300px;*/
-    /*}*/
     .frame119 {
         width: 300px;
     }
@@ -781,5 +970,57 @@ h1 {
 
     .icon-edit {
         height: 16px;
+    }
+
+    .overlay-addContact {
+        height: 310px;
+        width: 800px;
+    }
+
+    .frame79, .frame79_2 {
+        width: 80px;
+        height: 80px;
+    }
+
+    .group13 {
+        right: 40%;
+    }
+
+    .add-contact-text {
+        right: 16%;
+        top: 130px;
+    }
+
+    .text-field {
+        font-size: 16px;
+    }
+
+    .frame27 {
+        top: 380px;
+        left: 33%;
+    }
+
+    .cancel-btn-text, .create-btn-text {
+        font-size: 16px;
+    }
+
+    .create-contact {
+        height: 12px;
+    }
+
+    .cancel-contact {
+        height: 10px
+    }
+
+    .frame14 {
+        width: 56%;
+    }
+
+    #frame27 {
+        top: 375px;
+    }
+
+    .frame157 {
+        gap: 30px;
     }
 }

@@ -761,14 +761,14 @@ select:focus,
 @media (max-width: 450px) {
 
     .formAddTask {
-        width: calc(100vw - 8px );
+        width: calc(100vw - 16px );
     }
 
 
     .addTask {
         margin-left: 0;
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
     }
 
     .button-container button {
