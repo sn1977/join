@@ -462,7 +462,7 @@ h1 {
     width: 380px;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
+    gap: 130px;
 }
 
 .text-field {
@@ -780,21 +780,25 @@ h1 {
         left: 20px;
         top: 20px;
     }
-}
 
-@media (max-width: 1150px) {
-    @keyframes slideInFromRight {
-        0% {
-            transform: translateX(100%);
-        }
-        50% {
-            transform: translateX(-30%);
-        }
-        100% {
-            transform: translateX(100%);
-        }
+    .frame157 {
+        gap: 90px;
     }
 }
+
+/*@media (max-width: 1150px) {*/
+/*    @keyframes slideInFromRight {*/
+/*        0% {*/
+/*            transform: translateX(100%);*/
+/*        }*/
+/*        50% {*/
+/*            transform: translateX(-30%);*/
+/*        }*/
+/*        100% {*/
+/*            transform: translateX(100%);*/
+/*        }*/
+/*    }*/
+/*}*/
 
 @media (max-width: 990px) {
     .frame97 {
@@ -878,6 +882,17 @@ h1 {
 
     .frame14 {
         width: 60%;
+    }
+
+    .frame157 {
+        gap: 16px;
+    }
+
+    #overlayCreatedContact {
+        left: 50%; /* Horizontale Zentrierung im Viewport */
+        top: 100%; /* Startet außerhalb des unteren Bildschirmrandes */
+        transform: translateX(-50%); /* Zentriert das Overlay horizontal */
+        transition: top 1s ease; /* Animiert nun die 'top'-Eigenschaft */
     }
 }
 
@@ -1003,5 +1018,9 @@ h1 {
 
     #frame27 {
         top: 375px;
+    }
+
+    .frame157 {
+        gap: 30px;
     }
 }

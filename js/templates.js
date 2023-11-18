@@ -279,7 +279,7 @@ function returnContactName() {
         <div class="add-contact-field">
             <div class="frame14" id="frame14">
                 <div class="frame157">
-                    <input required type="text" class="text-field" placeholder="Name" id="contactName" oninput="changeBorderColor(this)">
+                    <input required type="text" class="text-field" minlength="4" placeholder="Name" id="contactName" oninput="changeBorderColor(this)">
                     <img src="../assets/img/person.png">
                 </div>
             </div>
@@ -292,7 +292,7 @@ function returnContactEmail() {
         <div class="add-contact-field">
             <div class="frame14">
                 <div class="frame157">
-                    <input required type="email" class="text-field" placeholder="Email" id="contactEmail" oninput="changeBorderColor(this)">
+                    <input required type="email" minlength="6" class="text-field" placeholder="Email" id="contactEmail" oninput="changeBorderColor(this)">
                     <img src="../assets/img/mail.png">
                 </div>
             </div>
@@ -306,7 +306,7 @@ function returnContactPhone() {
         <div class="add-contact-field">
             <div class="frame14">
                 <div class="frame157">
-                    <input required type="tel" class="text-field" placeholder="Phone" id="contactPhone" oninput="changeBorderColor(this)">
+                    <input required type="tel" minlength="4"class="text-field" placeholder="Phone" id="contactPhone" oninput="changeBorderColor(this)">
                     <img src="../assets/img/call.png">
                 </div>
             </div>

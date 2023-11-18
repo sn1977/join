@@ -1,7 +1,7 @@
 let contacts = [
-    // {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
-    // {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
-    // {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
+    {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
+    {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
+    {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
 ]
 
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
@@ -34,6 +34,9 @@ function sortContactsByName() {
 
 async function newContact() {
     initializeContactElements();
+    console.log('nameOfContact:', contactNameElem.value);
+    console.log('emailOfContact:', contactEmailElem.value);
+    console.log('telOfContact:', contactPhoneElem.value);
 
     // Neuen Kontakt erstellen
     let newContact = {
@@ -267,13 +270,27 @@ function overlayContactCreated() {
 
     // Erste Bewegung: Overlay in die Ansicht bringen
     setTimeout(() => {
-        overlayCreatedContact.style.left = '60%'; // Bewegt das Overlay nach links
+        if (window.innerWidth <= 990) {
+            overlayCreatedContact.style.top = '70%'; // Endposition am oberen Rand
+        } else if (window.innerWidth <= 1250) {
+            overlayCreatedContact.style.left = '650px'; // Für mittelgroße Bildschirme
+        } else {
+            overlayCreatedContact.style.left = '743px'; // Standardbewegung
+        }
     }, 50);
 
     // Zweite Bewegung: Overlay zurückbewegen
+    // setTimeout(() => {
+    //     overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+    // }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
     setTimeout(() => {
-        overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
-    }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
+        if (window.innerWidth <= 990) {
+            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
+            overlayCreatedContact.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+        } else {
+            overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+        }
+    }, 3050);
 
     addOverlayCreatedContact();
 }
