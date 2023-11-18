@@ -197,13 +197,13 @@ function addContact() {
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
-        <div class="overlay-contact">
+        <form class="overlay-contact" onsubmit="addContactBtn()">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
             ${contactCircle} 
             ${closeIcon}
-        </div>
+        </form>
     `;
 }
 
@@ -264,13 +264,13 @@ function addContactText() {
     const contactPhone = returnContactPhone();
 
     return `
-        <form id="myForm">
+<!--        <form id="myForm">-->
             <div class=add-contact-text>
                 ${contactName}  
                 ${contactEmail}      
                 ${contactPhone}
             </div>
-        </form>
+<!--        </form>-->
     `;
 }
 

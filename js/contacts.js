@@ -269,7 +269,7 @@ function overlayAddContact() {
     }, 50);
 
     addContact();
-    attachSubmitListener();
+    // attachSubmitListener();
 }
 
 function closeOverlayAddContact() {
@@ -389,27 +389,27 @@ function loadInitialsHeader() {
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
 
-function attachSubmitListener() {
-    const submitButton = document.getElementById('mySubmitButton');
-    const form = document.getElementById('myForm');
-
-    console.log('attachSubmitListener aufgerufen', { submitButton, form });
-
-    if (submitButton && form) {
-        console.log('Event Listener wird hinzugefügt');
-        submitButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Verhindert die Standard-Formularübermittlung
-            console.log('Submit-Button geklickt, überprüfe Validität');
-            if (form.checkValidity() && form.reportValidity()) {
-                console.log('Formular ist gültig, wird eingereicht');
-                form.submit(); // Reicht das Formular ein, wenn es gültig ist
-            } else {
-                console.log('Formular ist ungültig');
-            }
-        });
-    } else {
-        console.error('Formular oder Button nicht im DOM gefunden');
-    }
-}
+// function attachSubmitListener() {
+//     const submitButton = document.getElementById('mySubmitButton');
+//     const form = document.getElementById('myForm');
+//
+//     console.log('attachSubmitListener aufgerufen', { submitButton, form });
+//
+//     if (submitButton && form) {
+//         console.log('Event Listener wird hinzugefügt');
+//         submitButton.addEventListener('click', function(event) {
+//             event.preventDefault(); // Verhindert die Standard-Formularübermittlung
+//             console.log('Submit-Button geklickt, überprüfe Validität');
+//             if (form.checkValidity() && form.reportValidity()) {
+//                 console.log('Formular ist gültig, wird eingereicht');
+//                 form.submit(); // Reicht das Formular ein, wenn es gültig ist
+//             } else {
+//                 console.log('Formular ist ungültig');
+//             }
+//         });
+//     } else {
+//         console.error('Formular oder Button nicht im DOM gefunden');
+//     }
+// }
 
 
