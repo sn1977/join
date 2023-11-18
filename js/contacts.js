@@ -1,87 +1,110 @@
-let contacts = []
+/**
+ * An array to store contact information.
+ * @type {Array<Object>}
+ */
+let contacts = [];
 
+/**
+ * Color codes for UI styling.
+ * @type {Array<string>}
+ */
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
 
-let contactNameElem;
-let contactEmailElem;
-let contactPhoneElem;
+/**
+ * DOM elements for contact form fields.
+ */
+let contactNameElem, contactEmailElem, contactPhoneElem;
+
+/**
+ * The currently selected index in the contact array.
+ * @type {?number}
+ */
 let currentSelectedIndex = null;
+
+/**
+ * Indicates whether contact details are being shown.
+ * @type {boolean}
+ */
 let isContactDetailsShown = false;
 
-
+/**
+ * Initializes the global variables for form elements.
+ */
 function initializeContactElements() {
     contactNameElem = document.getElementById('contactName');
     contactEmailElem = document.getElementById('contactEmail');
     contactPhoneElem = document.getElementById('contactPhone');
 }
 
+/**
+ * Initializes the contact list by loading existing contacts and displaying them.
+ */
 async function initContact() {
     await loadContacts();
     await cleanUpContacts();
     renderContacts();
 }
 
+/**
+* Loads the contact list from remote storage.
+*/
 async function loadContacts() {
-    contacts = JSON.parse(await getItem('contacts')) || contacts;
+    contacts = JSON.parse(await getItem('contacts'));
 }
 
+/**
+ * Removes invalid or incomplete contacts from the contact list and resaves it.
+ */
 async function cleanUpContacts() {
-    // Entfernen von Kontakten ohne erforderliche Informationen
-    contacts = contacts.filter(contact => {
-        return contact.nameOfContact && contact.emailOfContact && contact.telOfContact;
-    });
-
-    // Speichern des bereinigten Arrays im Remote-Speicher
+    contacts = contacts.filter(contact => contact.nameOfContact && contact.emailOfContact && contact.telOfContact);
     await setItem('contacts', JSON.stringify(contacts));
-
-    // Aktualisieren der angezeigten Kontaktliste
     renderContacts();
 }
 
+/**
+ * Sorts the contact list alphabetically by name.
+ */
 function sortContactsByName() {
     contacts.sort((a, b) => a.nameOfContact.localeCompare(b.nameOfContact));
 }
 
+/**
+ * Creates a new contact based on form fields and adds it to the contact list.
+ */
 async function newContact() {
     initializeContactElements();
-    console.log('nameOfContact:', contactNameElem.value);
-    console.log('emailOfContact:', contactEmailElem.value);
-    console.log('telOfContact:', contactPhoneElem.value);
 
-    // Neuen Kontakt erstellen
     let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
     };
 
-    // Kontakt zur Liste hinzufügen
     contacts.push(newContact);
-
-    // Speichern des aktualisierten Arrays im Remote-Speicher
     await setItem('contacts', JSON.stringify(contacts));
 
-    // Aktualisieren und Anzeigen der Kontakte
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
 
-    // Finden Sie den Index des neuen Kontakts
     let newIndex = contacts.findIndex(contact => contact.nameOfContact === newContact.nameOfContact);
-
-    // Anzeigen der Details für den neuen Kontakt
     showContactDetails(newIndex);
-
-    // Overlay für den neu erstellten Kontakt anzeigen
     overlayContactCreated();
 }
 
+/**
+ * Resets the values of the contact form fields.
+ */
 function resetContactField() {
     contactNameElem.value = '';
     contactEmailElem.value = '';
     contactPhoneElem.value = '';
 }
 
+/**
+ * Groups contacts by the first letter of their names.
+ * @return {Object} An object with keys as first letters and values as arrays of contacts.
+ */
 function groupContactsByFirstLetter() {
     sortContactsByName();
     return contacts.reduce((groups, contact) => {
@@ -94,6 +117,9 @@ function groupContactsByFirstLetter() {
     }, {});
 }
 
+/**
+ * Renders the contacts in the UI.
+ */
 function renderContacts() {
     let allContacts = document.getElementById('allContacts');
     allContacts.innerHTML = '';
@@ -119,6 +145,11 @@ function renderContacts() {
     }
 }
 
+/**
+ * Gets the initials from a full name.
+ * @param {string} name - The full name of the contact.
+ * @return {string} The initials of the name.
+ */
 function getInitials(name) {
     let words = name.split(' ');
     let initials = "";
@@ -132,10 +163,21 @@ function getInitials(name) {
     return initials.toUpperCase();
 }
 
+/**
+ * Gets a color based on an index.
+ * @param {number} index - The index to determine the color.
+ * @return {string} A hex color code.
+ */
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
 
+/**
+ * Shows the contact information.
+ * @param {string} name - The name of the contact.
+ * @param {number} index - The index of the contact in the contacts array.
+ * @return {string} HTML string representing the contact.
+ */
 function showContact(name, index) {
     const contact = contacts[index];
     const initials = getInitials(contact.nameOfContact);
@@ -153,7 +195,10 @@ function showContact(name, index) {
         </div>`;
 }
 
-
+/**
+ * Displays the details of a specific contact.
+ * @param {number} i - The index of the contact in the contacts array.
+ */
 function showContactDetails(i) {
     // Wenn bereits ein Kontakt ausgewählt wurde, werden dessen Stile zurück
     if (currentSelectedIndex !== null) {
