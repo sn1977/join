@@ -21,11 +21,25 @@ function initializeContactElements() {
 
 async function initContact() {
     await loadContacts();
+    // await cleanUpContacts();
     renderContacts();
 }
 
 async function loadContacts() {
     contacts = JSON.parse(await getItem('contacts')) || contacts;
+}
+
+async function cleanUpContacts() {
+    // Entfernen von Kontakten ohne erforderliche Informationen
+    contacts = contacts.filter(contact => {
+        return contact.nameOfContact && contact.emailOfContact && contact.telOfContact;
+    });
+
+    // Speichern des bereinigten Arrays im Remote-Speicher
+    await setItem('contacts', JSON.stringify(contacts));
+
+    // Aktualisieren der angezeigten Kontaktliste
+    renderContacts();
 }
 
 function sortContactsByName() {
@@ -52,7 +66,6 @@ async function newContact() {
     await setItem('contacts', JSON.stringify(contacts));
 
     // Aktualisieren und Anzeigen der Kontakte
-    updateContactPool();
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
@@ -279,10 +292,6 @@ function overlayContactCreated() {
         }
     }, 50);
 
-    // Zweite Bewegung: Overlay zurückbewegen
-    // setTimeout(() => {
-    //     overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
-    // }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
     setTimeout(() => {
         if (window.innerWidth <= 990) {
             // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten

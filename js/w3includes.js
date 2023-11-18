@@ -1,6 +1,5 @@
 async function loadIncludeHTML() {
     await includeHTML();
-    initContact();
     loadInitialsHeader();
 }
 
