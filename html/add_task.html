@@ -26,6 +26,9 @@
     <script src="../js/w3includes.js"></script>
     <script src="../js/storage.js"></script>
     <script src="../js/templates.js"></script>
+    <script src="../js/add_category.js"></script>
+    <script src="../js/task_contacts.js"></script>
+    <script src="../js/shared_contact_functions.js"></script>
 </head>
 
 <body onload="loadIncludeHTML(), initTask(), addTaskLoadContacts()">
@@ -56,9 +59,9 @@
 
                     <div class="inputContainer">
                         <label for="assignedTo">Assigned to</label>
-                        <input class="custom-select"  onclick="toggleContacts(), filterContacts()"
-                            id="assignedTo" type="text" placeholder="Select contacts to assign">
-                        <div class="d-none assignedToContainer" id="assignedToContainer">                          
+                        <input class="custom-select" onclick="toggleContacts(), filterContacts()" id="assignedTo"
+                            type="text" placeholder="Select contacts to assign">
+                        <div class="d-none assignedToContainer" id="assignedToContainer">
                         </div>
                     </div>
 
@@ -78,35 +81,47 @@
                         </div>
                     </div>
 
+
                     <div class="inputContainer">
                         <label>Prio</label>
                         <div class="button-container" id="prio">
-                            <button class="white" id="urgent" onclick="taskPrio('urgent')" type="button">Urgent<img
+                            <button class="${prio === 'urgent' ? 'urgent' : 'white'}" id="urgent"
+                                onclick="selectTaskPrio('urgent')" type="button">Urgent<img
                                     src="../assets/img/urgent.svg" alt=""></button>
-                            <button class="white" id="medium" onclick="taskPrio('medium')" type="button">Medium<img
+                            <button class="${prio === 'medium' ? 'medium' : 'white'}" id="medium"
+                                onclick="selectTaskPrio('medium')" type="button">Medium<img
                                     src="../assets/img/medium.svg" alt=""></button>
-                            <button class="white" id="low" onclick="taskPrio('low')" type="button">Low<img
-                                    src="../assets/img/low.svg" alt=""></button>
+                            <button class="${prio === 'low' ? 'low' : 'white'}" id="low" onclick="selectTaskPrio('low')"
+                                type="button">Low<img src="../assets/img/low.svg" alt=""></button>
                         </div>
                     </div>
 
+
+
                     <div class="inputContainer">
                         <label class="required" for="category">Category</label>
-                        <select class="custom-select" id="category" name="category" required>
-                            <option value="" disabled selected hidden>Select task category</option>
-                            <option value="Technical Task">Technical Task</option>
-                            <option value="User Story">User Story</option>
-                        </select>
+                        <div>
+                            <select class="custom-select" onfocus="updateCategorySelect()" id="category" name="category"
+                                onchange="handleCategoryChange()" required>
+                                <option value="" disabled selected hidden>Select task category</option>
+                            </select>
+                            <div id="inputCategory" class="inputField subtaskContainer d-none">
+                                <input type="text" id="newCategory" placeholder="Type..." value="">
+                                <img src="../assets/img/close.svg" onclick="clearInput()">
+                                <div>|</div>
+                                <img src="../assets/img/check-black.svg" onclick="addCategory()">
+                            </div>
+                        </div>
                         <div class="warning">
-                            <span id="warningcategory" class="invisible">This field is requiered</span>
+                            <span id="warningcategory" class="invisible">This field is required</span>
                         </div>
                     </div>
+
 
                     <div class="inputContainer">
                         <label for="subtask">Subtask</label>
                         <div class="inputField subtaskContainer">
                             <input type="text" id="subtask" placeholder="Add new subtask" onfocus="switchToInput()">
-                            <!-- onblur="switchBack()" -->
                             <div id="addSubtask">
                                 <img src="../assets/img/add.svg" onclick="switchToInput()">
                             </div>
@@ -126,20 +141,19 @@
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel 
-                        <img src="../assets/img/cancel.svg">                      
+                    <button class="cancelBtn" onclick="reload()">Cancel
+                        <img src="../assets/img/cancel.svg">
                     </button>
                     <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
                             alt=""></button>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
-    <script src="../js/contacts.js"></script>
     <script src="../js/add_task.js"></script>
-    <script src="../js/special_add_task.js"></script>
+    <script src="../js/events_add_ task.js"></script>
 </body>
 
 </html>

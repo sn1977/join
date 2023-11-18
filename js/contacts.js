@@ -1,7 +1,7 @@
 let contacts = [
-    {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
-    {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
-    {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
+    { nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456' },
+    { nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456' },
+    { nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951' },
 ]
 
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
@@ -51,8 +51,9 @@ async function newContact() {
     // Speichern des aktualisierten Arrays im Remote-Speicher
     await setItem('contacts', JSON.stringify(contacts));
 
-    // Aktualisieren und Anzeigen der Kontakte
-    updateContactPool();
+    // Aktualisieren und Anzeigen der Kontakte basierend auf dem Aufrufer
+
+    // Code für den Aufruf von einer anderen Seite
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
@@ -66,6 +67,7 @@ async function newContact() {
     // Overlay für den neu erstellten Kontakt anzeigen
     overlayContactCreated();
 }
+
 
 function resetContactField() {
     contactNameElem.value = '';
@@ -297,6 +299,9 @@ function overlayContactCreated() {
 
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
+        // Kontakt erst aus allen Aufgabe entfernen
+        /*       let contactName = contacts[index].nameOfContact;     
+              removeContactFromArray(contactName); */
         // Kontakt aus dem Array entfernen
         contacts.splice(index, 1);
 
@@ -388,7 +393,7 @@ function attachSubmitListener() {
 
     if (submitButton && form) {
         console.log('Event Listener wird hinzugefügt');
-        submitButton.addEventListener('click', function(event) {
+        submitButton.addEventListener('click', function (event) {
             event.preventDefault(); // Verhindert die Standard-Formularübermittlung
             console.log('Submit-Button geklickt, überprüfe Validität');
             if (form.checkValidity() && form.reportValidity()) {
