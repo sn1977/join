@@ -197,7 +197,7 @@ function addContact() {
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
-        <form class="overlay-contact" onsubmit="addContactBtn()">
+        <form class="overlay-contact" onsubmit="newContact(); return false;">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
@@ -215,13 +215,13 @@ function editCreatedContact(name, index) {
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
-        <div class="overlay-contact">
+        <form class="overlay-contact" onsubmit="saveEditedContact(currentSelectedIndex)">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
             ${contactCircle} 
             ${closeIcon}
-        </div>
+        </form>
     `;
 }
 
@@ -264,13 +264,11 @@ function addContactText() {
     const contactPhone = returnContactPhone();
 
     return `
-<!--        <form id="myForm">-->
-            <div class=add-contact-text>
-                ${contactName}  
-                ${contactEmail}      
-                ${contactPhone}
-            </div>
-<!--        </form>-->
+        <div class=add-contact-text>
+            ${contactName}  
+            ${contactEmail}      
+            ${contactPhone}
+        </div>
     `;
 }
 

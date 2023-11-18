@@ -1,8 +1,4 @@
-let contacts = [
-    {nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456'},
-    {nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456'},
-    {nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951'},
-]
+let contacts = []
 
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
 
@@ -21,7 +17,7 @@ function initializeContactElements() {
 
 async function initContact() {
     await loadContacts();
-    // await cleanUpContacts();
+    await cleanUpContacts();
     renderContacts();
 }
 
