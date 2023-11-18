@@ -14,10 +14,10 @@ let boardNames = [
 ];
 const progressStages = ['todo', 'inprogress', 'awaitfeedback', 'done'];
 
-
 let todos = [];
 let contactpoolBoard = [];
 let allContactsBoard = [];
+let categoryColors = ['#20D7C2', '#0000ff', '#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF']
 
 
 /**
@@ -26,6 +26,7 @@ let allContactsBoard = [];
 async function initboard() {
     await loadAllTasksFromRemote();
     await loadContacts();
+    await loadCategories();
     renderBoard();
     updateHTML();
     addTaskLoadContactsBoard();
@@ -47,6 +48,16 @@ async function loadAllTasksFromRemote() {
     } catch (error) {
         console.error('Fehler beim Herunterladen der Daten von Remote:', error);
     }
+}
+
+/**
+ * funtion to load all categories from remote server
+ * 
+ *@param {array} categories -all tasks
+ * 
+ */
+async function loadCategories() {
+    categoryArray = JSON.parse(await getItem('categories')) || categoryArray;
 }
 
 /**
@@ -226,6 +237,9 @@ function stopDragging(id) {
  * @returns {string} HTML content for the given task.
  */
 function generateHTML(element) {
+    const categoryIndex = categoryArray.indexOf(element['category']);
+    const categoryColor = getColorByIndexBoard(categoryIndex);
+
     const categoryClass = element['category'] === 'User Story' ? 'user-story' : 'technical-task';
     const abgeschlosseneTeilaufgaben = element.subtask ? element.subtask.filter(task => task.done).length : 0;
     const gesamteTeilaufgaben = element.subtask ? element.subtask.length : 0;
@@ -262,26 +276,26 @@ function generateHTML(element) {
     let upArrowDisabled = isTop ? 'disabled' : '';
     let downArrowDisabled = isBottom ? 'disabled' : '';
     return /*html*/ `
-      <div class="todo" 
-           draggable="true"
-           ondragstart="startDragging(${element['id']})"
-           ondragend="stopDragging(${element['id']})"
-           onclick="openPopup(${element['id']})">
-        <div class="todoContainer">
-          <div class="todoType ${categoryClass}">${element['category']}</div>
-          <div class="todoInfo">
-            <span class="todoTitle">${element['title']}</span>
-            <span class="todoDescription">${element['description']}</span>
-          </div>
-          ${progressHTML}
-          <div class="assignedToUsers">${zugewieseneBenutzerHTML}</div>
-          <div class="todo-arrows">
-              <button class="arrow-buttons" ${upArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'up')">↑</button>
-              <button class="arrow-buttons" ${downArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'down')">↓</button>
-          </div>
+    <div class="todo" 
+         draggable="true"
+         ondragstart="startDragging(${element['id']})"
+         ondragend="stopDragging(${element['id']})"
+         onclick="openPopup(${element['id']})">
+      <div class="todoContainer">
+        <div class="todoType" style="background-color:${categoryColor};">${element['category']}</div>
+        <div class="todoInfo">
+          <span class="todoTitle">${element['title']}</span>
+          <span class="todoDescription">${element['description']}</span>
+        </div>
+        ${progressHTML}
+        <div class="assignedToUsers">${zugewieseneBenutzerHTML}</div>
+        <div class="todo-arrows">
+            <button class="arrow-buttons" ${upArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'up')">↑</button>
+            <button class="arrow-buttons" ${downArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'down')">↓</button>
         </div>
       </div>
-    `;
+    </div>
+  `;
 }
 
 /**
@@ -358,4 +372,13 @@ async function moveTo(progress) {
  */
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
+}
+
+/**
+ * Gets a color based on an index.
+ * @param {number} index - The index to determine the color.
+ * @return {string} A hex color code.
+ */
+function getColorByIndexBoard(index) {
+    return categoryColors[index % categoryColors.length];
 }

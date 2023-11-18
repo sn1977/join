@@ -244,6 +244,11 @@ textarea {
 .todoDescription {
     color: #a8a8a8;
     height: 20px;
+    max-width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .progress {
