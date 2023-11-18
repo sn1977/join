@@ -41,14 +41,10 @@ async function newContact() {
         telOfContact: contactPhoneElem.value,
     });
     await setItem('contacts', JSON.stringify(contacts));
-
-    updateContactPool();
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
     overlayContactCreated();
-
-
 }
 
 function resetContactField() {
@@ -298,6 +294,9 @@ function overlayContactCreated() {
 
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
+        // Kontakt erst aus allen Aufgabe entfernen
+        let contactName = contacts[index].nameOfContact;     
+        removeContactFromArray(contactName);
         // Kontakt aus dem Array entfernen
         contacts.splice(index, 1);
 

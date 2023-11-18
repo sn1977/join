@@ -21,7 +21,7 @@ document.addEventListener('click', function (event) {
 
 
 
-// placeholder select category
+// placeholder select category 
 document.getElementById("category").selectedIndex = 0;
 
 
@@ -36,7 +36,6 @@ subtaskInputX.addEventListener("focus", () => {
 subtaskInputX.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
-
 
 // filter assignedTo
 const assignedToInput = document.getElementById('assignedTo');
@@ -55,7 +54,7 @@ document.addEventListener('click', function (event) {
 });
 
 
-//datepicker and min date = today for dueDate
+//datepicker and min date = today for dueDate -- bei overlay über function initialize Datepicker()
 $(document).ready(function () {
     // Aktuelles Datum abrufen
     var currentDate = new Date();

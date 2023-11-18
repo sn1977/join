@@ -6,6 +6,32 @@ function overlayAddTask(progressBoard) {
 }
 
 function closeOverlay () {
+    addSubtaskEventListeners();
+}
+
+
+// Funktion zum Entfernen des Event Listeners
+function removeEventListenerFromAssignedToContainer() {
+    const assignedToContainer = document.getElementById('assignedToContainer');
+    const assignedToInput = document.getElementById('assignedTo');
+
+    function clickHandler(event) {
+        if (
+            event.target !== assignedToContainer &&
+            event.target !== assignedToInput &&
+            !assignedToContainer.contains(event.target)
+        ) {
+            assignedToContainer.classList.add('d-none');
+        }
+    }
+
+    if (assignedToContainer) {
+        document.removeEventListener('click', clickHandler);
+    }
+}
+
+// Funktion zum Schließen des Overlays und Entfernen des Skripts
+function closeOverlay() {
     document.getElementById('taskContent').innerHTML = '';
 }
 
@@ -139,4 +165,5 @@ function loadExternalScript() {
     script.src = '../js/special_add_task.js';
     document.body.appendChild(script);
     initTask();
+    initializeDatepicker();
 }
