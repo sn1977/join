@@ -54,8 +54,6 @@ function setupSearchListener() {
     const searchField = document.getElementById('assignedTo');
     if (searchField) {
         searchField.addEventListener('input', filterContactsBoard);
-    } else {
-        console.log('Suchfeld nicht gefunden');
     }
 }
 
@@ -177,8 +175,6 @@ async function choseContactBoard(contactId) {
         allContactsBoard.push(tempContact);
         updateContactDisplay(contactId, true);
         showTaskContactsBoard();
-    } else {
-        console.log("Der Kontakt wurde schon ausgewählt oder existiert nicht.");
     }
 }
 

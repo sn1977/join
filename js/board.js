@@ -326,7 +326,6 @@ async function moveTask(taskId, direction) {
 function moveTaskUp(index) {
     if (index > 0) {
         [todos[index], todos[index - 1]] = [todos[index - 1], todos[index]];
-        console.log(`Task moved up: `, todos);
     }
 }
 
@@ -337,7 +336,6 @@ function moveTaskUp(index) {
 function moveTaskDown(index) {
     if (index < todos.length - 1) {
         [todos[index], todos[index + 1]] = [todos[index + 1], todos[index]];
-        console.log(`Task moved down: `, todos);
     }
 }
 
