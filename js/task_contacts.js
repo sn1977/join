@@ -12,6 +12,7 @@ let contactpool = [];
 let filteredContacts = [];
 
 
+
 /**
  * this function opens and closes the list of assignable names in the user's contacts
  * 
@@ -24,12 +25,13 @@ function toggleContacts() {
 
 
 /**
- * function
+ * function to load the contacts and push them in to an array
  * 
  * @todo
  * 
  */
-function addTaskLoadContacts() {
+async function addTaskLoadContacts() {
+    await loadContacts();
     contactpool = [];
     for (let i = 0; i < contacts.length; i++) {
         let tempInitialien = getInitials(contacts[i].nameOfContact);
@@ -106,37 +108,27 @@ function filterContacts() {
 }
 
 
-
 async function updateContactPool() {
-    if (x == 0) {
+    let i = contacts.length - 1;
+    let tempInitialien = getInitials(contacts[i].nameOfContact);
 
-    } else {
-        if (contactpool.length < contacts.length) {
+    let tempContactPool = {
+        'id': i,
+        'name': contacts[i].nameOfContact,
+        'color': getColorByIndex(i),
+        'initialien': tempInitialien,
+        'assigned': false
+    };
 
-            let i = contacts.length - 1;
-            let tempInitialien = getInitials(contacts[i].nameOfContact);
-            let tempContactPool = {
-                'id': i,
-                'name': contacts[i].nameOfContact,
-                'color': getColorByIndex(i),
-                'initialien': tempInitialien,
-                'assigned': false
-            }
-            contactpool.push(tempContactPool);
-            contactpool.sort((a, b) => a.name.localeCompare(b.name));
-            filterContacts(1);
-        }
-        contactpool.push(tempContactPool);
+    const isAssigned = allContacts.some(contact => contact.name === tempContactPool.name);
 
-        // contactpool.sort(SortArray);
-        contactpool.sort((a, b) => a.name.localeCompare(b.name));
-        filteredContacts();
+    if (isAssigned) {
+        tempContactPool.assigned = true;
     }
+    contactpool.push(tempContactPool);
+    contactpool.sort((a, b) => a.name.localeCompare(b.name));
+    filterContacts();
 }
-
-
-
-
 
 
 function updateIcons(filteredContacts) {
@@ -154,8 +146,8 @@ function updateIcons(filteredContacts) {
 
 
 function addTaskGetContacts() {
-    let contacts = document.getElementById('assignedToContainer');
-    contacts.innerHTML = `
+    let assignedcontacts = document.getElementById('assignedToContainer');
+    assignedcontacts.innerHTML = `
         <section id="assignedToContact">
             ${contactlistHtml(filteredContacts)}
         </section>
@@ -257,21 +249,27 @@ function changeMarkedContact(i) {
 }
 
 
-/*** functions copied from contact.js */
 
 
 
 
-async function newContactTask() {
+
+async function newContact() {
     initializeContactElements();
-    contacts.push({
+    console.log('nameOfContact:', contactNameElem.value);
+    console.log('emailOfContact:', contactEmailElem.value);
+    console.log('telOfContact:', contactPhoneElem.value);
+
+    // Neuen Kontakt erstellen
+    let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
-    });
+    };
+
+    contacts.push(newContact);
     await setItem('contacts', JSON.stringify(contacts));
-    resetContactField();
     closeOverlayAddContact();
-    // renderContacts();
     overlayContactCreated();
+    updateContactPool();
 }

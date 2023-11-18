@@ -27,7 +27,6 @@ let allSubtasks = [];
  */
 async function initTask() {
     await loadAllTasks();
-    await loadContacts();
     await loadCategories();
     initializeButtons();
     reload();
@@ -110,6 +109,8 @@ async function addTask(progress) {
         await setItem('tasks', JSON.stringify(tasks));      
         emptyFields();
         generateSubtaskHtml();
+        overlaySuccessAddTask();
+    
     } else {
     }
 }
@@ -122,12 +123,29 @@ async function addTask(progress) {
  * 
  */
 function overlaySuccessAddTask() {
+    const overlayContainer = document.createElement('div');
+    overlayContainer.style.display = 'flex';
+    overlayContainer.style.alignItems = 'center';
+    overlayContainer.style.justifyContent = 'center';
+    overlayContainer.style.height = '100vh'; // Vollständige Bildschirmhöhe
+    overlayContainer.style.position = 'fixed';
+    overlayContainer.style.top = '0';
+    overlayContainer.style.left = '0';
+    overlayContainer.style.width = '100%';
+
     const overlayAddTaskSuccess = document.createElement('div');
     overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
-    document.body.appendChild(overlayAddTaskSuccess);
+    overlayAddTaskSuccess.classList.add('success');
+    overlayContainer.appendChild(overlayAddTaskSuccess);
+    document.body.appendChild(overlayContainer);
 
     setTimeout(() => {
-        overlayAddTaskSuccess.style.transform = 'translateY(-250%) translateX(50%)';
+        overlayAddTaskSuccess.style.transform = 'translateY(-50%) translateX(-50%)';
+
+        // Nach weiteren 3 Sekunden auf eine andere Seite weiterleiten
+        setTimeout(() => {
+            window.location.href = 'board.html';
+        }, 3000);
     }, 50);
 
     addOverlayAddTaskSuccess();
@@ -142,16 +160,17 @@ function overlaySuccessAddTask() {
  */
 function addOverlayAddTaskSuccess() {
     document.getElementById('overlayAddTaskSuccess').innerHTML = `
-        <div class="success">
-            <span class="addtaskSuccess">Task successfully created</span>
-            <img src="../assets/img/iconboard.svg">
-        </div>
-    `;
-    setTimeout(() => {
-        const overlay = document.getElementById('overlayAddTaskSuccess');
-        if (overlay) overlay.remove();
-    }, 10000);
+    <div class="success">
+        <span class="addtaskSuccess">Task successfully created</span>
+        <img src="../assets/img/iconboard.svg" class="successIcon">
+    </div>
+`;
+setTimeout(() => {
+    const overlay = document.getElementById('overlayAddTaskSuccess');
+    if (overlay) overlay.remove();
+}, 10000);
 }
+
 
 
 /**
@@ -180,12 +199,12 @@ async function getLastID() {
  * Function to reset the form 
  * 
  */
-function reload() {
+async function reload() {
     getInputIDs();
     emptyFields();
     resetRequiredFields()
     getLastID();
-    addTaskLoadContacts();
+    await addTaskLoadContacts();
     initializeButtons();
     handleCategoryChange()
     allContacts = [];
@@ -244,19 +263,12 @@ function initializeButtons() {
 
 
 
-
-
-
-/* CONTACTS */
-
-
-
 /**
  * function to empty the input fields
  * 
  * 
  */
-function emptyFields() {
+async function emptyFields() {
     progress = '';
     title.value = '';
     description.value = '';
@@ -269,8 +281,7 @@ function emptyFields() {
     canAdd = true;
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
-    contactpool = [];
-    addTaskLoadContacts();
+    await addTaskLoadContacts();
 }
 
 
