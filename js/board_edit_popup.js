@@ -278,13 +278,12 @@ async function saveAllChanges(id) {
         const categorySelect = document.getElementById('category');
         const selectedCategory = categorySelect.value;
         todo.category = selectedCategory;
-        saveAllTasksToRemote();
+        await saveAllTasksToRemote();
         await loadAllTasksFromRemote();
         closeEditPopup(id);
         openPopup();
         updateHTML();
     }
-
 }
 
 /**
