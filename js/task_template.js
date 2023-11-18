@@ -198,6 +198,7 @@ function loadExternalScript() {
     script.src = '../js/special_add_task.js';
     document.body.appendChild(script);
     initTask();
+    initializeDatepicker();
 }
 
 
