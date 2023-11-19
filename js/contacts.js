@@ -124,24 +124,9 @@ function renderContacts() {
     let allContacts = document.getElementById('allContacts');
     allContacts.innerHTML = '';
 
-    // const groupedContacts = groupByFirstLetter(nameOfContact);
     const groupedContacts = groupContactsByFirstLetter();
-
     for (const firstLetter in groupedContacts) {
-        allContacts.innerHTML += `
-            <div class="frame112">
-                <span>${firstLetter}</span>
-            </div>
-            <div class="frame119">
-                <svg class="parting-line" fill="none" height="2" viewBox="0 0 354 2" width="354" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1H353" stroke="#D1D1D1" stroke-linecap="round"/>
-                </svg>
-            </div>`;
-
-        groupedContacts[firstLetter].forEach((contact) => {
-            const index = contacts.indexOf(contact);
-            allContacts.innerHTML += showContact(contact.nameOfContact, index);
-        });
+        allContacts.innerHTML += generateContactGroupHTML(firstLetter, groupedContacts[firstLetter]);
     }
 }
 
@@ -196,11 +181,9 @@ function showContact(name, index) {
 }
 
 /**
- * Displays the details of a specific contact.
- * @param {number} i - The index of the contact in the contacts array.
+ * Resets the styles of the previously selected contact.
  */
-function showContactDetails(i) {
-    // Wenn bereits ein Kontakt ausgewählt wurde, werden dessen Stile zurück
+function resetPreviousContactStyles() {
     if (currentSelectedIndex !== null) {
         const previousContactBox = document.getElementById(`contactNameBox${currentSelectedIndex}`);
         const previousInnerContactBox = document.getElementById(`profileBadge${currentSelectedIndex}`);
@@ -212,26 +195,45 @@ function showContactDetails(i) {
             previousContactName.style.color = '#000000';
         }
     }
+}
 
-    renderContacts();
-
-    let contactBox = document.getElementById(`contactNameBox${i}`);
-    let innerContactBox = document.getElementById(`profileBadge${i}`);
-    let contactName = document.querySelector(`#contactNameBox${i} .contactName`);
+/**
+ * Sets the styles for the currently selected contact.
+ * @param {number} index - The index of the selected contact.
+ */
+function setCurrentContactStyles(index) {
+    const contactBox = document.getElementById(`contactNameBox${index}`);
+    const innerContactBox = document.getElementById(`profileBadge${index}`);
+    const contactName = document.querySelector(`#contactNameBox${index} .contactName`);
 
     if (contactBox && innerContactBox && contactName) {
         contactBox.style.background = '#2A3647';
         innerContactBox.style.background = '#2A3647';
         contactName.style.color = '#ffffff';
     }
-    currentSelectedIndex = i;
-    displayWindows(i);
-    displayFloatingContactDetails(i);
+}
 
+/**
+ * Updates the UI to reflect the selection of a contact.
+ * @param {number} index - The index of the selected contact.
+ */
+function updateUIForSelectedContact(index) {
+    renderContacts();
+    setCurrentContactStyles(index);
+    displayWindows(index);
+    displayFloatingContactDetails(index);
     isContactDetailsShown = true;
+    window.dispatchEvent(new Event('resize')); // Manually trigger a resize event.
+}
 
-    // Manuelles Auslösen eines resize Events
-    window.dispatchEvent(new Event('resize'));
+/**
+ * Shows the details for a selected contact.
+ * @param {number} i - The index of the selected contact.
+ */
+function showContactDetails(i) {
+    resetPreviousContactStyles();
+    currentSelectedIndex = i;
+    updateUIForSelectedContact(i);
 }
 
 /**
@@ -259,16 +261,13 @@ function resetStyles(element) {
 }
 
 /**
- * Adjusts the layout and visibility of certain elements based on the window's width.
+ * Applies styles to the contacts header.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
  */
-function displayWindows() {
-    let contactsHeader = document.getElementById('frame40');
-    let floatingContact = document.getElementById('floatingContact');
-    let allRenderedContacts = document.getElementById('frame97');
-    let arrowLeft = document.getElementById('arrowLeft');
-
-    if (window.innerWidth <= 990) {
-        if (contactsHeader) {
+function styleContactsHeader(isSmallScreen) {
+    const contactsHeader = document.getElementById('frame40');
+    if (contactsHeader) {
+        if (isSmallScreen) {
             applyStyles(contactsHeader, {
                 display: 'inline-flex',
                 position: 'fixed',
@@ -277,8 +276,20 @@ function displayWindows() {
                 top: '96px',
                 justifyContent: 'center'
             });
+        } else {
+            resetStyles(contactsHeader);
         }
-        if (floatingContact) {
+    }
+}
+
+/**
+ * Applies styles to the floating contact element.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
+ */
+function styleFloatingContact(isSmallScreen) {
+    const floatingContact = document.getElementById('floatingContact');
+    if (floatingContact) {
+        if (isSmallScreen) {
             applyStyles(floatingContact, {
                 display: 'inline-flex',
                 flexDirection: 'column',
@@ -290,27 +301,42 @@ function displayWindows() {
                 position: 'absolute',
                 left: '50px'
             });
+        } else {
+            resetStyles(floatingContact);
         }
-        if (allRenderedContacts) {
-            if (isContactDetailsShown) {
-                applyStyles(allRenderedContacts, {
-                    display: 'none'
-                });
-                applyStyles(arrowLeft, {
-                    display: 'block'
-                });
-            } else {
-                applyStyles(allRenderedContacts, {
-                    display: 'inline-flex',
-                });
-            }
-        }
-    } else {
-        if (contactsHeader) resetStyles(contactsHeader);
-        if (floatingContact) resetStyles(floatingContact);
-        if (allRenderedContacts) resetStyles(allRenderedContacts);
-        if (arrowLeft) resetStyles(arrowLeft);
     }
+}
+
+/**
+ * Applies styles to all rendered contacts.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
+ */
+function styleAllRenderedContacts(isSmallScreen) {
+    const allRenderedContacts = document.getElementById('frame97');
+    const arrowLeft = document.getElementById('arrowLeft');
+    if (allRenderedContacts) {
+        if (isSmallScreen) {
+            if (isContactDetailsShown) {
+                applyStyles(allRenderedContacts, { display: 'none' });
+                applyStyles(arrowLeft, { display: 'block' });
+            } else {
+                applyStyles(allRenderedContacts, { display: 'inline-flex' });
+            }
+        } else {
+            resetStyles(allRenderedContacts);
+            resetStyles(arrowLeft);
+        }
+    }
+}
+
+/**
+ * Adjusts the window display based on screen size.
+ */
+function displayWindows() {
+    const isSmallScreen = window.innerWidth <= 990;
+    styleContactsHeader(isSmallScreen);
+    styleFloatingContact(isSmallScreen);
+    styleAllRenderedContacts(isSmallScreen);
 }
 
 /**
@@ -336,35 +362,56 @@ function closeOverlayAddContact() {
 }
 
 /**
- * Creates and displays a notification overlay when a contact is created.
+ * Creates and initializes the overlay for contact creation.
+ * @return {HTMLElement} The created overlay element.
  */
-function overlayContactCreated() {
-    const overlayCreatedContact = document.createElement('div');
-    overlayCreatedContact.id = 'overlayCreatedContact';
-    document.body.appendChild(overlayCreatedContact);
+function initializeOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'overlayCreatedContact';
+    document.body.appendChild(overlay);
+    return overlay;
+}
 
-    // Erste Bewegung: Overlay in die Ansicht bringen
+/**
+ * Moves the overlay into view based on screen width.
+ * @param {HTMLElement} overlay - The overlay element.
+ */
+function moveOverlayIntoView(overlay) {
     setTimeout(() => {
         if (window.innerWidth <= 990) {
-            overlayCreatedContact.style.top = '70%'; // Endposition am oberen Rand
+            overlay.style.top = '70%'; // Position for smaller screens
         } else if (window.innerWidth <= 1250) {
-            overlayCreatedContact.style.left = '650px'; // Für mittelgroße Bildschirme
+            overlay.style.left = '650px'; // Position for medium screens
         } else {
-            overlayCreatedContact.style.left = '743px'; // Standardbewegung
+            overlay.style.left = '743px'; // Default position
         }
     }, 50);
+}
 
+/**
+ * Moves the overlay out of view after a delay.
+ * @param {HTMLElement} overlay - The overlay element.
+ */
+function moveOverlayOutOfView(overlay) {
     setTimeout(() => {
         if (window.innerWidth <= 990) {
-            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
-            overlayCreatedContact.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+            overlay.style.top = '100%'; // Move down for smaller screens
         } else {
-            overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+            overlay.style.left = '100%'; // Move right for larger screens
         }
     }, 3050);
+}
 
+/**
+ * Creates and animates the overlay for contact creation.
+ */
+function overlayContactCreated() {
+    const overlay = initializeOverlay();
+    moveOverlayIntoView(overlay);
+    moveOverlayOutOfView(overlay);
     addOverlayCreatedContact();
 }
+
 
 /**
  * Deletes a contact from the contacts array and updates the display.

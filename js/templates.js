@@ -423,3 +423,28 @@ function addOverlayCreatedContact() {
         if (overlay) overlay.remove();
     }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
 }
+
+/**
+ * Generates HTML string for a group of contacts.
+ * @param {string} letter - The letter grouping the contacts.
+ * @param {Array<Object>} contactGroup - An array of contact objects.
+ * @return {string} HTML string representing the group of contacts.
+ */
+function generateContactGroupHTML(letter, contactGroup) {
+    let groupHTML = `
+        <div class="frame112">
+            <span>${letter}</span>
+        </div>
+        <div class="frame119">
+            <svg class="parting-line" fill="none" height="2" viewBox="0 0 354 2" width="354" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1H353" stroke="#D1D1D1" stroke-linecap="round"/>
+            </svg>
+        </div>`;
+
+    contactGroup.forEach((contact) => {
+        const index = contacts.indexOf(contact);
+        groupHTML += showContact(contact.nameOfContact, index);
+    });
+
+    return groupHTML;
+}
