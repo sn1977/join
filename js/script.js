@@ -93,10 +93,10 @@ function togglePasswordVisibility(inputId, toggleIconClass) {
     if (passwordInput && toggleIcon) {
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            toggleIcon.src = "../assets/img/visibility.png"; // Icon für sichtbares Passwort
+            toggleIcon.src = "../assets/img/visibility.png"; // Icon for visible password
         } else {
             passwordInput.type = "password";
-            toggleIcon.src = "../assets/img/visibility_off.png"; // Icon für unsichtbares Passwort
+            toggleIcon.src = "../assets/img/visibility_off.png"; // Icon for invisible password
         }
     }
 }
@@ -248,11 +248,11 @@ function comparePasswords(event) {
     let password = document.getElementById('password');
     let passwordControl = document.getElementById('password-signup');
     if (password.value === passwordControl.value) {
-        if (!checkExistingUser()) { // Wenn der Benutzer nicht existiert, fahren Sie fort
+        if (!checkExistingUser()) {
             overlaySuccess();
             register();
         } else {
-            document.getElementById('signUpEmail').style.border = '1px solid #FF001F'; // Hervorheben des E-Mail-Feldes, wenn ein Benutzer bereits existiert
+            document.getElementById('signUpEmail').style.border = '1px solid #FF001F';
         }
     } else {
         document.getElementById('signUPControl').style.border = '1px solid #FF001F';

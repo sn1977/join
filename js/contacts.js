@@ -419,10 +419,9 @@ function overlayContactCreated() {
  */
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
-        // Kontakt aus dem Array entfernen
+        // Remove contact from array
         contacts.splice(index, 1);
 
-        // Die Änderungen zurück in den Remote-Speicher speichern
         await setItem('contacts', JSON.stringify(contacts));
         renderContacts();
         hideFloatingContact();
@@ -471,10 +470,8 @@ function overlayEditContact(name, index) {
  * @param {number} index - The index of the contact to be edited.
  */
 function editContact(index) {
-    // Das overlayAddContact Overlay aufrufen
     overlayEditContact(contacts[index].nameOfContact, index);
 
-    // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = contacts[index].nameOfContact;
     document.getElementById('contactEmail').value = contacts[index].emailOfContact;
     document.getElementById('contactPhone').value = contacts[index].telOfContact;
@@ -488,9 +485,9 @@ function changeBorderColor(inputElement) {
     const frame14Element = inputElement.closest('.frame14');
 
     if (inputElement.value) {
-        frame14Element.style.borderColor = '#29ABE2';  // Ersetzt die 'desiredColor' durch die gewünschte Farbe
+        frame14Element.style.borderColor = '#29ABE2';
     } else {
-        frame14Element.style.borderColor = '';  // Setzt den Rahmen zurück auf die ursprüngliche Farbe
+        frame14Element.style.borderColor = '';
     }
 }
 
@@ -499,20 +496,16 @@ function changeBorderColor(inputElement) {
  * @param {number} index - The index of the contact being edited.
  */
 async function saveEditedContact(index) {
-    // Die aktuellen Werte aus den Eingabefeldern holen
     const newName = document.getElementById('contactName').value;
     const newEmail = document.getElementById('contactEmail').value;
     const newPhone = document.getElementById('contactPhone').value;
 
-    // Die Werte in den Arrays aktualisieren
     contacts[index].nameOfContact = newName;
     contacts[index].emailOfContact = newEmail;
     contacts[index].telOfContact = newPhone;
 
-    // Die aktualisierten Arrays zurück in den Remote-Speicher speichern
     await pushBackArrays();
 
-    // Das Overlay schließen und die Kontaktliste aktualisieren
     closeOverlayAddContact();
     renderContacts();
     showContactDetails(index);
@@ -523,7 +516,7 @@ async function saveEditedContact(index) {
  */
 function loadInitialsHeader() {
     let userInitials = localStorage.getItem('userInitials');
-    // Wenn der Benutzer gefunden wird, setzen Sie die Initialen
+    // If the user is found, put the initials
     let initials = getInitials(userInitials);
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
 }
