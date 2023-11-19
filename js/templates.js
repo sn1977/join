@@ -1,3 +1,6 @@
+/**
+ * Generates and displays the login template in the 'logInTemplate' HTML element.
+ */
 function logInTemplate() {
     let logInTemplate = document.getElementById('logInTemplate');
     logInTemplate.innerHTML = ` 
@@ -47,13 +50,9 @@ function logInTemplate() {
     		</div>`;
 }
 
-function emptyLogInTemplate() {
-    let logInTemplate = document.getElementById('logInTemplate');
-    logInTemplate.innerHTML = '';
-    document.querySelector('.frame156').style.visibility = 'hidden';
-}
-
-
+/**
+ * Generates and displays the sign-up template in the 'logInTemplate' HTML element.
+ */
 function signUpTemplate() {
     emptyLogInTemplate();
     let signUpTemplate = document.getElementById('logInTemplate');
@@ -126,6 +125,10 @@ function signUpTemplate() {
     `;
 }
 
+/**
+ * Displays the detailed view of a contact in a floating window.
+ * @param {number} index - Index of the contact in the contacts array.
+ */
 function displayFloatingContactDetails(index) {
     let floatingContact = document.getElementById('floatingContact');
     floatingContact.classList.remove('d-none');
@@ -135,7 +138,7 @@ function displayFloatingContactDetails(index) {
     let initials = contacts[index].nameOfContact.split(' ').map(word => word[0]).join('');
     const color = getColorByIndex(index);
     // Dynamisches HTML für den ausgewählten Kontakt erstellen
-    
+
     let contactDetailsHTML = `
         <div class="frame105">
             <div class="frame79" style="background-color: ${color};">${initials}</div>
@@ -189,6 +192,9 @@ function displayFloatingContactDetails(index) {
     }, 50); // Verzögerung von 50ms, um sicherzustellen, dass der Browser die Änderungen bemerkt
 }
 
+/**
+ * Constructs the HTML for the 'Add Contact' form and appends it to the overlay.
+ */
 function addContact() {
     const sideLayout = returnSideLayoutOfContact();
     const contactText = addContactText();
@@ -207,6 +213,11 @@ function addContact() {
     `;
 }
 
+/**
+ * Constructs the HTML for the 'Edit Contact' form and appends it to the overlay.
+ * @param {string} name - Name of the contact being edited.
+ * @param {number} index - Index of the contact in the contacts array.
+ */
 function editCreatedContact(name, index) {
     const sideLayout = returnSideLayoutOfEditContact();
     const contactText = addContactText();
@@ -225,6 +236,10 @@ function editCreatedContact(name, index) {
     `;
 }
 
+/**
+ * Returns the HTML side-layout for adding a contact.
+ * @return {string} HTML content.
+ */
 function returnSideLayoutOfContact() {
     return `
           <div class="overlay-addContact">
@@ -242,6 +257,10 @@ function returnSideLayoutOfContact() {
     `;
 }
 
+/**
+ * Returns the HTML side-layout for editing a contact.
+ * @return {string} HTML content.
+ */
 function returnSideLayoutOfEditContact() {
     return `
           <div class="overlay-addContact">
@@ -258,6 +277,10 @@ function returnSideLayoutOfEditContact() {
     `;
 }
 
+/**
+ * Constructs the HTML for the contact form fields.
+ * @return {string} HTML content for contact fields.
+ */
 function addContactText() {
     const contactName = returnContactName();
     const contactEmail = returnContactEmail();
@@ -272,6 +295,10 @@ function addContactText() {
     `;
 }
 
+/**
+ * Returns HTML for the contact name input field.
+ * @return {string} HTML content for contact name input field.
+ */
 function returnContactName() {
     return `
         <div class="add-contact-field">
@@ -285,6 +312,10 @@ function returnContactName() {
     `;
 }
 
+/**
+ * Returns HTML for the contact email input field.
+ * @return {string} HTML content for contact email input field.
+ */
 function returnContactEmail() {
     return `
         <div class="add-contact-field">
@@ -298,7 +329,10 @@ function returnContactEmail() {
     `;
 }
 
-
+/**
+ * Returns HTML for the contact phone input field.
+ * @return {string} HTML content for contact phone input field.
+ */
 function returnContactPhone() {
     return `
         <div class="add-contact-field">
@@ -312,6 +346,10 @@ function returnContactPhone() {
     `;
 }
 
+/**
+ * Constructs and returns the HTML for the contact form buttons.
+ * @return {string} HTML content for the contact form buttons.
+ */
 function addContactBtn() {
     const cancelBtn = returnCancelBtn();
     const createContactBtn = returnCreateContactBtn();
@@ -324,6 +362,10 @@ function addContactBtn() {
     `;
 }
 
+/**
+ * Constructs and returns the HTML for the edit contact form buttons.
+ * @return {string} HTML content for the edit contact form buttons.
+ */
 function addEditContactBtn() {
     const cancelBtn = returnCancelBtn();
     const saveContactBtn = returnSaveContactBtn();
@@ -336,6 +378,10 @@ function addEditContactBtn() {
     `;
 }
 
+/**
+ * Returns HTML for the cancel button.
+ * @return {string} HTML content for the cancel button.
+ */
 function returnCancelBtn() {
     return `
         <button class=cancel-contact onclick="closeOverlayAddContact()">
@@ -347,6 +393,10 @@ function returnCancelBtn() {
     `;
 }
 
+/**
+ * Returns HTML for the create contact button.
+ * @return {string} HTML content for the create contact button.
+ */
 function returnCreateContactBtn() {
     return `
         <button type="submit" class=create-contact id="mySubmitButton">
@@ -356,6 +406,10 @@ function returnCreateContactBtn() {
     `;
 }
 
+/**
+ * Returns HTML for the save contact button.
+ * @return {string} HTML content for the save contact button.
+ */
 function returnSaveContactBtn() {
     return `
         <btn type="submit" class=save-contact onclick="saveEditedContact(currentSelectedIndex)">
@@ -365,6 +419,10 @@ function returnSaveContactBtn() {
     `;
 }
 
+/**
+ * Constructs and returns the HTML for the contact profile circle.
+ * @return {string} HTML content for the contact profile circle.
+ */
 function addCircle() {
     const circle = returnCircle();
     return `
@@ -374,6 +432,12 @@ function addCircle() {
     `;
 }
 
+/**
+ * Constructs and returns the HTML for the edited contact profile circle.
+ * @param {string} name - The name of the contact.
+ * @param {number} index - The index of the contact in the contacts array.
+ * @return {string} HTML content for the edited contact profile circle.
+ */
 function addEditedCircle(name, index) {
     const circle = returnEditedCircle(name, index);
     return `
@@ -383,6 +447,10 @@ function addEditedCircle(name, index) {
     `;
 }
 
+/**
+ * Returns HTML for the default contact circle.
+ * @return {string} HTML content for the default contact circle.
+ */
 function returnCircle() {
     return `
         <div class=frame79_2>
@@ -394,6 +462,12 @@ function returnCircle() {
     `;
 }
 
+/**
+ * Returns HTML for the edited contact circle with initials and color.
+ * @param {string} name - The name of the contact.
+ * @param {number} index - The index of the contact in the contacts array.
+ * @return {string} HTML content for the edited contact circle.
+ */
 function returnEditedCircle(name, index) {
     const initials = getInitials(name);
     const color = getColorByIndex(index);
@@ -402,6 +476,10 @@ function returnEditedCircle(name, index) {
     `;
 }
 
+/**
+ * Returns HTML for the close icon in the overlay.
+ * @return {string} HTML content for the close icon.
+ */
 function addCloseIcon() {
     return `
         <div class="close" onclick="closeOverlayAddContact()">
@@ -410,6 +488,9 @@ function addCloseIcon() {
     `;
 }
 
+/**
+ * Adds a message indicating successful contact creation to the overlay.
+ */
 function addOverlayCreatedContact() {
     document.getElementById('overlayCreatedContact').innerHTML = `
         <div class="frame73">
