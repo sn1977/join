@@ -358,7 +358,7 @@ function returnCreateContactBtn() {
 
 function returnSaveContactBtn() {
     return `
-        <btn type="submit" class=create-contact onclick="saveEditedContact(currentSelectedIndex)">
+        <btn type="submit" class=save-contact onclick="saveEditedContact(currentSelectedIndex)">
             <span class="create-btn-text">Save</span>
             <img src="../assets/img/check.svg">
         </btn>

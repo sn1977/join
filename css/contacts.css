@@ -494,12 +494,13 @@ h1 {
 
 .cancel-contact {
     display: flex;
-    padding: 16px;
+    padding: 15px;
     justify-content: center;
     align-items: center;
     gap: 4px;
     border-radius: 10px;
     border: 1px solid #2A3647;
+    background: #ffffff;
 }
 
 .cancel-contact:hover {
@@ -533,9 +534,26 @@ h1 {
     gap: 4px;
     border-radius: 10px;
     background: #2A3647;
+    border: none;
 }
 
 .create-contact:hover {
+    cursor: pointer;
+    background-color: #29ABE2;
+}
+
+.save-contact {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    background: #2A3647;
+    border: none;
+}
+
+.save-contact:hover {
     cursor: pointer;
     background-color: #29ABE2;
 }
@@ -610,15 +628,6 @@ h1 {
     font-weight: 400;
     line-height: 120%; /* 24px */
 }
-
-/*@keyframes slideInOut {*/
-/*    0%, 100% {*/
-/*        left: 100%; !* Startet und endet außerhalb des rechten Bildschirmrandes *!*/
-/*    }*/
-/*    50% {*/
-/*        left: 50%; !* Bewegt sich zur Mitte des Bildschirms *!*/
-/*    }*/
-/*}*/
 
 #overlayCreatedContact {
     position: fixed; /* oder 'absolute', je nach Bedarf */
@@ -852,10 +861,17 @@ h1 {
 
     .create-contact {
         height: 16px;
+        padding: 24px;
+    }
+
+    .save-contact {
+        height: 16px;
+        padding: 16px;
     }
 
     .cancel-contact {
         height: 14px;
+        padding: 22px;
     }
 
     .group13 {
@@ -992,8 +1008,13 @@ h1 {
         height: 12px;
     }
 
+    .save-contact {
+        padding: 14px;
+    }
+
     .cancel-contact {
-        height: 10px
+        height: 10px;
+        padding: 20px;
     }
 
     .frame14 {
