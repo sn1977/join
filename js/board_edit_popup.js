@@ -19,21 +19,18 @@ function createEditPopup(todo) {
     allContactsBoard = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
     document.getElementById("editpopup").innerHTML = editBoardHTML(todo);
-    const selectedCategory = todo.category;
+    updateCategorySelect();
     const categorySelect = document.getElementById('category');
-    for (let i = 0; i < categorySelect.options.length; i++) {
-        const option = categorySelect.options[i];
-        if (option.value === selectedCategory) {
-            option.selected = true;
-            break;
-        }
-    }
+    categorySelect.value = todo.category;
     showSelectedContacts();
     setupSearchListener();
     generateEditSubtasks(todo);
     generateAssignedToEditPopup(todo);
     setPriorityButton(todo.prio);
+    document.getElementById('editpopup').style.display = 'flex';
+    document.getElementById('popup').style.display = 'none';
 }
+
 
 /**
  * Closes the edit popup and refreshes the task list.
@@ -327,3 +324,15 @@ document.addEventListener('click', function (event) {
         }
     }
 });
+
+function updateCategorySelect() {
+    const categorySelect = document.getElementById('category');
+    categorySelect.innerHTML = '<option value="" disabled selected hidden>Select task category</option>';
+
+    categoryArray.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+    });
+}

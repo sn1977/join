@@ -95,11 +95,9 @@ function editBoardHTML(todo) {
                     </div>
                     <h4>Category</h4>
                     <div class="inputContainer">
-                        <select class="custom-select" id="category" name="category" required>
-                            <option value="" disabled selected hidden>Select task category</option>
-                            <option value="Technical Task">Technical Task</option>
-                            <option value="User Story">User Story</option>
-                        </select>
+                    <select class="custom-select" onfocus="updateCategorySelect()" id="category" name="category" required>
+                        <option value="" disabled selected hidden>Select task category</option>
+                    </select>
                     </div>
                     <h4>Assigned to</h4>
                     <div class="inputContainer">

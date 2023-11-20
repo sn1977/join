@@ -240,7 +240,6 @@ function generateHTML(element) {
     const categoryIndex = categoryArray.indexOf(element['category']);
     const categoryColor = getColorByIndexBoard(categoryIndex);
 
-    const categoryClass = element['category'] === 'User Story' ? 'user-story' : 'technical-task';
     const abgeschlosseneTeilaufgaben = element.subtask ? element.subtask.filter(task => task.done).length : 0;
     const gesamteTeilaufgaben = element.subtask ? element.subtask.length : 0;
     const fortschritt = gesamteTeilaufgaben > 0 ? (abgeschlosseneTeilaufgaben / gesamteTeilaufgaben) * 100 : 0;

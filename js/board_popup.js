@@ -5,10 +5,9 @@
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
-        const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
-        const popupCategory = document.getElementById('popupCategory');
-        popupCategory.classList.remove('user-story', 'technical-task');
-        popupCategory.classList.add(categoryClass);
+        const categoryIndex = categoryArray.indexOf(todo.category);
+        const categoryColor = getColorByIndexBoard(categoryIndex);
+        document.getElementById('popupCategory').style.backgroundColor = categoryColor;
         document.getElementById('popupTitle').innerText = todo.title;
         document.getElementById('popupDescription').innerText = todo.description;
         document.getElementById('popupCategory').innerText = todo.category;

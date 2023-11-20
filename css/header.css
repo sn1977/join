@@ -14,10 +14,6 @@
     overflow: hidden;
 }
 
-.headerH2 {
-    margin-left: 30vw;
-}
-
 .headerContent {
     display: flex;
     margin-right: 24px;
@@ -63,7 +59,6 @@ svg {
 @media (max-width: 1050px) {
     .headerH2 {
         visibility: hidden;
-        margin: 0;
     }
 
 
