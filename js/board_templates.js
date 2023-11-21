@@ -7,6 +7,7 @@ function boardHTML() {
     return `
     <div id="editpopup" class="popup"></div>
     <div id="popup" class="popup">
+        <div id="notification-popup" class="notification-popup">All Saved</div>
         <div class="container-popup">
             <div class="popup-content">
                 <div class="d-flex">
@@ -64,6 +65,7 @@ function boardHTML() {
 `
 }
 
+
 /**
  * Generates the HTML structure for the edit mode of a todo item.
  * This includes fields for editing the title, description, due date, priority, category, assigned contacts, and subtasks of the todo item.
@@ -120,6 +122,61 @@ function editBoardHTML(todo) {
                 <div class="popup-buttons">
                     <button class="buttonSaveChanges" onclick="saveAllChanges(${todo.id})">Speichern</button>
                 </div>
+        </div>
+    `
+}
+
+function renderBoardWithAdd(i, name) {
+    return `
+            <div class="progressContainer">
+                <div class="progressContainerStatusHead">
+                    <div class="progressStatus">
+                        ${name}
+                    </div>
+                    <div>
+                    <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
+                    </div>
+                </div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+        </div>`
+}
+
+function renderBoardWhitoutAdd(i, name) {
+    return `
+    <div class="progressContainer">
+        <div class="progressContainerStatusHead">
+            <div class="progressStatus">
+                ${name}
+            </div>
+        </div>
+        <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+    </div>`
+}
+
+function progressContainer(progress, completedSubtasks, totalSubtasks) {
+    return `
+    <div class="progress">
+        <div class="progress-container">
+            <div class="progress-bar" style="width: ${progress}%"></div>
+        </div>
+        <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
+    </div>`
+}
+
+function contactHtml(contacts) {
+    return ` 
+        <div class="contactLine" onclick="toggleContactBoard(${contacts.id})">
+            <div class="contact">
+                <div class="contacticon" style="background-color:  ${contacts.color};"> 
+                    ${contacts.initialien}
+                </div>
+                <div class="contactName"> 
+                    ${contacts.name} 
+                </div>
+            </div>
+            <div class="contactImage" id="checked${contacts.id}">
+                <img src="../assets/img/checkbox.png">
+            </div>
         </div>
     `
 }

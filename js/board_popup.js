@@ -50,6 +50,7 @@ function openPopup(id) {
     }
 }
 
+
 /**
  * Generates a list of subtasks for a given todo item in the popup.
  * @param {Object} todo - The todo item containing subtasks.
@@ -67,6 +68,7 @@ function generateSubtask(todo) {
         document.getElementById('subtask-content').innerHTML += checkboxHTML;
     }
 }
+
 
 /**
  * Generates and displays assigned contacts for a given todo item in the popup.
@@ -90,6 +92,7 @@ function generateAssignedTo(todo) {
     }
 }
 
+
 /**
  * Updates the status of a specific subtask for a given todo item.
  * @param {number} todoId - The unique identifier of the todo item.
@@ -105,6 +108,7 @@ function updateSubtaskStatus(todoId, subtaskId, imgElement) {
         updateHTML();
     }
 }
+
 
 /**
  * Deletes a todo item based on its unique identifier.
@@ -123,6 +127,7 @@ function deleteTodo(todoId) {
     }
 }
 
+
 /**
  * Closes the currently open popup.
  */
@@ -131,6 +136,7 @@ function closePopup() {
     renderBoard();
     updateHTML();
 }
+
 
 /**
  * Formats a date string into a more readable format.

@@ -16,6 +16,7 @@ function addTaskLoadContactsBoard() {
     contactpoolBoard.sort(SortArray);
 }
 
+
 /**
  * Sorts an array of objects alphabetically based on the 'name' property.
  * @param {Object} x - The first object to compare.
@@ -32,6 +33,7 @@ function SortArray(x, y) {
     return 0;
 }
 
+
 /**
  * Toggles the display of the contacts board.
  * Filters and updates the contacts board each time it's displayed.
@@ -47,6 +49,7 @@ function toggleContactsBoard() {
     assignedToContainer.classList.toggle('d-none');
 }
 
+
 /**
  * Sets up a listener for the search field to filter contacts in real-time.
  */
@@ -56,6 +59,7 @@ function setupSearchListener() {
         searchField.addEventListener('input', filterContactsBoard);
     }
 }
+
 
 /**
  * Generates initials from a given name.
@@ -73,6 +77,7 @@ function getInitials(name) {
     return initials.toUpperCase();
 }
 
+
 /**
  * Provides a color from a predefined array based on the given index.
  * @param {number} index - The index to determine which color to return.
@@ -81,6 +86,7 @@ function getInitials(name) {
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
+
 
 /**
  * Filters the contacts displayed on the board based on user input in the search field.
@@ -97,6 +103,7 @@ function filterContactsBoard() {
     `;
     updateIconsBoard(filteredContacts);
 }
+
 
 /**
  * Updates the selection icons for contacts based on their selection status.
@@ -118,6 +125,7 @@ function updateIconsBoard(contacts) {
     });
 }
 
+
 /**
  * Generates the HTML content for a list of contacts.
  * @param {Array} contacts - The list of contacts to generate HTML for.
@@ -126,24 +134,11 @@ function updateIconsBoard(contacts) {
 function contactlistHtmlBoard(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
-        contacthtml += ` 
-        <div class="contactLine" onclick="toggleContactBoard(${contacts[i].id})">
-                <div class="contact">
-                    <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
-                        ${contacts[i].initialien}
-                    </div>
-                    <div class="contactName"> 
-                        ${contacts[i].name} 
-                    </div>
-                </div>
-                <div class="contactImage" id="checked${contacts[i].id}">
-                    <img src="../assets/img/checkbox.png">
-                </div>
-            </div>
-        `;
+        contacthtml += contactHtml(contacts[i]);
     }
     return contacthtml;
 }
+
 
 /**
  * Toggles the selection state of a contact in the task assignment process.
@@ -157,6 +152,7 @@ function toggleContactBoard(contactId) {
         choseContactBoard(contactId);
     }
 }
+
 
 /**
  * Selects a contact to be assigned to a task.
@@ -178,6 +174,7 @@ async function choseContactBoard(contactId) {
     }
 }
 
+
 /**
  * Removes a selected contact from the task assignment.
  * @param {number} contactId - The ID of the contact to be unselected.
@@ -191,6 +188,7 @@ function unchoseContactBoard(contactId) {
     }
 }
 
+
 /**
  * Updates the display of a contact's selection status.
  * @param {number} contactId - The ID of the contact whose display is to be updated.
@@ -203,6 +201,7 @@ function updateContactDisplay(contactId) {
     contactCheckbox.innerHTML = `<img src="${imageSrc}" alt="">`;
     contactCheckbox.parentNode.classList.toggle('Contactchecked', isContactChosen);
 }
+
 
 /**
  * Shows the icons of selected contacts for a task.
@@ -218,6 +217,7 @@ function showTaskContactsBoard() {
         `;
     }
 }
+
 
 /**
  * Displays the selected contacts for the task.

@@ -78,41 +78,65 @@ async function saveAllTasksToRemote() {
     }
 }
 
-/**
- * Renders the main task board with different progress containers.
- */
+
 function renderBoard() {
+    initializeBoard();
+    addBoardContent();
+    setupSearchListeners();
+}
+
+
+function initializeBoard() {
     document.getElementById('content').innerHTML = '';
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
     document.getElementById('board').innerHTML += boardHTML();
+}
+
+
+function addBoardContent() {
     for (let i = 0; i < boardNames.length; i++) {
         const name = boardNames[i];
         const progress = name.toLowerCase().replace(' ', '');
-        if (i < 3) {
-            document.getElementById('boardContent').innerHTML += /*html*/ `
-            <div class="progressContainer">
-                <div class="progressContainerStatusHead">
-                    <div class="progressStatus">
-                        ${name}
-                    </div>
-                    <div>
-                    <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
-                    </div>
-                </div>
-            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
-        </div>`
-        } else {
-            document.getElementById('boardContent').innerHTML += /*html*/ `
-            <div class="progressContainer">
-                <div class="progressContainerStatusHead">
-                    <div class="progressStatus">
-                        ${name}
-                    </div>
-                </div>
-            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
-        </div>`
-        }
+        addProgressContainer(i, name, progress);
     }
+}
+
+
+function addProgressContainer(index, name, progress) {
+    const containerHTML = index < 3 ?
+        getContainerWithAddButton(name, progress, index) :
+        getContainerWithoutAddButton(name, progress, index);
+
+    document.getElementById('boardContent').innerHTML += containerHTML;
+}
+
+
+function getContainerWithAddButton(name, progress, index) {
+    return /*html*/ `
+    <div class="progressContainer">
+        <div class="progressContainerStatusHead">
+            <div class="progressStatus">${name}</div>
+            <div>
+                <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
+            </div>
+        </div>
+        <div class="statusContainer" id="statusContainer${index}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+    </div>`;
+}
+
+
+function getContainerWithoutAddButton(name, progress, index) {
+    return /*html*/ `
+    <div class="progressContainer">
+        <div class="progressContainerStatusHead">
+            <div class="progressStatus">${name}</div>
+        </div>
+        <div class="statusContainer" id="statusContainer${index}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+    </div>`;
+}
+
+
+function setupSearchListeners() {
     const searchInput = document.getElementById('inputSearch');
     searchInput.addEventListener('keyup', searchTasks);
     const searchInputMobile = document.getElementById('inputSearchMobile');
@@ -137,6 +161,7 @@ function searchTasks() {
     updateHTML(searchQuery ? filteredTodos : todos);
 }
 
+
 /**
  * Filters tasks based on a search query entered in the mobile search input.
  */
@@ -155,147 +180,127 @@ function searchTasksMobile() {
 }
 
 
-/**
- * Updates the HTML representation of the task board, optionally filtering the tasks displayed.
- * @param {array} [tasks=todos] - The list of tasks to be displayed. Defaults to the original list of all tasks.
- */
 function updateHTML(tasks = todos) {
-    let todo = sortTodos(tasks.filter(t => t['progress'] == 'todo'));
-    document.getElementById('statusContainer0').innerHTML = '';
-    if (todo.length == 0) {
-        document.getElementById('statusContainer0').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks To do</div>
-        `;
+    updateStatusContainer(tasks, 'todo', 'statusContainer0');
+    updateStatusContainer(tasks, 'inprogress', 'statusContainer1');
+    updateStatusContainer(tasks, 'awaitfeedback', 'statusContainer2');
+    updateStatusContainer(tasks, 'done', 'statusContainer3');
+}
+
+
+function updateStatusContainer(tasks, progress, containerId) {
+    const filteredTasks = sortTodos(tasks.filter(t => t['progress'] === progress));
+    const container = document.getElementById(containerId);
+    container.innerHTML = getContainerHTML(filteredTasks, progress);
+}
+
+
+function getContainerHTML(tasks, progress) {
+    if (tasks.length === 0) {
+        return `<div class="noTaskDiv">No Tasks ${formatProgressDisplayName(progress)}</div>`;
     } else {
-        for (let i = 0; i < todo.length; i++) {
-            const element = todo[i];
-            document.getElementById('statusContainer0').innerHTML += generateHTML(element);
-        }
-    }
-    let inprogress = sortTodos(tasks.filter(t => t['progress'] == 'inprogress'));
-    document.getElementById('statusContainer1').innerHTML = '';
-    if (inprogress.length == 0) {
-        document.getElementById('statusContainer1').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks In Progress</div>
-        `;
-    } else {
-        for (let i = 0; i < inprogress.length; i++) {
-            const element = inprogress[i];
-            document.getElementById('statusContainer1').innerHTML += generateHTML(element);
-        }
-    }
-    let awaitfeedback = sortTodos(tasks.filter(t => t['progress'] == 'awaitfeedback'));
-    document.getElementById('statusContainer2').innerHTML = '';
-    if (awaitfeedback.length == 0) {
-        document.getElementById('statusContainer2').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks Awaiting Feedback</div>
-        `;
-    } else {
-        for (let i = 0; i < awaitfeedback.length; i++) {
-            const element = awaitfeedback[i];
-            document.getElementById('statusContainer2').innerHTML += generateHTML(element);
-        }
-    }
-    let done = sortTodos(tasks.filter(t => t['progress'] == 'done'));
-    document.getElementById('statusContainer3').innerHTML = '';
-    if (done.length == 0) {
-        document.getElementById('statusContainer3').innerHTML = /*html*/ `
-        <div class="noTaskDiv">No Tasks Done</div>
-        `;
-    } else {
-        for (let i = 0; i < done.length; i++) {
-            const element = done[i];
-            document.getElementById('statusContainer3').innerHTML += generateHTML(element);
-        }
+        return tasks.map(task => generateHTML(task)).join('');
     }
 }
 
 
-/**
- * Starts the drag action for a task and applies a visual effect.
- * @param {number} id - The unique identifier of the task being dragged.
- */
+function formatProgressDisplayName(progress) {
+    switch (progress) {
+        case 'todo': return 'To do';
+        case 'inprogress': return 'In Progress';
+        case 'awaitfeedback': return 'Awaiting Feedback';
+        case 'done': return 'Done';
+        default: return '';
+    }
+}
+
+
+
 function startDragging(id) {
     currentDraggedElement = id;
-    let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
-    element.classList.add("rotated");
-}
-
-/**
- * Stops the drag action for a task and removes the visual effect.
- * @param {number} id - The unique identifier of the task that was being dragged.
- */
-function stopDragging(id) {
-    let element = document.querySelector(`[ondragstart="startDragging(${id})"]`);
-    element.classList.remove("rotated");
+    window.currentlyDraggedElement = document.querySelector(`[ondragstart="startDragging(${id})"]`);
+    if (window.currentlyDraggedElement) {
+        window.currentlyDraggedElement.classList.add("rotated");
+    }
 }
 
 
-/**
- * Generates HTML content for a single task, including its subtasks and assigned users.
- * @param {Object} element - The task object for which HTML content is generated.
- * @returns {string} HTML content for the given task.
- */
+function stopDragging() {
+    if (window.currentlyDraggedElement) {
+        window.currentlyDraggedElement.classList.remove("rotated");
+        window.currentlyDraggedElement = null; // Setze die Referenz zurück
+    }
+}
+
+
 function generateHTML(element) {
-    const categoryIndex = categoryArray.indexOf(element['category']);
-    const categoryColor = getColorByIndexBoard(categoryIndex);
+    const categoryColor = getCategoryColor(element);
+    const progressHTML = generateProgressHTML(element);
+    const assignedUsersHTML = generateAssignedUsersHTML(element);
+    const arrowButtonsHTML = generateArrowButtonsHTML(element);
+    return createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML, arrowButtonsHTML);
+}
 
-    const abgeschlosseneTeilaufgaben = element.subtask ? element.subtask.filter(task => task.done).length : 0;
-    const gesamteTeilaufgaben = element.subtask ? element.subtask.length : 0;
-    const fortschritt = gesamteTeilaufgaben > 0 ? (abgeschlosseneTeilaufgaben / gesamteTeilaufgaben) * 100 : 0;
-    let zugewieseneBenutzerHTML = '';
-    const benutzerAnzahl = element.assignedTo.length;
-    const maxAnzeigeBenutzer = 5;
-    if (benutzerAnzahl > 0) {
-        element.assignedTo.slice(0, maxAnzeigeBenutzer).forEach(benutzer => {
-            zugewieseneBenutzerHTML += `<div class="user-badge-board extra-margin" style="background-color:${benutzer.color}">${benutzer.initialien}</div>`;
-        });
-        if (benutzerAnzahl > maxAnzeigeBenutzer) {
-            zugewieseneBenutzerHTML += `<div class="user-badge-board extra-margin moreusers">+${benutzerAnzahl - maxAnzeigeBenutzer}</div>`;
-        }
-    }
-    let progressHTML = '';
-    if (gesamteTeilaufgaben > 0) {
-        progressHTML = `
-            <div class="progress">
-                <div class="progress-container">
-                    <div class="progress-bar" id="myBar" style="width: ${fortschritt}%"></div>
-                </div>
-                <span class="subtask-container">${abgeschlosseneTeilaufgaben}/${gesamteTeilaufgaben} Subtasks</span>
+function createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML, arrowButtonsHTML) {
+    return /*html*/ `
+    <div class="todo" draggable="true" ondragstart="startDragging(${element['id']})" ondragend="stopDragging(${element['id']})" onclick="openPopup(${element['id']})">
+        <div class="todoContainer">
+            <div class="todoType" style="background-color:${categoryColor};">${element['category']}</div>
+            <div class="todoInfo">
+                <span class="todoTitle">${element['title']}</span>
+                <span class="todoDescription">${element['description']}</span>
             </div>
-        `;
-    } else {
-        progressHTML = `
-        <div class="progress">
-        </div>`
-    }
+            ${progressHTML}
+            <div class="assignedToUsers">${assignedUsersHTML}</div>
+            <div class="todo-arrows">${arrowButtonsHTML}</div>
+        </div>
+    </div>`;
+}
 
+
+
+function getCategoryColor(element) {
+    const categoryIndex = categoryArray.indexOf(element['category']);
+    return getColorByIndexBoard(categoryIndex);
+}
+
+
+function generateProgressHTML(element) {
+    const totalSubtasks = element.subtask ? element.subtask.length : 0;
+    const completedSubtasks = element.subtask ? element.subtask.filter(task => task.done).length : 0;
+    const progress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
+    if (totalSubtasks > 0) {
+        return progressContainer(progress, completedSubtasks, totalSubtasks);
+    } else {
+        return `<div class="progress"></div>`;
+    }
+}
+
+
+function generateAssignedUsersHTML(element) {
+    let html = '';
+    const maxDisplayUsers = 5;
+    const userCount = element.assignedTo.length;
+    element.assignedTo.slice(0, maxDisplayUsers).forEach(user => {
+        html += `<div class="user-badge-board extra-margin" style="background-color:${user.color}">${user.initialien}</div>`;
+    });
+    if (userCount > maxDisplayUsers) {
+        html += `<div class="user-badge-board extra-margin moreusers">+${userCount - maxDisplayUsers}</div>`;
+    }
+    return html;
+}
+
+
+function generateArrowButtonsHTML(element) {
     const isTop = element.progress === 'todo';
     const isBottom = element.progress === 'done';
-    let upArrowDisabled = isTop ? 'disabled' : '';
-    let downArrowDisabled = isBottom ? 'disabled' : '';
-    return /*html*/ `
-    <div class="todo" 
-         draggable="true"
-         ondragstart="startDragging(${element['id']})"
-         ondragend="stopDragging(${element['id']})"
-         onclick="openPopup(${element['id']})">
-      <div class="todoContainer">
-        <div class="todoType" style="background-color:${categoryColor};">${element['category']}</div>
-        <div class="todoInfo">
-          <span class="todoTitle">${element['title']}</span>
-          <span class="todoDescription">${element['description']}</span>
-        </div>
-        ${progressHTML}
-        <div class="assignedToUsers">${zugewieseneBenutzerHTML}</div>
-        <div class="todo-arrows">
-            <button class="arrow-buttons" ${upArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'up')">↑</button>
-            <button class="arrow-buttons" ${downArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'down')">↓</button>
-        </div>
-      </div>
-    </div>
-  `;
+    const upArrowDisabled = isTop ? 'disabled' : '';
+    const downArrowDisabled = isBottom ? 'disabled' : '';
+    return `
+        <button class="arrow-buttons" ${upArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'up')">↑</button>
+        <button class="arrow-buttons" ${downArrowDisabled} onclick="event.stopPropagation(); moveTask(${element['id']}, 'down')">↓</button>`;
 }
+
 
 /**
  * Moves a task up or down in the list of tasks based on the specified direction.
@@ -318,6 +323,7 @@ async function moveTask(taskId, direction) {
     }
 }
 
+
 /**
  * Moves a task up in the task list by swapping it with the task above it.
  * @param {number} index - The current index of the task in the todos array.
@@ -327,6 +333,7 @@ function moveTaskUp(index) {
         [todos[index], todos[index - 1]] = [todos[index - 1], todos[index]];
     }
 }
+
 
 /**
  * Moves a task down in the task list by swapping it with the task below it.
@@ -338,6 +345,7 @@ function moveTaskDown(index) {
     }
 }
 
+
 /**
  * Prevents the default behavior for the dragover event to allow dropping.
  * @param {Event} ev - The dragover event object.
@@ -345,6 +353,7 @@ function moveTaskDown(index) {
 function allowDrop(ev) {
     ev.preventDefault();
 }
+
 
 /**
  * Moves a task to a specified progress stage when dropped.
@@ -362,6 +371,7 @@ async function moveTo(progress) {
     }
 }
 
+
 /**
  * Sorts an array of tasks by their last modification time.
  * @param {array} todosArray - The array of tasks to be sorted.
@@ -370,6 +380,7 @@ async function moveTo(progress) {
 function sortTodos(todosArray) {
     return todosArray.sort((a, b) => a.modifiedAt - b.modifiedAt);
 }
+
 
 /**
  * Gets a color based on an index.

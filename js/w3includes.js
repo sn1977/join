@@ -16,3 +16,21 @@ async function includeHTML() {
         }
     }
 }
+
+function togglePopup(event) {
+    let popup = document.getElementById('header-popup');
+    if (popup) {
+        popup.classList.toggle('popup-visible');
+        event.stopPropagation();
+    }
+}
+
+document.addEventListener('click', function (event) {
+    let popup = document.getElementById('header-popup');
+    let profileInitials = document.getElementById('profileInitials');
+    if (popup.classList.contains('popup-visible') &&
+        !popup.contains(event.target) &&
+        !profileInitials.contains(event.target)) {
+        popup.classList.remove('popup-visible');
+    }
+});

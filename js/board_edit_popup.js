@@ -9,8 +9,8 @@ function openEditPopup(id) {
     initializeDatepicker();
     document.getElementById('editpopup').style.display = 'flex';
     document.getElementById('popup').style.display = 'none';
-    console.log(todo.category);
 }
+
 
 /**
  * Creates and displays the edit popup with the details of the specified todo item.
@@ -28,7 +28,6 @@ function createEditPopup(todo) {
     setPriorityButton(todo.prio);
     document.getElementById('editpopup').style.display = 'flex';
     document.getElementById('popup').style.display = 'none';
-
 }
 
 
@@ -36,162 +35,19 @@ function createEditPopup(todo) {
  * Closes the edit popup and refreshes the task list.
  * @param {number} id - The unique identifier of the todo item.
  */
-async function closeEditPopup(id) {
-    await loadAllTasksFromRemote();
-    openPopup(id)
-    document.getElementById('editpopup').style.display = 'none';
-    document.getElementById('popup').style.display = 'flex';
-    document.getElementById('editpopup').innerHTML = '';
-}
-
-/**
- * Generates the subtask editing section within the edit popup.
- * @param {Object} todo - The todo item containing subtasks to be edited.
- */
 function generateEditSubtasks(todo) {
     const subtasksContainer = document.getElementById('savedSubtasks');
     subtasksContainer.innerHTML = '';
-    const addSubtaskContainer = document.createElement('div');
-    addSubtaskContainer.classList.add('addSubtaskContainer');
-    const addSubtaskInput = document.createElement('input');
-    addSubtaskInput.type = 'text';
-    addSubtaskInput.placeholder = 'Add a new subtask';
-    addSubtaskInput.id = 'newSubtaskInput';
-    const addSubtaskImage = document.createElement('img');
-    addSubtaskImage.src = '../assets/img/add.svg';
-    addSubtaskImage.classList.add('plus-image');
-    const buttonsContainer = document.createElement('div');
-    buttonsContainer.classList.add('addSubtaskButtonsContainer');
-    const cancelSubtaskButton = document.createElement('button');
-    const cancelSubtaskImage = document.createElement('img');
-    cancelSubtaskImage.src = '../assets/img/cancel.svg';
-    cancelSubtaskButton.classList.add('addSubtaskButtons');
-    cancelSubtaskButton.appendChild(cancelSubtaskImage);
-    cancelSubtaskButton.style.display = 'none';
-    const acceptSubtaskButton = document.createElement('button');
-    const acceptSubtaskImage = document.createElement('img');
-    const vectorImage = document.createElement('img');
-    vectorImage.src = '../assets/img/small_vector.svg';
-    vectorImage.style.display = 'none';
-    acceptSubtaskImage.src = '../assets/img/check-black.svg';
-    acceptSubtaskButton.appendChild(acceptSubtaskImage);
-    acceptSubtaskButton.classList.add('addSubtaskButtons');
-    acceptSubtaskButton.style.display = 'none';
-    buttonsContainer.appendChild(cancelSubtaskButton);
-    buttonsContainer.appendChild(vectorImage);
-    buttonsContainer.appendChild(acceptSubtaskButton);
-    addSubtaskContainer.appendChild(addSubtaskInput);
-    addSubtaskContainer.appendChild(addSubtaskImage);
-    addSubtaskContainer.appendChild(buttonsContainer);
+    const addSubtaskContainer = createAddSubtaskContainer(todo);
     subtasksContainer.appendChild(addSubtaskContainer);
-    addSubtaskInput.addEventListener('click', () => {
-        addSubtaskImage.style.display = 'none';
-        cancelSubtaskButton.style.display = 'block';
-        acceptSubtaskButton.style.display = 'block';
-        vectorImage.style = 'block';
-    });
-    addSubtaskImage.addEventListener('click', () => {
-        addSubtaskImage.style.display = 'none';
-        cancelSubtaskButton.style.display = 'block';
-        acceptSubtaskButton.style.display = 'block';
-        vectorImage.style.display = 'block';
-        addSubtaskInput.focus();
-    });
-    cancelSubtaskButton.addEventListener('click', () => {
-        addSubtaskInput.value = '';
-        addSubtaskImage.style.display = 'block';
-        cancelSubtaskButton.style.display = 'none';
-        acceptSubtaskButton.style.display = 'none';
-        vectorImage.style.display = 'none';
-    });
-    acceptSubtaskButton.addEventListener('click', () => {
-        const newSubtaskTitle = addSubtaskInput.value;
-        if (newSubtaskTitle.trim() !== '') {
-            todo.subtask.push({ subtasktitle: newSubtaskTitle });
-            saveAllTasksToRemote();
-            addSubtaskInput.value = '';
-            addSubtaskImage.style.display = 'block';
-            cancelSubtaskButton.style.display = 'none';
-            acceptSubtaskButton.style.display = 'none';
-            vectorImage.style.display = 'none';
-            generateEditSubtasks(todo);
-        }
-    });
     if (todo.subtask && todo.subtask.length > 0) {
         todo.subtask.forEach((subtask, index) => {
-            const subtaskDiv = document.createElement('div');
-            subtaskDiv.classList.add('editSubtask');
-            const bulletImage = document.createElement('img');
-            bulletImage.classList.add('dot');
-            bulletImage.src = '../assets/img/dot.svg';
-            subtaskDiv.appendChild(bulletImage);
-            const subtaskInput = document.createElement('input');
-            subtaskInput.type = 'text';
-            subtaskInput.value = subtask.subtasktitle;
-            subtaskInput.classList.add('inputSubtaskContainer');
-            subtaskInput.disabled = true;
-            subtaskInput.id = `inputSubtask-${index}`;
-            const editSubtaskButton = document.createElement('button');
-            const editSubtaskImage = document.createElement('img');
-            if (subtaskInput.disabled) {
-                editSubtaskImage.src = '../assets/img/edit.svg';
-                editSubtaskImage.classList.add('editimages');
-            } else {
-                editSubtaskImage.src = '../assets/img/check-black.svg';
-                editSubtaskImage.classList.add('editimages');
-            }
-            editSubtaskButton.appendChild(editSubtaskImage);
-            editSubtaskButton.addEventListener('click', () => {
-                if (editSubtaskImage.src.includes('edit.svg')) {
-                    editSubtaskImage.src = '../assets/img/delete.svg';
-                    subtaskDiv.removeChild(bulletImage);
-                    subtaskDiv.removeChild(deleteSubtaskButton);
-                    const acceptSubtaskButton = document.createElement('button');
-                    const acceptSubtaskImage = document.createElement('img');
-                    acceptSubtaskImage.src = '../assets/img/check-black.svg';
-                    acceptSubtaskImage.classList.add('editimages')
-                    acceptSubtaskButton.appendChild(acceptSubtaskImage);
-                    acceptSubtaskButton.addEventListener('click', () => {
-                        subtask.subtasktitle = subtaskInput.value;
-                        subtaskInput.disabled = true;
-                        editSubtaskImage.src = '../assets/img/edit.svg';
-                        subtaskDiv.insertBefore(bulletImage, subtaskInput);
-                        subtaskDiv.removeChild(acceptSubtaskButton);
-                        subtaskDiv.appendChild(deleteSubtaskButton);
-                    });
-                    subtaskDiv.appendChild(acceptSubtaskButton);
-                    subtaskInput.disabled = false;
-                    subtaskInput.focus();
-                } else if (editSubtaskImage.src.includes('delete.svg')) {
-                    todo.subtask.splice(index, 1);
-                    saveAllTasksToRemote();
-                    generateEditSubtasks(todo);
-                }
-            });
-            const additionalImage = document.createElement('img');
-            additionalImage.src = '../assets/img/vector.svg';
-            additionalImage.classList.add('additional-image');
-            let deleteSubtaskButton;
-            const deleteSubtaskImage = document.createElement('img');
-            deleteSubtaskImage.src = '../assets/img/delete.svg';
-            deleteSubtaskImage.classList.add('editimages');
-            deleteSubtaskButton = document.createElement('button');
-            deleteSubtaskButton.appendChild(deleteSubtaskImage);
-            deleteSubtaskButton.addEventListener('click', () => {
-                todo.subtask.splice(index, 1);
-                saveAllTasksToRemote();
-                generateEditSubtasks(todo);
-            });
-            subtaskDiv.appendChild(subtaskInput);
-            subtaskDiv.appendChild(editSubtaskButton);
-            subtaskDiv.appendChild(additionalImage);
-            if (!subtask.editMode) {
-                subtaskDiv.appendChild(deleteSubtaskButton);
-            }
+            const subtaskDiv = createSubtaskDiv(todo, subtask, index);
             subtasksContainer.appendChild(subtaskDiv);
         });
     }
 }
+
 
 /**
  * Generates and displays assigned contacts in the edit popup.
@@ -213,6 +69,150 @@ function generateAssignedToEditPopup(todo) {
             assignedToContainer.appendChild(assignedToDiv);
         });
     }
+}
+
+function createAddSubtaskContainer(todo) {
+    const addSubtaskContainer = document.createElement('div');
+    addSubtaskContainer.classList.add('addSubtaskContainer');
+    const addSubtaskInput = createAddSubtaskInput(todo);
+    const addSubtaskImage = createAddSubtaskImage();
+    const buttonsContainer = createButtonsContainer();
+    addSubtaskContainer.appendChild(addSubtaskInput);
+    addSubtaskContainer.appendChild(addSubtaskImage);
+    addSubtaskContainer.appendChild(buttonsContainer);
+    return addSubtaskContainer;
+}
+
+
+function createAddSubtaskInput(todo) {
+    const addSubtaskInput = document.createElement('input');
+    addSubtaskInput.type = 'text';
+    addSubtaskInput.placeholder = 'Add a new subtask';
+    addSubtaskInput.id = 'newSubtaskInput';
+    addSubtaskInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            addNewSubtask(todo, addSubtaskInput.value);
+        }
+    });
+    return addSubtaskInput;
+}
+
+
+function createAddSubtaskImage() {
+    const addSubtaskImage = document.createElement('img');
+    addSubtaskImage.src = '../assets/img/add.svg';
+    addSubtaskImage.classList.add('plus-image');
+    return addSubtaskImage;
+}
+
+
+function addNewSubtask(todo, subtaskTitle) {
+    if (subtaskTitle.trim() !== '') {
+        todo.subtask.push({ subtasktitle: subtaskTitle.trim() });
+        saveAllTasksToRemote();
+        generateEditSubtasks(todo);
+    }
+}
+
+
+function createButtonsContainer() {
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('addSubtaskButtonsContainer');
+    const cancelSubtaskButton = createButtonWithImage('../assets/img/cancel.svg', 'addSubtaskButtons');
+    cancelSubtaskButton.style.display = 'none';
+    const acceptSubtaskButton = createButtonWithImage('../assets/img/check-black.svg', 'addSubtaskButtons');
+    acceptSubtaskButton.style.display = 'none';
+    buttonsContainer.appendChild(cancelSubtaskButton);
+    buttonsContainer.appendChild(acceptSubtaskButton);
+    return buttonsContainer;
+}
+
+function createButtonWithImage(imageSrc, buttonClass) {
+    const button = document.createElement('button');
+    const image = document.createElement('img');
+    image.src = imageSrc;
+    button.classList.add(buttonClass);
+    button.appendChild(image);
+    return button;
+}
+
+
+function createSubtaskDiv(todo, subtask, index) {
+    const subtaskDiv = document.createElement('div');
+    subtaskDiv.classList.add('editSubtask');
+    const bulletImage = createImageElement('../assets/img/dot.svg', 'dot');
+    subtaskDiv.appendChild(bulletImage);
+    const subtaskInput = createSubtaskInput(subtask, index);
+    subtaskDiv.appendChild(subtaskInput);
+    const editSubtaskButton = createEditSubtaskButton(subtaskInput, todo, subtask, index);
+    subtaskDiv.appendChild(editSubtaskButton);
+    const deleteSubtaskButton = createDeleteSubtaskButton(todo, index);
+    subtaskDiv.appendChild(deleteSubtaskButton);
+    return subtaskDiv;
+}
+
+function createImageElement(src, className) {
+    const image = document.createElement('img');
+    image.src = src;
+    image.classList.add(className);
+    return image;
+}
+
+function createSubtaskInput(subtask, index) {
+    const subtaskInput = document.createElement('input');
+    subtaskInput.type = 'text';
+    subtaskInput.value = subtask.subtasktitle;
+    subtaskInput.classList.add('inputSubtaskContainer');
+    subtaskInput.disabled = true;
+    subtaskInput.id = `inputSubtask-${index}`;
+    return subtaskInput;
+}
+
+
+function createEditSubtaskButton(subtaskInput, todo, subtask, index) {
+    const editSubtaskButton = document.createElement('button');
+    const editSubtaskImage = document.createElement('img');
+    editSubtaskImage.src = subtaskInput.disabled ? '../assets/img/edit.svg' : '../assets/img/check-black.svg';
+    editSubtaskImage.classList.add('editimages');
+    editSubtaskButton.appendChild(editSubtaskImage);
+    editSubtaskButton.addEventListener('click', () => {
+        if (subtaskInput.disabled) {
+            subtaskInput.disabled = false;
+            subtaskInput.focus();
+            editSubtaskImage.src = '../assets/img/check-black.svg';
+        } else {
+            subtaskInput.disabled = true;
+            subtask.subtasktitle = subtaskInput.value;
+            editSubtaskImage.src = '../assets/img/edit.svg';
+            saveAllTasksToRemote();
+            generateEditSubtasks(todo);
+        }
+    });
+    return editSubtaskButton;
+}
+
+
+function createDeleteSubtaskButton(todo, index) {
+    const deleteSubtaskButton = document.createElement('button');
+    const deleteSubtaskImage = document.createElement('img');
+    deleteSubtaskImage.src = '../assets/img/delete.svg';
+    deleteSubtaskImage.classList.add('editimages');
+    deleteSubtaskButton.appendChild(deleteSubtaskImage);
+    deleteSubtaskButton.addEventListener('click', () => {
+        todo.subtask.splice(index, 1);
+        saveAllTasksToRemote();
+        generateEditSubtasks(todo);
+    });
+    return deleteSubtaskButton;
+}
+
+async function closeEditPopup(id) {
+    await loadAllTasksFromRemote();
+    openPopup(id)
+    document.getElementById('editpopup').style.display = 'none';
+    document.getElementById('popup').style.display = 'flex';
+    document.getElementById('editpopup').innerHTML = '';
 }
 
 /**
@@ -241,6 +241,7 @@ function setPriorityButton(priority) {
     }
 }
 
+
 /**
  * Updates the priority of a todo item.
  * @param {string} priority - The new priority to be set.
@@ -253,6 +254,7 @@ function selectPriority(priority, id) {
         setPriorityButton(priority);
     }
 }
+
 
 /**
  * Saves all changes made in the edit popup to the todo item.
@@ -272,7 +274,7 @@ async function saveAllChanges(id) {
         }
         const dueDate = document.getElementById('dueDate').value;
         todo.dueDate = dueDate;
-        const categorySelect = document.getElementById('category');
+        const categorySelect = document.getElementById('category-board');
         const selectedCategory = categorySelect.value;
         todo.category = selectedCategory;
         await saveAllTasksToRemote();
@@ -280,8 +282,10 @@ async function saveAllChanges(id) {
         closeEditPopup(id);
         openPopup();
         updateHTML();
+        showNotification();
     }
 }
+
 
 /**
  * Initializes the date picker for selecting due dates.
@@ -304,6 +308,7 @@ function initializeDatepicker() {
     });
 }
 
+
 /**
  * Closes the assigned to window in the UI.
  */
@@ -311,6 +316,7 @@ function closeAssignedToWindow() {
     const assignedToContainer = document.getElementById('assignedToContainer');
     assignedToContainer.classList.add('d-none');
 }
+
 
 /**
  * Event listener to handle clicks outside of the assigned to window, causing it to close.
@@ -324,6 +330,7 @@ document.addEventListener('click', function (event) {
         }
     }
 });
+
 
 function updateCategorySelectBoard(selectedCategory) {
     const categorySelect = document.getElementById('category-board');
@@ -344,13 +351,22 @@ function updateCategorySelectBoard(selectedCategory) {
     categorySelect.appendChild(newCategoryOption);
 }
 
+
 function handleCategoryChangeBoard() {
     let categorySelect = document.getElementById("category-board");
     let newCategoryInput = document.getElementById("inputCategory");
-    // let newCategory = document.getElementById('newCategory');
     if (categorySelect.value === "Enter new category") {
         newCategoryInput.classList.remove("d-none");
     } else {
         newCategoryInput.classList.add("d-none");
     }
+}
+
+
+function showNotification() {
+    const notificationPopup = document.getElementById('notification-popup');
+    notificationPopup.style.display = 'block';
+    setTimeout(() => {
+        notificationPopup.style.display = 'none';
+    }, 3000);
 }

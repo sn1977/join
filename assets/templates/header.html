@@ -2,17 +2,24 @@
     It is important to Import these class
         <link rel="stylesheet" href="../../css/header.css">
 -->
+<script>
 
+</script>
 
 <header>
     <div class="header">
-	    <img class="small-logo" src="../assets/img/logo_klein.svg" onclick="location.href='summary.html'" alt="logo">
+        <img class="small-logo" src="../assets/img/logo_klein.svg" onclick="location.href='summary.html'" alt="logo">
         <h2 class="headerH2">Kanban Project Management Tool</h2>
         <div class="headerContent">
-	        <img src="../assets/img/help.svg" alt="Help" onclick="location.href='help.html'">
-            <div id="profileInitials">
+            <img src="../assets/img/help.svg" alt="Help" onclick="location.href='help.html'">
+            <div id="profileInitials" onclick="togglePopup(event)">
                 <img src="../assets/img/profile_logo.svg" alt="Your Profile">
             </div>
+            <span id="header-popup" class="header-popup">
+                <a href="../../html/legal_notice.html">Legal Notice</a>
+                <a href="../../html/data_protection.html">Privacy Policy</a>
+                <a href="../../html/logIn.html">Log Out</a>
+            </span>
         </div>
     </div>
 </header>
