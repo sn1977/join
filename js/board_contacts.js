@@ -1,4 +1,11 @@
 /**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+/**
  * Loads and sorts the contacts into the board for the task addition process.
  */
 function addTaskLoadContactsBoard() {

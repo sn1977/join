@@ -1,4 +1,11 @@
 /**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+/**
  * Opens a popup to display details of a specific todo item.
  * @param {number} id - The unique identifier of the todo item to be displayed.
  */

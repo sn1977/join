@@ -33,7 +33,6 @@ async function initboard() {
 }
 
 
-
 /**
  * Loads all tasks from remote storage and updates the local state.
  */
@@ -50,6 +49,7 @@ async function loadAllTasksFromRemote() {
     }
 }
 
+
 /**
  * funtion to load all categories from remote server
  * 
@@ -60,12 +60,14 @@ async function loadCategories() {
     categoryArray = JSON.parse(await getItem('categories')) || categoryArray;
 }
 
+
 /**
  * Loads contact data from remote storage.
  */
 async function loadContacts() {
     contacts = JSON.parse(await getItem('contacts')) || contacts;
 }
+
 
 /**
  * Saves all current tasks to remote storage.
@@ -79,6 +81,14 @@ async function saveAllTasksToRemote() {
 }
 
 
+/**
+ * Renders the board interface.
+ *
+ * This function is responsible for rendering the board interface by performing the following tasks:
+ * 1. Initializes the board.
+ * 2. Adds content to the board.
+ * 3. Sets up event listeners for search functionality.
+ */
 function renderBoard() {
     initializeBoard();
     addBoardContent();
@@ -86,6 +96,14 @@ function renderBoard() {
 }
 
 
+/**
+ * Initializes the board by setting up the initial structure.
+ *
+ * This function initializes the board by performing the following tasks:
+ * 1. Clears the content of the 'content' element.
+ * 2. Adds a 'board' container element to the 'content' element.
+ * 3. Appends the HTML structure for the board content.
+ */
 function initializeBoard() {
     document.getElementById('content').innerHTML = '';
     document.getElementById('content').innerHTML += /*html*/ `<div class="board" id="board"></div>`;
@@ -93,6 +111,13 @@ function initializeBoard() {
 }
 
 
+/**
+ * Adds content to the board based on the predefined board names.
+ *
+ * This function iterates through the predefined board names and adds progress containers to the board
+ * based on the names and their corresponding progress status. It uses the `addProgressContainer` function
+ * to create and append progress containers to the board.
+ */
 function addBoardContent() {
     for (let i = 0; i < boardNames.length; i++) {
         const name = boardNames[i];
@@ -102,6 +127,16 @@ function addBoardContent() {
 }
 
 
+/**
+ * Adds a progress container to the board.
+ *
+ * This function generates HTML for a progress container based on the provided parameters and appends it
+ * to the 'boardContent' element.
+ *
+ * @param {number} index - The index of the progress container.
+ * @param {string} name - The name of the progress container.
+ * @param {string} progress - The progress status associated with the container.
+ */
 function addProgressContainer(index, name, progress) {
     const containerHTML = index < 3 ?
         getContainerWithAddButton(name, progress, index) :
@@ -111,6 +146,16 @@ function addProgressContainer(index, name, progress) {
 }
 
 
+/**
+ * Generates HTML for a progress container with an "Add Task" button.
+ *
+ * This function creates HTML code for a progress container that includes a button for adding tasks.
+ *
+ * @param {string} name - The name of the progress container.
+ * @param {string} progress - The progress status associated with the container.
+ * @param {number} index - The index of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
 function getContainerWithAddButton(name, progress, index) {
     return /*html*/ `
     <div class="progressContainer">
@@ -125,6 +170,16 @@ function getContainerWithAddButton(name, progress, index) {
 }
 
 
+/**
+ * Generates HTML for a progress container without an "Add Task" button.
+ *
+ * This function creates HTML code for a progress container without an "Add Task" button.
+ *
+ * @param {string} name - The name of the progress container.
+ * @param {string} progress - The progress status associated with the container.
+ * @param {number} index - The index of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
 function getContainerWithoutAddButton(name, progress, index) {
     return /*html*/ `
     <div class="progressContainer">
@@ -136,6 +191,13 @@ function getContainerWithoutAddButton(name, progress, index) {
 }
 
 
+
+/**
+ * Sets up event listeners for search functionality.
+ *
+ * This function adds event listeners to search input elements for handling keyup events
+ * and triggering searchTasks and searchTasksMobile functions.
+ */
 function setupSearchListeners() {
     const searchInput = document.getElementById('inputSearch');
     searchInput.addEventListener('keyup', searchTasks);
@@ -180,6 +242,13 @@ function searchTasksMobile() {
 }
 
 
+/**
+ * Updates the HTML content of the board with tasks grouped by progress.
+ *
+ * This function updates the content of the board by calling 'updateStatusContainer' for each progress status.
+ *
+ * @param {Array} tasks - An array of tasks to display on the board. Defaults to 'todos' if not provided.
+ */
 function updateHTML(tasks = todos) {
     updateStatusContainer(tasks, 'todo', 'statusContainer0');
     updateStatusContainer(tasks, 'inprogress', 'statusContainer1');
@@ -187,14 +256,30 @@ function updateHTML(tasks = todos) {
     updateStatusContainer(tasks, 'done', 'statusContainer3');
 }
 
-
+/**
+ * Updates a specific progress container with filtered tasks.
+ *
+ * This function filters tasks by their progress status, sorts them, and updates the HTML content of the specified container.
+ *
+ * @param {Array} tasks - An array of tasks.
+ * @param {string} progress - The progress status to filter tasks by.
+ * @param {string} containerId - The ID of the container to update with the filtered tasks.
+ */
 function updateStatusContainer(tasks, progress, containerId) {
     const filteredTasks = sortTodos(tasks.filter(t => t['progress'] === progress));
     const container = document.getElementById(containerId);
     container.innerHTML = getContainerHTML(filteredTasks, progress);
 }
 
-
+/**
+ * Generates HTML code for a progress container based on tasks or a "No Tasks" message.
+ *
+ * This function creates HTML code for a progress container based on the provided tasks. If no tasks are available, it displays a "No Tasks" message.
+ *
+ * @param {Array} tasks - An array of tasks to display in the container.
+ * @param {string} progress - The progress status associated with the container.
+ * @returns {string} HTML code for the progress container.
+ */
 function getContainerHTML(tasks, progress) {
     if (tasks.length === 0) {
         return `<div class="noTaskDiv">No Tasks ${formatProgressDisplayName(progress)}</div>`;
@@ -203,7 +288,14 @@ function getContainerHTML(tasks, progress) {
     }
 }
 
-
+/**
+ * Formats the display name for a progress status.
+ *
+ * This function takes a progress status and returns its formatted display name.
+ *
+ * @param {string} progress - The progress status.
+ * @returns {string} Formatted display name for the progress status.
+ */
 function formatProgressDisplayName(progress) {
     switch (progress) {
         case 'todo': return 'To do';
@@ -214,8 +306,13 @@ function formatProgressDisplayName(progress) {
     }
 }
 
-
-
+/**
+ * Sets up the dragging of a task element.
+ *
+ * This function sets the currently dragged element when a task is being dragged and adds a CSS class for styling.
+ *
+ * @param {string} id - The ID of the task element being dragged.
+ */
 function startDragging(id) {
     currentDraggedElement = id;
     window.currentlyDraggedElement = document.querySelector(`[ondragstart="startDragging(${id})"]`);
@@ -224,15 +321,24 @@ function startDragging(id) {
     }
 }
 
-
+/**
+ * Stops the dragging of a task element and resets the reference.
+ */
 function stopDragging() {
     if (window.currentlyDraggedElement) {
         window.currentlyDraggedElement.classList.remove("rotated");
-        window.currentlyDraggedElement = null; // Setze die Referenz zurück
+        window.currentlyDraggedElement = null; // Reset the reference
     }
 }
 
-
+/**
+ * Generates HTML for a task element based on the provided task data.
+ *
+ * This function creates HTML code for a task element based on the provided task data, including category color, progress, assigned users, and arrow buttons.
+ *
+ * @param {Object} element - The task data to display.
+ * @returns {string} HTML code for the task element.
+ */
 function generateHTML(element) {
     const categoryColor = getCategoryColor(element);
     const progressHTML = generateProgressHTML(element);
@@ -241,6 +347,18 @@ function generateHTML(element) {
     return createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML, arrowButtonsHTML);
 }
 
+/**
+ * Creates HTML code for a task element.
+ *
+ * This function generates HTML code for a task element based on the provided data, including category color, progress, assigned users, and arrow buttons.
+ *
+ * @param {Object} element - The task data to display.
+ * @param {string} categoryColor - The color associated with the task's category.
+ * @param {string} progressHTML - HTML code for the task's progress display.
+ * @param {string} assignedUsersHTML - HTML code for the task's assigned users display.
+ * @param {string} arrowButtonsHTML - HTML code for the task's arrow buttons.
+ * @returns {string} HTML code for the task element.
+ */
 function createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML, arrowButtonsHTML) {
     return /*html*/ `
     <div class="todo" draggable="true" ondragstart="startDragging(${element['id']})" ondragend="stopDragging(${element['id']})" onclick="openPopup(${element['id']})">
@@ -257,14 +375,27 @@ function createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML,
     </div>`;
 }
 
-
-
+/**
+ * Gets the color associated with a task's category.
+ *
+ * This function determines the color associated with a task's category based on its index in the categoryArray.
+ *
+ * @param {Object} element - The task data.
+ * @returns {string} The color associated with the category.
+ */
 function getCategoryColor(element) {
     const categoryIndex = categoryArray.indexOf(element['category']);
     return getColorByIndexBoard(categoryIndex);
 }
 
-
+/**
+ * Generates HTML code for the progress display of a task.
+ *
+ * This function calculates the progress of a task based on its subtasks and generates HTML code for the progress display.
+ *
+ * @param {Object} element - The task data.
+ * @returns {string} HTML code for the progress display.
+ */
 function generateProgressHTML(element) {
     const totalSubtasks = element.subtask ? element.subtask.length : 0;
     const completedSubtasks = element.subtask ? element.subtask.filter(task => task.done).length : 0;
@@ -276,7 +407,14 @@ function generateProgressHTML(element) {
     }
 }
 
-
+/**
+ * Generates HTML code for the assigned users display of a task.
+ *
+ * This function generates HTML code for displaying assigned users of a task, with a limit on the number of displayed users.
+ *
+ * @param {Object} element - The task data.
+ * @returns {string} HTML code for the assigned users display.
+ */
 function generateAssignedUsersHTML(element) {
     let html = '';
     const maxDisplayUsers = 5;
@@ -291,6 +429,15 @@ function generateAssignedUsersHTML(element) {
 }
 
 
+/**
+ * Generates HTML for arrow buttons used for task movement.
+ *
+ * This function generates HTML code for up and down arrow buttons based on the provided element's progress status.
+ * It includes buttons for moving the task up or down in a task list.
+ *
+ * @param {Object} element - The task element for which arrow buttons are generated.
+ * @returns {string} HTML code for the arrow buttons.
+ */
 function generateArrowButtonsHTML(element) {
     const isTop = element.progress === 'todo';
     const isBottom = element.progress === 'done';

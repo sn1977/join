@@ -1,4 +1,11 @@
 /**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+/**
  * Generates the HTML structure for the main board.
  * This includes the main popup for viewing todo items and the board header with search and add task features.
  * @returns {string} The HTML string representing the board's layout.
@@ -108,7 +115,7 @@ function editBoardHTML(todo) {
                     </div>
                     <h4>Assigned to</h4>
                     <div class="inputContainer">
-                        <input class="custom-select"  onclick="toggleContactsBoard(),filterContactsBoard()"
+                        <input class="custom-select" onclick="toggleContactsBoard(),filterContactsBoard()"
                             id="assignedTo" type="text" placeholder="Select contacts to assign">
                         <div class="d-none assignedToContainerBoard" id="assignedToContainer">                          
                         </div>
@@ -126,43 +133,79 @@ function editBoardHTML(todo) {
     `
 }
 
+/**
+ * Renders a progress container for the board with an "Add Task" button.
+ *
+ * This function generates HTML code for a progress container that includes an "Add Task" button.
+ *
+ * @param {number} i - The index of the progress container.
+ * @param {string} name - The name of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
 function renderBoardWithAdd(i, name) {
     return `
-            <div class="progressContainer">
-                <div class="progressContainerStatusHead">
-                    <div class="progressStatus">
-                        ${name}
-                    </div>
-                    <div>
-                    <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
-                    </div>
+        <div class="progressContainer">
+            <div class="progressContainerStatusHead">
+                <div class="progressStatus">
+                    ${name}
                 </div>
+                <div>
+                    <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
+                </div>
+            </div>
             <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
-        </div>`
+        </div>`;
 }
 
+/**
+ * Renders a progress container for the board without an "Add Task" button.
+ *
+ * This function generates HTML code for a progress container without an "Add Task" button.
+ *
+ * @param {number} i - The index of the progress container.
+ * @param {string} name - The name of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
 function renderBoardWhitoutAdd(i, name) {
     return `
-    <div class="progressContainer">
-        <div class="progressContainerStatusHead">
-            <div class="progressStatus">
-                ${name}
+        <div class="progressContainer">
+            <div class="progressContainerStatusHead">
+                <div class="progressStatus">
+                    ${name}
+                </div>
             </div>
-        </div>
-        <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
-    </div>`
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+        </div>`;
 }
 
+/**
+ * Generates HTML code for a progress container with a progress bar.
+ *
+ * This function creates HTML code for a progress container with a progress bar and displays completed and total subtasks.
+ *
+ * @param {number} progress - The progress percentage.
+ * @param {number} completedSubtasks - The number of completed subtasks.
+ * @param {number} totalSubtasks - The total number of subtasks.
+ * @returns {string} HTML code for the progress container.
+ */
 function progressContainer(progress, completedSubtasks, totalSubtasks) {
     return `
-    <div class="progress">
-        <div class="progress-container">
-            <div class="progress-bar" style="width: ${progress}%"></div>
-        </div>
-        <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
-    </div>`
+        <div class="progress">
+            <div class="progress-container">
+                <div class="progress-bar" style="width: ${progress}%"></div>
+            </div>
+            <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
+        </div>`;
 }
 
+/**
+ * Generates HTML code for displaying contact information.
+ *
+ * This function creates HTML code for displaying contact information including a contact icon, name, and checkbox image.
+ *
+ * @param {Object} contacts - The contact data to display.
+ * @returns {string} HTML code for displaying contact information.
+ */
 function contactHtml(contacts) {
     return ` 
         <div class="contactLine" onclick="toggleContactBoard(${contacts.id})">
@@ -178,5 +221,5 @@ function contactHtml(contacts) {
                 <img src="../assets/img/checkbox.png">
             </div>
         </div>
-    `
+    `;
 }
