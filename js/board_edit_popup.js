@@ -9,6 +9,7 @@ function openEditPopup(id) {
     initializeDatepicker();
     document.getElementById('editpopup').style.display = 'flex';
     document.getElementById('popup').style.display = 'none';
+    console.log(todo.category);
 }
 
 /**
@@ -19,9 +20,7 @@ function createEditPopup(todo) {
     allContactsBoard = todo.assignedTo;
     document.getElementById("editpopup").innerHTML = '';
     document.getElementById("editpopup").innerHTML = editBoardHTML(todo);
-    updateCategorySelect();
-    const categorySelect = document.getElementById('category');
-    categorySelect.value = todo.category;
+    updateCategorySelectBoard(todo.category);
     showSelectedContacts();
     setupSearchListener();
     generateEditSubtasks(todo);
@@ -29,6 +28,7 @@ function createEditPopup(todo) {
     setPriorityButton(todo.prio);
     document.getElementById('editpopup').style.display = 'flex';
     document.getElementById('popup').style.display = 'none';
+
 }
 
 
@@ -41,7 +41,7 @@ async function closeEditPopup(id) {
     openPopup(id)
     document.getElementById('editpopup').style.display = 'none';
     document.getElementById('popup').style.display = 'flex';
-    document.getElementById("editpopup").innerHTML = '';
+    document.getElementById('editpopup').innerHTML = '';
 }
 
 /**
@@ -325,14 +325,32 @@ document.addEventListener('click', function (event) {
     }
 });
 
-function updateCategorySelect() {
-    const categorySelect = document.getElementById('category');
-    categorySelect.innerHTML = '<option value="" disabled selected hidden>Select task category</option>';
-
-    categoryArray.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
+function updateCategorySelectBoard(selectedCategory) {
+    const categorySelect = document.getElementById('category-board');
+    categorySelect.innerHTML = '';
+    categoryArray.forEach((category) => {
+        let option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        if (selectedCategory === category) {
+            option.selected = true;
+        }
         categorySelect.appendChild(option);
     });
+    const newCategoryOption = document.createElement('option');
+    newCategoryOption.value = 'Enter new category';
+    newCategoryOption.innerText = 'Enter new category';
+    newCategoryOption.classList = 'markText';
+    categorySelect.appendChild(newCategoryOption);
+}
+
+function handleCategoryChangeBoard() {
+    let categorySelect = document.getElementById("category-board");
+    let newCategoryInput = document.getElementById("inputCategory");
+    // let newCategory = document.getElementById('newCategory');
+    if (categorySelect.value === "Enter new category") {
+        newCategoryInput.classList.remove("d-none");
+    } else {
+        newCategoryInput.classList.add("d-none");
+    }
 }

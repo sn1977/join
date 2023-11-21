@@ -95,9 +95,14 @@ function editBoardHTML(todo) {
                     </div>
                     <h4>Category</h4>
                     <div class="inputContainer">
-                    <select class="custom-select" onfocus="updateCategorySelect()" id="category" name="category" required>
-                        <option value="" disabled selected hidden>Select task category</option>
+                    <select class="" onfocus="updateCategorySelectBoard('${todo.category}')" id="category-board" onchange="handleCategoryChangeBoard()">
                     </select>
+                        <div id="inputCategory" class="inputField subtaskContainer d-none">
+                            <input type="text" id="newCategory" placeholder="Type..." value="">
+                            <img src="../assets/img/close.svg" onclick="clearInput()">
+                            <div>|</div>
+                            <img src="../assets/img/check-black.svg" onclick="addCategory()">
+                        </div>
                     </div>
                     <h4>Assigned to</h4>
                     <div class="inputContainer">
