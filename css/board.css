@@ -249,6 +249,12 @@ textarea {
     text-overflow: ellipsis;
 }
 
+.todo-bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .progress {
     display: flex;
     flex-direction: column;

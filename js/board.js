@@ -369,7 +369,10 @@ function createTodoHTML(element, categoryColor, progressHTML, assignedUsersHTML,
                 <span class="todoDescription">${element['description']}</span>
             </div>
             ${progressHTML}
-            <div class="assignedToUsers">${assignedUsersHTML}</div>
+            <div class="todo-bottom">
+                <div class="assignedToUsers">${assignedUsersHTML}</div>
+                <img src="../assets/img/${element.prio}.svg">  
+            </div>
             <div class="todo-arrows">${arrowButtonsHTML}</div>
         </div>
     </div>`;
