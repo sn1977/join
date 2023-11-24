@@ -445,6 +445,9 @@ function editSubtask(i) {
 function switchToInput() {
     document.getElementById('inputsubtask').style.display = 'flex';
     document.getElementById('addSubtask').style.display = 'none';
+    subtaskInput.addEventListener("focus", () => {
+        subtaskContainer.style.borderColor = "#29ABE2";
+    });
 }
 
 function switchBack() {

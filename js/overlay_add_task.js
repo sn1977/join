@@ -1,12 +1,12 @@
 
-let subtaskInputX;
+let subtaskInput;
 let subtaskContainer;
 let subtaskInputFocusListener = () => { };
 let subtaskInputBlurListener = () => { };          
 
 
 function addSubtaskEventListeners() {
-    subtaskInputX = document.getElementById("subtask");
+    subtaskInput = document.getElementById("subtask");
     subtaskContainer = document.querySelector(".subtaskContainer");
 
     subtaskInputFocusListener = () => {
@@ -17,14 +17,14 @@ function addSubtaskEventListeners() {
         subtaskContainer.style.borderColor = "#D1D1D1";
     };
 
-    subtaskInputX.addEventListener("focus", subtaskInputFocusListener);
-    subtaskInputX.addEventListener("blur", subtaskInputBlurListener);
+    subtaskInput.addEventListener("focus", subtaskInputFocusListener);
+    subtaskInput.addEventListener("blur", subtaskInputBlurListener);
 }
 
 
 function removeSubtaskEventListeners() {
-    subtaskInputX.removeEventListener("focus", subtaskInputFocusListener);
-    subtaskInputX.removeEventListener("blur", subtaskInputBlurListener);
+    subtaskInput.removeEventListener("focus", subtaskInputFocusListener);
+    subtaskInput.removeEventListener("blur", subtaskInputBlurListener);
 }
 
 
@@ -64,17 +64,14 @@ function closeOverlay() {
     const script = document.querySelector('script[src="../js/special_add_task.js"]');
     if (script) {
         script.remove();
-        removeEventListenerFromAssignedToContainer();
-        removeClickEventListener(); // Entferne den Event Listener
-        removeSubtaskEventListeners()
+        eventListenerFromAssignedToContainer();
+        removeClickEventListener(); 
+        removeSubtaskEventListeners();
     }
 }
 
 
 function addTaskOverlay(progressBoard) {
-
-
-
     document.getElementById('taskContent').innerHTML = /*HTML*/ `
      
     <div class="taskOverlay">
@@ -205,7 +202,6 @@ function addTaskOverlay(progressBoard) {
 </div>
 
     `;
-
     loadExternalScript()
 }
 

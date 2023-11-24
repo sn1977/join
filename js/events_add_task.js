@@ -61,9 +61,9 @@ let subtaskInput = document.getElementById("subtask");
 let subtaskContainer = document.querySelector(".subtaskContainer");
 
 subtaskInput.addEventListener("focus", () => {
-    subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
+    subtaskContainer.style.borderColor = "#29ABE2";
 });
 
 subtaskInput.addEventListener("blur", () => {
-    subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
+    subtaskContainer.style.borderColor = "#D1D1D1";
 });
