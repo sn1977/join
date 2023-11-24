@@ -24,6 +24,7 @@ function toggleContacts() {
 }
 
 
+
 /**
  * function to load the contacts and push them in to an array
  * 
@@ -56,12 +57,16 @@ async function addTaskLoadContacts() {
  * 
  * @todo
  * 
+ *   <div class="contactLine" onclick="toggleContact(${contacts[i].id}, event)">
+ * 
  */
 function contactlistHtml(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
         contacthtml += ` 
-            <div class="contactLine" onclick="toggleContact(${contacts[i].id}, event)">
+          
+        <div class="contactLine" data-contactid="${contacts[i].id}" onclick="toggleContact(${contacts[i].id}, event)">
+
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
                         ${contacts[i].initialien}
@@ -88,6 +93,7 @@ function contactlistHtml(contacts) {
  * 
  */
 function filterContacts() {
+    const assignedToInput = document.getElementById('assignedTo');
     const inputText = assignedToInput.value.toLowerCase();
     if (inputText === '') {
         filteredContacts = contactpool;
@@ -151,6 +157,8 @@ function addTaskGetContacts() {
         <section id="assignedToContact">
             ${contactlistHtml(filteredContacts)}
         </section>
+
+        
         <button class="createContactBtn"  onclick="overlayAddContact()">
             Add new contact
             <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
@@ -168,11 +176,20 @@ function addTaskGetContacts() {
  * 
  */
 function toggleContact(contactId, event) {
-    const i = filteredContacts.findIndex(contact => contact.id === contactId);
-    contactpool[i]['assigned'] ? unchoseContact(i) : choseContact(i);
-    updateIcons(filteredContacts);
+    const filteredContact = filteredContacts.find(contact => contact.id === contactId);
+    
+    if (filteredContact) {
+        const originalIndex = contactpool.findIndex(contact => contact.id === filteredContact.id);
+        
+        if (originalIndex !== -1) {
+            contactpool[originalIndex]['assigned'] ? unchoseContact(originalIndex) : choseContact(originalIndex);
+            updateIcons(filteredContacts);
+        }
+    }
+
     event.stopPropagation();
 }
+
 
 
 
@@ -209,18 +226,22 @@ function choseContact(i) {
 }
 
 
-function unchoseContact(i) {
+function unchoseContact(i) {   
     const contactCheckbox = document.getElementById(`checked${i}`);
-    contactCheckbox.innerHTML = `
-        <img src="../assets/img/checkbox.png" alt="">
-    `;
-    contactCheckbox.parentNode.classList.remove('checked');
-    const suche = allContacts.map(el => el.contactid);
-    let x = suche.indexOf(i);
-    allContacts.splice(x, 1);
-    contactpool[i]['assigned'] = false;
-    showTaskContacts();
+    if (contactCheckbox) {
+        contactCheckbox.innerHTML = `
+            <img src="../assets/img/checkbox.png" alt="">
+        `;
+        contactCheckbox.parentNode.classList.remove('checked');
+        const suche = allContacts.map(el => el.contactid);
+        let x = suche.indexOf(i);
+        allContacts.splice(x, 1);
+        contactpool[i]['assigned'] = false;
+        showTaskContacts();
+    } 
 }
+
+
 
 
 function removeContactFromArray(contactName) {

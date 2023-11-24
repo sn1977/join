@@ -10,6 +10,11 @@
 let categoryArray = ['Technical Task', 'User Story'];
 
 
+function placeholderCategory() {
+    // placeholder select category 
+    document.getElementById("category").selectedIndex = 0;
+}
+
 /**
  * function to show input field to add category if value 'Enter new category' is select
  * 
@@ -18,12 +23,19 @@ let categoryArray = ['Technical Task', 'User Story'];
  */
 function handleCategoryChange() {
     let categorySelect = document.getElementById("category");
-    let newCategoryInput = document.getElementById("inputCategory");
+    let newCategoryContainer = document.getElementById("inputCategory");
+    let newCategoryInput = document.getElementById("newCategory");
     // let newCategory = document.getElementById('newCategory');
     if (categorySelect.value === "Enter new category") {
-        newCategoryInput.classList.remove("d-none");
+        newCategoryContainer.classList.remove("d-none");
+            // Set focus with a small delay
+            setTimeout(() => {
+                console.log("Setting focus");
+                categorySelect.blur();
+                newCategoryInput.focus();
+            }, 10);
     } else {
-        newCategoryInput.classList.add("d-none");
+        newCategoryContainer.classList.add("d-none");
     }
 }
 
@@ -35,12 +47,17 @@ function handleCategoryChange() {
  * 
  */
 async function addCategory() {
-    const newCategory = document.getElementById('newCategory');
-    const cat = newCategory.value.trim();
+    const newCategoryInput = document.getElementById('newCategory');
+    const categorySelect = document.getElementById('category');
+    const cat = newCategoryInput.value.trim();
     if (cat !== '') {
         categoryArray.push(cat);
         await setItem('categories', JSON.stringify(categoryArray));
         updateCategorySelect();
+        categorySelect.value = cat;
+        newCategoryInput.value = '';
+        newCategoryInput.classList.add('d-none');
+        setTimeout(handleCategoryChange, 0);
     } else {
         alert("Darf nicht leer sein");
     }

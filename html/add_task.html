@@ -59,13 +59,13 @@
 
                     <div class="inputContainer">
                         <label for="assignedTo">Assigned to</label>
-                        <input class="custom-select" onclick="toggleContacts(), filterContacts()" id="assignedTo"
-                            type="text" placeholder="Select contacts to assign">
+                        <input oninput="filterContacts()" onclick="filterContacts()" class="custom-select" id="assignedTo" type="text" placeholder="Select contacts to assign">
                         <div class="d-none assignedToContainer" id="assignedToContainer">
                         </div>
                     </div>
-
                     <div id="showAssignedContacts"></div>
+                    
+                    
                 </div>
 
                 <div class="divider">
@@ -141,7 +141,7 @@
             <div class="footArea">
                 <p><sup class="required"></sup>This field is required</p>
                 <div class=btnAddTask>
-                    <button class="cancelBtn" onclick="reload()">Cancel
+                    <button class="cancelBtn" onclick="reload()">Clear
                         <img src="../assets/img/cancel.svg">
                     </button>
                     <button class="activeBtn" onclick="addTask('todo')">Create Task <img src="../assets/img/check.svg"
@@ -153,7 +153,7 @@
     </div>
 
     <script src="../js/add_task.js"></script>
-    <script src="../js/events_add_ task.js"></script>
+    <script src="../js/events_add_task.js"></script>
 </body>
 
 </html>

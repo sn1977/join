@@ -10,6 +10,8 @@ document.addEventListener('click', function (event) {
     const assignedToInput = document.getElementById('assignedTo');
 
     if (assignedToContainer) {
+        assignedToContainer.classList.remove('d-none');
+
         // Überprüfen, ob das Klickereignis nicht im Dropdown-Menü oder im Eingabefeld stattfindet
         if (
             event.target !== assignedToContainer &&
@@ -22,14 +24,11 @@ document.addEventListener('click', function (event) {
 });
 
 
-// filter assignedTo
-const assignedToInput = document.getElementById('assignedTo');
-assignedToInput.addEventListener('input', filterContacts);
 
 
-// placeholder select category 
+/* // placeholder select category 
 document.getElementById("category").selectedIndex = 0;
-
+ */
 
 //datepicker and min date = today for dueDate
 $(document).ready(function () {
@@ -58,13 +57,13 @@ $(document).ready(function () {
 });
 
 //focus subtask Input field change border colour
-let subtaskInputX = document.getElementById("subtask");
+let subtaskInput = document.getElementById("subtask");
 let subtaskContainer = document.querySelector(".subtaskContainer");
 
-subtaskInputX.addEventListener("focus", () => {
+subtaskInput.addEventListener("focus", () => {
     subtaskContainer.style.borderColor = "#29ABE2"; // Ändere die Border-Farbe auf Fokus
 });
 
-subtaskInputX.addEventListener("blur", () => {
+subtaskInput.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1"; // Ändere die Border-Farbe zurück, wenn der Fokus verloren geht
 });
