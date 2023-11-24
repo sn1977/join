@@ -1,7 +1,20 @@
+/**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+/**
+ * Generates the HTML structure for the main board.
+ * This includes the main popup for viewing todo items and the board header with search and add task features.
+ * @returns {string} The HTML string representing the board's layout.
+ */
 function boardHTML() {
     return `
     <div id="editpopup" class="popup"></div>
     <div id="popup" class="popup">
+        <div id="notification-popup" class="notification-popup">All Saved</div>
         <div class="container-popup">
             <div class="popup-content">
                 <div class="d-flex">
@@ -60,6 +73,12 @@ function boardHTML() {
 }
 
 
+/**
+ * Generates the HTML structure for the edit mode of a todo item.
+ * This includes fields for editing the title, description, due date, priority, category, assigned contacts, and subtasks of the todo item.
+ * @param {Object} todo - The todo item to be edited.
+ * @returns {string} The HTML string for the edit mode layout of the specified todo item.
+ */
 function editBoardHTML(todo) {
     return `
         <div class="container-popup">
@@ -85,15 +104,18 @@ function editBoardHTML(todo) {
                     </div>
                     <h4>Category</h4>
                     <div class="inputContainer">
-                        <select class="custom-select" id="category" name="category" required>
-                            <option value="" disabled selected hidden>Select task category</option>
-                            <option value="Technical Task">Technical Task</option>
-                            <option value="User Story">User Story</option>
-                        </select>
+                    <select class="" onfocus="updateCategorySelectBoard('${todo.category}')" id="category-board" onchange="handleCategoryChangeBoard()">
+                    </select>
+                        <div id="inputCategory" class="inputField subtaskContainer d-none">
+                            <input type="text" id="newCategory" placeholder="Type..." value="">
+                            <img src="../assets/img/close.svg" onclick="clearInput()">
+                            <div>|</div>
+                            <img src="../assets/img/check-black.svg" onclick="addCategory()">
+                        </div>
                     </div>
                     <h4>Assigned to</h4>
                     <div class="inputContainer">
-                        <input class="custom-select"  onclick="toggleContactsBoard(),filterContactsBoard()"
+                        <input class="custom-select" onclick="toggleContactsBoard(),filterContactsBoard()"
                             id="assignedTo" type="text" placeholder="Select contacts to assign">
                         <div class="d-none assignedToContainerBoard" id="assignedToContainer">                          
                         </div>
@@ -109,4 +131,95 @@ function editBoardHTML(todo) {
                 </div>
         </div>
     `
+}
+
+/**
+ * Renders a progress container for the board with an "Add Task" button.
+ *
+ * This function generates HTML code for a progress container that includes an "Add Task" button.
+ *
+ * @param {number} i - The index of the progress container.
+ * @param {string} name - The name of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
+function renderBoardWithAdd(i, name) {
+    return `
+        <div class="progressContainer">
+            <div class="progressContainerStatusHead">
+                <div class="progressStatus">
+                    ${name}
+                </div>
+                <div>
+                    <img src="../assets/img/addbutton.svg" alt="Add Task" class="add-button" onclick="overlayAddTask('${progress}')">
+                </div>
+            </div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+        </div>`;
+}
+
+/**
+ * Renders a progress container for the board without an "Add Task" button.
+ *
+ * This function generates HTML code for a progress container without an "Add Task" button.
+ *
+ * @param {number} i - The index of the progress container.
+ * @param {string} name - The name of the progress container.
+ * @returns {string} HTML code for the progress container.
+ */
+function renderBoardWhitoutAdd(i, name) {
+    return `
+        <div class="progressContainer">
+            <div class="progressContainerStatusHead">
+                <div class="progressStatus">
+                    ${name}
+                </div>
+            </div>
+            <div class="statusContainer" id="statusContainer${i}" ondrop="moveTo('${progress}')" ondragover="allowDrop(event)"></div>
+        </div>`;
+}
+
+/**
+ * Generates HTML code for a progress container with a progress bar.
+ *
+ * This function creates HTML code for a progress container with a progress bar and displays completed and total subtasks.
+ *
+ * @param {number} progress - The progress percentage.
+ * @param {number} completedSubtasks - The number of completed subtasks.
+ * @param {number} totalSubtasks - The total number of subtasks.
+ * @returns {string} HTML code for the progress container.
+ */
+function progressContainer(progress, completedSubtasks, totalSubtasks) {
+    return `
+        <div class="progress">
+            <div class="progress-container">
+                <div class="progress-bar" style="width: ${progress}%"></div>
+            </div>
+            <span class="subtask-container">${completedSubtasks}/${totalSubtasks} Subtasks</span>
+        </div>`;
+}
+
+/**
+ * Generates HTML code for displaying contact information.
+ *
+ * This function creates HTML code for displaying contact information including a contact icon, name, and checkbox image.
+ *
+ * @param {Object} contacts - The contact data to display.
+ * @returns {string} HTML code for displaying contact information.
+ */
+function contactHtml(contacts) {
+    return ` 
+        <div class="contactLine" onclick="toggleContactBoard(${contacts.id})">
+            <div class="contact">
+                <div class="contacticon" style="background-color:  ${contacts.color};"> 
+                    ${contacts.initialien}
+                </div>
+                <div class="contactName"> 
+                    ${contacts.name} 
+                </div>
+            </div>
+            <div class="contactImage" id="checked${contacts.id}">
+                <img src="../assets/img/checkbox.png">
+            </div>
+        </div>
+    `;
 }

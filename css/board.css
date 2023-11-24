@@ -55,7 +55,6 @@ textarea {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*padding: 12px 24px;*/
     border: 1px solid #A8A8A8;
     border-radius: 10px;
     background-color: #FFFFFF;
@@ -75,7 +74,6 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
     width: 46px;
     cursor: pointer;
 }
@@ -244,6 +242,17 @@ textarea {
 .todoDescription {
     color: #a8a8a8;
     height: 20px;
+    max-width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.todo-bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .progress {
@@ -376,7 +385,6 @@ textarea {
 
 .td-left {
     color: #2A3647;
-    /*width: 150px;*/
 }
 
 #subtask-container-table {
@@ -401,9 +409,7 @@ textarea {
     background-size: cover;
     display: inline-block;
     width: 24px;
-    /* oder die gewünschte Größe */
     height: 24px;
-    /* oder die gewünschte Größe */
 }
 
 .checkedSub:hover {
@@ -416,9 +422,7 @@ textarea {
     background-size: cover;
     display: inline-block;
     width: 24px;
-    /* oder die gewünschte Größe */
     height: 24px;
-    /* oder die gewünschte Größe */
 }
 
 .uncheckedSub:hover {
@@ -457,8 +461,6 @@ textarea {
     font-weight: 400;
     margin-right: 16px;
 }
-
-
 
 #assigned-table-div {
     display: flex;
@@ -501,8 +503,6 @@ textarea {
 .popup-content input,
 textarea,
 select {
-    /* width: calc( 100% - 14px); */
-    /* width: 98%;*/
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     font-family: 'Inter', sans-serif;
@@ -519,7 +519,6 @@ select {
 }
 
 textarea {
-    /*width: 515px;*/
     min-height: 80px;
     resize: none;
 }
@@ -527,7 +526,6 @@ textarea {
 .button-container {
     display: flex;
     justify-content: space-between;
-    /*width: 515px;*/
     margin-top: 8px;
     gap: 16px;
 }
@@ -564,11 +562,8 @@ button {
 
 .selectedPrio {
     background-color: #007bff;
-    /* Ändern Sie die Hervorhebungsfarbe nach Ihren Wünschen */
     color: white;
-    /* Ändern Sie die Textfarbe nach Ihren Wünschen */
     border: none;
-    /* Entfernt den Button-Rand (optional) */
 }
 
 .direction {
@@ -613,18 +608,6 @@ button {
     border-top-left-radius: 0;
     border: 1px solid #D1D1D1;
     height: auto;
-}
-
-.todoType.user-story {
-    background-color: blue;
-    color: white;
-    /* Ändere die Textfarbe nach Bedarf */
-}
-
-.todoType.technical-task {
-    background-color: #20D7C2;
-    color: white;
-    /* Ändere die Textfarbe nach Bedarf */
 }
 
 .inputSubtaskContainer {
@@ -698,22 +681,17 @@ button {
 
 .contactName {
     margin-right: 10px;
-    /* Abstand zwischen dem Namen und dem Bild */
 }
 
 .contactImage {
     display: flex;
     align-items: center;
-    /* Vertikal zentrieren */
     margin-left: auto;
-    /* Auf die rechte Seite verschieben */
 }
 
 .contactImage img {
     display: block;
-    /* Das Bild in eine separate Zeile setzen */
     margin-left: 10px;
-    /* Das Bild auf die rechte Seite verschieben */
 }
 
 
@@ -830,6 +808,19 @@ button {
     width: 100%;
     justify-content: space-around;
     display: none;
+}
+
+.notification-popup {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #29ABE2;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
 @media (max-width:1130px) {
@@ -974,5 +965,4 @@ button {
     .savedSubtasks input {
         width: 90%;
     }
-
 }

@@ -102,7 +102,6 @@ button {
     line-height: 1.5em;
     margin-left: 232px;
     margin-top: 96px;
-    height: 100vh;
     overflow-y: auto;
 }
 
@@ -245,6 +244,11 @@ select {
     line-height: 120%;
 }
 
+
+.rightSide > div:nth-child(3) {
+    padding-top: 32px;
+  }
+  
 input:hover,
 textarea:hover,
 select:hover {
@@ -691,6 +695,15 @@ select:focus,
 }
 
 
+#overlaySuccess {
+    position: fixed; /* oder 'absolute', je nach Bedarf */
+    left: 100%; /* Startet außerhalb des rechten Bildschirmrandes */
+    top: 80%; /* oder einen anderen Wert, je nach Bedarf */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
+    transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
+}
+
+
 @keyframes slideInFromRight {
     from {
         transform: translateX(100%);
@@ -747,7 +760,7 @@ select:focus,
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 990px) {
 
     .addTask {
         margin-left: 0;
@@ -770,14 +783,14 @@ select:focus,
 @media (max-width: 450px) {
 
     .formAddTask {
-        width: calc(100vw - 16px );
+        width: calc(100vw - 32px );
     }
 
 
     .addTask {
         margin-left: 0;
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .button-container button {
@@ -799,4 +812,18 @@ select:focus,
     .contactLine {
         width: 80%;
     }
+
+    #subtask, #newCategory {
+        width: 80%;
+    }
+
+    .btnAddTask {
+        width: 90%;
+    }
+
+    .activeBtn {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
 }

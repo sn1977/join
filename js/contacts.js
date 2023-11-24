@@ -1,80 +1,110 @@
-let contacts = [
-    { nameOfContact: 'Anton Mayer', emailOfContact: 'anton@gmail.com', telOfContact: '123456' },
-    { nameOfContact: 'Alfred Müller', emailOfContact: 'alfred@gmail.com', telOfContact: '789456' },
-    { nameOfContact: 'Beate Müller', emailOfContact: 'beate@gmail.com', telOfContact: '456951' },
-]
+/**
+ * An array to store contact information.
+ * @type {Array<Object>}
+ */
+let contacts = [];
 
+/**
+ * Color codes for UI styling.
+ * @type {Array<string>}
+ */
 const colors = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#0038FF'];
 
-let contactNameElem;
-let contactEmailElem;
-let contactPhoneElem;
+/**
+ * DOM elements for contact form fields.
+ */
+let contactNameElem, contactEmailElem, contactPhoneElem;
+
+/**
+ * The currently selected index in the contact array.
+ * @type {?number}
+ */
 let currentSelectedIndex = null;
+
+/**
+ * Indicates whether contact details are being shown.
+ * @type {boolean}
+ */
 let isContactDetailsShown = false;
 
-
+/**
+ * Initializes the global variables for form elements.
+ */
 function initializeContactElements() {
     contactNameElem = document.getElementById('contactName');
     contactEmailElem = document.getElementById('contactEmail');
     contactPhoneElem = document.getElementById('contactPhone');
 }
 
+/**
+ * Initializes the contact list by loading existing contacts and displaying them.
+ */
 async function initContact() {
     await loadContacts();
+    await cleanUpContacts();
     renderContacts();
 }
 
+/**
+* Loads the contact list from remote storage.
+*/
 async function loadContacts() {
-    contacts = JSON.parse(await getItem('contacts')) || contacts;
+    contacts = JSON.parse(await getItem('contacts'));
 }
 
+/**
+ * Removes invalid or incomplete contacts from the contact list and resaves it.
+ */
+async function cleanUpContacts() {
+    contacts = contacts.filter(contact => contact.nameOfContact && contact.emailOfContact && contact.telOfContact);
+    await setItem('contacts', JSON.stringify(contacts));
+    renderContacts();
+}
+
+/**
+ * Sorts the contact list alphabetically by name.
+ */
 function sortContactsByName() {
     contacts.sort((a, b) => a.nameOfContact.localeCompare(b.nameOfContact));
 }
 
+/**
+ * Creates a new contact based on form fields and adds it to the contact list.
+ */
 async function newContact() {
     initializeContactElements();
-    console.log('nameOfContact:', contactNameElem.value);
-    console.log('emailOfContact:', contactEmailElem.value);
-    console.log('telOfContact:', contactPhoneElem.value);
 
-    // Neuen Kontakt erstellen
     let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
     };
 
-    // Kontakt zur Liste hinzufügen
     contacts.push(newContact);
-
-    // Speichern des aktualisierten Arrays im Remote-Speicher
     await setItem('contacts', JSON.stringify(contacts));
 
-    // Aktualisieren und Anzeigen der Kontakte basierend auf dem Aufrufer
-
-    // Code für den Aufruf von einer anderen Seite
     resetContactField();
     closeOverlayAddContact();
     renderContacts();
 
-    // Finden Sie den Index des neuen Kontakts
     let newIndex = contacts.findIndex(contact => contact.nameOfContact === newContact.nameOfContact);
-
-    // Anzeigen der Details für den neuen Kontakt
     showContactDetails(newIndex);
-
-    // Overlay für den neu erstellten Kontakt anzeigen
     overlayContactCreated();
 }
 
-
+/**
+ * Resets the values of the contact form fields.
+ */
 function resetContactField() {
     contactNameElem.value = '';
     contactEmailElem.value = '';
     contactPhoneElem.value = '';
 }
 
+/**
+ * Groups contacts by the first letter of their names.
+ * @return {Object} An object with keys as first letters and values as arrays of contacts.
+ */
 function groupContactsByFirstLetter() {
     sortContactsByName();
     return contacts.reduce((groups, contact) => {
@@ -87,31 +117,24 @@ function groupContactsByFirstLetter() {
     }, {});
 }
 
+/**
+ * Renders the contacts in the UI.
+ */
 function renderContacts() {
     let allContacts = document.getElementById('allContacts');
     allContacts.innerHTML = '';
 
-    // const groupedContacts = groupByFirstLetter(nameOfContact);
     const groupedContacts = groupContactsByFirstLetter();
-
     for (const firstLetter in groupedContacts) {
-        allContacts.innerHTML += `
-            <div class="frame112">
-                <span>${firstLetter}</span>
-            </div>
-            <div class="frame119">
-                <svg class="parting-line" fill="none" height="2" viewBox="0 0 354 2" width="354" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1H353" stroke="#D1D1D1" stroke-linecap="round"/>
-                </svg>
-            </div>`;
-
-        groupedContacts[firstLetter].forEach((contact) => {
-            const index = contacts.indexOf(contact);
-            allContacts.innerHTML += showContact(contact.nameOfContact, index);
-        });
+        allContacts.innerHTML += generateContactGroupHTML(firstLetter, groupedContacts[firstLetter]);
     }
 }
 
+/**
+ * Gets the initials from a full name.
+ * @param {string} name - The full name of the contact.
+ * @return {string} The initials of the name.
+ */
 function getInitials(name) {
     let words = name.split(' ');
     let initials = "";
@@ -125,10 +148,21 @@ function getInitials(name) {
     return initials.toUpperCase();
 }
 
+/**
+ * Gets a color based on an index.
+ * @param {number} index - The index to determine the color.
+ * @return {string} A hex color code.
+ */
 function getColorByIndex(index) {
     return colors[index % colors.length];
 }
 
+/**
+ * Shows the contact information.
+ * @param {string} name - The name of the contact.
+ * @param {number} index - The index of the contact in the contacts array.
+ * @return {string} HTML string representing the contact.
+ */
 function showContact(name, index) {
     const contact = contacts[index];
     const initials = getInitials(contact.nameOfContact);
@@ -146,9 +180,10 @@ function showContact(name, index) {
         </div>`;
 }
 
-
-function showContactDetails(i) {
-    // Wenn bereits ein Kontakt ausgewählt wurde, werden dessen Stile zurück
+/**
+ * Resets the styles of the previously selected contact.
+ */
+function resetPreviousContactStyles() {
     if (currentSelectedIndex !== null) {
         const previousContactBox = document.getElementById(`contactNameBox${currentSelectedIndex}`);
         const previousInnerContactBox = document.getElementById(`profileBadge${currentSelectedIndex}`);
@@ -160,50 +195,79 @@ function showContactDetails(i) {
             previousContactName.style.color = '#000000';
         }
     }
+}
 
-    renderContacts();
-
-    let contactBox = document.getElementById(`contactNameBox${i}`);
-    let innerContactBox = document.getElementById(`profileBadge${i}`);
-    let contactName = document.querySelector(`#contactNameBox${i} .contactName`);
+/**
+ * Sets the styles for the currently selected contact.
+ * @param {number} index - The index of the selected contact.
+ */
+function setCurrentContactStyles(index) {
+    const contactBox = document.getElementById(`contactNameBox${index}`);
+    const innerContactBox = document.getElementById(`profileBadge${index}`);
+    const contactName = document.querySelector(`#contactNameBox${index} .contactName`);
 
     if (contactBox && innerContactBox && contactName) {
         contactBox.style.background = '#2A3647';
         innerContactBox.style.background = '#2A3647';
         contactName.style.color = '#ffffff';
     }
-    currentSelectedIndex = i;
-    displayWindows(i);
-    displayFloatingContactDetails(i);
-
-    isContactDetailsShown = true;
-
-    // Manuelles Auslösen eines resize Events
-    window.dispatchEvent(new Event('resize'));
-
 }
 
+/**
+ * Updates the UI to reflect the selection of a contact.
+ * @param {number} index - The index of the selected contact.
+ */
+function updateUIForSelectedContact(index) {
+    renderContacts();
+    setCurrentContactStyles(index);
+    displayWindows(index);
+    displayFloatingContactDetails(index);
+    isContactDetailsShown = true;
+    window.dispatchEvent(new Event('resize')); // Manually trigger a resize event.
+}
 
+/**
+ * Shows the details for a selected contact.
+ * @param {number} i - The index of the selected contact.
+ */
+function showContactDetails(i) {
+    resetPreviousContactStyles();
+    currentSelectedIndex = i;
+    updateUIForSelectedContact(i);
+}
+
+/**
+ * Listens for window resize events and adjusts the display of windows based on the current size.
+ */
 window.addEventListener('resize', function () {
     displayWindows(currentSelectedIndex);
 });
 
+/**
+ * Applies a set of CSS styles to a given DOM element.
+ * @param {HTMLElement} element - The DOM element to which the styles will be applied.
+ * @param {Object} styles - An object containing CSS properties and values.
+ */
 function applyStyles(element, styles) {
     Object.assign(element.style, styles);
 }
 
+/**
+ * Resets the styles of a given DOM element by removing the 'style' attribute.
+ * @param {HTMLElement} element - The DOM element whose styles will be reset.
+ */
 function resetStyles(element) {
     element.removeAttribute('style');
 }
 
-function displayWindows() {
-    let contactsHeader = document.getElementById('frame40');
-    let floatingContact = document.getElementById('floatingContact');
-    let allRenderedContacts = document.getElementById('frame97');
-    let arrowLeft = document.getElementById('arrowLeft');
-
-    if (window.innerWidth <= 990) {
-        if (contactsHeader) {
+/**
+ * Applies styles to the contacts header.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
+ */
+function styleContactsHeader(isSmallScreen) {
+    const contactsHeader = document.getElementById('frame40');
+    if (contactsHeader) {
+        if (isSmallScreen) {
             applyStyles(contactsHeader, {
                 display: 'inline-flex',
                 position: 'fixed',
@@ -212,8 +276,20 @@ function displayWindows() {
                 top: '96px',
                 justifyContent: 'center'
             });
+        } else {
+            resetStyles(contactsHeader);
         }
-        if (floatingContact) {
+    }
+}
+
+/**
+ * Applies styles to the floating contact element.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
+ */
+function styleFloatingContact(isSmallScreen) {
+    const floatingContact = document.getElementById('floatingContact');
+    if (floatingContact) {
+        if (isSmallScreen) {
             applyStyles(floatingContact, {
                 display: 'inline-flex',
                 flexDirection: 'column',
@@ -225,29 +301,47 @@ function displayWindows() {
                 position: 'absolute',
                 left: '50px'
             });
+        } else {
+            resetStyles(floatingContact);
         }
-        if (allRenderedContacts) {
-            if (isContactDetailsShown) {
-                applyStyles(allRenderedContacts, {
-                    display: 'none'
-                });
-                applyStyles(arrowLeft, {
-                    display: 'block'
-                });
-            } else {
-                applyStyles(allRenderedContacts, {
-                    display: 'inline-flex',
-                });
-            }
-        }
-    } else {
-        if (contactsHeader) resetStyles(contactsHeader);
-        if (floatingContact) resetStyles(floatingContact);
-        if (allRenderedContacts) resetStyles(allRenderedContacts);
-        if (arrowLeft) resetStyles(arrowLeft);
     }
 }
 
+/**
+ * Applies styles to all rendered contacts.
+ * @param {boolean} isSmallScreen - Indicates if the screen is small.
+ */
+function styleAllRenderedContacts(isSmallScreen) {
+    const allRenderedContacts = document.getElementById('frame97');
+    const arrowLeft = document.getElementById('arrowLeft');
+    if (allRenderedContacts) {
+        if (isSmallScreen) {
+            if (isContactDetailsShown) {
+                applyStyles(allRenderedContacts, { display: 'none' });
+                applyStyles(arrowLeft, { display: 'block' });
+            } else {
+                applyStyles(allRenderedContacts, { display: 'inline-flex' });
+            }
+        } else {
+            resetStyles(allRenderedContacts);
+            resetStyles(arrowLeft);
+        }
+    }
+}
+
+/**
+ * Adjusts the window display based on screen size.
+ */
+function displayWindows() {
+    const isSmallScreen = window.innerWidth <= 990;
+    styleContactsHeader(isSmallScreen);
+    styleFloatingContact(isSmallScreen);
+    styleAllRenderedContacts(isSmallScreen);
+}
+
+/**
+ * Creates and displays an overlay for adding a new contact.
+ */
 function overlayAddContact() {
     const overlay = document.createElement('div');
     overlay.id = 'overlayAddContact';
@@ -258,60 +352,85 @@ function overlayAddContact() {
     }, 50);
 
     addContact();
-    attachSubmitListener();
 }
 
+/**
+ * Closes and clears the content of the 'Add Contact' overlay.
+ */
 function closeOverlayAddContact() {
     document.getElementById('overlayAddContact').innerHTML = '';
 }
 
-function overlayContactCreated() {
-    const overlayCreatedContact = document.createElement('div');
-    overlayCreatedContact.id = 'overlayCreatedContact';
-    document.body.appendChild(overlayCreatedContact);
+/**
+ * Creates and initializes the overlay for contact creation.
+ * @return {HTMLElement} The created overlay element.
+ */
+function initializeOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'overlayCreatedContact';
+    document.body.appendChild(overlay);
+    return overlay;
+}
 
-    // Erste Bewegung: Overlay in die Ansicht bringen
+/**
+ * Moves the overlay into view based on screen width.
+ * @param {HTMLElement} overlay - The overlay element.
+ */
+function moveOverlayIntoView(overlay) {
     setTimeout(() => {
         if (window.innerWidth <= 990) {
-            overlayCreatedContact.style.top = '70%'; // Endposition am oberen Rand
+            overlay.style.top = '70%'; // Position for smaller screens
         } else if (window.innerWidth <= 1250) {
-            overlayCreatedContact.style.left = '650px'; // Für mittelgroße Bildschirme
+            overlay.style.left = '650px'; // Position for medium screens
         } else {
-            overlayCreatedContact.style.left = '743px'; // Standardbewegung
+            overlay.style.left = '743px'; // Default position
         }
     }, 50);
+}
 
-    // Zweite Bewegung: Overlay zurückbewegen
-    // setTimeout(() => {
-    //     overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
-    // }, 3050); // Diese Zeit sollte der Dauer der ersten Bewegung plus einer gewünschten Pause entsprechen
+/**
+ * Moves the overlay out of view after a delay.
+ * @param {HTMLElement} overlay - The overlay element.
+ */
+function moveOverlayOutOfView(overlay) {
     setTimeout(() => {
         if (window.innerWidth <= 990) {
-            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
-            overlayCreatedContact.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+            overlay.style.top = '100%'; // Move down for smaller screens
         } else {
-            overlayCreatedContact.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+            overlay.style.left = '100%'; // Move right for larger screens
         }
     }, 3050);
+}
 
+/**
+ * Creates and animates the overlay for contact creation.
+ */
+function overlayContactCreated() {
+    const overlay = initializeOverlay();
+    moveOverlayIntoView(overlay);
+    moveOverlayOutOfView(overlay);
     addOverlayCreatedContact();
 }
 
+
+/**
+ * Deletes a contact from the contacts array and updates the display.
+ * @param {number} index - The index of the contact to be deleted.
+ */
 async function deleteContact(index) {
     if (index >= 0 && index < contacts.length) {
-        // Kontakt erst aus allen Aufgabe entfernen
-        /*       let contactName = contacts[index].nameOfContact;     
-              removeContactFromArray(contactName); */
-        // Kontakt aus dem Array entfernen
+        // Remove contact from array
         contacts.splice(index, 1);
 
-        // Die Änderungen zurück in den Remote-Speicher speichern
         await setItem('contacts', JSON.stringify(contacts));
         renderContacts();
         hideFloatingContact();
     }
 }
 
+/**
+ * Saves the current contacts array to remote storage.
+ */
 async function pushBackArrays() {
     try {
         await setItem('contacts', JSON.stringify(contacts));
@@ -320,12 +439,20 @@ async function pushBackArrays() {
     }
 }
 
+/**
+ * Hides the floating contact details display.
+ */
 function hideFloatingContact() {
     let floatingContact = document.getElementById('floatingContact');
     floatingContact.classList.remove('show');
     floatingContact.innerHTML = '';
 }
 
+/**
+ * Displays the overlay for editing a contact.
+ * @param {string} name - The name of the contact being edited.
+ * @param {number} index - The index of the contact in the contacts array.
+ */
 function overlayEditContact(name, index) {
     const overlay = document.createElement('div');
     overlay.id = 'overlayAddContact';
@@ -338,74 +465,60 @@ function overlayEditContact(name, index) {
     editCreatedContact(name, index);
 }
 
+/**
+ * Handles the editing process for a contact.
+ * @param {number} index - The index of the contact to be edited.
+ */
 function editContact(index) {
-    // Das overlayAddContact Overlay aufrufen
     overlayEditContact(contacts[index].nameOfContact, index);
 
-    // Die Werte des aktuellen Kontakts in die Eingabefelder des Overlays setzen
     document.getElementById('contactName').value = contacts[index].nameOfContact;
     document.getElementById('contactEmail').value = contacts[index].emailOfContact;
     document.getElementById('contactPhone').value = contacts[index].telOfContact;
 }
 
+/**
+ * Changes the border color of an input element based on its content.
+ * @param {HTMLElement} inputElement - The input element whose border color will be changed.
+ */
 function changeBorderColor(inputElement) {
     const frame14Element = inputElement.closest('.frame14');
 
     if (inputElement.value) {
-        frame14Element.style.borderColor = '#29ABE2';  // Ersetzt die 'desiredColor' durch die gewünschte Farbe
+        frame14Element.style.borderColor = '#29ABE2';
     } else {
-        frame14Element.style.borderColor = '';  // Setzt den Rahmen zurück auf die ursprüngliche Farbe
+        frame14Element.style.borderColor = '';
     }
 }
 
+/**
+ * Saves the edited contact details to the contacts array and updates the display.
+ * @param {number} index - The index of the contact being edited.
+ */
 async function saveEditedContact(index) {
-    // Die aktuellen Werte aus den Eingabefeldern holen
     const newName = document.getElementById('contactName').value;
     const newEmail = document.getElementById('contactEmail').value;
     const newPhone = document.getElementById('contactPhone').value;
 
-    // Die Werte in den Arrays aktualisieren
     contacts[index].nameOfContact = newName;
     contacts[index].emailOfContact = newEmail;
     contacts[index].telOfContact = newPhone;
 
-    // Die aktualisierten Arrays zurück in den Remote-Speicher speichern
     await pushBackArrays();
 
-    // Das Overlay schließen und die Kontaktliste aktualisieren
     closeOverlayAddContact();
     renderContacts();
     showContactDetails(index);
 }
 
+/**
+ * Loads and displays the initials of the user from local storage.
+ */
 function loadInitialsHeader() {
     let userInitials = localStorage.getItem('userInitials');
-    // Wenn der Benutzer gefunden wird, setzen Sie die Initialen
+    // If the user is found, put the initials
     let initials = getInitials(userInitials);
     document.getElementById("profileInitials").innerHTML += `<span>${initials}</span>`;
-}
-
-function attachSubmitListener() {
-    const submitButton = document.getElementById('mySubmitButton');
-    const form = document.getElementById('myForm');
-
-    console.log('attachSubmitListener aufgerufen', { submitButton, form });
-
-    if (submitButton && form) {
-        console.log('Event Listener wird hinzugefügt');
-        submitButton.addEventListener('click', function (event) {
-            event.preventDefault(); // Verhindert die Standard-Formularübermittlung
-            console.log('Submit-Button geklickt, überprüfe Validität');
-            if (form.checkValidity() && form.reportValidity()) {
-                console.log('Formular ist gültig, wird eingereicht');
-                form.submit(); // Reicht das Formular ein, wenn es gültig ist
-            } else {
-                console.log('Formular ist ungültig');
-            }
-        });
-    } else {
-        console.error('Formular oder Button nicht im DOM gefunden');
-    }
 }
 
 

@@ -1,10 +1,20 @@
+/**
+ * @author Patrick
+ * Join Gruppenarbeit 727
+ * October 2023
+ * 
+ */
+
+/**
+ * Opens a popup to display details of a specific todo item.
+ * @param {number} id - The unique identifier of the todo item to be displayed.
+ */
 function openPopup(id) {
     const todo = todos.find(t => t.id === id);
     if (todo) {
-        const categoryClass = todo['category'] === 'User Story' ? 'user-story' : 'technical-task';
-        const popupCategory = document.getElementById('popupCategory');
-        popupCategory.classList.remove('user-story', 'technical-task');
-        popupCategory.classList.add(categoryClass);
+        const categoryIndex = categoryArray.indexOf(todo.category);
+        const categoryColor = getColorByIndexBoard(categoryIndex);
+        document.getElementById('popupCategory').style.backgroundColor = categoryColor;
         document.getElementById('popupTitle').innerText = todo.title;
         document.getElementById('popupDescription').innerText = todo.description;
         document.getElementById('popupCategory').innerText = todo.category;
@@ -48,6 +58,10 @@ function openPopup(id) {
 }
 
 
+/**
+ * Generates a list of subtasks for a given todo item in the popup.
+ * @param {Object} todo - The todo item containing subtasks.
+ */
 function generateSubtask(todo) {
     for (let i = 0; i < todo.subtask.length; i++) {
         const element = todo.subtask[i];
@@ -62,6 +76,11 @@ function generateSubtask(todo) {
     }
 }
 
+
+/**
+ * Generates and displays assigned contacts for a given todo item in the popup.
+ * @param {Object} todo - The todo item with assigned contacts.
+ */
 function generateAssignedTo(todo) {
     document.getElementById("assigned-table-div").innerHTML = '';
     document.getElementById("assigned-table-div").innerHTML += /*html*/ ``
@@ -80,6 +99,13 @@ function generateAssignedTo(todo) {
     }
 }
 
+
+/**
+ * Updates the status of a specific subtask for a given todo item.
+ * @param {number} todoId - The unique identifier of the todo item.
+ * @param {number} subtaskId - The index of the subtask within the todo item.
+ * @param {Element} imgElement - The DOM element representing the subtask's status icon.
+ */
 function updateSubtaskStatus(todoId, subtaskId, imgElement) {
     const todo = todos.find(t => t.id === todoId);
     if (todo && todo.subtask[subtaskId]) {
@@ -90,6 +116,11 @@ function updateSubtaskStatus(todoId, subtaskId, imgElement) {
     }
 }
 
+
+/**
+ * Deletes a todo item based on its unique identifier.
+ * @param {number} todoId - The unique identifier of the todo item to be deleted.
+ */
 function deleteTodo(todoId) {
     const index = todos.findIndex(t => t.id === todoId);
     if (index !== -1) {
@@ -103,8 +134,9 @@ function deleteTodo(todoId) {
     }
 }
 
+
 /**
- * This function closes the popup
+ * Closes the currently open popup.
  */
 function closePopup() {
     document.getElementById('popup').style.display = 'none';
@@ -112,6 +144,12 @@ function closePopup() {
     updateHTML();
 }
 
+
+/**
+ * Formats a date string into a more readable format.
+ * @param {string} input - The date string to be formatted.
+ * @returns {string} A formatted date string in the format 'dd/mm/yyyy'.
+ */
 function formatDate(input) {
     let date = new Date(input);
     const year = date.getFullYear();

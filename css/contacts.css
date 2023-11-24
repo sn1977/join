@@ -1,5 +1,5 @@
 body {
-    height: 100vh;
+    /*height: 100vh;*/
     background: #F6F7F8;
 }
 
@@ -16,7 +16,9 @@ body {
 #contactTemplate {
     position: relative;
     overflow-y: auto;
-    height: 100vh;
+    height: calc(100vh - 96px);
+    top: 96px;
+
 }
 
 h1 {
@@ -25,7 +27,8 @@ h1 {
     font-size: 61px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 73.2px */
+    line-height: 120%;
+    /* 73.2px */
 }
 
 .spanContacts {
@@ -34,21 +37,21 @@ h1 {
     font-size: 27px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 32.4px */
+    line-height: 120%;
+    /* 32.4px */
 }
 
 .frame97 {
     display: flex;
     width: 456px;
-    height: 100vh;
+    height: calc(100vh - 96px);
     flex-shrink: 0;
     background: #ffffff;
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
     position: relative;
-    left: 232px;
     overflow: auto;
     overflow-x: hidden;
-    top: 96px;
+    left: 232px;
 }
 
 .frame97::-webkit-scrollbar {
@@ -92,7 +95,9 @@ h1 {
     font-size: 21px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 25.2px */
+    line-height: 120%;
+    /* 25.2px */
+    cursor: pointer;
 }
 
 .frame112 {
@@ -108,7 +113,8 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
 }
 
 .frame119 {
@@ -130,7 +136,9 @@ h1 {
     background: #FFF;
 }
 
-.contact-name:hover, .profile-badge:hover, .contact-hover:hover {
+.contact-name:hover,
+.profile-badge:hover,
+.contact-hover:hover {
     background: #F6F7F8;
     cursor: pointer;
 }
@@ -157,7 +165,8 @@ h1 {
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 14.4px */
+    line-height: 120%;
+    /* 14.4px */
 }
 
 .frame81 {
@@ -173,7 +182,8 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
 }
 
 .contactEmail {
@@ -182,7 +192,8 @@ h1 {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 19.2px */
+    line-height: 120%;
+    /* 19.2px */
 }
 
 .frame99 {
@@ -240,7 +251,8 @@ h1 {
     font-size: 47px;
     font-style: normal;
     font-weight: 500;
-    line-height: 120%; /* 56.4px */
+    line-height: 120%;
+    /* 56.4px */
 }
 
 .frame104 {
@@ -260,7 +272,8 @@ h1 {
     font-size: 47px;
     font-style: normal;
     font-weight: 500;
-    line-height: 120%; /* 56.4px */
+    line-height: 120%;
+    /* 56.4px */
 }
 
 .frame204 {
@@ -288,7 +301,8 @@ h1 {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 19.2px */
+    line-height: 120%;
+    /* 19.2px */
 }
 
 .frame108 {
@@ -324,7 +338,8 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
 }
 
 .frame101 {
@@ -334,7 +349,8 @@ h1 {
     gap: 22px;
 }
 
-.frame102, .frame103 {
+.frame102,
+.frame103 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -347,7 +363,8 @@ h1 {
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 19.2px */
+    line-height: 120%;
+    /* 19.2px */
 }
 
 .email {
@@ -356,17 +373,21 @@ h1 {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 19.2px */
+    line-height: 120%;
+    /* 19.2px */
 }
 
 #floatingContact {
     /* Andere Stile... */
-    transform: translateX(100%); /* Startposition (vollständig rechts) */
-    transition: transform 0.3s ease-out; /* Animationseinstellung */
+    transform: translateX(100%);
+    /* Startposition (vollständig rechts) */
+    transition: transform 0.3s ease-out;
+    /* Animationseinstellung */
 }
 
 #floatingContact.show {
-    transform: translateX(0); /* Endposition (standardmäßige Position) */
+    transform: translateX(0);
+    /* Endposition (standardmäßige Position) */
 }
 
 /* Styling overlay contact */
@@ -392,14 +413,21 @@ h1 {
 }
 
 #overlayAddContact {
-    position: fixed; /* Position fixed macht das Element unabhängig vom Scrollen */
-    top: 50%; /* Setzt das Element in die Mitte der Höhe des Fensters */
-    right: 50%; /* Das Div startet jetzt in der Bildschirmmitte */
-    transform: translateY(-50%) translateX(100%); /* Verschiebung um seine eigene Breite */
+    position: fixed;
+    /* Position fixed macht das Element unabhängig vom Scrollen */
+    top: 50%;
+    /* Setzt das Element in die Mitte der Höhe des Fensters */
+    right: 50%;
+    /* Das Div startet jetzt in der Bildschirmmitte */
+    transform: translateY(-50%) translateX(100%);
+    /* Verschiebung um seine eigene Breite */
     max-width: 1212px;
-    background-color: transparent; /* Beispielhintergrund, anpassen nach Bedarf */
-    transition: right 9s ease-out; /* Transitionseffekt für die "right"-Eigenschaft mit einer Dauer von 9 Sekunden */
-    z-index: 1000; /* Stellt sicher, dass es über anderen Inhalten liegt */
+    background-color: transparent;
+    /* Beispielhintergrund, anpassen nach Bedarf */
+    transition: right 9s ease-out;
+    /* Transitionseffekt für die "right"-Eigenschaft mit einer Dauer von 9 Sekunden */
+    z-index: 1000;
+    /* Stellt sicher, dass es über anderen Inhalten liegt */
     justify-content: center;
     display: flex;
 }
@@ -418,7 +446,8 @@ h1 {
     font-size: 61px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 73.2px */
+    line-height: 120%;
+    /* 73.2px */
 }
 
 .spanText {
@@ -427,7 +456,8 @@ h1 {
     font-size: 27px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 32.4px */
+    line-height: 120%;
+    /* 32.4px */
 }
 
 .add-contact-text {
@@ -471,7 +501,8 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
     border: none;
     padding: 0;
     outline: none;
@@ -479,7 +510,8 @@ h1 {
 
 ::placeholder {
     color: #D1D1D1;
-    opacity: 1; /* Firefox */
+    opacity: 1;
+    /* Firefox */
 }
 
 .frame27 {
@@ -494,12 +526,13 @@ h1 {
 
 .cancel-contact {
     display: flex;
-    padding: 16px;
+    padding: 15px;
     justify-content: center;
     align-items: center;
     gap: 4px;
     border-radius: 10px;
     border: 1px solid #2A3647;
+    background: #ffffff;
 }
 
 .cancel-contact:hover {
@@ -522,7 +555,8 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
 }
 
 .create-contact {
@@ -533,9 +567,26 @@ h1 {
     gap: 4px;
     border-radius: 10px;
     background: #2A3647;
+    border: none;
 }
 
 .create-contact:hover {
+    cursor: pointer;
+    background-color: #29ABE2;
+}
+
+.save-contact {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    background: #2A3647;
+    border: none;
+}
+
+.save-contact:hover {
     cursor: pointer;
     background-color: #29ABE2;
 }
@@ -546,7 +597,8 @@ h1 {
     font-size: 21px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 25.2px */
+    line-height: 120%;
+    /* 25.2px */
 }
 
 .group13 {
@@ -608,26 +660,21 @@ h1 {
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 120%; /* 24px */
+    line-height: 120%;
+    /* 24px */
 }
 
-/*@keyframes slideInOut {*/
-/*    0%, 100% {*/
-/*        left: 100%; !* Startet und endet außerhalb des rechten Bildschirmrandes *!*/
-/*    }*/
-/*    50% {*/
-/*        left: 50%; !* Bewegt sich zur Mitte des Bildschirms *!*/
-/*    }*/
-/*}*/
-
 #overlayCreatedContact {
-    position: fixed; /* oder 'absolute', je nach Bedarf */
-    left: 100%; /* Startet außerhalb des rechten Bildschirmrandes */
-    top: 80%; /* oder einen anderen Wert, je nach Bedarf */
-    transform: translateY(-50%); /* Vertikale Zentrierung */
-    transition: left 1s ease; /* Animiert die 'left'-Eigenschaft */
-    /* Weitere Stile für Ihr Overlay */
-    animation: slideInOut 5s ease-in-out; /* Wenden Sie die Animation an */
+    position: fixed;
+    /* oder 'absolute', je nach Bedarf */
+    left: 100%;
+    /* Startet außerhalb des rechten Bildschirmrandes */
+    top: 80%;
+    /* oder einen anderen Wert, je nach Bedarf */
+    transform: translateY(-50%);
+    /* Vertikale Zentrierung */
+    transition: left 1s ease;
+    /* Animiert die 'left'-Eigenschaft */
 }
 
 #scrollBar {
@@ -702,7 +749,8 @@ h1 {
         gap: 24px;
     }
 
-    .frame79, .frame79_2 {
+    .frame79,
+    .frame79_2 {
         width: 80px;
         height: 80px;
         font-size: 24px;
@@ -767,7 +815,8 @@ h1 {
         top: 40%;
     }
 
-    .frame79, .frame79_2 {
+    .frame79,
+    .frame79_2 {
         width: 100px;
         height: 100px;
     }
@@ -785,20 +834,6 @@ h1 {
         gap: 90px;
     }
 }
-
-/*@media (max-width: 1150px) {*/
-/*    @keyframes slideInFromRight {*/
-/*        0% {*/
-/*            transform: translateX(100%);*/
-/*        }*/
-/*        50% {*/
-/*            transform: translateX(-30%);*/
-/*        }*/
-/*        100% {*/
-/*            transform: translateX(100%);*/
-/*        }*/
-/*    }*/
-/*}*/
 
 @media (max-width: 990px) {
     .frame97 {
@@ -827,7 +862,8 @@ h1 {
         right: 20px;
     }
 
-    .new-contact, .close {
+    .new-contact,
+    .close {
         display: none;
     }
 
@@ -862,16 +898,24 @@ h1 {
         flex-direction: column;
     }
 
-    .create-btn-text, .cancel-btn-text {
+    .create-btn-text,
+    .cancel-btn-text {
         display: unset;
     }
 
     .create-contact {
         height: 16px;
+        padding: 24px;
+    }
+
+    .save-contact {
+        height: 16px;
+        padding: 16px;
     }
 
     .cancel-contact {
         height: 14px;
+        padding: 22px;
     }
 
     .group13 {
@@ -889,10 +933,14 @@ h1 {
     }
 
     #overlayCreatedContact {
-        left: 50%; /* Horizontale Zentrierung im Viewport */
-        top: 100%; /* Startet außerhalb des unteren Bildschirmrandes */
-        transform: translateX(-50%); /* Zentriert das Overlay horizontal */
-        transition: top 1s ease; /* Animiert nun die 'top'-Eigenschaft */
+        left: 50%;
+        /* Horizontale Zentrierung im Viewport */
+        top: 100%;
+        /* Startet außerhalb des unteren Bildschirmrandes */
+        transform: translateX(-50%);
+        /* Zentriert das Overlay horizontal */
+        transition: top 1s ease;
+        /* Animiert nun die 'top'-Eigenschaft */
     }
 }
 
@@ -977,7 +1025,8 @@ h1 {
         width: 800px;
     }
 
-    .frame79, .frame79_2 {
+    .frame79,
+    .frame79_2 {
         width: 80px;
         height: 80px;
     }
@@ -1000,7 +1049,8 @@ h1 {
         left: 33%;
     }
 
-    .cancel-btn-text, .create-btn-text {
+    .cancel-btn-text,
+    .create-btn-text {
         font-size: 16px;
     }
 
@@ -1008,8 +1058,13 @@ h1 {
         height: 12px;
     }
 
+    .save-contact {
+        padding: 14px;
+    }
+
     .cancel-contact {
-        height: 10px
+        height: 10px;
+        padding: 20px;
     }
 
     .frame14 {
