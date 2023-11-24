@@ -18,11 +18,6 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/sidebar.css">
 
-	    <!--jquery for datepicker-->
-		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 	<script src="../js/w3includes.js"></script>
 	<script src="../js/storage.js"></script>
 	<script src="../js/templates.js"></script>
@@ -34,39 +29,37 @@
 	<div w3-include-html=" ../assets/templates/header.html"></div>
 	<div w3-include-html="../assets/templates/sidebar.html"></div>
 
-	<div class="content">
+
+	
+	<div id="greetingMobile" class="greetingMobile">		
+	</div>
+
+	<div id="content" class="content">
 		<div class="headlineSummary">
 			<h1>JOIN360</h1>
-
 			<svg class="hideOnWideScreen" fill="none" height="63" viewBox="0 0 4 63" width="4" xmlns="http://www.w3.org/2000/svg">
 				<path d="M2 2V61" stroke="#29ABE2" stroke-linecap="round" stroke-width="3" />
 			</svg>
-	
 			<span class="spanHeadline">Key Metrics at a Glance</span>
-	
-
 			<svg class="showOnSmallScreen" width="94" height="4" viewBox="0 0 94 4" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M92 2L2 2" stroke="#29ABE2" stroke-width="3" stroke-linecap="round"/>
 			</svg>
-		
 		</div>
+
+
 
 		<div class="summary">
 			<div class="left">
-
 				<div class="firstLine">
-
 					<a href="board.html">
 						<div id="todo" class="box twobox">
 						</div>
 					</a>
-
 					<a href="../html/board.html">
 						<div id="done" class="box twobox">
 						</div>
 					</a>
 				</div>
-
 				<a href="../html/board.html">
 					<div class="secondLine box">
 						<div id="urgentbox"></div>
@@ -103,8 +96,6 @@
 		<script src="../js/summary.js"></script>
 		<script src="../js/contacts.js"></script>
 		<script src="../js/add_task.js"></script>
-		<script src="../js/task_template.js"></script>
-	
 
 </body>
 

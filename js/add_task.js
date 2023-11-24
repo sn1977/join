@@ -122,53 +122,53 @@ async function addTask(progress) {
  * 
  * 
  */
+
 function overlaySuccessAddTask() {
     const overlayContainer = document.createElement('div');
-    overlayContainer.style.display = 'flex';
-    overlayContainer.style.alignItems = 'center';
-    overlayContainer.style.justifyContent = 'center';
-    overlayContainer.style.height = '100vh'; // Vollständige Bildschirmhöhe
-    overlayContainer.style.position = 'fixed';
-    overlayContainer.style.top = '0';
-    overlayContainer.style.left = '0';
-    overlayContainer.style.width = '100%';
-
-    const overlayAddTaskSuccess = document.createElement('div');
-    overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
-    overlayAddTaskSuccess.classList.add('success');
-    overlayContainer.appendChild(overlayAddTaskSuccess);
+    overlayContainer.id = 'overlaySuccess';
     document.body.appendChild(overlayContainer);
 
+    // Erste Bewegung: Overlay in die Ansicht bringen
     setTimeout(() => {
-        overlayAddTaskSuccess.style.transform = 'translateY(-50%) translateX(-50%)';
-
-        // Nach weiteren 3 Sekunden auf eine andere Seite weiterleiten
-        setTimeout(() => {
-            window.location.href = 'board.html';
-        }, 3000);
+        if (window.innerWidth <= 990) {
+            overlayContainer.style.top = '50%'; // Endposition am oberen Rand
+        } else if (window.innerWidth <= 1250) {
+            overlayContainer.style.left = '40%'; // Für mittelgroße Bildschirme
+        } else {
+            overlayContainer.style.left = '50%'; // Standardbewegung
+        }
     }, 50);
+
+    setTimeout(() => {
+        if (window.innerWidth <= 990) {
+            // overlayCreatedContact.style.bottom = '100%'; // Bewegt das Overlay wieder nach unten
+            overlayContainer.style.top = '100%'; // Bewegt das Overlay wieder nach unten
+        } else {
+            overlayContainer.style.left = '100%'; // Bewegt das Overlay zurück nach rechts
+        }
+        window.location.href = 'board.html';
+    }, 3050);
 
     addOverlayAddTaskSuccess();
 }
 
 
-/**
- * 
- * 
- * 
- * 
- */
+
 function addOverlayAddTaskSuccess() {
-    document.getElementById('overlayAddTaskSuccess').innerHTML = `
+    const overlayContainer = document.createElement('div');
+    document.getElementById('overlaySuccess').innerHTML = `
     <div class="success">
         <span class="addtaskSuccess">Task successfully created</span>
         <img src="../assets/img/iconboard.svg" class="successIcon">
     </div>
-`;
-setTimeout(() => {
-    const overlay = document.getElementById('overlayAddTaskSuccess');
-    if (overlay) overlay.remove();
-}, 10000);
+    `;
+    // Div entfernen, nachdem die Animation abgeschlossen ist
+    setTimeout(() => {
+        const overlay = document.getElementById('overlaySuccess');
+        if (overlay) overlay.remove();
+ 
+    }, 3000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
+
 }
 
 
@@ -207,12 +207,11 @@ async function reload() {
     await addTaskLoadContacts();
     initializeButtons();
     handleCategoryChange()
+    allSubtasks = [];
     allContacts = [];
     subtaskID = 0;
+    generateSubtaskHtml();
 }
-
-
-/* PRIO */
 
 
 
@@ -274,7 +273,6 @@ async function emptyFields() {
     description.value = '';
     assignedTo.value = '';
     dueDate.value = '';
-    prio = 'low';
     category.value = '';
     subtask.value = '';
     allSubtasks = [];
@@ -282,6 +280,12 @@ async function emptyFields() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
     await addTaskLoadContacts();
+    const currentPriorityButton = document.getElementById(prio);
+    if (currentPriorityButton) {
+        currentPriorityButton.classList.add('white');
+        currentPriorityButton.classList.remove(prio);
+    }
+    prio = 'low';
 }
 
 
