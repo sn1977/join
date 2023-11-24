@@ -338,7 +338,7 @@ function returnContactPhone() {
         <div class="add-contact-field">
             <div class="frame14">
                 <div class="frame157">
-                    <input required type="tel" minlength="4"class="text-field" placeholder="Phone" id="contactPhone" oninput="changeBorderColor(this)">
+                    <input required type="tel" minlength="4" class="text-field" placeholder="Phone" id="contactPhone" oninput="changeBorderColor(this)">
                     <img src="../assets/img/call.png">
                 </div>
             </div>
