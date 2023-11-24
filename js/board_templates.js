@@ -109,7 +109,7 @@ function editBoardHTML(todo) {
                         <div id="inputCategory" class="inputField subtaskContainer d-none">
                             <input type="text" id="newCategory" placeholder="Type..." value="">
                             <img src="../assets/img/close.svg" onclick="clearInput()">
-                            <div>|</div>
+                            <div class='vectorStyle'>|</div>
                             <img src="../assets/img/check-black.svg" onclick="addCategory()">
                         </div>
                     </div>
