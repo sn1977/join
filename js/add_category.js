@@ -11,9 +11,16 @@ let categoryArray = ['Technical Task', 'User Story'];
 
 
 function placeholderCategory() {
-    // placeholder select category 
-    document.getElementById("category").selectedIndex = 0;
+    const categorySelect = document.getElementById('category');
+    categorySelect.innerHTML = '';
+    const placeholderOption = document.createElement('option');
+    placeholderOption.value = '';
+    placeholderOption.text = 'Select task category';
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true; 
+    categorySelect.add(placeholderOption);
 }
+
 
 /**
  * function to show input field to add category if value 'Enter new category' is select
@@ -25,12 +32,9 @@ function handleCategoryChange() {
     let categorySelect = document.getElementById("category");
     let newCategoryContainer = document.getElementById("inputCategory");
     let newCategoryInput = document.getElementById("newCategory");
-    // let newCategory = document.getElementById('newCategory');
     if (categorySelect.value === "Enter new category") {
         newCategoryContainer.classList.remove("d-none");
-            // Set focus with a small delay
             setTimeout(() => {
-                console.log("Setting focus");
                 categorySelect.blur();
                 newCategoryInput.focus();
             }, 10);
@@ -116,6 +120,7 @@ async function delCategory(i) {
     if (i >= 0 && i < categoryArray.length) {
         categoryArray.splice(i, 1);
         await setItem('categories', JSON.stringify(categoryArray));
+        console.log(categoryArray);
     } else {
         console.log('Invalid index');
     }

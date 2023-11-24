@@ -232,6 +232,7 @@ async function reload() {
     allContacts = [];
     subtaskID = 0;
     generateSubtaskHtml();
+    placeholderCategory();
 }
 
 
