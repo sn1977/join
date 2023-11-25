@@ -120,7 +120,7 @@ function updateIconsBoard(contacts) {
     contacts.forEach(contact => {
         let icon = document.getElementById(`checked${contact.id}`);
         if (icon) {
-            const isContactChosen = allContactsBoard.some(ac => ac.contactid === contact.id);
+            const isContactChosen = allContactsBoard.some(ac => ac.name === contact.name);
             if (isContactChosen) {
                 icon.innerHTML = `<img src="../assets/img/checked.svg" alt="Assigned">`;
                 icon.parentNode.classList.add('Contactchecked');
@@ -151,12 +151,12 @@ function contactlistHtmlBoard(contacts) {
  * Toggles the selection state of a contact in the task assignment process.
  * @param {number} contactId - The ID of the contact to toggle.
  */
-function toggleContactBoard(contactId) {
-    const contactIsChosen = allContactsBoard.some(contact => contact.contactid === contactId);
+function toggleContactBoard(contactName) {
+    const contactIsChosen = allContactsBoard.some(contact => contact.name === contactName);
     if (contactIsChosen) {
-        unchoseContactBoard(contactId);
+        unchoseContactBoard(contactName);
     } else {
-        choseContactBoard(contactId);
+        choseContactBoard(contactName);
     }
 }
 
@@ -165,9 +165,9 @@ function toggleContactBoard(contactId) {
  * Selects a contact to be assigned to a task.
  * @param {number} contactId - The ID of the contact to be selected.
  */
-async function choseContactBoard(contactId) {
-    const contact = contactpoolBoard.find(contact => contact.id === contactId);
-    const isContactAlreadyChosen = allContactsBoard.some(c => c.contactid === contactId);
+async function choseContactBoard(contactName) {
+    const contact = contactpoolBoard.find(contact => contact.name === contactName);
+    const isContactAlreadyChosen = allContactsBoard.some(c => c.name === contactName);
     if (contact && !isContactAlreadyChosen) {
         const tempContact = {
             'contactid': contact.id,
@@ -176,38 +176,40 @@ async function choseContactBoard(contactId) {
             'initialien': contact.initialien
         };
         allContactsBoard.push(tempContact);
-        updateContactDisplay(contactId, true);
+        updateContactDisplay(contactName, true);
         showTaskContactsBoard();
     }
 }
 
 
-/**
- * Removes a selected contact from the task assignment.
- * @param {number} contactId - The ID of the contact to be unselected.
- */
-function unchoseContactBoard(contactId) {
-    const indexToRemove = allContactsBoard.findIndex(contact => contact.contactid === contactId);
+function unchoseContactBoard(contactName) {
+    const indexToRemove = allContactsBoard.findIndex(contact => contact.name === contactName);
     if (indexToRemove !== -1) {
         allContactsBoard.splice(indexToRemove, 1);
-        updateContactDisplay(contactId, false);
+        updateContactDisplay(contactName, false); // Stellt sicher, dass dies aufgerufen wird
         showTaskContactsBoard();
     }
 }
 
 
-/**
- * Updates the display of a contact's selection status.
- * @param {number} contactId - The ID of the contact whose display is to be updated.
- */
-function updateContactDisplay(contactId) {
-    const contactCheckbox = document.getElementById(`checked${contactId}`);
-    if (!contactCheckbox) return;
-    const isContactChosen = allContactsBoard.some(contact => contact.contactid === contactId);
-    const imageSrc = isContactChosen ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
-    contactCheckbox.innerHTML = `<img src="${imageSrc}" alt="">`;
-    contactCheckbox.parentNode.classList.toggle('Contactchecked', isContactChosen);
+function updateContactDisplay(contactName, isSelected) {
+    // Finden Sie den Kontakt im ursprünglichen Pool, um die korrekte ID zu erhalten.
+    const contact = contactpoolBoard.find(contact => contact.name === contactName);
+    if (contact) {
+        // Hier greifen Sie auf das Element im DOM zu, um es zu aktualisieren.
+        const contactCheckbox = document.getElementById(`checked${contact.id}`);
+        if (contactCheckbox) {
+            // Aktualisieren Sie direkt das src-Attribut des img-Elements, wenn es existiert.
+            const checkboxImage = contactCheckbox.querySelector('img');
+            if (checkboxImage) {
+                checkboxImage.src = isSelected ? "../assets/img/checked.svg" : "../assets/img/checkbox.png";
+                checkboxImage.alt = isSelected ? "Assigned" : "Not assigned";
+            }
+            contactCheckbox.parentNode.classList.toggle('Contactchecked', isSelected);
+        }
+    }
 }
+
 
 
 /**

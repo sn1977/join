@@ -208,7 +208,7 @@ function progressContainer(progress, completedSubtasks, totalSubtasks) {
  */
 function contactHtml(contacts) {
     return ` 
-        <div class="contactLine" onclick="toggleContactBoard(${contacts.id})">
+        <div class="contactLine" onclick="toggleContactBoard('${contacts.name}')">
             <div class="contact">
                 <div class="contacticon" style="background-color:  ${contacts.color};"> 
                     ${contacts.initialien}
