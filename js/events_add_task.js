@@ -1,8 +1,8 @@
 /**
- * Eventlistener für Add Task ohne gesonderten Funtkionsaufruf
+ * Event listener for Add Task without a separate function call
+ * Hides or shows the 'assignedToContainer' based on the click event's target
  * 
- * 
- * 
+ * @param {Event} event - The click event.
  * 
  */
 document.addEventListener('click', function (event) {
@@ -24,24 +24,16 @@ document.addEventListener('click', function (event) {
 });
 
 
-
-
-/* // placeholder select category 
-document.getElementById("category").selectedIndex = 0;
+/**
+ * Initializes the datepicker for 'dueDate' and sets the minimum date to today
+ * 
  */
-
-//datepicker and min date = today for dueDate
 $(document).ready(function () {
-    // Aktuelles Datum abrufen
     var currentDate = new Date();
-
-    // Datepicker initialisieren
     $("#dueDate").datepicker({
-        minDate: currentDate, // Das heutige Datum als Mindestdatum festlegen
-        dateFormat: 'dd/mm/yy' // Datumsformat festlegen
+        minDate: currentDate,  
+        dateFormat: 'dd/mm/yy' 
     });
-
-    // Event-Listener hinzufügen
     $("#dueDate").on("input", function () {
         var selectedDate = $("#dueDate").datepicker("getDate");
 
@@ -56,14 +48,28 @@ $(document).ready(function () {
     });
 });
 
-//focus subtask Input field change border colour
+
+/**
+ * Changes the border color of the 'subtaskContainer' when the 'subtaskInput' is focused or blurred
+ * 
+ */
 let subtaskInput = document.getElementById("subtask");
 let subtaskContainer = document.querySelector(".subtaskContainer");
 
+
+/**
+ * Event handler for the focus event on the 'subtaskInput'
+ * 
+ */
 subtaskInput.addEventListener("focus", () => {
     subtaskContainer.style.borderColor = "#29ABE2";
 });
 
+
+/**
+ * Event handler for the blur event on the 'subtaskInput'
+ * 
+ */
 subtaskInput.addEventListener("blur", () => {
     subtaskContainer.style.borderColor = "#D1D1D1";
 });

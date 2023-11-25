@@ -1,9 +1,13 @@
 /**
- * 
- * 
- *
- * 
- */
+* Count of tasks in the 'todo' , 'done', 'inprogress', 'awaitfeedback' progress category
+* Total count of tasks on the board
+* Count of tasks with 'urgent' priority that are not in 'done' progress
+* Array to store summary tasks.
+*
+* @type {number}
+* @type {Array}
+*
+*/
 let todo = 0;
 let done = 0;
 let inprogress =0;
@@ -14,9 +18,10 @@ let summarytasks = [];
 
 
 /**
- * funtion to load all tasks from remote
+ * Function to load all tasks from remote
  * 
- *
+ * @async
+ * @param {boolean} comesFromLogin - Indicates whether the function is called from the login process
  * 
  */
 async function loadAllSummaryTasks(comesFromLogin = false) {
@@ -27,8 +32,9 @@ async function loadAllSummaryTasks(comesFromLogin = false) {
 
 
 /**
- * function to count the tasks in different progress
+ * Function to count the tasks in different progress categories
  * 
+ * @async
  * 
  */
 async function tasksCount() {   
@@ -49,10 +55,9 @@ async function tasksCount() {
 
 
 /**
- * This function searches for the earliest date after today for tasks with progress not "done"
+ * Searches for the earliest date after today for tasks with progress not 'done'
  * 
- * @returns the next deadline date after today for tasks with progress not "done"
- * 
+ * @returns {string} - The next deadline date after today for tasks with progress not 'done'
  * 
  */
 function getNextDate() {
@@ -76,11 +81,10 @@ function getNextDate() {
 }
 
 
-
 /**
+ * Updates the HTML content for the upcoming deadline
  * 
- * @param {*} date 
- * 
+ * @param {string} date - The upcoming deadline date
  * 
  */
 function upcomingHtml(date) {
@@ -99,13 +103,12 @@ function upcomingHtml(date) {
 
 
 /**
- * 
- * 
+ * Updates the HTML content for summary statistics
  * 
  */
 function summaryHtml (){
     let todoToHtml = document.getElementById('todo');
-    todoToHtml.innerHTML = `
+    todoToHtml.innerHTML = /*HTML*/ `
         <div id="todoImg">     </div>
         <div class="d-flex">
             <div class="number">
@@ -116,7 +119,6 @@ function summaryHtml (){
             </span>
         </div>
     `;
-
     let doneToHtml = document.getElementById('done');
     doneToHtml.innerHTML = `
         <div id="doneImg">     </div>
@@ -129,8 +131,6 @@ function summaryHtml (){
             </span>
         </div>
     `;
-
-
     let tasksToHtml = document.getElementById('tasks');
     tasksToHtml.innerHTML = `
         <div class="number">
@@ -141,7 +141,6 @@ function summaryHtml (){
             Board
         </span>
     `;
-
     let progressToHtml = document.getElementById('progress');
     progressToHtml.innerHTML = `
         <div class="number">
@@ -152,7 +151,6 @@ function summaryHtml (){
             Progress
         </span> 
     `;
-
     let feedbackToHtml = document.getElementById('waiting');
     feedbackToHtml.innerHTML = `
         <div class="number">
@@ -162,9 +160,7 @@ function summaryHtml (){
             Awaiting<br> 
             Feedback
         </span> 
-    `;
-
-    
+    `;  
     let urgentToHtml = document.getElementById('urgentbox');
     urgentToHtml.innerHTML = `
         <div class="iconurgent">
@@ -184,8 +180,9 @@ function summaryHtml (){
 
 
 /**
+ * Returns a greeting message based on the current time of day
  * 
- * 
+ * @returns {string} - The greeting message
  * 
  */
 function greetByTime() {
@@ -204,8 +201,7 @@ function greetByTime() {
 
 
 /**
- * 
- * 
+ * Updates the HTML content for the greeting message
  * 
  */
 function greetingHtml() {
@@ -222,12 +218,24 @@ function greetingHtml() {
 }
 
 
+/**
+ * Displays a greeting for guest users
+ * 
+ * @returns {string} - The greeting message for guest users
+ * 
+ */
 function greetingGuest(){
     let greeting = greetByTime();
     return `<h3>${greeting}!</h3>`;
 }
 
 
+/**
+ * Displays a greeting for guest users 
+ * 
+ * @returns {string} - The greeting message for guest users 
+ * 
+ */
 function greetingUser(name){
     let greeting = greetByTime();
     return `
@@ -237,16 +245,17 @@ function greetingUser(name){
 }
 
 
+/**
+ * Displays a mobile greeting message and adjusts display elements based on the window size
+ * 
+ */
 function greetingMobile() {
     const mobileGreet = document.getElementById('greetingMobile');
-    const mainContent = document.getElementById('content');
-    
+    const mainContent = document.getElementById('content');   
     function handleWindowSizeChange() {
         const querie = window.matchMedia("(max-width: 1150px)");
-
         if (querie.matches) { 
             setTimeout(() => {
-                // alert("YES");
                 mobileGreet.classList.remove('greetingMobile');
                 mobileGreet.classList.add('d-none');
                 mainContent.classList.remove('d-none');
@@ -254,11 +263,6 @@ function greetingMobile() {
             }, 3000);
         }
     }
-
-    // Initialer Aufruf der Funktion beim Laden der Seite
     handleWindowSizeChange();
-
-    // Event-Listener für Änderungen der Fenstergröße
     window.addEventListener('resize', handleWindowSizeChange);
 }
-

@@ -1,9 +1,19 @@
 /**
- * @author Christiane
- * Join Gruppenarbeit 727
- * October 2023
+ * Functions and variables for managing tasks and categories.
  * 
- * übergreifende Variablen AddTask:
+ * @author Christiane
+ * @version 1.0
+ * @since October 2023
+ * @module TaskManagement
+ * 
+ */
+
+
+/**
+ * Array to store task data.
+ * 
+ * @type {Array}
+ * 
  */
 let tasks = [];
 let progress = '';
@@ -21,7 +31,10 @@ let prio = 'low';
 
 
 /**
- * call initial functions addTask
+ *  Initializes the task-related functions.
+ * 
+ * @async
+ * @function
  * 
  */
 async function initTask() {
@@ -33,9 +46,11 @@ async function initTask() {
 
 
 /**
- * funtion to load all tasks from remote server
+ * Loads all tasks from the remote server.
  * 
- *@param {array} tasks -all tasks
+ * @async
+ * @function
+ * @param {Array} tasks - Array to store all tasks.
  * 
  */
 async function loadAllTasks() {
@@ -44,9 +59,11 @@ async function loadAllTasks() {
 
 
 /**
- * funtion to load all categories from remote server
+ * Loads all categories from the remote server.
  * 
- *@param {array} categories -all tasks
+ * @async
+ * @function
+ * @param {Array} categories - Array to store all categories.
  * 
  */
 async function loadCategories() {
@@ -55,16 +72,16 @@ async function loadCategories() {
 
 
 /**
- * function to get the ids from the inputfields and save in global variables
+ *  Retrieves input field IDs and saves them in global variables.
  * 
- * @param {string} title -inputfield for title
- * @param {string} description -inputfield for description
- * @param {string} assignedTo -inputfield for assigned contacts
- * @param {string} dueDate -inputfield for  due date
- * @param {string} category -inputfield for category
- * @param {string} subtask -inputfield for subtasks
- * 
- * 
+ * @function
+ * @param {string} title - Input field for title.
+ * @param {string} description - Input field for description.
+ * @param {string} assignedTo - Input field for assigned contacts.
+ * @param {string} dueDate - Input field for due date.
+ * @param {string} category - Input field for category.
+ * @param {string} subtask - Input field for subtasks.
+ *  
  */
 function getInputIDs() {
     title = document.getElementById('title');
@@ -77,9 +94,10 @@ function getInputIDs() {
 
 
 /**
- * function to get the values from the input fields and save in task fo push in tasks
+ * Gathers values from input fields to create a new task.
  * 
- * @param {array} task - temp array fo save the values and create the json
+ * @function
+ * @param {string} progress - Progress status of the task.
  * 
  */
 function getTaskValues(progress) {
@@ -101,9 +119,11 @@ function getTaskValues(progress) {
 
 
 /**
- * Add a new task
+ * Adds a new task.
  * 
- * 
+ * @async
+ * @function
+ * @param {string} progress - Progress status of the task
  * 
  */
 async function addTask(progress) {
@@ -123,40 +143,36 @@ async function addTask(progress) {
 
 
 /**
+ * Displays an overlay indicating a successful task creation and redirects to the board page
  * 
- * 
- * 
+ * @function
  * 
  */
 function overlaySuccessAddTask() {
     const overlayContainer = document.createElement('div');
-    overlayContainer.style.display = 'flex';
-    overlayContainer.style.alignItems = 'center';
-    overlayContainer.style.justifyContent = 'center';
-    overlayContainer.style.height = '100vh'; // Vollständige Bildschirmhöhe
-    overlayContainer.style.position = 'fixed';
-    overlayContainer.style.top = '0';
-    overlayContainer.style.left = '0';
-    overlayContainer.style.width = '100%';
-
-    const overlayAddTaskSuccess = document.createElement('div');
-    overlayAddTaskSuccess.id = 'overlayAddTaskSuccess';
-    overlayAddTaskSuccess.classList.add('success');
-    overlayContainer.appendChild(overlayAddTaskSuccess);
+    overlayContainer.id = 'overlaySuccess';
     document.body.appendChild(overlayContainer);
+    setTimeout(() => {
+        overlayContainer.style.left = '50%'; 
+    }, 50);
 
     setTimeout(() => {
-        overlayAddTaskSuccess.style.transform = 'translateY(-50%) translateX(-50%)';
-
-        // Nach weiteren 3 Sekunden auf eine andere Seite weiterleiten
-        setTimeout(() => {
-            window.location.href = 'board.html';
-        }, 3000);
-    }, 50);
+        overlayContainer.style.top = '100%'; 
+        overlayContainer.style.left = '100%'; 
+        window.location.href = 'board.html';
+    }, 3050);
 
     addOverlayAddTaskSuccess();
 }
 
+
+
+/**
+ * Adds content to the success overlay
+ * 
+ * @function
+ * 
+ */
 function addOverlayAddTaskSuccess() {
     const overlayContainer = document.createElement('div');
     document.getElementById('overlaySuccess').innerHTML = `
@@ -165,39 +181,20 @@ function addOverlayAddTaskSuccess() {
         <img src="../assets/img/iconboard.svg" class="successIcon">
     </div>
     `;
-    // Div entfernen, nachdem die Animation abgeschlossen ist
-    setTimeout(() => {
+     setTimeout(() => {
         const overlay = document.getElementById('overlaySuccess');
         if (overlay) overlay.remove();
-    }, 10000); // Stellen Sie sicher, dass diese Zeitdauer der Dauer Ihrer CSS-Animation entspricht (in diesem Fall 5 Sekunden = 5000 Millisekunden).
+    }, 10000);
 }
 
 
-/**
- * 
- * 
- * 
- * 
- */
-function addOverlayAddTaskSuccess() {
-    document.getElementById('overlayAddTaskSuccess').innerHTML = `
-    <div class="success">
-        <span class="addtaskSuccess">Task successfully created</span>
-        <img src="../assets/img/iconboard.svg" class="successIcon">
-    </div>
-`;
-setTimeout(() => {
-    const overlay = document.getElementById('overlayAddTaskSuccess');
-    if (overlay) overlay.remove();
-}, 10000);
-}
- 
-
 
 /**
- * This function finds the max id and retrun a task id for the new added task
+ * Finds the maximum task ID and returns an ID for the new task.
  * 
- * @returns 
+ * @async
+ * @function
+ * @returns {number} - New task ID.
  * 
  */
 async function getLastID() {
@@ -217,10 +214,13 @@ async function getLastID() {
 
 
 /**
- * Function to reset the form 
+ * Resets the form and associated variables.
+ * 
+ * @async
+ * @function
  * 
  */
-async function reload() {
+ async function reload() {
     getInputIDs();
     emptyFields();
     resetRequiredFields()
@@ -235,19 +235,12 @@ async function reload() {
     placeholderCategory();
 }
 
-
-
-/**
- * 
- * this function add the class white to all buttons from prio at the beginnung or clearing
- * 
- *  
- * 
- */
-
  
 /**
- * This function adds the class 'white' to all buttons at the beginning or clearing
+ * Initializes buttons, setting their initial state.
+ * 
+ * @function
+ * 
  */
 function initializeButtons() {
     ['urgent', 'medium', 'low'].forEach(p => {
@@ -261,10 +254,11 @@ function initializeButtons() {
 
 
 /**
-* This function determines the clicked prio of the current task, removes the class 'white',
-* and sets the overall variable 'prio' to the current priority
-*
-* @param {string} priority - the selected prio by clicking
+*  Selects the priority of a task and updates the UI.
+
+ * @function
+ * @param {string} priority - Selected priority.
+ * 
 */
 function selectTaskPrio(priority) {
     initializeButtons();
@@ -282,11 +276,12 @@ function selectTaskPrio(priority) {
 }
 
 
-
 /**
- * function to empty the input fields
+ * Empties the input fields and resets related variables.
  * 
- * 
+ * @async
+ * @function
+ *  
  */
 async function emptyFields() {
     progress = '';
@@ -311,14 +306,13 @@ async function emptyFields() {
 
 
 /**
- * Funtion to check the requiered fields and mark them
+ * Checks required fields and marks them if empty.
  * 
- * 
- * 
+ * @function
+ *  
  */
 function checkRequieredFields() {
     canAdd = true;
-
     if (title.value == "") {
         document.getElementById('warningtitle').classList.add("warning");
         document.getElementById('title').classList.add("warning-border");
@@ -347,10 +341,10 @@ function checkRequieredFields() {
 
 
 /**
- * This functions resests all error messages by making them invisible
+ * Resets error messages for required fields.
  * 
+ * @function
  * 
- *
  */
 function resetRequiredFields() {
     document.getElementById("warningtitle").classList.remove("warning");
@@ -359,106 +353,4 @@ function resetRequiredFields() {
     document.getElementById("dueDate").classList.remove("warning-border");
     document.getElementById("warningcategory").classList.remove("warning");
     document.getElementById("category").classList.remove("warning-border");
-}
-
-
-/**
- * 
- * function to add subtasks
- * 
- * 
- * @param {*} i  
- * 
- */
-function addSubtask() {
-    if (subtask.value != '') {
-        subtaskID++;
-        getLastID();
-        let tempsubtask = {
-            'id': id,
-            'subtaskid': subtaskID,
-            'subtasktitle': subtask.value,
-            'done': false
-        }
-        allSubtasks.push(tempsubtask);
-        subtask.value = '';
-        generateSubtaskHtml();
-        switchBack();
-    } else {
-        alert("Darf nicht leer sein");
-    }
-}
-
-
-function generateSubtaskHtml() {
-    let subtasksHtml = document.getElementById('savedSubtasks');
-    subtasksHtml.innerHTML = '';
-    for (let i = 0; i < allSubtasks.length; i++) {
-        let temptask = allSubtasks[i];
-        subtasksHtml.innerHTML += `
-            <div class="subtaskItem" id="editSubtask${i}" ondblclick="editSubtaskHtml(${i})">
-                <div class="subtaskLine">
-                    <img class="dot" src="../assets/img/dot.svg">
-                    <p>${temptask['subtasktitle']}</p>
-                </div> 
-                <div class="subtaskEdit">
-                    <img onclick="editSubtaskHtml(${i})" src="../assets/img/edit.png" alt=""> 
-                    <div>|</div>
-                    <img onclick="delSubtask(${i})" src="../assets/img/delete.svg" alt="">
-                </div>
-            </div>
-    `;
-    }
-}
-
-
-function editSubtaskHtml(i) {
-    let editSubtask = document.getElementById(`editSubtask${i}`);
-    editSubtask.classList.remove('subtaskItem');
-    editSubtask.classList.add('editItem');
-    let editValue = allSubtasks[i]['subtasktitle'];
-    editSubtask.innerHTML = `
-        <div id="editSubtask${i}" class="subtaskLine">
-            <input class="editTaskInput" id="editSubtask" type="text" value="${editValue}">
-        </div> 
-        <div class="editItemIcons">
-            <img src="../assets/img/delete.svg" onclick="delSubtask(${i})">
-            <div>|</div>
-            <img src="../assets/img/check-black.svg" onclick="editSubtask(${i})">
-        </div>
-    `;
-}
-
-
-
-function delSubtask(i) {
-    allSubtasks.splice(i, 1);
-    generateSubtaskHtml();
-}
-
-function editSubtask(i) {
-    let editSubtask = document.getElementById('editSubtask');
-    allSubtasks[i].subtasktitle = editSubtask.value;
-    generateSubtaskHtml();
-}
-
-
-function switchToInput() {
-    document.getElementById('inputsubtask').style.display = 'flex';
-    document.getElementById('addSubtask').style.display = 'none';
-    subtaskInput.addEventListener("focus", () => {
-        subtaskContainer.style.borderColor = "#29ABE2";
-    });
-}
-
-function switchBack() {
-    document.getElementById('inputsubtask').style.display = 'none';
-    document.getElementById('addSubtask').style.display = 'flex';
-    subtask.value = "";
-}
-
-function delInput() {
-    subtask.value = "";
-    document.getElementById('inputsubtask').style.display = 'none';
-    document.getElementById('addSubtask').style.display = 'flex';
 }

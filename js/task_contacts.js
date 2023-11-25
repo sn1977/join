@@ -1,22 +1,31 @@
 /**
- * @author Christiane
+ * Author: Christiane
  * Join Gruppenarbeit 727
  * November 2023
- * 
- * functions to show, add and assigned contacts
- * 
- * 
+ *
+ * Functions to show, add, and assign contacts.
+ *
+ * @namespace
+ */
+
+
+/**
+ * Array containing all contacts, contact pool, filtered contacts
+ *
+ * @type {Array<Object>}
  */
 let allContacts = [];
 let contactpool = [];
 let filteredContacts = [];
 
 
-
 /**
- * this function opens and closes the list of assignable names in the user's contacts
- * 
- * @todo
+ * Function to toggle the visibility of the list of assignable names in the user's contacts
+ *
+ * @function
+ * @name toggleContacts
+ * @todo Implement functionality.
+ * @returns {void}
  * 
  */
 function toggleContacts() {
@@ -24,11 +33,14 @@ function toggleContacts() {
 }
 
 
-
 /**
- * function to load the contacts and push them in to an array
- * 
- * @todo
+ * Function to load contacts and push them into an array
+ *
+ * @async
+ * @function
+ * @name addTaskLoadContacts
+ * @todo Implement functionality.
+ * @returns {Promise<void>}
  * 
  */
 async function addTaskLoadContacts() {
@@ -45,28 +57,25 @@ async function addTaskLoadContacts() {
         }
         contactpool.push(tempContactPool);
     }
-    // contactpool.sort(SortArray);
     contactpool.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 
-
-
 /**
- * function
- * 
- * @todo
- * 
- *   <div class="contactLine" onclick="toggleContact(${contacts[i].id}, event)">
+ * Function to generate HTML for the contact list 
+ *
+ * @function
+ * @name contactlistHtml
+ * @param {Array<Object>} contacts - The array of contacts to display 
+ * @todo Implement functionality 
+ * @returns {string} - The generated HTML string 
  * 
  */
 function contactlistHtml(contacts) {
     let contacthtml = '';
     for (let i = 0; i < contacts.length; i++) {
-        contacthtml += ` 
-          
+        contacthtml += /*HTML*/ `  
         <div class="contactLine" data-contactid="${contacts[i].id}" onclick="toggleContact(${contacts[i].id}, event)">
-
                 <div class="contact">
                     <div class="contacticon" style="background-color:  ${contacts[i].color};"> 
                         ${contacts[i].initialien}
@@ -86,10 +95,12 @@ function contactlistHtml(contacts) {
 
 
 /**
- * function to filter the contacts if a search value is input, otherwise the full contactlist
- * 
- * @todo
- * 
+ * Function to filter contacts based on user input 
+ *
+ * @function
+ * @name filterContacts
+ * @todo Implement functionality 
+ * @returns {void}
  * 
  */
 function filterContacts() {
@@ -101,7 +112,7 @@ function filterContacts() {
         filteredContacts = contactpool.filter(contact => contact.name.toLowerCase().includes(inputText));
     }
     const contactsContainer = document.getElementById('assignedToContainer');
-    contactsContainer.innerHTML = `
+    contactsContainer.innerHTML = /*HTML*/ `
                 <section id="assignedToContact">
                     ${contactlistHtml(filteredContacts)}
                 </section>
@@ -114,10 +125,18 @@ function filterContacts() {
 }
 
 
+/**
+ * Function to update the contact pool 
+ *
+ * @function
+ * @name updateContactPool
+ * @todo Implement functionality 
+ * @returns {void}
+ * 
+ */
 async function updateContactPool() {
     let i = contacts.length - 1;
     let tempInitialien = getInitials(contacts[i].nameOfContact);
-
     let tempContactPool = {
         'id': i,
         'name': contacts[i].nameOfContact,
@@ -125,9 +144,7 @@ async function updateContactPool() {
         'initialien': tempInitialien,
         'assigned': false
     };
-
     const isAssigned = allContacts.some(contact => contact.name === tempContactPool.name);
-
     if (isAssigned) {
         tempContactPool.assigned = true;
     }
@@ -137,6 +154,15 @@ async function updateContactPool() {
 }
 
 
+/**
+ * Function to update contact icons based on their assignment status 
+ *
+ * @function
+ * @name updateIcons
+ * @param {Array<Object>} filteredContacts - The array of filtered contacts 
+ * @returns {void}
+ * 
+ */
 function updateIcons(filteredContacts) {
     for (let i = 0; i < filteredContacts.length; i++) {
         let icon = document.getElementById(`checked${filteredContacts[i].id}`);
@@ -151,14 +177,21 @@ function updateIcons(filteredContacts) {
 }
 
 
+/**
+ * Function to display assigned contacts 
+ *
+ * @function
+ * @name addTaskGetContacts
+ * @todo Implement functionality 
+ * @returns {void}
+ * 
+ */
 function addTaskGetContacts() {
     let assignedcontacts = document.getElementById('assignedToContainer');
-    assignedcontacts.innerHTML = `
+    assignedcontacts.innerHTML = /*HTML*/ `
         <section id="assignedToContact">
             ${contactlistHtml(filteredContacts)}
-        </section>
-
-        
+        </section>       
         <button class="createContactBtn"  onclick="overlayAddContact()">
             Add new contact
             <img class="addContact" src="../assets/img/person_add.svg" alt="Add Contact">
@@ -167,37 +200,43 @@ function addTaskGetContacts() {
     updateIcons(filteredContacts);
 }
 
+
 /**
- * 
- * function to chose or unchose a contact
- * 
- * @param {*} contactId 
- * @param {*} event 
+ * Function to toggle the selection of a contact 
+ *
+ * @function
+ * @name toggleContact
+ * @param {*} contactId - The ID of the contact 
+ * @param {Event} event - The click event 
+ * @returns {void}
  * 
  */
 function toggleContact(contactId, event) {
     const filteredContact = filteredContacts.find(contact => contact.id === contactId);
-    
     if (filteredContact) {
         const originalIndex = contactpool.findIndex(contact => contact.id === filteredContact.id);
-        
         if (originalIndex !== -1) {
             contactpool[originalIndex]['assigned'] ? unchoseContact(originalIndex) : choseContact(originalIndex);
             updateIcons(filteredContacts);
         }
     }
-
     event.stopPropagation();
 }
 
 
-
-
+/**
+ * Function to display assigned contacts with icons 
+ *
+ * @function
+ * @name showTaskContacts
+ * @returns {void}
+ * 
+ */
 function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
     for (let i = 0; i < allContacts.length; i++) {
-        contactsIcons.innerHTML += `
+        contactsIcons.innerHTML += /*HTML*/ `
                 <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
                     ${allContacts[i]['initialien']}
                 </div>
@@ -206,6 +245,15 @@ function showTaskContacts() {
 }
 
 
+/**
+ * Function to choose a contact 
+ *
+ * @function
+ * @name choseContact
+ * @param {number} i - The index of the contact 
+ * @returns {void}
+ * 
+ */
 function choseContact(i) {
     if (!contactpool[i]['assigned']) {
         const tempContact = {
@@ -220,12 +268,20 @@ function choseContact(i) {
         changeMarkedContact(i);
         showTaskContacts();
     } else {
-        // Der Kontakt ist bereits ausgewählt / nur für Testzwecke, sollte nie erreicht werden
         alert("Kontakt bereits ausgewählt.");
     }
 }
 
 
+/**
+ * Function to unchoose a contact 
+ *
+ * @function
+ * @name unchoseContact
+ * @param {number} i - The index of the contact 
+ * @returns {void}
+ * 
+ */
 function unchoseContact(i) {   
     const contactCheckbox = document.getElementById(`checked${i}`);
     if (contactCheckbox) {
@@ -242,8 +298,15 @@ function unchoseContact(i) {
 }
 
 
-
-
+/**
+ * Function to remove a contact from an array 
+ *
+ * @function
+ * @name removeContactFromArray
+ * @param {string} contactName - The name of the contact to be removed 
+ * @returns {void}
+ * 
+ */
 function removeContactFromArray(contactName) {
     loadAllTasks();
     for (let i = 0; i < tasks.length; i++) {
@@ -251,7 +314,6 @@ function removeContactFromArray(contactName) {
         if (item.assignedTo) {
             for (let j = 0; j < item.assignedTo.length; j++) {
                 if (item.assignedTo[j].name === contactName) {
-                    // Der Kontakt wurde gefunden, lösche ihn aus dem Array
                     item.assignedTo.splice(j, 1);
                     return;
                 }
@@ -261,6 +323,15 @@ function removeContactFromArray(contactName) {
 }
 
 
+/**
+ * Function to change the marked status of a contact 
+ *
+ * @function
+ * @name changeMarkedContact
+ * @param {number} i - The index of the contact 
+ * @returns {void}
+ * 
+ */
 function changeMarkedContact(i) {
     const contactCheckbox = document.getElementById(`checked${i}`);
     contactCheckbox.innerHTML = `
@@ -270,24 +341,26 @@ function changeMarkedContact(i) {
 }
 
 
-
-
-
-
-
+/**
+ * Function to create a new contact 
+ *
+ * @async
+ * @function
+ * @name newContact
+ * @todo Implement functionality 
+ * @returns {Promise<void>}
+ * 
+ */
 async function newContact() {
     initializeContactElements();
     console.log('nameOfContact:', contactNameElem.value);
     console.log('emailOfContact:', contactEmailElem.value);
     console.log('telOfContact:', contactPhoneElem.value);
-
-    // Neuen Kontakt erstellen
     let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,
         telOfContact: contactPhoneElem.value,
     };
-
     contacts.push(newContact);
     await setItem('contacts', JSON.stringify(contacts));
     closeOverlayAddContact();
