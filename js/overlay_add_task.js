@@ -249,9 +249,32 @@ async function addTaskBoard(progress) {
         await setItem('tasks', JSON.stringify(tasks));
         emptyFields();
         generateSubtaskHtml();
-        overlaySuccessAddTask();
+        overlaySuccessAddTaskBoard();
         closeOverlay();
     } else {
     }
-    await initboard();
+   await initboard();
+}
+
+
+/**
+ * Displays an overlay indicating a successful task creation and redirects to the board page
+ * 
+ * @function
+ * 
+ */
+function overlaySuccessAddTaskBoard() {
+    const overlayContainer = document.createElement('div');
+    overlayContainer.id = 'overlaySuccess';
+    document.body.appendChild(overlayContainer);
+    setTimeout(() => {
+        overlayContainer.style.left = '50%'; 
+    }, 50);
+
+    setTimeout(() => {
+        overlayContainer.style.top = '100%'; 
+        overlayContainer.style.left = '100%'; 
+    }, 3050);
+
+    addOverlayAddTaskSuccess();
 }
