@@ -1,15 +1,22 @@
 /**
+ * Functions for adding and deleting categories.
+ * 
  * @author Christiane
- * Join Gruppenarbeit 727
- * November 2023
- * 
- * functions to add and del categorys
- * 
+ * @version 1.0
+ * @since November 2023
+ * @module CategoryFunctions
  * 
  */
+
 let categoryArray = ['Technical Task', 'User Story'];
 
 
+/**
+ * Sets the category selection list to its initial state.
+ * 
+ * @function
+ * 
+ */
 function placeholderCategory() {
     const categorySelect = document.getElementById('category');
     categorySelect.innerHTML = '';
@@ -23,9 +30,9 @@ function placeholderCategory() {
 
 
 /**
- * function to show input field to add category if value 'Enter new category' is select
+ * Displays the input field to add a category when "Enter new category" is selected.
  * 
- * 
+ * @function
  * 
  */
 function handleCategoryChange() {
@@ -45,9 +52,10 @@ function handleCategoryChange() {
 
 
 /**
- * function to add the new category
+ * Adds a new category.
  * 
- * 
+ * @async
+ * @function
  * 
  */
 async function addCategory() {
@@ -69,8 +77,9 @@ async function addCategory() {
 
 
 /**
- * function to clear the input field 
+ * Clears the input field.
  * 
+ * @function
  * 
  */
 function clearInput() {
@@ -79,9 +88,9 @@ function clearInput() {
 
 
 /**
- * function to render the options of category in the select field
+ * Clears the input field.
  * 
- * 
+ * @function
  * 
  */
 function updateCategorySelect() {
@@ -110,10 +119,11 @@ function updateCategorySelect() {
 
 
 /**
- * function to delete a category
+ * Deletes a category based on the index.
  * 
- * 
- * @param {*} i 
+ * @async
+ * @function
+ * @param {number} i - The index of the category to be deleted.
  * 
  */
 async function delCategory(i) {
