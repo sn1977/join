@@ -352,6 +352,7 @@ document.addEventListener('click', function (event) {
     }
 });
 
+
 /**
  * Updates the category selection dropdown in the board view.
  *
@@ -379,6 +380,7 @@ function updateCategorySelectBoard(selectedCategory) {
     categorySelect.appendChild(newCategoryOption);
 }
 
+
 /**
  * Handles the change event of the category selection dropdown in the board view.
  *
@@ -394,6 +396,7 @@ function handleCategoryChangeBoard() {
         newCategoryInput.classList.add("d-none");
     }
 }
+
 
 /**
  * Displays a notification popup for a brief period of time.
