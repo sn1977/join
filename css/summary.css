@@ -1,10 +1,3 @@
-/* body {
-    font-family: 'Inter', sans-serif;
-    box-sizing: border-box;
-    margin: 0;
-} */
-
-
 a {
     text-decoration: none;
     cursor: pointer;
@@ -39,13 +32,16 @@ a {
     padding-left: 84px;
 }
 
+
 .hideOnWideScreen {
     display: block;
 }
 
+
 .showOnSmallScreen {
     display: none;
 }
+
 
 .headlineSummary h1 {
     color: #000;
@@ -123,6 +119,7 @@ a {
     animation-timing-function: ease-in-out;
     animation-duration: 100ms;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 
@@ -138,22 +135,9 @@ a {
 
 
 .box:hover {
-    display: flex;
-    padding: 38px 19px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
     background-color: #2A3647;
     color: #fff;
-}
-
-
-.secondLine:hover {
-    width: 480px;
-    height: 128px;
-    flex-shrink: 0;
-    padding: 28px 48px;
-    margin: 8px 4px;
+    transform: scale(1.15);
 }
 
 
@@ -243,10 +227,9 @@ a {
 }
 
 
-.twobox:hover {
-    width: 244.5px;
-    height: 118px;
-    margin: 0px;
+.thirdLine {
+    width: 560px;
+    display: flex;
 }
 
 
@@ -259,20 +242,6 @@ a {
     justify-content: center;
     align-items: center;
     margin: 14px;
-    flex-shrink: 0;
-}
-
-
-.threebox:hover {
-    width: 184px;
-    height: 134px;
-    margin: 0px;
-}
-
-
-.thirdLine {
-    width: 560px;
-    display: flex;
 }
 
 
@@ -304,6 +273,7 @@ a {
     margin: 0;
 }
 
+
 @media (max-width: 1265px) {
     .summary {
         padding: 8px 16px;
@@ -313,6 +283,7 @@ a {
         padding-left: 33px;
     }
 }
+
 
 @media (max-width: 1220px) {
 
@@ -440,24 +411,22 @@ a {
     }
 }
 
-@media (max-width: 590px) {
+
+@media (max-width: 600px) {
+
+    .headlineSummary {
+        padding-left: 10%;
+    }
 
     .left {
         align-items: center;
     }
 
     .twobox {
-        width: 200px;
+        width: 180px;
         height: 80px;
         flex-shrink: 0;
         margin: 10px;
-    }
-
-    .twobox:hover {
-        width: 205px;
-        height: 85px;
-        padding: 38px 10px;
-        margin: 0px;
     }
 
     .secondLine {
@@ -466,30 +435,31 @@ a {
         gap: 20px;
         margin: 8px;
         padding-left: 8px;
-        width: 485px;
+        width: 450px;
     }
-
+ 
     .thirdLine {
-        gap: 2px;
-        margin: 0px;
-    }
+        align-items: center;
+        justify-content: center;
+    } 
 
     .threebox {
-        margin: 0px;
-        width: 116px;
-        height: 66px;
+        width: 136px;
+        height: 80px;
         margin: 10px;
     }
     
-    .threebox:hover {
-        width: 184px;
-        height: 134px;
-        margin: 0px;
-    }
-
     #todoImg, #doneImg {
         width: 40px;
         height: 40px;
+        transition: all 0.3s ease; 
+    }
+
+    #todoImg:hover,
+    #doneImg:hover {
+        width: 40px;
+        height: 40px;
+        transform: scale(1.05); 
     }
 
     .iconurgent {
@@ -500,19 +470,18 @@ a {
 
 @media (max-width: 520px) {
 
+
     .twobox {
-        width: 168px;
+        width: 150px;
         height: 70px;
         flex-shrink: 0;
         margin: 10px;
     }
 
-    .twobox:hover {
-        width: 178px;
-        height: 80px;
-        padding: 38px 19px;
-        margin: 0px;
-    }
+    .firstLine {
+        align-items: center;
+        justify-content: center;
+    } 
 
     .secondLine {
         height: 112px;
@@ -520,7 +489,7 @@ a {
         gap: 20px;
         margin: 8px;
         padding-left: 8px;
-        width: 356px;
+        width: calc(2 * 168px + 2 * 10px + 2 * 8px + 20px); 
     }
 
     .thirdLine {
@@ -533,14 +502,9 @@ a {
         width: 116px;
         height: 66px;
         margin: 10px;
+        transition: all 0.3s ease; 
     }
     
-    .threebox:hover {
-        width: 184px;
-        height: 134px;
-        margin: 0px;
-    }
-
     #todoImg, #doneImg {
         width: 40px;
         height: 40px;
@@ -552,10 +516,17 @@ a {
     }
 }
 
-@media (max-width: 425px) {
+
+
+@media (max-width: 450px) {
+
+    .headlineSummary {
+        padding-left: 4px;
+    }
+
 
     .content {
-        padding-left: 0px;
+        padding-left: 4px;
     }
 
 
@@ -571,13 +542,6 @@ a {
         height: 60px;
         flex-shrink: 0;
         margin: 5px;
-    }
-
-    .twobox:hover {
-        width: 138px;
-        height: 80px;
-        padding: 38px 19px;
-        margin: 0px;
     }
 
     .secondLine {
@@ -622,13 +586,6 @@ a {
         height: 70px;
         flex-shrink: 0;
         margin: 5px;
-    }
-
-    .twobox:hover {
-        width: 158px;
-        height: 80px;
-        padding: 38px 19px;
-        margin: 0px;
     }
 
     .secondLine {
