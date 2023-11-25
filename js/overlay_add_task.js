@@ -270,11 +270,8 @@ function overlaySuccessAddTaskBoard() {
     setTimeout(() => {
         overlayContainer.style.left = '50%'; 
     }, 50);
-
     setTimeout(() => {
-        overlayContainer.style.top = '100%'; 
-        overlayContainer.style.left = '100%'; 
-    }, 3050);
-
+        overlayContainer.remove(); 
+        }, 3050);
     addOverlayAddTaskSuccess();
 }

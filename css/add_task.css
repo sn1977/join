@@ -673,13 +673,12 @@ select:focus,
     margin-right: 32px;
 }
 
-
 .addtaskSuccess {
     color: #FFF;
     line-height: 120%;
 }
 
-.sucessIcon {
+.successIcon {
     width: 30px;
     height: 30px;
     margin-left: 20px; 
@@ -696,8 +695,6 @@ select:focus,
     top: 50%; 
     transform: translate(-50%, -50%); 
 }
-
-
 
 
 @media (max-width: 1220px) {

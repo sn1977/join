@@ -151,20 +151,15 @@ async function addTask(progress) {
 function overlaySuccessAddTask() {
     const overlayContainer = document.createElement('div');
     overlayContainer.id = 'overlaySuccess';
-    document.body.appendChild(overlayContainer);
+    document.body.appendChild(overlayContainer);    
     setTimeout(() => {
         overlayContainer.style.left = '50%'; 
     }, 50);
-
     setTimeout(() => {
-        overlayContainer.style.top = '100%'; 
-        overlayContainer.style.left = '100%'; 
-        window.location.href = 'board.html';
-    }, 3050);
-
+            window.location.href = 'board.html';    
+        }, 3050);
     addOverlayAddTaskSuccess();
 }
-
 
 
 /**
@@ -174,19 +169,19 @@ function overlaySuccessAddTask() {
  * 
  */
 function addOverlayAddTaskSuccess() {
-    const overlayContainer = document.createElement('div');
-    document.getElementById('overlaySuccess').innerHTML = `
-    <div class="success">
-        <span class="addtaskSuccess">Task successfully created</span>
-        <img src="../assets/img/iconboard.svg" class="successIcon">
-    </div>
-    `;
-     setTimeout(() => {
-        const overlay = document.getElementById('overlaySuccess');
-        if (overlay) overlay.remove();
-    }, 10000);
+    const overlayContainer = document.getElementById('overlaySuccess');
+    if (overlayContainer) {
+        overlayContainer.innerHTML = /*HTML*/ `
+        <div class="success">
+            <span class="addtaskSuccess">Task successfully created</span>
+            <img src="../assets/img/iconboard.svg" class="successIcon">
+        </div>
+        `;
+        setTimeout(() => {
+            overlayContainer.remove();
+        }, 10000);
+    }
 }
-
 
 
 /**
@@ -199,7 +194,6 @@ function addOverlayAddTaskSuccess() {
  */
 async function getLastID() {
     let maxID = 0;
-    // Finde die maximale ID in den vorhandenen Aufgaben
     for (const task of tasks) {
         if (task.id > maxID) {
             maxID = task.id;
