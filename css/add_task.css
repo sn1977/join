@@ -363,7 +363,15 @@ select:focus,
     flex-direction: row;
     align-items: flex-start;
     gap: 8px;
+    overflow-x: scroll;
+
 }
+
+
+.extra-margin {
+    margin-right: -20px;
+}
+
 
 .contactLine {
     display: flex;

@@ -237,7 +237,7 @@ function showTaskContacts() {
     contactsIcons.innerHTML = '';
     for (let i = 0; i < allContacts.length; i++) {
         contactsIcons.innerHTML += /*HTML*/ `
-                <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
+                <div class="contacticon extra-margin" style="background-color:  ${allContacts[i]['color']};"> 
                     ${allContacts[i]['initialien']}
                 </div>
         `;

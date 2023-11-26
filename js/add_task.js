@@ -136,9 +136,7 @@ async function addTask(progress) {
         emptyFields();
         generateSubtaskHtml();
         overlaySuccessAddTask();
-    } else {
-        alert("sollte nicht möglich sein");
-    }
+    } 
 }
 
 
