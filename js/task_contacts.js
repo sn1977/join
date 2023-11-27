@@ -235,14 +235,26 @@ function toggleContact(contactId, event) {
 function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
-    for (let i = 0; i < allContacts.length; i++) {
-        if ( allContacts.length > 6){
+    let counter = allContacts.length;
+    for (let i = 0; i < counter; i++) {
+        
+        if (counter > 10) {
             contactsIcons.innerHTML += /*HTML*/ `
-                <div class="contacticon extra-margin" style="background-color:  ${allContacts[i]['color']};"> 
-                    ${allContacts[i]['initialien']}
-                </div>
-        `;
-        } else {
+            <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
+                ${allContacts[i]['initialien']}
+            </div>
+            <div class="contacticon" style="background-color: black;" onclick="expandContacts()"> 
+                +${counter-1}
+            </div>
+            `;
+            i = counter;
+            } else if ( counter > 6){
+                contactsIcons.innerHTML += /*HTML*/ `
+                    <div class="contacticon extra-margin" style="background-color:  ${allContacts[i]['color']};"> 
+                      ${allContacts[i]['initialien']}
+                    </div>
+                    `;
+            } else {
             contactsIcons.innerHTML += /*HTML*/ `
             <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
                 ${allContacts[i]['initialien']}
@@ -251,6 +263,23 @@ function showTaskContacts() {
         }
     }
 }
+
+
+function expandContacts() {
+    let contactsIcons = document.getElementById('showAssignedContacts');
+  contactsIcons.style.overflowX = 'scroll';
+
+    contactsIcons.innerHTML = '';
+    let counter = allContacts.length;
+    for (let i = 0; i < counter; i++) {
+        contactsIcons.innerHTML += /*HTML*/ `
+            <div class="contacticon extra-margin" style="background-color: ${allContacts[i]['color']};"> 
+                ${allContacts[i]['initialien']}
+            </div>
+        `;
+    }
+}
+
 
 
 /**

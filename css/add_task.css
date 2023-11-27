@@ -359,12 +359,10 @@ select:focus,
 #showAssignedContacts {
     padding: 7px 16px;
     display: flex;
-    max-width: 440px;
     flex-direction: row;
     align-items: flex-start;
     gap: 8px;
-    overflow-x: scroll;
-
+    overflow-x: auto;
 }
 
 
