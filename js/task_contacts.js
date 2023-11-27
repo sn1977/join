@@ -264,7 +264,13 @@ function showTaskContacts() {
     }
 }
 
-
+/**
+ * Function to expand assigned contacts with icons when assigned contacts over 10
+ *
+ * @function
+ * @returns {void}
+ * 
+ */
 function expandContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
   contactsIcons.style.overflowX = 'scroll';
