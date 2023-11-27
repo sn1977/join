@@ -236,8 +236,7 @@ function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
     let counter = allContacts.length;
-    for (let i = 0; i < counter; i++) {
-        
+    for (let i = 0; i < counter; i++) {    
         if (counter > 10) {
             contactsIcons.innerHTML += /*HTML*/ `
             <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
@@ -249,11 +248,8 @@ function showTaskContacts() {
             `;
             i = counter;
             } else if ( counter > 6){
-                contactsIcons.innerHTML += /*HTML*/ `
-                    <div class="contacticon extra-margin" style="background-color:  ${allContacts[i]['color']};"> 
-                      ${allContacts[i]['initialien']}
-                    </div>
-                    `;
+                i = counter;
+                expandContacts();
             } else {
             contactsIcons.innerHTML += /*HTML*/ `
             <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
@@ -273,7 +269,7 @@ function showTaskContacts() {
  */
 function expandContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
-  contactsIcons.style.overflowX = 'scroll';
+    contactsIcons.style.overflowX = 'scroll';
 
     contactsIcons.innerHTML = '';
     let counter = allContacts.length;
