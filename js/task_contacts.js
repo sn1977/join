@@ -236,11 +236,19 @@ function showTaskContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
     for (let i = 0; i < allContacts.length; i++) {
-        contactsIcons.innerHTML += /*HTML*/ `
+        if ( allContacts.length > 6){
+            contactsIcons.innerHTML += /*HTML*/ `
                 <div class="contacticon extra-margin" style="background-color:  ${allContacts[i]['color']};"> 
                     ${allContacts[i]['initialien']}
                 </div>
         `;
+        } else {
+            contactsIcons.innerHTML += /*HTML*/ `
+            <div class="contacticon" style="background-color:  ${allContacts[i]['color']};"> 
+                ${allContacts[i]['initialien']}
+            </div>
+        `;
+        }
     }
 }
 
