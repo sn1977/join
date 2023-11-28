@@ -260,6 +260,7 @@ function showTaskContacts() {
     }
 }
 
+
 /**
  * Function to expand assigned contacts with icons when assigned contacts over 10
  *
@@ -269,8 +270,6 @@ function showTaskContacts() {
  */
 function expandContacts() {
     let contactsIcons = document.getElementById('showAssignedContacts');
-    contactsIcons.style.overflowX = 'scroll';
-
     contactsIcons.innerHTML = '';
     let counter = allContacts.length;
     for (let i = 0; i < counter; i++) {
@@ -392,9 +391,6 @@ function changeMarkedContact(i) {
  */
 async function newContact() {
     initializeContactElements();
-    console.log('nameOfContact:', contactNameElem.value);
-    console.log('emailOfContact:', contactEmailElem.value);
-    console.log('telOfContact:', contactPhoneElem.value);
     let newContact = {
         nameOfContact: contactNameElem.value,
         emailOfContact: contactEmailElem.value,

@@ -362,7 +362,6 @@ select:focus,
     flex-direction: row;
     align-items: flex-start;
     gap: 8px;
-    overflow-x: auto;
 }
 
 
