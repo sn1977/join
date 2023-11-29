@@ -379,9 +379,9 @@ h1 {
 
 #floatingContact {
     /* Andere Stile... */
-    transform: translateX(100%);
+    transform: translateX(350%);
     /* Startposition (vollständig rechts) */
-    transition: transform 0.3s ease-out;
+    transition: transform 0.4s ease-in-out;
     /* Animationseinstellung */
 }
 
@@ -942,6 +942,10 @@ h1 {
         transition: top 1s ease;
         /* Animiert nun die 'top'-Eigenschaft */
     }
+
+    .frame97 {
+        top: -80px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -1022,22 +1026,24 @@ h1 {
 
     .overlay-addContact {
         height: 310px;
-        width: 800px;
+        width: 570px;
     }
 
     .frame79,
     .frame79_2 {
-        width: 80px;
-        height: 80px;
+        width: 50px;
+        height: 50px;
+        top: 40px;
     }
 
     .group13 {
-        right: 40%;
+        right: 35%;
     }
 
     .add-contact-text {
-        right: 16%;
-        top: 130px;
+        right: 13%;
+        top: 100px;
+        gap: 16px;
     }
 
     .text-field {
@@ -1045,8 +1051,8 @@ h1 {
     }
 
     .frame27 {
-        top: 380px;
-        left: 33%;
+        top: 296px;
+        left: 30%;
     }
 
     .cancel-btn-text,
@@ -1056,6 +1062,7 @@ h1 {
 
     .create-contact {
         height: 12px;
+        padding: 19px;
     }
 
     .save-contact {
@@ -1064,7 +1071,7 @@ h1 {
 
     .cancel-contact {
         height: 10px;
-        padding: 20px;
+        padding: 17px;
     }
 
     .frame14 {
@@ -1077,5 +1084,46 @@ h1 {
 
     .frame157 {
         gap: 30px;
+    }
+
+    .spanHeader {
+        font-size: 25px;
+    }
+
+    .spanText {
+        font-size: 16px;
+    }
+    .frame14 {
+        padding: 8px 21px;
+    }
+
+    .phone-icon {
+        height: 20px;
+    }
+
+    .frame209 {
+        height: 200px;
+        width: 150px;
+    }
+
+    .person-icon {
+        width: 37px;
+        height: 26px;
+        left: 6px;
+        top: 12px;
+    }
+
+    .frame194 {
+        max-width: 12%;
+    }
+
+    #frame27 {
+        top: 268px;
+        left: 32%;
+        gap: 12px;
+    }
+
+    #floatingContact {
+        top: 190px !important;
     }
 }

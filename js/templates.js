@@ -13,7 +13,7 @@ function logInTemplate() {
                 <div class="frame250">
                     <div class="login">
                         <div class="frame155">
-                            <div class="frame14">
+                            <div class="frame14"  id="loginEmail">
                                 <div class="frame157">
                                     <input class="input-login" id="loginMail" placeholder="Email" required type="email">                                    
                                 <div>
@@ -114,7 +114,7 @@ function signUpTemplate() {
                         </label>
                     </div>
                     <div class="btn-signup-container">
-                        <button id="btn-signup" disabled type="submit">Sign up</button>
+                        <button id="btn-signup" type="submit">Sign up</button>
                     </div>
                 </div>
                 <div class="arrow-left-line">
@@ -126,18 +126,46 @@ function signUpTemplate() {
 }
 
 /**
- * Displays the detailed view of a contact in a floating window.
- * @param {number} index - Index of the contact in the contacts array.
+ * Flag to track if it's the first call to display the floating contact details.
+ */
+let isFirstCall = true;
+
+/**
+ * Displays the floating contact details.
+ * If it's the first call, it directly shows the contact details.
+ * If not, it first hides the current details, updates the content, and then shows the new details.
+ * @param {number} index - The index of the contact in the contacts array.
  */
 function displayFloatingContactDetails(index) {
     let floatingContact = document.getElementById('floatingContact');
+
+    if (isFirstCall) {
+        updateFloatingContactContent(index);
+        floatingContact.classList.add('show');
+        isFirstCall = false;
+    } else {
+        floatingContact.classList.remove('show');
+
+        setTimeout(() => {
+            updateFloatingContactContent(index);
+
+            floatingContact.classList.add('show');
+        }, 400);
+    }
+}
+
+/**
+ * Updates the content of the floating contact details panel with the contact's information.
+ * @param {number} index - The index of the contact in the contacts array.
+ */
+function updateFloatingContactContent(index) {
+    let floatingContact = document.getElementById('floatingContact');
+
     floatingContact.classList.remove('d-none');
     floatingContact.classList.add('floatingContact');
 
-    // Initialen des Kontakts generieren
     let initials = contacts[index].nameOfContact.split(' ').map(word => word[0]).join('');
     const color = getColorByIndex(index);
-    // Dynamisches HTML für den ausgewählten Kontakt erstellen
 
     let contactDetailsHTML = `
         <div class="frame105">
@@ -183,13 +211,7 @@ function displayFloatingContactDetails(index) {
         </div>
     `;
 
-    // Das generierte HTML in den floatingContact Container einfügen
     floatingContact.innerHTML = contactDetailsHTML;
-
-    // Animation starten
-    setTimeout(() => {
-        floatingContact.classList.add('show');
-    }, 50); // Verzögerung von 50ms, um sicherzustellen, dass der Browser die Änderungen bemerkt
 }
 
 /**
@@ -214,19 +236,19 @@ function addContact() {
 }
 
 /**
- * Constructs the HTML for the 'Edit Contact' form and appends it to the overlay.
- * @param {string} name - Name of the contact being edited.
- * @param {number} index - Index of the contact in the contacts array.
+ * Constructs and displays the HTML for the 'Edit Contact' form in the overlay.
+ * @param {string} name - The name of the contact being edited.
+ * @param {number} index - The index of the contact in the contacts array.
  */
 function editCreatedContact(name, index) {
     const sideLayout = returnSideLayoutOfEditContact();
-    const contactText = addContactText();
+    const contactText = editContactText(index);
     const contactBtn = addEditContactBtn();
     const contactCircle = addEditedCircle(name, index);
     const closeIcon = addCloseIcon();
 
     document.getElementById('overlayAddContact').innerHTML = `
-        <form class="overlay-contact" onsubmit="saveEditedContact(currentSelectedIndex)">
+        <form class="overlay-contact" onsubmit="saveEditedContact(${index}); return false;">
             ${sideLayout}
             ${contactText} 
             ${contactBtn}
@@ -234,6 +256,90 @@ function editCreatedContact(name, index) {
             ${closeIcon}
         </form>
     `;
+}
+
+/**
+ * Constructs the HTML content for the contact fields in the edit form.
+ * @param {number} index - The index of the contact in the contacts array.
+ * @return {string} HTML content for the edit contact form fields.
+ */
+function editContactText(index) {
+    const contact = contacts[index];
+    const contactName = returnEditContactName(contact.nameOfContact);
+    const contactEmail = returnEditContactEmail(contact.emailOfContact);
+    const contactPhone = returnEditContactPhone(contact.telOfContact);
+
+    return `
+        <div class="add-contact-text">
+            ${contactName}  
+            ${contactEmail}      
+            ${contactPhone}
+        </div>
+    `;
+}
+
+/**
+ * Returns HTML for the editable contact name input field.
+ * @param {string} nameValue - The current name value of the contact.
+ * @return {string} HTML content for the editable contact name input field.
+ */
+function returnEditContactName(nameValue) {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14" id="frame14">
+                <div class="frame157">
+                    <input required type="text" class="text-field" minlength="4" placeholder="Name" id="contactName" value="${nameValue}" oninput="changeBorderColor(this)">
+                    <img src="../assets/img/person.png">
+                </div>
+            </div>
+        </div>
+    `;
+}
+/**
+ * Returns HTML for the editable contact email input field.
+ * @param {string} emailValue - The current email value of the contact.
+ * @return {string} HTML content for the editable contact email input field.
+ */
+function returnEditContactEmail(emailValue) {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14">
+                <div class="frame157">
+                    <input required type="email" minlength="6" class="text-field" placeholder="Email" id="contactEmail" value="${emailValue}" oninput="changeBorderColor(this)">
+                    <img src="../assets/img/mail.png">
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Returns HTML for the editable contact phone input field.
+ * @param {string} phoneValue - The current phone value of the contact.
+ * @return {string} HTML content for the editable contact phone input field.
+ */
+function returnEditContactPhone(phoneValue) {
+    return `
+        <div class="add-contact-field">
+            <div class="frame14">
+                <div class="frame157">
+                    <input required type="tel" minlength="4" class="text-field" placeholder="Phone" id="contactPhone" value="${phoneValue}" oninput="changeBorderColor(this)" onkeypress="validatePhoneNumberInput(event)">
+                    <img class="phone-icon" src="../assets/img/call.png">
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Validates phone number input to allow only numerical values.
+ * @param {Event} event - The keypress event object.
+ */
+function validatePhoneNumberInput(event) {
+    let char = String.fromCharCode(event.which);
+    if (!(/[0-9]/.test(char))) {
+        event.preventDefault();
+    }
 }
 
 /**
@@ -338,8 +444,8 @@ function returnContactPhone() {
         <div class="add-contact-field">
             <div class="frame14">
                 <div class="frame157">
-                    <input required type="tel" minlength="4" class="text-field" placeholder="Phone" id="contactPhone" oninput="changeBorderColor(this)">
-                    <img src="../assets/img/call.png">
+                    <input required type="tel" minlength="4" class="text-field" placeholder="Phone" id="contactPhone" pattern="^[0-9]*$" oninput="changeBorderColor(this)" title="Only numbers are allowed">
+                    <img class="phone-icon" src="../assets/img/call.png">
                 </div>
             </div>
         </div>

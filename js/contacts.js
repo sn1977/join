@@ -210,6 +210,10 @@ function showContactDetails(i) {
     resetPreviousContactStyles();
     currentSelectedIndex = i;
     updateUIForSelectedContact(i);
+
+    // Setze die Anzeige des Kontakts auf wahr und aktualisiere das UI
+    isContactDetailsShown = true;
+    displayFloatingContactDetails(i);
 }
 
 /**

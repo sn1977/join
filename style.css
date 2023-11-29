@@ -327,6 +327,18 @@ a:hover {
     top: 50px;
 }
 
+.no-email {
+    color: #FF8190;
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 15.6px */
+    padding-top: 8px;
+    position: absolute;
+    top: 442px;
+}
+
 /* Styling SignUp Template */
 
 #signUp-container {
@@ -394,10 +406,6 @@ a:hover {
 .privacy-policy-check input[type="checkbox"] {
     display: none; /* Verberge die Standard-Checkbox */
 }
-
-/*.span {*/
-/*    font-color: #A8A8A8 !important;*/
-/*}*/
 
 #btn-privacy-policy {
     border: none;
@@ -538,8 +546,7 @@ body.animate {
     }
 
     .frame153 {
-        padding: 80px 0px;
-        padding-top: 15px;
+        padding: 15px 0px 80px;
     }
 
     h1 {
@@ -582,9 +589,16 @@ body.animate {
     #signUp-container {
         padding: 10px 22px;
     }
+
+    .no-email {
+        top: 168px;
+    }
 }
 
 @media (max-width: 570px) {
+    .frame213 {
+        top: 105px;
+    }
 
     .frame156 {
         top: 580px;
@@ -593,9 +607,10 @@ body.animate {
     }
 
     .frame153 {
-        width: 280px;
+        width: 300px;
         padding-bottom: 0;
         padding-top: 20px;
+        height: 410px;
     }
 
     .frame14, .frame14-signUp {
@@ -623,7 +638,7 @@ body.animate {
 
     .frame176 {
         gap: 16px;
-        padding-top: 16px;
+        padding-top: 33px;
     }
 
     .remember-password {
@@ -631,7 +646,7 @@ body.animate {
     }
 
     .login {
-        gap: 20px;
+        gap: 30px;
     }
 
     .frame159 {
@@ -640,7 +655,7 @@ body.animate {
     }
 
     #logInTemplate {
-        top: -15px;
+        top: 30px;
     }
 
     .query-user {
@@ -663,7 +678,7 @@ body.animate {
 
     #signUp-container {
         padding: 10px 0px;
-        width: 280px;
+        width: 300px;
         top: 72px;
         height: 500px;
     }
@@ -675,5 +690,13 @@ body.animate {
     .arrow-left-line {
         top: 32px;
         left: 10px;
+    }
+
+    .wrong-password {
+        top: 42px;
+    }
+
+    .no-email {
+        top: 162px;
     }
 }
