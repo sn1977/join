@@ -102,7 +102,7 @@ function updateCategorySelect() {
         option.className = 'option-container';
         option.value = cat;
         option.innerText = cat;
-        // option.onclick = () => delCategory(i);
+       // option.onclick = () => delCategory(i);
         const img = document.createElement('img');
         img.src = '../assets/img/delete.png';
         img.alt = 'Delete';
@@ -130,7 +130,6 @@ async function delCategory(i) {
     if (i >= 0 && i < categoryArray.length) {
         categoryArray.splice(i, 1);
         await setItem('categories', JSON.stringify(categoryArray));
-        console.log(categoryArray);
     } else {
         console.log('Invalid index');
     }
