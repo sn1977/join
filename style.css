@@ -523,10 +523,10 @@ body.animate {
         top: 80px;
     }
 
-    .frame155, .div-156{
-    justify-content: center;
-    display: flex;
-}
+    .frame155, .div-156 {
+        justify-content: center;
+        display: flex;
+    }
 
     .frame14, .frame159, .frame14-signUp {
         width: 250px;
@@ -601,7 +601,7 @@ body.animate {
     }
 
     .frame156 {
-        top: 580px;
+        top: 720px;
         justify-content: center;
         right: 0;
     }
@@ -698,5 +698,23 @@ body.animate {
 
     .no-email {
         top: 162px;
+    }
+}
+
+@media (max-width: 414px) {
+    .frame156 {
+        top: 695px;
+    }
+}
+
+@media (max-width: 413px) {
+    .frame156 {
+        top: 665px;
+    }
+}
+
+@media (max-width: 389px) {
+    .frame156 {
+        top: 580px;
     }
 }
