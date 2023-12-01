@@ -109,7 +109,7 @@ button {
 .formAddTask {
     display: flex;
     flex-direction: column;
-    margin-top: 32px;
+    margin-top: 24px;
 }
 
 
@@ -244,10 +244,6 @@ select {
     line-height: 120%;
 }
 
-
-.rightSide > div:nth-child(3) {
-    padding-top: 32px;
-  }
   
 input:hover,
 textarea:hover,
