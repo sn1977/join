@@ -158,18 +158,21 @@ function addTaskOverlay(progressBoard) {
                             </div>
                         </div>
                         <div class="inputContainer">
-                            <label>Prio</label>
-                            <div class="button-container" id="prio">
-                                <button class="${prio === 'urgent' ? 'urgent' : 'white'}" id="urgent"
-                                    onclick="selectTaskPrio('urgent')" type="button">Urgent<img
-                                        src="../assets/img/urgent.svg" alt=""></button>
-                                <button class="${prio === 'medium' ? 'medium' : 'white'}" id="medium"
-                                    onclick="selectTaskPrio('medium')" type="button">Medium<img
-                                        src="../assets/img/medium.svg" alt=""></button>
-                                <button class="${prio === 'low' ? 'low' : 'white'}" id="low" onclick="selectTaskPrio('low')"
-                                    type="button">Low<img src="../assets/img/low.svg" alt=""></button>
-                            </div>
+                        <label class="required">Prio</label>
+                        <div class="button-container" id="prio">
+                            <button class="${prio === 'urgent' ? 'urgent' : 'white'}" id="urgent"
+                                onclick="selectTaskPrio('urgent')" type="button">Urgent<img
+                                    src="../assets/img/urgent.svg" alt=""></button>
+                            <button class="${prio === 'medium' ? 'medium' : 'white'}" id="medium"
+                                onclick="selectTaskPrio('medium')" type="button">Medium<img
+                                    src="../assets/img/medium.svg" alt=""></button>
+                            <button class="${prio === 'low' ? 'low' : 'white'}" id="low" onclick="selectTaskPrio('low')"
+                                type="button">Low<img src="../assets/img/low.svg" alt=""></button>
                         </div>
+                        <div class="warning">
+                            <span id="warningPrio" class="invisible">This field is required</span>
+                        </div>
+                    </div>
                         <div class="inputContainer">
                             <label class="required" for="category">Category</label>
                             <div>

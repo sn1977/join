@@ -27,7 +27,7 @@ let subtask;
 let canAdd = true;
 let subtaskID = 0;
 let allSubtasks = [];
-let prio = 'low';
+let prio = '';
 
 
 /**
@@ -136,7 +136,7 @@ async function addTask(progress) {
         emptyFields();
         generateSubtaskHtml();
         overlaySuccessAddTask();
-    } 
+    }
 }
 
 
@@ -149,13 +149,13 @@ async function addTask(progress) {
 function overlaySuccessAddTask() {
     const overlayContainer = document.createElement('div');
     overlayContainer.id = 'overlaySuccess';
-    document.body.appendChild(overlayContainer);    
+    document.body.appendChild(overlayContainer);
     setTimeout(() => {
-        overlayContainer.style.left = '50%'; 
+        overlayContainer.style.left = '50%';
     }, 50);
     setTimeout(() => {
-            window.location.href = 'board.html';    
-        }, 3050);
+        window.location.href = 'board.html';
+    }, 3050);
     addOverlayAddTaskSuccess();
 }
 
@@ -212,7 +212,7 @@ async function getLastID() {
  * @function
  * 
  */
- async function reload() {
+async function reload() {
     getInputIDs();
     emptyFields();
     resetRequiredFields()
@@ -227,7 +227,7 @@ async function getLastID() {
     placeholderCategory();
 }
 
- 
+
 /**
  * Initializes buttons, setting their initial state.
  * 
@@ -239,7 +239,9 @@ function initializeButtons() {
         const button = document.getElementById(p);
         if (button) {
             button.classList.add('white');
-            button.classList.remove(prio);
+            if (prio) {
+                button.classList.remove(prio);
+            }
         }
     });
 }
@@ -254,10 +256,12 @@ function initializeButtons() {
 */
 function selectTaskPrio(priority) {
     initializeButtons();
-    const currentPriorityButton = document.getElementById(prio);
-    if (currentPriorityButton) {
-        currentPriorityButton.classList.add('white');
-        currentPriorityButton.classList.remove(prio);
+    if (prio) {
+        const currentPriorityButton = document.getElementById(prio);
+        if (currentPriorityButton) {
+            currentPriorityButton.classList.add('white');
+            currentPriorityButton.classList.remove(prio);
+        }
     }
     prio = priority;
     const selectedButton = document.getElementById(priority);
@@ -288,12 +292,14 @@ async function emptyFields() {
     let contactsIcons = document.getElementById('showAssignedContacts');
     contactsIcons.innerHTML = '';
     await addTaskLoadContacts();
+    if(prio) {
     const currentPriorityButton = document.getElementById(prio);
-    if (currentPriorityButton) {
-        currentPriorityButton.classList.add('white');
-        currentPriorityButton.classList.remove(prio);
+     if (currentPriorityButton) {
+         currentPriorityButton.classList.add('white');
+         currentPriorityButton.classList.remove(prio);
+     }
     }
-    prio = 'low';
+    prio = '';
 }
 
 
@@ -328,6 +334,14 @@ function checkRequieredFields() {
     } else {
         document.getElementById("warningcategory").classList.remove("warning");
         document.getElementById("category").classList.remove("warning-border");
+    }
+    if (prio == '') {
+        document.getElementById("warningPrio").classList.add("warning");
+        document.getElementById("prio").classList.add("warning-border");
+        canAdd = false;
+    } else {
+        document.getElementById("warningPrio").classList.remove("warning");
+        document.getElementById("prio").classList.remove("warning-border");
     }
 }
 
