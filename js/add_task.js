@@ -359,4 +359,6 @@ function resetRequiredFields() {
     document.getElementById("dueDate").classList.remove("warning-border");
     document.getElementById("warningcategory").classList.remove("warning");
     document.getElementById("category").classList.remove("warning-border");
+    document.getElementById("warningPrio").classList.remove("warning");
+    document.getElementById("prio").classList.remove("warning-border");
 }
