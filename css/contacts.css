@@ -694,6 +694,17 @@ h1 {
     right: 24px;
     top: 140px;
     display: none;
+    width: 37px;
+    height: 37px;
+    padding: 3px 2.5px 2px 2.5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow-left-line:hover {
+    cursor: pointer;
+    background: #D1D1D1;
+    border-radius: 100%;
 }
 
 .parting-line {

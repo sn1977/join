@@ -298,7 +298,7 @@ function styleAllRenderedContacts(isSmallScreen) {
         if (isSmallScreen) {
             if (isContactDetailsShown) {
                 applyStyles(allRenderedContacts, { display: 'none' });
-                applyStyles(arrowLeft, { display: 'block' });
+                applyStyles(arrowLeft, { display: 'flex' });
             } else {
                 applyStyles(allRenderedContacts, { display: 'inline-flex' });
             }
